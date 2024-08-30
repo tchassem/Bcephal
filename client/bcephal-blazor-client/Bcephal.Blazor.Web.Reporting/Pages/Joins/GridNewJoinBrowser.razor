@@ -1,0 +1,17 @@
+﻿@page "/reporting-join/list"
+
+@inherits Base.Shared.Browser
+@{
+    base.BuildRenderTree(__builder);
+}
+
+@code {
+    public override string Title { get { return AppState["List.Joins"]; } }
+
+    public override string TitleIcon { get { return "bi bi-list"; } }
+
+    protected override RenderFragment _BodyContent_ => __builder =>
+    {
+        <GridJoinBrowser />
+    };
+}

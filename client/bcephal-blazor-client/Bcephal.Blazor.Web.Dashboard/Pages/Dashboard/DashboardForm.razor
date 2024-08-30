@@ -1,0 +1,122 @@
+﻿@page "/edit-report-dashboard"
+@page "/edit-report-dashboard/{Id:long}"
+
+@using Bcephal.Models.Profiles
+@using  Bcephal.Blazor.Web.Dashboard.Pages.Profile;
+
+@inherits Form<Models.Dashboards.Dashboard, Models.Dashboards.Dashboard>
+
+@{ base.BuildRenderTree(__builder); }
+
+@code{
+
+
+public override RenderFragment LeftContent => __builder =>
+{
+@if (EditorData != null)
+{
+    @DashboardRender
+}
+};
+
+public RenderFragment DashboardRender => __builder =>
+{
+    if (DisplayDesign)
+    {
+    <DxTabs CssClass="m-0 p-0" style="width:100%;" @bind-ActiveTabIndex="ActiveTabIndexBinding" ScrollMode="TabsScrollMode.Auto">
+        @if (!EditorData.Item.Published)
+            {
+            @DashboardConfigRender
+            }
+        @DashboardDataRender
+    </DxTabs>
+    }
+    else
+    {
+    <div class="m-0 p-0 h-100  p-1">
+        @DashboardDataRenderPanel(false)
+    </div>
+    }
+};
+
+public RenderFragment DashboardConfigRender => __builder =>
+{
+<DxTabPage Text=@AppState["Design"] CssClass="m-0 p-0 h-100">
+    <DashboardConfig_ Editable=Editable @bind-EditorData=EditorDataBinding RefreshView=RefreshRightContent__>
+        @RightContent_
+    </DashboardConfig_>
+</DxTabPage>
+};
+
+public RenderFragment DashboardDataRender => __builder =>
+{
+<DxTabPage Text=@AppState["Data"] CssClass="m-0 p-0 h-100">
+    @DashboardDataRenderPanel()
+</DxTabPage>
+};
+
+ public RenderFragment DashboardDataRenderPanel(bool two = true) => __builder =>
+ {
+     var ItemsPosition__ = EditorDataBinding.Item.GetItemsDimension();
+     if (two)
+     {
+<div class="d-flex flex-column grid-bc-two" style="padding-bottom:5px !important;">
+    <DashboardPanel  Editable=Editable IsData=IsData @bind-EditorData=EditorDataBinding RefreshView=RefreshRightContent__ />
+</div>
+   }
+   else
+   {
+       string height = "var(--bc-h100-tab)";
+       string cssCl = "bc-h100-tab";
+       if (!CssClass.Equals("content-bc"))
+       {
+           height = "var(--bc-home-dashboard-h100-tab)";
+           cssCl = "bc-home-dashboard-h100-tab";
+       }
+<div class="d-flex flex-column @cssCl">
+    <DashboardPanel  Editable=Editable @bind-EditorData=EditorData RefreshView=RefreshRightContent__ heightCallTotal=@height />
+</div>
+   }
+};
+
+
+
+public override RenderFragment RightContent => CurrentRightContent;
+
+public RenderFragment RightContent_ => __builder =>
+{
+
+@if (EditorData != null)
+{
+    <div class="d-flex flex-column grid-bc-two">
+        <div style="height:auto;padding-bottom:0;margin-bottom:10px;">
+            <DxLayoutBreakpoint DeviceSize="DeviceSize.Medium | DeviceSize.Small | DeviceSize.XSmall | DeviceSize.Large" @bind-IsActive="IsSmallScreen" />
+            <GridItemInfos Editable=Editable @bind-EditorData=EditorDataBinding T="Models.Dashboards.Dashboard"
+                           DisplayGroup="true" DisplayVisibleInShortcut="true">
+                <ChildContent>
+
+                    @*<DxButton RenderStyle="ButtonRenderStyle.Link" CssClass="mr-1"
+                        Text="@AppState["profils"]"
+                        @onclick="() => { showDashboardProfileModal = true; }" />*@
+
+                    <Scheduler Editable=Editable @bind-IsSchedulerActive="IsSchedulerActive"
+                               @bind-SchedulerValue="SchedulerValue"
+                               @bind-TimeFrequency="TimeFrequency">
+                    </Scheduler>
+
+                </ChildContent>
+            </GridItemInfos>
+
+        </div>
+    </div>
+<BaseModalComponent Title="@AppState["profils"]" @bind-ShowModal="@showDashboardProfileModal" ApplyBackgroundShading="true" Width="70%" Height="70%" BodyClass="p-2" OkHandler="SaveProfiles" CancelHandler="CancelProfiles">
+    <DashboardProfileForm ProfId=@DashboardItem.Id GetDashboardProfilesCallback="UpdateDashboardProfiles" CssClass="" />
+</BaseModalComponent>
+    }
+
+};
+
+
+
+
+}

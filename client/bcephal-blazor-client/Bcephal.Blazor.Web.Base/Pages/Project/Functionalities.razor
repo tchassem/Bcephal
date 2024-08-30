@@ -1,0 +1,27 @@
+
+@inherits FormComponent<Bcephal.Models.Functionalities.FunctionalityBlockGroup>;
+
+
+@{
+    base.BuildRenderTree(__builder);
+}
+
+
+
+@code {
+
+    protected override RenderFragment GroupContentTab(Bcephal.Models.Functionalities.FunctionalityBlockGroup item, int index) => __builder =>
+    {
+        if (item != null)
+        {
+        <Bcephal.Blazor.Web.Base.Shared.Functionalities.FunctionalityBlockGroup DeleteFunctionalityBlockGroup=DeleteFunctionalityBlockGroup
+                                                                                @bind-CurrentItem=item
+                                                                                Title=@item.Name />
+        }
+    };
+
+ 
+
+}
+
+

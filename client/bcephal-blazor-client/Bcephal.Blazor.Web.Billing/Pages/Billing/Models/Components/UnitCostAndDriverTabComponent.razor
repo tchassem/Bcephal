@@ -1,0 +1,192 @@
+﻿@using Bcephal.Models.Billing.Model
+
+@inject IJSRuntime JSRuntime
+@inject BillingModelService BillingModelService
+@inject BillingTemplateService BillingTemplateService
+
+<div class="row m-1 pt-3 h-100" >
+    <div class="col flex-column h-100">
+        <DxCheckBox Enabled="Editable" @bind-Checked="IncludeUnitCost" Alignment="CheckBoxContentAlignment.Left" LabelPosition="LabelPosition.Right">@AppState["billing.model.form.cost.inclunit"]</DxCheckBox>
+        @if (IncludeUnitCost)
+        {
+            <DxCheckBox Enabled="Editable" @bind-Checked="UseUnitCostToComputeAmount" Alignment="CheckBoxContentAlignment.Left" LabelPosition="LabelPosition.Right">@AppState["billing.model.form.cost.usebillamount"]</DxCheckBox>
+            
+            <div class="mt-4 p-2" style="border: 1px #e3e3e3 solid; height: calc(100% - 66px); ">
+                <p style="font-size: medium; color: #a8a8a8;" >@AppState["billing.model.form.cost.exclvalues"] :</p>
+                @for (int i = 0; i < EditorData.Item.DriverGroupListChangeHandler.Items.Count; i++)
+                {
+                    @renderBillingModelDriverGroup(EditorData.Item.DriverGroupListChangeHandler.GetItems()[i], i != 0)
+                }
+
+                @renderBillingModelDriverGroup(new BillingModelDriverGroup(), true)
+            </div>
+        }
+
+    </div>
+</div>
+
+
+@code {
+
+    #region Injected properties
+
+    [Inject]
+    public AppState AppState { get; set; }
+    [Parameter]
+    public EditorData<BillingModel> EditorData { get; set; }
+    [Parameter]
+    public bool Editable { get; set; }
+    #endregion
+
+    #region Input Parameters
+
+    #endregion
+
+    #region Internal properties and attributes
+
+
+    #endregion
+
+    #region Properties binded to the form items
+
+    public bool IncludeUnitCost
+    {
+        get { return EditorData.Item.IncludeUnitCost; }
+        set
+        {
+            EditorData.Item.IncludeUnitCost = value;
+            StateHasChanged_();
+        }
+    }
+    public IEnumerable<BillingModelGroupingItem> AvailableGroupingItems { get; set; }
+
+    public bool UseUnitCostToComputeAmount
+    {
+        get { return EditorData.Item.UseUnitCostToComputeAmount; }
+        set
+        {
+            EditorData.Item.UseUnitCostToComputeAmount = value;
+            StateHasChanged_();
+        }
+    }
+
+    #endregion
+
+    #region Region reserved for Methods
+
+    protected async override Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        IncludeUnitCost = true;
+        UseUnitCostToComputeAmount = true;
+        AvailableGroupingItems = EditorData.Item.GroupingItemListChangeHandler.Items;
+        StateHasChanged();
+    }
+
+    public void StateHasChanged_()
+    {
+        StateHasChanged();
+        AppState.Update = true;
+    }
+
+    #endregion
+
+    #region Form items change or selection handlers
+    // Ici on trouve tous les handlers qui écoutent sur la modification de l'état d'un élément du formulaire
+
+    protected void GroupingComboboxSelectionChanged(BillingModelGroupingItem groupingItem)
+    {
+        // l'élément n'est ajouté que s'il n'existe aucun DriverGroup ayant le même nom que le grouping item
+        // en d'autres termes, on vérifie que le groupingItem n'ait pas encore été sélectionné pour renseigner les valeurs d'exclusions
+        // qui s'appliquent sur lui, afin d'éviter qu'on affiche un même groupingItem pour +sieurs DriverGroup
+        if (!EditorData.Item.DriverGroupListChangeHandler.GetItems().Where(d => d.GroupName == groupingItem.Name).Any())
+        {
+            EditorData.Item.AddDriverGroup(new BillingModelDriverGroup() { GroupName = groupingItem.Name });
+
+            StateHasChanged_();
+        }
+        else
+            groupingItem = null;
+    }
+
+    protected void addDriverGroupItemToDriverGroup(BillingModelDriverGroupItem item, BillingModelDriverGroup parent)
+    {
+        if (!parent.ItemListChangeHandler.GetItems().Contains(item))
+        {
+            // Avant d'insérer, on se rassure que cette valeur n'a pas encore été ajoutée
+            if (!parent.ItemListChangeHandler.GetItems().Where(e => e.Value == item.Value).Any())
+            {
+                parent.AddItem(item);
+            }
+        }
+        else
+        {
+            // Avant d'update, on se rassure que cette valeur a déjà été ajoutée
+            if (parent.ItemListChangeHandler.GetItems().Where(e => e.Value == item.Value).Any())
+            {
+                parent.UpdateItem(item);
+            }
+        }
+        StateHasChanged_();
+    }
+
+    protected void deleteDriverGroupItemFromDriverGroup(BillingModelDriverGroupItem item, BillingModelDriverGroup parent)
+    {
+        if (parent.ItemListChangeHandler.GetItems().Contains(item))
+        {
+            parent.DeleteOrForgetItem(item);
+            StateHasChanged_();
+        }
+    }
+    #endregion
+
+    #region RenderFragments widgets
+
+    RenderFragment renderBillingModelDriverGroup(BillingModelDriverGroup driverGroup, bool addPadding)
+    {
+        BillingModelGroupingItem InnerGroupingItem = EditorData.Item.GroupingItemListChangeHandler.GetItems()
+                                                        .Where(v => v.Name == driverGroup.GroupName).FirstOrDefault();
+        bool isReadOnly = InnerGroupingItem != null;
+
+        if (isReadOnly)
+        {
+            AvailableGroupingItems = AvailableGroupingItems.Where(v => v != InnerGroupingItem );
+        }
+        RenderFragment renderFragment = __builder =>
+        {
+        <div class="row @(addPadding ? "mt-4" : "mt-1") text-center">
+            <div class="col-3">
+                <DxComboBox CssClass="filter-combo wid-250" Data="@AvailableGroupingItems"
+                            NullText="@AppState["billing.model.form.cost.selGrouptext"]"
+                            TextFieldName="@nameof(BillingModelGroupingItem.Name)"
+                            ReadOnly="!Editable"
+                            @bind-Value=InnerGroupingItem
+                            SelectedItemChanged="(BillingModelGroupingItem val) => { GroupingComboboxSelectionChanged(val); }">
+                </DxComboBox>
+            </div>
+            <div class="col-3">@AppState["Value"]</div>
+            <div class="col">@AppState["Driver"]</div>
+            <div class="col">@AppState["Unit cost"]</div>
+            <div class="col-1">
+            </div>
+        </div>
+        @foreach (var driverGroupItem in driverGroup.ItemListChangeHandler.GetItems())
+            {
+            <ModelDriverGroupItem Item="@driverGroupItem" ShowDelete="true"
+                                  OnItemChanged="(item) => addDriverGroupItemToDriverGroup(item, driverGroup)"
+                                  Delete="() => deleteDriverGroupItemFromDriverGroup(driverGroupItem, driverGroup)">
+            </ModelDriverGroupItem>
+            }
+        @if (InnerGroupingItem != null)
+            {
+                var newDriverGroupItem = new BillingModelDriverGroupItem() { };
+            <ModelDriverGroupItem Item="@newDriverGroupItem" ShowDelete="false" IsNew="true"
+                                  OnItemChanged="(item) => addDriverGroupItemToDriverGroup(item, driverGroup)">
+            </ModelDriverGroupItem>
+            }
+        };
+        return renderFragment;
+    }
+    #endregion
+
+}

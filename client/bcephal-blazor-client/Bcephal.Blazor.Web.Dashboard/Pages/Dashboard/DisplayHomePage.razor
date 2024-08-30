@@ -1,0 +1,6 @@
+﻿@page "/index/{projectId}";
+
+@{
+    var Key = $"{AppState.ClientId}__{AppState.ProjectCode}__{AppState.ProfilId}";
+    <DashboardPage projectId=@projectId @key="Key" />
+}

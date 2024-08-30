@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.20.0.final using JasperReports Library version 6.20.0-2bc7ab61c56f459e8176eb05c7705e145cd400ad  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="sub_invoice" pageWidth="530" pageHeight="383" columnWidth="530" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" whenResourceMissingType="Key" uuid="68a43521-6dbb-4146-b101-99406e644134">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Data Adapter_facture"/>
+	<parameter name="totalAmount" class="java.math.BigDecimal"/>
+	<parameter name="category" class="java.lang.String"/>
+	<parameter name="canCount" class="java.lang.Boolean">
+		<defaultValueExpression><![CDATA[false]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="amount" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[amount]]></fieldDescription>
+	</field>
+	<field name="unit" class="java.lang.String">
+		<fieldDescription><![CDATA[unit]]></fieldDescription>
+	</field>
+	<field name="quantity" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[quantity]]></fieldDescription>
+	</field>
+	<field name="unitCost" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[unitCost]]></fieldDescription>
+	</field>
+	<field name="description" class="java.lang.String">
+		<fieldDescription><![CDATA[description]]></fieldDescription>
+	</field>
+	<field name="position" class="java.lang.Integer">
+		<fieldDescription><![CDATA[position]]></fieldDescription>
+	</field>
+	<field name="currency" class="java.lang.String"/>
+	<field name="infosDataSource" class="java.util.List"/>
+	<field name="includeQuantity" class="java.lang.Boolean"/>
+	<field name="includeUnitCost" class="java.lang.Boolean"/>
+	<field name="this" class="com.moriset.bcephal.billing.domain.InvoiceItem"/>
+	<columnHeader>
+		<band height="23">
+			<frame>
+				<reportElement x="70" y="3" width="460" height="20" uuid="8c8584fd-2dc6-4429-bc9b-78181d798325">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<box>
+					<bottomPen lineWidth="0.1" lineStyle="Solid" lineColor="#2F5597"/>
+				</box>
+				<textField textAdjust="StretchHeight">
+					<reportElement stretchType="ElementGroupHeight" x="1" y="0" width="190" height="20" isPrintWhenDetailOverflows="true" uuid="341b39e0-ac22-4f95-b3d6-57527e6d7653">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+						<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					</reportElement>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Verdana" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+						<paragraph leftIndent="0" rightIndent="5"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$R{template.description.column1.label}]]></textFieldExpression>
+				</textField>
+				<textField textAdjust="StretchHeight">
+					<reportElement stretchType="ElementGroupHeight" x="191" y="0" width="90" height="20" isPrintWhenDetailOverflows="true" uuid="e010fb34-9ab3-4f51-85f8-09e4182f7b90">
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<printWhenExpression><![CDATA[$F{includeQuantity}]]></printWhenExpression>
+					</reportElement>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Verdana" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+						<paragraph leftIndent="0"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$R{template.description.column2.label}]]></textFieldExpression>
+				</textField>
+				<textField textAdjust="StretchHeight">
+					<reportElement stretchType="ElementGroupHeight" x="281" y="0" width="90" height="20" isPrintWhenDetailOverflows="true" uuid="c41d5223-b517-4fd5-b99b-b63ee0cb8c73">
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<printWhenExpression><![CDATA[$F{includeUnitCost}]]></printWhenExpression>
+					</reportElement>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Verdana" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+						<paragraph leftIndent="0"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$R{template.description.column3.label}]]></textFieldExpression>
+				</textField>
+				<textField textAdjust="StretchHeight">
+					<reportElement stretchType="ElementGroupHeight" x="370" y="0" width="90" height="20" isPrintWhenDetailOverflows="true" uuid="e2961599-7728-41b6-85e7-ff06decdd545">
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					</reportElement>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Verdana" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+						<paragraph leftIndent="0"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$R{template.description.column4.label}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="22" splitType="Stretch">
+			<frame>
+				<reportElement stretchType="ContainerHeight" x="0" y="0" width="530" height="19" isPrintWhenDetailOverflows="true" uuid="842f5032-e610-4012-bfab-fadf91945761">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<bottomPen lineWidth="0.0" lineColor="#050404"/>
+				</box>
+				<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+					<reportElement x="70" y="3" width="190" height="19" isPrintWhenDetailOverflows="true" uuid="8eaaae44-567c-4930-b30a-49639f7752f6">
+						<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					</reportElement>
+					<box>
+						<pen lineWidth="0.0" lineStyle="Solid"/>
+					</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Verdana" size="8" isBold="false" isItalic="false"/>
+						<paragraph leftIndent="5"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{description} != null ? $F{description}.toUpperCase(): null]]></textFieldExpression>
+				</textField>
+				<textField textAdjust="StretchHeight" pattern="#,###.##" isBlankWhenNull="true">
+					<reportElement x="260" y="3" width="90" height="19" isPrintWhenDetailOverflows="true" uuid="e56693de-6054-4803-a7cf-36a9dd4cd8cc">
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<printWhenExpression><![CDATA[$F{includeQuantity}]]></printWhenExpression>
+					</reportElement>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Verdana" size="8" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{this}.getFormatQuantity(java.util.Locale.US )]]></textFieldExpression>
+				</textField>
+				<textField textAdjust="StretchHeight" pattern="#,##0.00" isBlankWhenNull="true">
+					<reportElement x="351" y="3" width="90" height="19" isPrintWhenDetailOverflows="true" uuid="1510f648-9be9-4e83-92f5-d018502bd2df">
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+						<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<printWhenExpression><![CDATA[$F{includeUnitCost}]]></printWhenExpression>
+					</reportElement>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Verdana" size="8" isBold="false"/>
+						<paragraph rightIndent="0"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{this}.getFormatUnitCost(java.util.Locale.US)]]></textFieldExpression>
+				</textField>
+				<textField textAdjust="StretchHeight" pattern="#,##0.00" isBlankWhenNull="true">
+					<reportElement x="440" y="3" width="90" height="19" isPrintWhenDetailOverflows="true" uuid="a950b871-e7bb-46bd-9583-b348886c9192">
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					</reportElement>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Verdana" size="8" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{this}.getFormatAmount(java.util.Locale.US )]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+		<band height="16">
+			<subreport>
+				<reportElement x="0" y="1" width="510" height="15" isRemoveLineWhenBlank="true" uuid="7c6c0ca3-823d-492f-bd75-469112912080">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<printWhenExpression><![CDATA[$F{infosDataSource} != null && $F{infosDataSource}.size() > 0 
+&& $P{category} ==null]]></printWhenExpression>
+				</reportElement>
+				<subreportParameter name="totalAmount">
+					<subreportParameterExpression><![CDATA[$P{totalAmount}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="REPORT_RESOURCE_BUNDLE">
+					<subreportParameterExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}]]></subreportParameterExpression>
+				</subreportParameter>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{infosDataSource})]]></dataSourceExpression>
+				<subreportExpression><![CDATA[($P{REPORT_PARAMETERS_MAP}.get("SUBREPORT_DIR" ) != null ? $P{REPORT_PARAMETERS_MAP}.get("SUBREPORT_DIR" ) : ".") + "/template1_sub_vat_invoice.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+</jasperReport>

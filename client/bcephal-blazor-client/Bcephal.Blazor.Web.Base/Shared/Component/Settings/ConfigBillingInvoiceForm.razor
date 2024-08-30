@@ -1,0 +1,665 @@
+﻿
+
+<DxFormLayout CssClass="w-100 h-100 overflow-y-auto">
+    <DxFormLayoutItem BeginRow="true" CssClass="w-100" ColSpanXl="6" ColSpanXs="6" ColSpanLg="6" ColSpanMd="6" ColSpanSm="12">
+        <Template>
+            <NavLink @onclick="@(() => CreateAutomatically())"
+                     class="nav-link pl-0"
+                     href="settings/configuration">
+                <span class="@((InvoiceParameters == null || InvoiceParameters.Values.Count == 0 ) ? "create-auto-active" : "create-auto-inactive")" aria-hidden="true"> @AppState["CreateAutomatically"]</span>
+            </NavLink>
+        </Template>
+    </DxFormLayoutItem>
+    <DxFormLayoutItem BeginRow="true" CssClass="w-100" Caption=@AppState["InvoiceNumber"] CaptionCssClass="caption-form" ColSpanLg="4" ColSpanMd="4" ColSpanSm="12">
+        <Template>
+            <div class="d-flex flex-row">
+                <DxComboBox Data="@Attributes"
+                            @bind-Value="InvoiceNumber"
+                            CssClass="filter-combo wid-200">
+                </DxComboBox>
+                <i class="bi bi-file-x-fill" hidden="@(InvoiceNumber != null ? false : true)"
+                   @onclick="@(() => { InvoiceNumber = null; InvoiceParameters.Remove("InvoiceNumber"); })"
+                   style="margin-left: .5rem !important; font-size: 1.2rem; color: red; margin-top: auto; margin-bottom: auto;">
+                </i>
+                <label class="ml-2 mb-auto mt-auto" style="font-size:11px !important; font-weight:500 !important;"> (@AppState["ATTRIBUTE"]) </label>
+            </div>
+        </Template>
+    </DxFormLayoutItem>
+
+    <DxFormLayoutItem CssClass="w-100" Caption=@AppState["InvoicedVatAmount"] CaptionCssClass="caption-form" ColSpanLg="4" ColSpanMd="4" ColSpanSm="12">
+        <Template>
+            <div class="d-flex flex-row">
+                <DxComboBox Data="@Measures"
+                            @bind-Value="InvoicedVatAmount"
+                            CssClass="filter-combo wid-200">
+                </DxComboBox>
+                <i class="bi bi-file-x-fill" hidden="@(InvoicedVatAmount != null ? false : true)"
+                   @onclick="@(() => { InvoicedVatAmount = null; InvoiceParameters.Remove("InvoicedVatAmount"); } )"
+                   style="margin-left: .5rem !important; font-size: 1.2rem; color: red; margin-top: auto; margin-bottom: auto;">
+                </i>
+                <label class="ml-2 mb-auto mt-auto" style="font-size:11px !important; font-weight:500 !important;"> (@AppState["MEASURE"]) </label>
+            </div>
+        </Template>
+    </DxFormLayoutItem>
+
+    <DxFormLayoutItem CssClass="w-100" Caption=@AppState["DefaultTemplate"] CaptionCssClass="caption-form" ColSpanLg="4" ColSpanMd="4" ColSpanSm="12">
+        <Template>
+            <div class="d-flex flex-row">
+                <DxTextBox CssClass="wid-200" NullText="Select default bill template" @bind-Text="@DefaultTemplate"></DxTextBox>
+                <i class="bi bi-file-x-fill" hidden="@(DefaultTemplate != null ? false : true)"
+                   @onclick="@(() => { DefaultTemplate = null; InvoiceParameters.Remove("DefaultTemplate"); }  )"
+                   style="margin-left: .5rem !important; font-size: 1.2rem; color: red; margin-top: auto; margin-bottom: auto;">
+                </i>
+                <label class="ml-2 mb-auto mt-auto " style="font-size:11px !important; font-weight:500 !important;"> (@AppState["BillTemplate"]) </label>
+            </div>
+        </Template>
+    </DxFormLayoutItem>
+
+    <DxFormLayoutItem BeginRow="true" CssClass="w-100" Caption=@AppState["InvoiceNbrGenerator"] CaptionCssClass="caption-form" ColSpanLg="4" ColSpanMd="4" ColSpanSm="12">
+        <Template>
+            <div class="d-flex flex-row">
+                <DxComboBox Data="@Attributes"
+                            @bind-Value="InvoiceNbrGenerator"
+                            CssClass="filter-combo wid-200">
+                </DxComboBox>
+                <i class="bi bi-file-x-fill" hidden="@(InvoiceNbrGenerator != null ? false : true)"
+                   @onclick="@(() => { InvoiceNbrGenerator = null; InvoiceParameters.Remove("InvoiceNbrGenerator"); } )"
+                   style="margin-left: .5rem !important; font-size: 1.2rem; color: red; margin-top: auto; margin-bottom: auto;">
+                </i>
+                <label class="ml-2 mb-auto mt-auto" style="font-size:11px !important; font-weight:500 !important;"> (@AppState["Sequence_"]) </label>
+            </div>
+        </Template>
+    </DxFormLayoutItem>
+
+    <DxFormLayoutItem CssClass="w-100" Caption=@AppState["InvoicedAmountInclVat"] CaptionCssClass="caption-form" ColSpanLg="4" ColSpanMd="4" ColSpanSm="12">
+        <Template>
+            <div class="d-flex flex-row">
+                <DxComboBox Data="@Measures"
+                            @bind-Value="InvoicedAmountInclVat"
+                            CssClass="filter-combo wid-200">
+                </DxComboBox>
+                <i class="bi bi-file-x-fill" hidden="@(InvoicedAmountInclVat != null ? false : true)"
+                   @onclick="@(() => { InvoicedAmountInclVat = null; InvoiceParameters.Remove("InvoicedAmountInclVat"); })"
+                   style="margin-left: .5rem !important; font-size: 1.2rem; color: red; margin-top: auto; margin-bottom: auto;">
+                </i>
+                <label class="ml-2 mb-auto mt-auto" style="font-size:11px !important; font-weight:500 !important;"> (@AppState["MEASURE"]) </label>
+            </div>
+        </Template>
+    </DxFormLayoutItem>
+    <DxFormLayoutItem CssClass="w-100" Caption=@AppState["SendingStatus"] CaptionCssClass="caption-form" ColSpanLg="4" ColSpanMd="4" ColSpanSm="12">
+        <Template>
+            <div class="d-flex flex-row">
+                <DxComboBox Data="@Attributes"
+                            @bind-Value="SendingStatus"
+                            CssClass="filter-combo wid-200">
+                </DxComboBox>
+                <i class="bi bi-file-x-fill" hidden="@(SendingStatus != null ? false : true)"
+                   @onclick="@(() => { SendingStatus = null; InvoiceParameters.Remove("SendingStatus"); })"
+                   style="margin-left: .5rem !important; font-size: 1.2rem; color: red; margin-top: auto; margin-bottom: auto;">
+                </i>
+                <label class="ml-2 mb-auto mt-auto" style="font-size:11px !important; font-weight:500 !important;"> (@AppState["Sequence_"]) </label>
+            </div>
+        </Template>
+    </DxFormLayoutItem>
+
+    <DxFormLayoutItem BeginRow="true" CssClass="w-100" Caption=@AppState["SubInvoiceNumber"] CaptionCssClass="caption-form" ColSpanLg="4" ColSpanMd="4" ColSpanSm="12">
+        <Template>
+            <div class="d-flex flex-row">
+                <DxComboBox Data="@Attributes"
+                            @bind-Value="SubInvoiceNumber"
+                            CssClass="filter-combo wid-200">
+                </DxComboBox>
+                <i class="bi bi-file-x-fill" hidden="@(SubInvoiceNumber != null ? false : true)"
+                   @onclick="@(() => { SubInvoiceNumber = null; InvoiceParameters.Remove("SubInvoiceNumber"); } )"
+                   style="margin-left: .5rem !important; font-size: 1.2rem; color: red; margin-top: auto; margin-bottom: auto;">
+                </i>
+                <label class="ml-2 mb-auto mt-auto" style="font-size:11px !important; font-weight:500 !important;"> (@AppState["ATTRIBUTE"]) </label>
+            </div>
+        </Template>
+    </DxFormLayoutItem>
+
+    <DxFormLayoutItem CssClass="w-100" Caption=@AppState["InvoiceDate"] CaptionCssClass="caption-form" ColSpanLg="4" ColSpanMd="4" ColSpanSm="12">
+        <Template>
+            <div class="d-flex flex-row">
+                <DxComboBox Data="@Periods"
+                            @bind-Value="InvoiceDate"
+                            CssClass="filter-combo wid-200">
+                </DxComboBox>
+                <i class="bi bi-file-x-fill" hidden="@(InvoiceDate != null ? false : true)"
+                   @onclick="@(() => { InvoiceDate = null; InvoiceParameters.Remove("InvoiceDate"); })"
+                   style="margin-left: .5rem !important; font-size: 1.2rem; color: red; margin-top: auto; margin-bottom: auto;">
+                </i>
+                <label class="ml-2 mb-auto mt-auto" style="font-size:11px !important; font-weight:500 !important;"> (@AppState["PERIOD"]) </label>
+            </div>
+        </Template>
+    </DxFormLayoutItem>
+    <DxFormLayoutItem CssClass="w-100" Caption=@AppState["SentValue"] CaptionCssClass="caption-form" ColSpanLg="4" ColSpanMd="4" ColSpanSm="12">
+        <Template>
+            <div class="d-flex flex-row">
+                <DxComboBox Data="@Attributes"
+                            @bind-Value="SentValue"
+                            CssClass="filter-combo wid-200">
+                </DxComboBox>
+                <i class="bi bi-file-x-fill" hidden="@(SentValue != null ? false : true)"
+                   @onclick="@(() => { SentValue = null; InvoiceParameters.Remove("SentValue"); })"
+                   style="margin-left: .5rem !important; font-size: 1.2rem; color: red; margin-top: auto; margin-bottom: auto;">
+                </i>
+                <label class="ml-2 mb-auto mt-auto" style="font-size:11px !important; font-weight:500 !important;"> (@AppState["Sequence_"]) </label>
+            </div>
+        </Template>
+    </DxFormLayoutItem>
+
+    <DxFormLayoutItem BeginRow="true" CssClass="w-100" Caption=@AppState["Status"] CaptionCssClass="caption-form" ColSpanLg="4" ColSpanMd="4" ColSpanSm="12">
+        <Template>
+            <div class="d-flex flex-row">
+                <DxComboBox Data="@Attributes"
+                            @bind-Value="Status"
+                            CssClass="filter-combo wid-200">
+                </DxComboBox>
+                <i class="bi bi-file-x-fill" hidden="@(Status != null ? false : true)"
+                   @onclick="@(() => { Status = null; InvoiceParameters.Remove("Status"); } )"
+                   style="margin-left: .5rem !important; font-size: 1.2rem; color: red; margin-top: auto; margin-bottom: auto;">
+                </i>
+                <label class="ml-2 mb-auto mt-auto" style="font-size:11px !important; font-weight:500 !important;"> (@AppState["ATTRIBUTE"]) </label>
+            </div>
+        </Template>
+    </DxFormLayoutItem>
+    <DxFormLayoutItem CssClass="w-100" Caption=@AppState["DueDate"] CaptionCssClass="caption-form" ColSpanLg="4" ColSpanMd="4" ColSpanSm="12">
+        <Template>
+            <div class="d-flex flex-row">
+                <DxComboBox Data="@Periods"
+                            @bind-Value="DueDate"
+                            CssClass="filter-combo wid-200">
+                </DxComboBox>
+                <i class="bi bi-file-x-fill" hidden="@(DueDate != null ? false : true)"
+                   @onclick="@(() => { DueDate = null; InvoiceParameters.Remove("DueDate"); })"
+                   style="margin-left: .5rem !important; font-size: 1.2rem; color: red; margin-top: auto; margin-bottom: auto;">
+                </i>
+                <label class="ml-2 mb-auto mt-auto"> (@AppState["PERIOD"]) </label>
+            </div>
+        </Template>
+    </DxFormLayoutItem>
+
+    <DxFormLayoutItem CssClass="w-100" Caption=@AppState["NotYetSentValue"] CaptionCssClass="caption-form" ColSpanLg="4" ColSpanMd="4" ColSpanSm="12">
+        <Template>
+            <div class="d-flex flex-row">
+                <DxComboBox Data="@Attributes"
+                            @bind-Value="NotYetSentValue"
+                            CssClass="filter-combo wid-200">
+                </DxComboBox>
+                <i class="bi bi-file-x-fill" hidden="@(NotYetSentValue != null ? false : true)"
+                   @onclick="@(() => { NotYetSentValue = null; InvoiceParameters.Remove("NotYetSentValue"); })"
+                   style="margin-left: .5rem !important; font-size: 1.2rem; color: red; margin-top: auto; margin-bottom: auto;">
+                </i>
+                <label class="ml-2 mb-auto mt-auto" style="font-size:11px !important; font-weight:500 !important;"> (@AppState["Sequence_"]) </label>
+            </div>
+        </Template>
+    </DxFormLayoutItem>
+
+    <DxFormLayoutItem BeginRow="true" CssClass="w-100" Caption=@AppState["DraftValue"] CaptionCssClass="caption-form" ColSpanLg="4" ColSpanMd="4" ColSpanSm="12">
+        <Template>
+            <div class="d-flex flex-row">
+                <DxTextBox CssClass="wid-200" @bind-Text="@DraftValue"></DxTextBox>
+                <i class="bi bi-file-x-fill" hidden="@(DraftValue != null ? false : true)"
+                   @onclick="@(() => { DraftValue = null; InvoiceParameters.Remove("DraftValue"); })"
+                   style="margin-left: .5rem !important; font-size: 1.2rem; color: red; margin-top: auto; margin-bottom: auto;">
+                </i>
+                <label class="ml-2 mb-auto mt-auto" style="font-size:11px !important; font-weight:500 !important;"> (@AppState["AttributeValue"]) </label>
+            </div>
+        </Template>
+    </DxFormLayoutItem>
+    <DxFormLayoutItem CssClass="w-100" Caption=@AppState["DueDateCalculation"] CaptionCssClass="caption-form" ColSpanLg="4" ColSpanMd="4" ColSpanSm="12">
+        <Template>
+            <div class="d-flex flex-row">
+                <DxComboBox Data="@Measures"
+                            @bind-Value="DueDateCalculation"
+                            CssClass="filter-combo wid-200">
+                </DxComboBox>
+                <i class="bi bi-file-x-fill" hidden="@(DueDateCalculation != null ? false : true)"
+                   @onclick="@(() => { DueDateCalculation = null; InvoiceParameters.Remove("DueDateCalculation"); })"
+                   style="margin-left: .5rem !important; font-size: 1.2rem; color: red; margin-top: auto; margin-bottom: auto;">
+                </i>
+                <label class="ml-2 mb-auto mt-auto" style="font-size:11px !important; font-weight:500 !important;"> (@AppState["MEASURE"]) </label>
+            </div>
+        </Template>
+    </DxFormLayoutItem>
+    <DxFormLayoutItem CssClass="w-100" Caption=@AppState["ToCheckValue"] CaptionCssClass="caption-form" ColSpanLg="4" ColSpanMd="4" ColSpanSm="12">
+        <Template>
+            <div class="d-flex flex-row">
+                <DxTextBox CssClass="wid-200" @bind-Text="@ToCheckValue"></DxTextBox>
+                <i class="bi bi-file-x-fill" hidden="@(ToCheckValue != null ? false : true)"
+                   @onclick="@(() => { ToCheckValue = null; InvoiceParameters.Remove("ToCheckValue"); })"
+                   style="margin-left: .5rem !important; font-size: 1.2rem; color: red; margin-top: auto; margin-bottom: auto;">
+                </i>
+                <label class="ml-2 mb-auto mt-auto" style="font-size:11px !important; font-weight:500 !important;"> (@AppState["AttributeValue"]) </label>
+            </div>
+        </Template>
+    </DxFormLayoutItem>
+
+    <DxFormLayoutItem BeginRow="true" CssClass="w-100" Caption=@AppState["CommunicationMessage"] CaptionCssClass="caption-form" ColSpanLg="4" ColSpanMd="4" ColSpanSm="12">
+        <Template>
+            <div class="d-flex flex-row">
+                <DxComboBox Data="@Attributes"
+                            @bind-Value="CommunicationMessage"
+                            CssClass="filter-combo wid-200">
+                </DxComboBox>
+                <i class="bi bi-file-x-fill" hidden="@(CommunicationMessage != null ? false : true)"
+                   @onclick="@(() => { CommunicationMessage = null; InvoiceParameters.Remove("CommunicationMessage"); })"
+                   style="margin-left: .5rem !important; font-size: 1.2rem; color: red; margin-top: auto; margin-bottom: auto;">
+                </i>
+                <label class="ml-2 mb-auto mt-auto" style="font-size:11px !important; font-weight:500 !important;"> (@AppState["ATTRIBUTE"]) </label>
+            </div>
+        </Template>
+    </DxFormLayoutItem>
+    <DxFormLayoutItem CssClass="w-100" Caption=@AppState["ValidatedValue"] CaptionCssClass="caption-form" ColSpanLg="4" ColSpanMd="4" ColSpanSm="12">
+        <Template>
+            <div class="d-flex flex-row">
+                <DxTextBox CssClass="wid-200" @bind-Text="@ValidatedValue"></DxTextBox>
+                <i class="bi bi-file-x-fill" hidden="@(ValidatedValue != null ? false : true)"
+                   @onclick="@(() => { ValidatedValue = null; InvoiceParameters.Remove("ValidatedValue"); })"
+                   style="margin-left: .5rem !important; font-size: 1.2rem; color: red; margin-top: auto; margin-bottom: auto;">
+                </i>
+                <label class="ml-2 mb-auto mt-auto" style="font-size:11px !important; font-weight:500 !important;"> (@AppState["AttributeValue"]) </label>
+            </div>
+        </Template>
+    </DxFormLayoutItem>
+    <DxFormLayoutItem CssClass="w-100" Caption=@AppState["CreditNoteNumber"] CaptionCssClass="caption-form" ColSpanLg="4" ColSpanMd="4" ColSpanSm="12">
+        <Template>
+            <div class="d-flex flex-row">
+                <DxComboBox Data="@Attributes"
+                            @bind-Value="CreditNoteNumber"
+                            CssClass="filter-combo wid-200">
+                </DxComboBox>
+                <i class="bi bi-file-x-fill" hidden="@(CreditNoteNumber != null ? false : true)"
+                   @onclick="@(() => { CreditNoteNumber = null; InvoiceParameters.Remove("CreditNoteNumber"); })"
+                   style="margin-left: .5rem !important; font-size: 1.2rem; color: red; margin-top: auto; margin-bottom: auto;">
+                </i>
+                <label class="ml-2 mb-auto mt-auto" style="font-size:11px !important; font-weight:500 !important;"> (@AppState["ATTRIBUTE"]) </label>
+            </div>
+        </Template>
+    </DxFormLayoutItem>
+    <DxFormLayoutItem BeginRow="true" CssClass="w-100" Caption=@AppState["InvoicedAmountExcelVat"] CaptionCssClass="caption-form" ColSpanLg="4" ColSpanMd="4" ColSpanSm="12">
+        <Template>
+            <div class="d-flex flex-row">
+                <DxComboBox Data="@Measures"
+                            @bind-Value="InvoicedAmountExcelVat"
+                            CssClass="filter-combo wid-200">
+                </DxComboBox>
+                <i class="bi bi-file-x-fill" hidden="@(InvoicedAmountExcelVat != null ? false : true)"
+                   @onclick="@(() => { InvoicedAmountExcelVat = null; InvoiceParameters.Remove("InvoicedAmountExcelVat"); })"
+                   style="margin-left: .5rem !important; font-size: 1.2rem; color: red; margin-top: auto; margin-bottom: auto;">
+                </i>
+                <label class="ml-2 mb-auto mt-auto" style="font-size:11px !important; font-weight:500 !important;"> (@AppState["MEASURE"]) </label>
+            </div>
+        </Template>
+    </DxFormLayoutItem>
+
+
+    <DxFormLayoutItem CssClass="w-100" Caption=@AppState["CreditNoteNbrGen"] CaptionCssClass="caption-form" ColSpanLg="4" ColSpanMd="4" ColSpanSm="12">
+        <Template>
+            <div class="d-flex flex-row">
+                <DxComboBox Data="@Attributes"
+                            @bind-Value="CreditNoteNbrGen"
+                            CssClass="filter-combo wid-200">
+                </DxComboBox>
+                <i class="bi bi-file-x-fill" hidden="@(CreditNoteNbrGen != null ? false : true)"
+                   @onclick="@(() => { CreditNoteNbrGen = null; InvoiceParameters.Remove("CreditNoteNbrGen"); })"
+                   style="margin-left: .5rem !important; font-size: 1.2rem; color: red; margin-top: auto; margin-bottom: auto;">
+                </i>
+                <label class="ml-2 mb-auto mt-auto" style="font-size:11px !important; font-weight:500 !important;"> (@AppState["Sequence_"]) </label>
+            </div>
+        </Template>
+    </DxFormLayoutItem>
+
+
+</DxFormLayout>
+
+@code{
+    [Inject]
+    private AppState AppState { get; set; }
+
+    [Parameter]
+    public Dictionary<string, string> InvoiceParameters { get; set; }
+
+    [Parameter]
+    public EventCallback<Dictionary<string, string>> InvoiceParametersChanged { get; set; }
+
+
+    [Parameter]
+    public ObservableCollection<string> Attributes { get; set; } // To change
+
+    [Parameter]
+    public EventCallback<ObservableCollection<string>> AttributesChanged { get; set; }
+
+    [Parameter]
+    public ObservableCollection<string> Periods { get; set; } // To change
+
+    [Parameter]
+    public EventCallback<ObservableCollection<string>> PeriodsChanged { get; set; }
+
+
+    [Parameter]
+    public ObservableCollection<string> Measures { get; set; } // To change
+
+    [Parameter]
+    public EventCallback<ObservableCollection<string>> MeasuresChanged { get; set; }
+
+    public string InvoiceNumber
+    {
+        get
+        {
+            InvoiceParameters.TryGetValue("InvoiceNumber", out string value);
+            return value;
+        }
+        set
+        {
+            InvoiceParameters.Remove("InvoiceNumber");
+            InvoiceParameters.Add("InvoiceNumber", value);
+        }
+    }
+
+    public string InvoicedVatAmount
+    {
+        get
+        {
+            InvoiceParameters.TryGetValue("InvoicedVatAmount", out string value);
+            return value;
+        }
+        set
+        {
+            InvoiceParameters.Remove("InvoicedVatAmount");
+            InvoiceParameters.Add("InvoicedVatAmount", value);
+        }
+    }
+    public string DefaultTemplate
+    {
+        get
+        {
+            InvoiceParameters.TryGetValue("DefaultTemplate", out string value);
+            return value;
+        }
+        set
+        {
+            InvoiceParameters.Remove("DefaultTemplate");
+            InvoiceParameters.Add("DefaultTemplate", value);
+        }
+    }
+
+    public string InvoiceNbrGenerator
+    {
+        get
+        {
+            InvoiceParameters.TryGetValue("InvoiceNbrGenerator", out string value);
+            return value;
+        }
+        set
+        {
+            InvoiceParameters.Remove("InvoiceNbrGenerator");
+            InvoiceParameters.Add("InvoiceNbrGenerator", value);
+        }
+    }
+
+    public string SubInvoiceNumber
+    {
+        get
+        {
+            InvoiceParameters.TryGetValue("SubInvoiceNumber", out string value);
+            return value;
+        }
+        set
+        {
+            InvoiceParameters.Remove("SubInvoiceNumber");
+            InvoiceParameters.Add("SubInvoiceNumber", value);
+        }
+    }
+
+    public string Status
+    {
+        get
+        {
+            InvoiceParameters.TryGetValue("Status", out string value);
+            return value;
+        }
+        set
+        {
+            InvoiceParameters.Remove("Status");
+            InvoiceParameters.Add("Status", value);
+        }
+    }
+
+    public string ToCheckValue
+    {
+        get
+        {
+            InvoiceParameters.TryGetValue("ToCheckValue", out string value);
+            return value;
+        }
+        set
+        {
+            InvoiceParameters.Remove("ToCheckValue");
+            InvoiceParameters.Add("ToCheckValue", value);
+        }
+    }
+
+    public string DraftValue
+    {
+        get
+        {
+            InvoiceParameters.TryGetValue("DraftValue", out string value);
+            return value;
+        }
+        set
+        {
+            InvoiceParameters.Remove("DraftValue");
+            InvoiceParameters.Add("DraftValue", value);
+        }
+    }
+
+
+    public string ValidatedValue
+    {
+        get
+        {
+            InvoiceParameters.TryGetValue("ValidatedValue", out string value);
+            return value;
+        }
+        set
+        {
+            InvoiceParameters.Remove("ValidatedValue");
+            InvoiceParameters.Add("ValidatedValue", value);
+        }
+    }
+
+    public string InvoicedAmountExcelVat
+    {
+        get
+        {
+            InvoiceParameters.TryGetValue("InvoicedAmountExcelVat", out string value);
+            return value;
+        }
+        set
+        {
+            InvoiceParameters.Remove("InvoicedAmountExcelVat");
+            InvoiceParameters.Add("InvoicedAmountExcelVat", value);
+        }
+    }
+
+
+    public string InvoicedAmountInclVat
+    {
+        get
+        {
+            InvoiceParameters.TryGetValue("InvoicedAmountInclVat", out string value);
+            return value;
+        }
+        set
+        {
+            InvoiceParameters.Remove("InvoicedAmountInclVat");
+            InvoiceParameters.Add("InvoicedAmountInclVat", value);
+        }
+    }
+    public string InvoiceDate
+    {
+        get
+        {
+            InvoiceParameters.TryGetValue("InvoiceDate", out string value);
+            return value;
+        }
+        set
+        {
+            InvoiceParameters.Remove("InvoiceDate");
+            InvoiceParameters.Add("InvoiceDate", value);
+        }
+    }
+
+    public string DueDate
+    {
+        get
+        {
+            InvoiceParameters.TryGetValue("DueDate", out string value);
+            return value;
+        }
+        set
+        {
+            InvoiceParameters.Remove("DueDate");
+            InvoiceParameters.Add("DueDate", value);
+        }
+    }
+
+
+    public string DueDateCalculation
+    {
+        get
+        {
+            InvoiceParameters.TryGetValue("DueDateCalculation", out string value);
+            return value;
+        }
+        set
+        {
+            InvoiceParameters.Remove("DueDateCalculation");
+            InvoiceParameters.Add("DueDateCalculation", value);
+        }
+    }
+
+
+    public string CommunicationMessage
+    {
+        get
+        {
+            InvoiceParameters.TryGetValue("CommunicationMessage", out string value);
+            return value;
+        }
+        set
+        {
+            InvoiceParameters.Remove("CommunicationMessage");
+            InvoiceParameters.Add("CommunicationMessage", value);
+        }
+    }
+
+
+    public string CreditNoteNumber
+    {
+        get
+        {
+            InvoiceParameters.TryGetValue("CreditNoteNumber", out string value);
+            return value;
+        }
+        set
+        {
+            InvoiceParameters.Remove("CreditNoteNumber");
+            InvoiceParameters.Add("CreditNoteNumber", value);
+        }
+    }
+
+
+    public string CreditNoteNbrGen
+    {
+        get
+        {
+            InvoiceParameters.TryGetValue("CreditNoteNbrGen", out string value);
+            return value;
+        }
+        set
+        {
+            InvoiceParameters.Remove("CreditNoteNbrGen");
+            InvoiceParameters.Add("CreditNoteNbrGen", value);
+        }
+    }
+
+
+    public string SendingStatus
+    {
+        get
+        {
+            InvoiceParameters.TryGetValue("SendingStatus", out string value);
+            return value;
+        }
+        set
+        {
+            InvoiceParameters.Remove("SendingStatus");
+            InvoiceParameters.Add("SendingStatus", value);
+        }
+    }
+    public string SentValue
+    {
+        get
+        {
+            InvoiceParameters.TryGetValue("SentValue", out string value);
+            return value;
+        }
+        set
+        {
+            InvoiceParameters.Remove("SentValue");
+            InvoiceParameters.Add("SentValue", value);
+        }
+    }
+
+    public string NotYetSentValue
+    {
+        get
+        {
+            InvoiceParameters.TryGetValue("NotYetSentValue", out string value);
+            return value;
+        }
+        set
+        {
+            InvoiceParameters.Remove("NotYetSentValue");
+            InvoiceParameters.Add("NotYetSentValue", value);
+        }
+    }
+
+    public string Class { get; set; } = "active";
+
+    void CreateAutomatically()
+    {
+
+        InvoiceParameters.Add("InvoiceNumber", "Invoice number");
+        InvoiceParameters.Add("InvoicedVatAmount", "VAT amount");
+        //InvoiceParameters.Add("DefaultTemplate", "Select default bill template");
+        InvoiceParameters.Add("SendingStatus", "Sending status");
+        InvoiceParameters.Add("SentValue", "Sent");
+        InvoiceParameters.Add("Status", "Invoice status");
+        InvoiceParameters.Add("NotYetSentValue", "Not yet sent");
+        InvoiceParameters.Add("InvoiceDate", "Invoice date");
+        InvoiceParameters.Add("InvoicedAmountInclVat", "Invoice total amount");
+        InvoiceParameters.Add("DueDate", "Due date");
+        InvoiceParameters.Add("DueDateCalculation", "Due date calculation");
+        InvoiceParameters.Add("CommunicationMessage", "Communication message");
+        InvoiceParameters.Add("CreditNoteNumber", "Invoice number");
+        InvoiceParameters.Add("CreditNoteNbrGen", "Credit Note Number Generator");
+        InvoiceParameters.Add("InvoiceNbrGenerator", "Invoice number generator");
+        InvoiceParameters.Add("SubInvoiceNumber", "Sub invoice number");
+        InvoiceParameters.Add("DraftValue", "Draft");
+        InvoiceParameters.Add("ToCheckValue", "To check");
+        InvoiceParameters.Add("ValidatedValue", "Validated");
+        InvoiceParameters.Add("InvoicedAmountExcelVat", "Invoice amount(excel VAT)");
+
+        Class = "create-auto-inactive";
+        StateHasChanged();
+
+    }
+
+
+
+
+}

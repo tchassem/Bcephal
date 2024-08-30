@@ -1,0 +1,120 @@
+﻿
+@page "/billing/invoice/edit"
+@page "/billing/invoice/edit/{Id:long}"
+
+@inherits Form<Invoice, InvoiceBrowserData>;
+
+@{ base.BuildRenderTree(__builder);}
+
+@code {
+
+    private RenderFragment BodyRenderFragment => __builder =>
+    {
+        if (EditorDataBinding != null)
+        {
+        <SplitterPanel LeftSize="1" heightCall="@heigth" vertical="false" Panes="new() { HeaderRender(), FooterRender() }" />
+        }
+    };
+
+    private RenderFragment HeaderRender() => __builder =>
+    {
+    <SplitterPanel LeftSize="1" Panes="new() { InvoiceComponentRender(),  ClientComponentRender(),  CompanyComponentRender() }" />
+    };
+
+    private RenderFragment FooterRender() => __builder =>
+    {
+    <InvoiceItemGrid Editable="Editable" @bind-EditorData=EditorDataBinding />
+    };
+
+    private RenderFragment InvoiceComponentRender() => __builder =>
+    {
+    <InvoiceDetails Editable="Editable" @bind-EditorData=EditorDataBinding />
+    };
+
+    private RenderFragment ClientComponentRender() => __builder =>
+    {
+    <InvoiceClient Editable="Editable" @bind-EditorData=EditorDataBinding />
+    };
+
+    private RenderFragment CompanyComponentRender() => __builder =>
+    {
+    <InvoiceCompany Editable="Editable" @bind-EditorData=EditorDataBinding />
+    };
+
+    public override RenderFragment LeftContent => BodyRenderFragment;
+
+    public override RenderFragment RightContent => RightContent___;
+
+    public RenderFragment RightContent___ => __builder =>
+    {
+        if (EditorData != null)
+        {
+        <GridItemInfos T="Invoice" @bind-EditorData=EditorDataBinding Editable="false" DisplayGroup="true" DisplayVisibleInShortcut="true" />
+        <DxLayoutBreakpoint DeviceSize="DeviceSize.Medium | DeviceSize.Small | DeviceSize.XSmall" @bind-IsActive="IsSmallScreen" />
+        <DxGridLayout CssClass="ml-2" ColumnSpacing="0px">
+            <Rows>
+                <DxGridLayoutRow Height="auto" />
+            </Rows>
+            <Items>
+                <DxGridLayoutItem CssClass="mt-1 mb-1" Row="0" Column="0">
+                    <Template>
+                        <DxGridLayout ColumnSpacing="0px" RowSpacing="10px">
+                            <Rows>
+                                @if (IsSmallScreen)
+                                    {
+                                    <DxGridLayoutRow Areas="Pdf" Height="auto" />
+                                    <DxGridLayoutRow Areas="PdfWidget" Height="auto" />
+                                    <DxGridLayoutRow Areas="CreditNote" Height="auto" />
+                                    <DxGridLayoutRow Areas="CreditNoteWidget" Height="auto" />
+                                    }
+                                    else
+                                    {
+                                    <DxGridLayoutRow Areas="Pdf PdfWidget" Height="auto" />
+                                    <DxGridLayoutRow Areas="CreditNote CreditNoteWidget " Height="auto" />
+                                    }
+                            </Rows>
+                            <Columns>
+                                @if (IsSmallScreen)
+                                    {
+                                    <DxGridLayoutColumn />
+                                    }
+                                    else
+                                    {
+                                    <DxGridLayoutColumn Width=@LabelWidth />
+                                    <DxGridLayoutColumn Width=@TextWidth />
+                                    }
+                            </Columns>
+                            <Items>
+                                <DxGridLayoutItem Area="Pdf">
+                                    <Template>
+                                        <span style="text-align: right; padding-right: 5px !important; width: 100%; float:right; margin-bottom:3px;"> </span>
+                                    </Template>
+                                </DxGridLayoutItem>
+                                <DxGridLayoutItem Area="PdfWidget" CssClass="w-80">
+                                    <Template>
+                                        <a class="justify-content-start" href="@EditorData.Item.File != null ? @EditorData.Item.File : '#'">
+                                            @AppState["view.pdf"]
+                                        </a>
+                                    </Template>
+                                </DxGridLayoutItem>
+                                <DxGridLayoutItem Area="CreditNote">
+                                    <Template>
+                                        <span style="text-align: right; padding-right: 5px !important; width: 100%; float:right; margin-bottom:3px;"> </span>
+                                    </Template>
+                                </DxGridLayoutItem>
+                                <DxGridLayoutItem Area="CreditNoteWidget" CssClass="w-80">
+                                    <Template>
+                                        <DxButton CssClass="justify-content-start m-0 p-0" Enabled=Editable RenderStyle="ButtonRenderStyle.Link" SizeMode="SizeMode.Medium" Text="@AppState["view.credit.note"]" />
+                                    </Template>
+                                </DxGridLayoutItem>
+                            </Items>
+                        </DxGridLayout>
+                    </Template>
+                </DxGridLayoutItem>
+            </Items>
+        </DxGridLayout>
+        }
+
+    };
+
+}

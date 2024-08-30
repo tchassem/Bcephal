@@ -1,0 +1,663 @@
+﻿
+<DxFormLayout CssClass="w-100 h-100 overflow-y-auto">
+    <DxFormLayoutItem BeginRow="true" CssClass="w-100" ColSpanXl="6" ColSpanXs="6" ColSpanLg="6" ColSpanMd="6" ColSpanSm="12">
+        <Template>
+            <NavLink @onclick="@(() => CreateAutomatically())"
+                     class="nav-link pl-0"
+                     href="settings/configuration">
+                <span class="@((EventParameters == null || EventParameters.Values.Count == 0 ) ? "create-auto-active" : "create-auto-inactive")" aria-hidden="true"> @AppState["CreateAutomatically"]</span>
+            </NavLink>
+        </Template>
+    </DxFormLayoutItem>
+    <DxFormLayoutItem BeginRow="true" CssClass="w-100" Caption=@AppState["Description"] CaptionCssClass="caption-form" ColSpanLg="4" ColSpanMd="4" ColSpanSm="12">
+        <Template>
+            <div class="d-flex flex-row">
+                <DxComboBox Data="@Attributes"
+                            @bind-Value="Description"
+                            CssClass="filter-combo wid-200">
+                </DxComboBox>
+                <i class="bi bi-file-x-fill" hidden="@(Description != null ? false : true)"
+                   @onclick="@(() => { Description = null; EventParameters.Remove("Description"); })"
+                   style="margin-left: .5rem !important; font-size: 1.2rem; color: red; margin-top: auto; margin-bottom: auto;">
+                </i>
+                <label class="ml-2 mb-auto mt-auto" style="font-size:11px !important; font-weight:500 !important;"> (@AppState["ATTRIBUTE"]) </label>
+            </div>
+        </Template>
+    </DxFormLayoutItem>
+
+    <DxFormLayoutItem CssClass="w-100" Caption=@AppState["BillingEventDate"] CaptionCssClass="caption-form" ColSpanLg="4" ColSpanMd="4" ColSpanSm="12">
+        <Template>
+            <div class="d-flex flex-row">
+                <DxComboBox Data="@Periods"
+                            @bind-Value="BillingEventDate"
+                            CssClass="filter-combo wid-200">
+                </DxComboBox>
+                <i class="bi bi-file-x-fill" hidden="@(BillingEventDate != null ? false : true)"
+                   @onclick="@(() => { BillingEventDate = null; EventParameters.Remove("BillingEventDate"); } )"
+                   style="margin-left: .5rem !important; font-size: 1.2rem; color: red; margin-top: auto; margin-bottom: auto;">
+                </i>
+                <label class="ml-2 mb-auto mt-auto" style="font-size:11px !important; font-weight:500 !important;"> (@AppState["PERIOD"]) </label>
+            </div>
+        </Template>
+    </DxFormLayoutItem>
+
+    <DxFormLayoutItem CssClass="w-100" Caption=@AppState["BillingDriver"] CaptionCssClass="caption-form" ColSpanLg="4" ColSpanMd="4" ColSpanSm="12">
+        <Template>
+            <div class="d-flex flex-row">
+                <DxComboBox Data="@Measures"
+                            @bind-Value="BillingDriver"
+                            CssClass="filter-combo wid-200">
+                </DxComboBox>
+                <i class="bi bi-file-x-fill" hidden="@(BillingDriver != null ? false : true)"
+                   @onclick="@(() => { BillingDriver = null; EventParameters.Remove("BillingDriver"); }  )"
+                   style="margin-left: .5rem !important; font-size: 1.2rem; color: red; margin-top: auto; margin-bottom: auto;">
+                </i>
+                <label class="ml-2 mb-auto mt-auto " style="font-size:11px !important; font-weight:500 !important;"> (@AppState["MEASURE"]) </label>
+            </div>
+        </Template>
+    </DxFormLayoutItem>
+
+    <DxFormLayoutItem BeginRow="true" CssClass="w-100" Caption=@AppState["UnitCost"] CaptionCssClass="caption-form" ColSpanLg="4" ColSpanMd="4" ColSpanSm="12">
+        <Template>
+            <div class="d-flex flex-row">
+                <DxComboBox Data="@Measures"
+                            @bind-Value="UnitCost"
+                            CssClass="filter-combo wid-200">
+                </DxComboBox>
+                <i class="bi bi-file-x-fill" hidden="@(UnitCost != null ? false : true)"
+                   @onclick="@(() => { UnitCost = null; EventParameters.Remove("UnitCost"); } )"
+                   style="margin-left: .5rem !important; font-size: 1.2rem; color: red; margin-top: auto; margin-bottom: auto;">
+                </i>
+                <label class="ml-2 mb-auto mt-auto" style="font-size:11px !important; font-weight:500 !important;"> (@AppState["MEASURE"]) </label>
+            </div>
+        </Template>
+    </DxFormLayoutItem>
+
+    <DxFormLayoutItem CssClass="w-100" Caption=@AppState["BillingAmount"] CaptionCssClass="caption-form" ColSpanLg="4" ColSpanMd="4" ColSpanSm="12">
+        <Template>
+            <div class="d-flex flex-row">
+                <DxComboBox Data="@Measures"
+                            @bind-Value="BillingAmount"
+                            CssClass="filter-combo wid-200">
+                </DxComboBox>
+                <i class="bi bi-file-x-fill" hidden="@(BillingAmount != null ? false : true)"
+                   @onclick="@(() => { BillingAmount = null; EventParameters.Remove("BillingAmount"); })"
+                   style="margin-left: .5rem !important; font-size: 1.2rem; color: red; margin-top: auto; margin-bottom: auto;">
+                </i>
+                <label class="ml-2 mb-auto mt-auto" style="font-size:11px !important; font-weight:500 !important;"> (@AppState["MEASURE"]) </label>
+            </div>
+        </Template>
+    </DxFormLayoutItem>
+    <DxFormLayoutItem CssClass="w-100" Caption=@AppState["VatRate"] CaptionCssClass="caption-form" ColSpanLg="4" ColSpanMd="4" ColSpanSm="12">
+        <Template>
+            <div class="d-flex flex-row">
+                <DxComboBox Data="@Measures"
+                            @bind-Value="VatRate"
+                            CssClass="filter-combo wid-200">
+                </DxComboBox>
+                <i class="bi bi-file-x-fill" hidden="@(VatRate != null ? false : true)"
+                   @onclick="@(() => { VatRate = null; EventParameters.Remove("VatRate"); })"
+                   style="margin-left: .5rem !important; font-size: 1.2rem; color: red; margin-top: auto; margin-bottom: auto;">
+                </i>
+                <label class="ml-2 mb-auto mt-auto" style="font-size:11px !important; font-weight:500 !important;"> (@AppState["MEASURE"]) </label>
+            </div>
+        </Template>
+    </DxFormLayoutItem>
+
+    <DxFormLayoutItem BeginRow="true" CssClass="w-100" Caption=@AppState["Type"] CaptionCssClass="caption-form" ColSpanLg="4" ColSpanMd="4" ColSpanSm="12">
+        <Template>
+            <div class="d-flex flex-row">
+                <DxComboBox Data="@Attributes"
+                            @bind-Value="Type"
+                            CssClass="filter-combo wid-200">
+                </DxComboBox>
+                <i class="bi bi-file-x-fill" hidden="@(Type != null ? false : true)"
+                   @onclick="@(() => { Type = null; EventParameters.Remove("Type"); } )"
+                   style="margin-left: .5rem !important; font-size: 1.2rem; color: red; margin-top: auto; margin-bottom: auto;">
+                </i>
+                <label class="ml-2 mb-auto mt-auto" style="font-size:11px !important; font-weight:500 !important;"> (@AppState["ATTRIBUTE"]) </label>
+            </div>
+        </Template>
+    </DxFormLayoutItem>
+    <DxFormLayoutItem CssClass="w-100" Caption=@AppState["Status"] CaptionCssClass="caption-form" ColSpanLg="4" ColSpanMd="4" ColSpanSm="12">
+        <Template>
+            <div class="d-flex flex-row">
+                <DxComboBox Data="@Attributes"
+                            @bind-Value="Status"
+                            CssClass="filter-combo wid-200">
+                </DxComboBox>
+                <i class="bi bi-file-x-fill" hidden="@(Status != null ? false : true)"
+                   @onclick="@(() => { Status = null; EventParameters.Remove("Status"); } )"
+                   style="margin-left: .5rem !important; font-size: 1.2rem; color: red; margin-top: auto; margin-bottom: auto;">
+                </i>
+                <label class="ml-2 mb-auto mt-auto" style="font-size:11px !important; font-weight:500 !important;"> (@AppState["ATTRIBUTE"]) </label>
+            </div>
+        </Template>
+    </DxFormLayoutItem>
+
+    <DxFormLayoutItem CssClass="w-100" Caption=@AppState["CreationTypeAm"] CaptionCssClass="caption-form" ColSpanLg="4" ColSpanMd="4" ColSpanSm="12">
+        <Template>
+            <div class="d-flex flex-row">
+                <DxComboBox Data="@Attributes"
+                            @bind-Value="CreationTypeAm"
+                            CssClass="filter-combo wid-200">
+                </DxComboBox>
+                <i class="bi bi-file-x-fill" hidden="@(CreationTypeAm != null ? false : true)"
+                   @onclick="@(() => { CreationTypeAm = null; EventParameters.Remove("CreationTypeAm"); })"
+                   style="margin-left: .5rem !important; font-size: 1.2rem; color: red; margin-top: auto; margin-bottom: auto;">
+                </i>
+                <label class="ml-2 mb-auto mt-auto" style="font-size:11px !important; font-weight:500 !important;"> (@AppState["ATTRIBUTE"]) </label>
+            </div>
+        </Template>
+    </DxFormLayoutItem>
+    <DxFormLayoutItem BeginRow="true" CssClass="w-100 pt-3" Caption=@AppState["InvoiceTypeValue"] CaptionCssClass="caption-form" ColSpanLg="6" ColSpanMd="6" ColSpanSm="12">
+        <Template>
+            <div class="d-flex flex-row">
+                <DxTextBox CssClass="wid-200" @bind-Text="@InvoiceTypeValue"></DxTextBox>
+                <i class="bi bi-file-x-fill" hidden="@(InvoiceTypeValue != null ? false : true)"
+                   @onclick="@(() => { InvoiceTypeValue = null; EventParameters.Remove("InvoiceTypeValue"); })"
+                   style="margin-left: .5rem !important; font-size: 1.2rem; color: red; margin-top: auto; margin-bottom: auto;">
+                </i>
+                <label class="ml-2 mb-auto mt-auto" style="font-size:11px !important; font-weight:500 !important;"> (@AppState["AttributeValue"]) </label>
+            </div>
+        </Template>
+    </DxFormLayoutItem>
+    <DxFormLayoutItem CssClass="w-100 pt-3" Caption=@AppState["CreditNoteTypeValue"] CaptionCssClass="caption-form" ColSpanLg="6" ColSpanMd="6" ColSpanSm="12">
+        <Template>
+            <div class="d-flex flex-row">
+                <DxTextBox CssClass="wid-200" @bind-Text="@CreditNoteTypeValue"></DxTextBox>
+                <i class="bi bi-file-x-fill" hidden="@(CreditNoteTypeValue != null ? false : true)"
+                   @onclick="@(() => { CreditNoteTypeValue = null; EventParameters.Remove("CreditNoteTypeValue"); })"
+                   style="margin-left: .5rem !important; font-size: 1.2rem; color: red; margin-top: auto; margin-bottom: auto;">
+                </i>
+                <label class="ml-2 mb-auto mt-auto" style="font-size:11px !important; font-weight:500 !important;"> (@AppState["AttributeValue"]) </label>
+            </div>
+        </Template>
+    </DxFormLayoutItem>
+
+
+    <DxFormLayoutItem BeginRow="true" CssClass="w-100" Caption=@AppState["DraftStatusValue"] CaptionCssClass="caption-form" ColSpanLg="6" ColSpanMd="6" ColSpanSm="12">
+        <Template>
+            <div class="d-flex flex-row">
+                <DxTextBox CssClass="wid-200" @bind-Text="@DraftStatusValue"></DxTextBox>
+                <i class="bi bi-file-x-fill" hidden="@(DraftStatusValue != null ? false : true)"
+                   @onclick="@(() => { DraftStatusValue = null; EventParameters.Remove("DraftStatusValue"); })"
+                   style="margin-left: .5rem !important; font-size: 1.2rem; color: red; margin-top: auto; margin-bottom: auto;">
+                </i>
+                <label class="ml-2 mb-auto mt-auto"> (@AppState["AttributeValue"]) </label>
+            </div>
+        </Template>
+    </DxFormLayoutItem>
+
+    <DxFormLayoutItem CssClass="w-100" Caption=@AppState["FrozenNoteStatusValue"] CaptionCssClass="caption-form" ColSpanLg="6" ColSpanMd="6" ColSpanSm="12">
+        <Template>
+            <div class="d-flex flex-row">
+                <DxTextBox CssClass="wid-200" @bind-Text="@FrozenNoteStatusValue"></DxTextBox>
+                <i class="bi bi-file-x-fill" hidden="@(FrozenNoteStatusValue != null ? false : true)"
+                   @onclick="@(() => { FrozenNoteStatusValue = null; EventParameters.Remove("FrozenNoteStatusValue"); })"
+                   style="margin-left: .5rem !important; font-size: 1.2rem; color: red; margin-top: auto; margin-bottom: auto;">
+                </i>
+                <label class="ml-2 mb-auto mt-auto"> (@AppState["AttributeValue"]) </label>
+            </div>
+        </Template>
+    </DxFormLayoutItem>
+
+    <DxFormLayoutItem BeginRow="true" CssClass="w-100" Caption=@AppState["BilledStatusValue"] CaptionCssClass="caption-form" ColSpanLg="6" ColSpanMd="6" ColSpanSm="12">
+        <Template>
+            <div class="d-flex flex-row">
+                <DxTextBox CssClass="wid-200" @bind-Text="@BilledStatusValue"></DxTextBox>
+                <i class="bi bi-file-x-fill" hidden="@(BilledStatusValue != null ? false : true)"
+                   @onclick="@(() => { BilledStatusValue = null; EventParameters.Remove("BilledStatusValue"); })"
+                   style="margin-left: .5rem !important; font-size: 1.2rem; color: red; margin-top: auto; margin-bottom: auto;">
+                </i>
+                <label class="ml-2 mb-auto mt-auto" style="font-size:11px !important; font-weight:500 !important;"> (@AppState["AttributeValue"]) </label>
+            </div>
+        </Template>
+    </DxFormLayoutItem>
+
+
+    <DxFormLayoutItem CssClass="w-100" Caption=@AppState["AutomaticValue"] CaptionCssClass="caption-form" ColSpanLg="6" ColSpanMd="6" ColSpanSm="12">
+        <Template>
+            <div class="d-flex flex-row">
+                <DxTextBox CssClass="wid-200" @bind-Text="@AutomaticValue"></DxTextBox>
+                <i class="bi bi-file-x-fill" hidden="@(AutomaticValue != null ? false : true)"
+                   @onclick="@(() => { AutomaticValue = null; EventParameters.Remove("AutomaticValue"); })"
+                   style="margin-left: .5rem !important; font-size: 1.2rem; color: red; margin-top: auto; margin-bottom: auto;">
+                </i>
+                <label class="ml-2 mb-auto mt-auto" style="font-size:11px !important; font-weight:500 !important;"> (@AppState["AttributeValue"]) </label>
+            </div>
+        </Template>
+    </DxFormLayoutItem>
+    <DxFormLayoutItem BeginRow="true" CssClass="w-100" Caption=@AppState["ManualValue"] CaptionCssClass="caption-form" ColSpanLg="6" ColSpanMd="6" ColSpanSm="12">
+        <Template>
+            <div class="d-flex flex-row">
+                <DxTextBox CssClass="wid-200" @bind-Text="@ManualValue"></DxTextBox>
+                <i class="bi bi-file-x-fill" hidden="@(ManualValue != null ? false : true)"
+                   @onclick="@(() => { ManualValue = null; EventParameters.Remove("ManualValue"); })"
+                   style="margin-left: .5rem !important; font-size: 1.2rem; color: red; margin-top: auto; margin-bottom: auto;">
+                </i>
+                <label class="ml-2 mb-auto mt-auto" style="font-size:11px !important; font-weight:500 !important;"> (@AppState["AttributeValue"]) </label>
+            </div>
+        </Template>
+    </DxFormLayoutItem>
+
+    <DxFormLayoutItem CssClass="w-100" Caption=@AppState["BillingRun"] CaptionCssClass="caption-form" ColSpanLg="6" ColSpanMd="6" ColSpanSm="12">
+        <Template>
+            <div class="d-flex flex-row">
+                <DxComboBox Data="@Attributes"
+                            @bind-Value="BillingRun"
+                            CssClass="filter-combo wid-200">
+                </DxComboBox>
+                <i class="bi bi-file-x-fill" hidden="@(BillingRun != null ? false : true)"
+                   @onclick="@(() => { BillingRun = null; EventParameters.Remove("BillingRun"); })"
+                   style="margin-left: .5rem !important; font-size: 1.2rem; color: red; margin-top: auto; margin-bottom: auto;">
+                </i>
+                <label class="ml-2 mb-auto mt-auto" style="font-size:11px !important; font-weight:500 !important;"> (@AppState["ATTRIBUTE"]) </label>
+            </div>
+        </Template>
+    </DxFormLayoutItem>
+    <DxFormLayoutItem BeginRow="true" CssClass="w-100" Caption=@AppState["BillingRunDate"] CaptionCssClass="caption-form" ColSpanLg="12" ColSpanMd="12" ColSpanSm="12">
+        <Template>
+            <div class="d-flex flex-row">
+                <DxComboBox Data="@Periods"
+                            @bind-Value="BillingRunDate"
+                            CssClass="filter-combo wid-200">
+                </DxComboBox>
+                <i class="bi bi-file-x-fill" hidden="@(BillingRunDate != null ? false : true)"
+                   @onclick="@(() => { BillingRunDate = null; EventParameters.Remove("BillingRunDate"); })"
+                   style="margin-left: .5rem !important; font-size: 1.2rem; color: red; margin-top: auto; margin-bottom: auto;">
+                </i>
+                <label class="ml-2 mb-auto mt-auto" style="font-size:11px !important; font-weight:500 !important;"> (@AppState["PERIOD"]) </label>
+            </div>
+        </Template>
+    </DxFormLayoutItem>
+
+</DxFormLayout>
+
+@code {
+    [Inject]
+    private AppState AppState { get; set; }
+
+    [Parameter]
+    public ObservableCollection<string> Attributes { get; set; } // To change
+
+    [Parameter]
+    public EventCallback<ObservableCollection<string>> AttributesChanged { get; set; }
+
+    [Parameter]
+    public ObservableCollection<string> Periods { get; set; } // To change
+
+    [Parameter]
+    public EventCallback<ObservableCollection<string>> PeriodsChanged { get; set; }
+
+
+    [Parameter]
+    public ObservableCollection<string> Measures { get; set; } // To change
+
+    [Parameter]
+    public EventCallback<ObservableCollection<string>> MeasuresChanged { get; set; }
+
+    public string Description
+    {
+        get
+        {
+            EventParameters.TryGetValue("Description", out string value);
+            return value;
+        }
+        set
+        {
+            EventParameters.Remove("Description");
+            EventParameters.Add("Description", value);
+            if (!String.IsNullOrEmpty(value))
+            {
+                AppState.Update = true;
+            }
+        }
+    }
+
+    public string BillingEventDate
+    {
+        get
+        {
+            EventParameters.TryGetValue("BillingEventDate", out string value);
+            return value;
+        }
+        set
+        {
+            EventParameters.Remove("BillingEventDate");
+            EventParameters.Add("BillingEventDate", value);
+            if (!String.IsNullOrEmpty(value))
+            {
+                AppState.Update = true;
+            }
+        }
+    }
+    public string BillingDriver
+    {
+        get
+        {
+            EventParameters.TryGetValue("BillingDriver", out string value);
+            return value;
+        }
+        set
+        {
+            EventParameters.Remove("BillingDriver");
+            EventParameters.Add("BillingDriver", value);
+            if (!String.IsNullOrEmpty(value))
+            {
+                AppState.Update = true;
+            }
+        }
+    }
+
+    public string UnitCost
+    {
+        get
+        {
+            EventParameters.TryGetValue("UnitCost", out string value);
+            return value;
+        }
+        set
+        {
+            EventParameters.Remove("UnitCost");
+            EventParameters.Add("UnitCost", value);
+            if (!String.IsNullOrEmpty(value))
+            {
+                AppState.Update = true;
+            }
+        }
+    }
+
+    public string BillingAmount
+    {
+        get
+        {
+            EventParameters.TryGetValue("BillingAmount", out string value);
+            return value;
+        }
+        set
+        {
+            EventParameters.Remove("BillingAmount");
+            EventParameters.Add("BillingAmount", value);
+            if (!String.IsNullOrEmpty(value))
+            {
+                AppState.Update = true;
+            }
+        }
+    }
+
+    public string VatRate
+    {
+        get
+        {
+            EventParameters.TryGetValue("VatRate", out string value);
+            return value;
+        }
+        set
+        {
+            EventParameters.Remove("VatRate");
+            EventParameters.Add("VatRate", value);
+            if (!String.IsNullOrEmpty(value))
+            {
+                AppState.Update = true;
+            }
+        }
+    }
+
+
+    public string Type
+    {
+        get
+        {
+            EventParameters.TryGetValue("Type", out string value);
+            return value;
+        }
+        set
+        {
+            EventParameters.Remove("Type");
+            EventParameters.Add("Type", value);
+            if (!String.IsNullOrEmpty(value))
+            {
+                AppState.Update = true;
+            }
+        }
+    }
+
+    public string InvoiceTypeValue
+    {
+        get
+        {
+            EventParameters.TryGetValue("InvoiceTypeValue", out string value);
+            return value;
+        }
+        set
+        {
+            EventParameters.Remove("InvoiceTypeValue");
+            EventParameters.Add("InvoiceTypeValue", value);
+            if (!String.IsNullOrEmpty(value))
+            {
+                AppState.Update = true;
+            }
+        }
+    }
+
+    public string CreditNoteTypeValue
+    {
+        get
+        {
+            EventParameters.TryGetValue("CreditNoteTypeValue", out string value);
+            return value;
+        }
+        set
+        {
+            EventParameters.Remove("CreditNoteTypeValue");
+            EventParameters.Add("CreditNoteTypeValue", value);
+            if (!String.IsNullOrEmpty(value))
+            {
+                AppState.Update = true;
+            }
+        }
+    }
+
+    public string Status
+    {
+        get
+        {
+            EventParameters.TryGetValue("Status", out string value);
+            return value;
+        }
+        set
+        {
+            EventParameters.Remove("Status");
+            EventParameters.Add("Status", value);
+            if (!String.IsNullOrEmpty(value))
+            {
+                AppState.Update = true;
+            }
+        }
+    }
+
+    public string DraftStatusValue
+    {
+        get
+        {
+            EventParameters.TryGetValue("DraftStatusValue", out string value);
+            return value;
+        }
+        set
+        {
+            EventParameters.Remove("DraftStatusValue");
+            EventParameters.Add("DraftStatusValue", value);
+            if (!String.IsNullOrEmpty(value))
+            {
+                AppState.Update = true;
+            }
+        }
+    }
+
+    public string FrozenNoteStatusValue
+    {
+        get
+        {
+            EventParameters.TryGetValue("FrozenNoteStatusValue", out string value);
+            return value;
+        }
+        set
+        {
+            EventParameters.Remove("FrozenNoteStatusValue");
+            EventParameters.Add("FrozenNoteStatusValue", value);
+            if (!String.IsNullOrEmpty(value))
+            {
+                AppState.Update = true;
+            }
+        }
+    }
+
+    public string BilledStatusValue
+    {
+        get
+        {
+            EventParameters.TryGetValue("BilledStatusValue", out string value);
+            return value;
+        }
+        set
+        {
+            EventParameters.Remove("BilledStatusValue");
+            EventParameters.Add("BilledStatusValue", value);
+            if (!String.IsNullOrEmpty(value))
+            {
+                AppState.Update = true;
+            }
+        }
+    }
+
+
+    public string CreationTypeAm
+    {
+        get
+        {
+            EventParameters.TryGetValue("CreationTypeAm", out string value);
+            return value;
+        }
+        set
+        {
+            EventParameters.Remove("CreationTypeAm");
+            EventParameters.Add("CreationTypeAm", value);
+            if (!String.IsNullOrEmpty(value))
+            {
+                AppState.Update = true;
+            }
+        }
+    }
+
+    public string AutomaticValue
+    {
+        get
+        {
+            EventParameters.TryGetValue("AutomaticValue", out string value);
+            return value;
+        }
+        set
+        {
+            EventParameters.Remove("AutomaticValue");
+            EventParameters.Add("AutomaticValue", value);
+            if (!String.IsNullOrEmpty(value))
+            {
+                AppState.Update = true;
+            }
+        }
+    }
+
+    public string ManualValue
+    {
+        get
+        {
+            EventParameters.TryGetValue("ManualValue", out string value);
+            return value;
+        }
+        set
+        {
+            EventParameters.Remove("ManualValue");
+            EventParameters.Add("ManualValue", value);
+            if (!String.IsNullOrEmpty(value))
+            {
+                AppState.Update = true;
+            }
+        }
+    }
+
+
+    public string BillingRun
+    {
+        get
+        {
+            EventParameters.TryGetValue("BillingRun", out string value);
+            return value;
+        }
+        set
+        {
+            EventParameters.Remove("BillingRun");
+            EventParameters.Add("BillingRun", value);
+            if (!String.IsNullOrEmpty(value))
+            {
+                AppState.Update = true;
+            }
+        }
+    }
+
+    public string BillingRunDate
+    {
+        get
+        {
+            EventParameters.TryGetValue("BillingRunDate", out string value);
+            return value;
+        }
+        set
+        {
+            EventParameters.Remove("BillingRunDate");
+            EventParameters.Add("BillingRunDate", value);
+            if (!String.IsNullOrEmpty(value))
+            {
+                AppState.Update = true;
+            }
+        }
+    }
+
+    [Parameter]
+    public Dictionary<string, string> EventParameters { get; set; }
+
+    [Parameter]
+    public EventCallback<Dictionary<string, string>> EventParametersChanged { get; set; }
+
+
+    public string Class { get; set; } = "active";
+
+    void CreateAutomatically()
+    {
+
+        EventParameters.Add("Description", "billing event description");
+        EventParameters.Add("BillingEventDate", "Billing event date");
+        EventParameters.Add("BillingDriver", "Billing driver");
+        EventParameters.Add("UnitCost", "Unit cost");
+        EventParameters.Add("BillingAmount", "Billing amount");
+        EventParameters.Add("VatRate", "VAT rate");
+        EventParameters.Add("Type", "Billing event type");
+        EventParameters.Add("InvoiceTypeValue", "Invoice");
+        EventParameters.Add("CreditNoteTypeValue", "Credit note");
+        EventParameters.Add("Status", "Billing event status");
+        EventParameters.Add("DraftStatusValue", "Draft");
+        EventParameters.Add("FrozenNoteStatusValue", "Frozen");
+        EventParameters.Add("BilledStatusValue", "Billed");
+        EventParameters.Add("CreationTypeAm", "Billing event A/M");
+        EventParameters.Add("AutomaticValue", "Automatic");
+        EventParameters.Add("ManualValue", "Manual");
+        EventParameters.Add("BillingRun", "Billing run");
+        EventParameters.Add("BillingRunDate", "Billing run date");
+
+        AppState.Update = true;
+        Class = "create-auto-inactive";
+        StateHasChanged();
+    }
+
+}
+

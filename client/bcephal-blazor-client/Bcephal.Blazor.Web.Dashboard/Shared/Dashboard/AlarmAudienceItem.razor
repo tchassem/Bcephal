@@ -1,0 +1,73 @@
+﻿
+<DxLayoutBreakpoint DeviceSize="DeviceSize.Medium | DeviceSize.Small | DeviceSize.XSmall" @bind-IsActive="IsXSmallScreen" />
+<DxStackLayout CssClass="w-100 mt-1" ItemSpacing="8px" Orientation=Orientation.Horizontal>
+    <Items>
+        @if (AlarmAudienceTypeItems != null)
+        {
+            <DxStackLayoutItem Length="@(IsAdded ? (AlarmAudience.AudienceType.Equals(AlarmAudienceType.PROFILE) || AlarmAudience.AudienceType.Equals(AlarmAudienceType.USER) ? "1.05fr" : "0.5fr") : "0.2fr")">
+                <Template>
+                    <DxComboBox Data="AlarmAudienceTypeItems" NullText="@AppState["select.type"]" Enabled="IsAdded ? !IsAdded : Editable" @bind-Value="@AudienceType" />
+                </Template>
+            </DxStackLayoutItem>
+        }
+        @if (IsAdded)
+        {
+            @if (AlarmAudience.AudienceType.Equals(AlarmAudienceType.PROFILE) || AlarmAudience.AudienceType.Equals(AlarmAudienceType.USER))
+            {
+                <DxStackLayoutItem Length="1fr">
+                    <Template>
+                        <DxComboBox Enabled="Editable" Data="@(AlarmAudience.AudienceType.Equals(AlarmAudienceType.PROFILE) ? Profiles : Users)" @bind-Value="@UserOrProfilId" 
+                                    NullText="@(AlarmAudience.AudienceType.Equals(AlarmAudienceType.PROFILE) ? AppState["select.profile"] : AppState["select.user"])" 
+                                    TData="Nameable" TValue="Nameable" TextFieldName="@nameof(Nameable.Name)" />
+                    </Template>
+                </DxStackLayoutItem>
+            }
+            else
+            {
+                <DxStackLayoutItem Length="0.5fr">
+                    <Template>
+                        <DxTextBox Enabled="Editable" CssClass="mt-auto mb-auto" NullText="@AppState["Name"]" @bind-Text=Name BindValueMode="BindValueMode.OnInput" />
+                    </Template>
+                </DxStackLayoutItem>
+                <DxStackLayoutItem Length="0.5fr">
+                    <Template>
+                        <DxTextBox Enabled="Editable" CssClass="mt-auto mb-auto" NullText="@AppState["Email"]" @bind-Text=Email BindValueMode="BindValueMode.OnInput" />
+                    </Template>
+                </DxStackLayoutItem>
+                <DxStackLayoutItem Length="0.5fr">
+                    <Template>
+                        <DxTextBox Enabled="Editable" CssClass="mt-auto mb-auto" NullText="@AppState["Phone"]" @bind-Text=Phone BindValueMode="BindValueMode.OnInput" />
+                    </Template>
+                </DxStackLayoutItem>
+            }
+            <DxStackLayoutItem Length="0.25fr">
+                <Template>
+                    <DxCheckBox Enabled=Editable CssClass="w-auto mt-auto mb-auto" @bind-Checked="SendEmail" Alignment="CheckBoxContentAlignment.Right" LabelPosition="LabelPosition.Left">
+                        <span class="ml-auto">@AppState["Email"]</span>
+                    </DxCheckBox>
+                </Template>
+            </DxStackLayoutItem>
+            <DxStackLayoutItem Length="0.25fr">
+                <Template>
+                    <DxCheckBox Enabled=Editable CssClass="w-auto mt-auto mb-auto" @bind-Checked="SendSmS" Alignment="CheckBoxContentAlignment.Right" LabelPosition="LabelPosition.Left">
+                        <span class="ml-auto">@AppState["SMS"]</span>
+                    </DxCheckBox>
+                </Template>
+            </DxStackLayoutItem>
+            <DxStackLayoutItem Length="0.25fr">
+                <Template>
+                    <DxCheckBox Enabled=Editable CssClass="w-auto mt-auto mb-auto" @bind-Checked="SendChat" Alignment="CheckBoxContentAlignment.Right" LabelPosition="LabelPosition.Left">
+                        <span class="ml-auto">@AppState["Chat"]</span>
+                    </DxCheckBox>
+                </Template>
+            </DxStackLayoutItem>
+            <DxStackLayoutItem Length="0.125fr">
+                <Template>
+                    <DxButton IconCssClass="fa fa-remove" CssClass="mt-auto mb-auto pull-right" RenderStyleMode="ButtonRenderStyleMode.Text"
+                              RenderStyle="ButtonRenderStyle.Danger" Click="()=>RemoveAudienceItem(AlarmAudience)" />
+                </Template>
+            </DxStackLayoutItem>
+        }
+    </Items>
+</DxStackLayout>
+

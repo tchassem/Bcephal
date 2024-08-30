@@ -1,0 +1,36 @@
+﻿@inherits AbstractNewGridComponent<Persistent, BillingRunOutcome>
+@{
+    base.BuildRenderTree(__builder);
+}
+<BaseModalComponent Title="@AppState["billing.run.outcome.validation"]"  Width="450px"
+                    @bind-ShowModal=ValidationConfirmation
+                    OkHandler="Validate_"
+                    CancelHandler="CancelValidation" 
+                    IsConfirmation=@IsConfirmation>
+    <div class="d-flex">
+        <i class="bi-question-circle text-primary align-self-start mr-4" style="font-size: 1.5rem;"></i>
+        <div>
+            <p class="mb-1 p-0">@RunOutcomeValidationMessage</p>
+            <p>@AppState["confirmation.continue"]</p>            
+        </div>
+    </div>
+</BaseModalComponent>
+
+<BaseModalComponent Title="@AppState["billing.run.outcome.reset"]"  Width="450px"
+                    @bind-ShowModal=ResetConfirmation
+                    OkHandler="Reset_"
+                    CancelHandler="CancelReset"
+                    IsConfirmation=@IsConfirmation>
+    <div class="d-flex">
+        <i class="bi-question-circle text-primary align-self-start mr-4" style="font-size: 1.5rem;"></i>
+        <div>            
+            <p class="mb-1 p-0">@RunOutcomeResetMessage</p>            
+            <p class="mb-1 p-0">@AppState["billing.operation.corruption"]</p>
+            <p>@AppState["confirmation.continue"]</p>            
+        </div>
+    </div>
+</BaseModalComponent>
+
+@code {
+
+}

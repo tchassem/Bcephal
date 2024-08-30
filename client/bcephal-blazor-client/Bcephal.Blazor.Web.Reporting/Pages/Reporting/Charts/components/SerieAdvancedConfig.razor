@@ -1,0 +1,147 @@
+﻿@using Bcephal.Blazor.Web.Reporting.Pages.Reporting.Charts.components.SerieFilters
+
+<div style="height: 50vh; width: 50vw; ">
+    <DxGridLayout RowSpacing="8px">
+        <Rows>
+            <DxGridLayoutRow Height="auto" />
+            <DxGridLayoutRow Height="*" />
+        </Rows>
+        <Columns>
+            <DxGridLayoutColumn />
+        </Columns>
+        <Items>
+            @* Config de l'axe Y de la série *@
+            <DxGridLayoutItem Row="0" Column="0">
+                <Template>
+                    <DxStackLayout ItemSpacing="8px" Orientation=Orientation.Vertical>
+                        <Items>
+                            <DxStackLayoutItem Length="auto">
+                                <Template>
+                                    <DxStackLayout Orientation=@(IsXSmallScreen ? Orientation.Vertical : Orientation.Horizontal) ItemSpacing="@GetSpacing(!IsXSmallScreen)">
+                                        <Items>
+                                            <DxStackLayoutItem CssClass="text-right" Visible="@(!IsXSmallScreen)" Length="@(IsXSmallScreen ? "1fr": formCaptionWidth)">
+                                                <Template>
+                                                </Template>
+                                            </DxStackLayoutItem>
+                                            <DxStackLayoutItem Length="@(IsXSmallScreen ? "1fr": formInputWidth)">
+                                                <Template>
+                                                    <DxStackLayout Orientation=@(IsXSmallScreen ? Orientation.Vertical : Orientation.Horizontal) ItemSpacing=@(!IsXSmallScreen ? "8px" : "0px")>
+                                                        <Items>
+                                                            <DxStackLayoutItem Length="1fr">
+                                                                <Template>
+                                                                    <DxCheckBox Checked="@Serie.AddCustomValueAxis"
+                                                                                CheckedChanged="@((bool v) => { Serie.AddCustomValueAxis = v; AppState.Update = true; } )">@AppState["Add.axis.serie"]</DxCheckBox>
+                                                                </Template>
+                                                            </DxStackLayoutItem>
+                                                            <DxStackLayoutItem Length="1fr" Visible="@(Serie.AddCustomValueAxis)">
+                                                                <Template>
+                                                                    <DxCheckBox Checked="@Serie.ShowCustomValueAxisTitle"
+                                                                                CheckedChanged="@((bool v) => { Serie.ShowCustomValueAxisTitle = v; AppState.Update = true; } )">@AppState["Show.title.axis"]</DxCheckBox>
+                                                                </Template>
+                                                            </DxStackLayoutItem>
+                                                        </Items>
+                                                    </DxStackLayout>
+                                                </Template>
+                                            </DxStackLayoutItem>
+                                        </Items>
+                                    </DxStackLayout>
+                                </Template>
+                            </DxStackLayoutItem>
+                            <DxStackLayoutItem Length="auto" Visible="@(Serie.AddCustomValueAxis)">
+                                <Template>
+                                    <DxStackLayout Orientation=@(IsXSmallScreen ? Orientation.Vertical : Orientation.Horizontal) ItemSpacing="@GetSpacing(!IsXSmallScreen)">
+                                        <Items>
+                                            <DxStackLayoutItem CssClass="text-right" Length="@(IsXSmallScreen ? "1fr": formCaptionWidth)">
+                                                <Template>
+                                                    <span style="margin-right: 2px;">@AppState["y.bar.title"] </span>
+                                                </Template>
+                                            </DxStackLayoutItem>
+                                            <DxStackLayoutItem Length="@(IsXSmallScreen ? "1fr": formInputWidth)">
+                                                <Template>
+                                                    <DxTextBox @bind-Text="@Serie.CustomValueAxisTitle" Enabled="Serie.ShowCustomValueAxisTitle"></DxTextBox>
+                                                </Template>
+                                            </DxStackLayoutItem>
+                                        </Items>
+                                    </DxStackLayout>
+                                </Template>
+                            </DxStackLayoutItem>
+                            <DxStackLayoutItem Length="auto" Visible="@(Serie.AddCustomValueAxis)">
+                                <Template>
+                                    <DxStackLayout Orientation=@(IsXSmallScreen ? Orientation.Vertical : Orientation.Horizontal) ItemSpacing="@GetSpacing(!IsXSmallScreen)">
+                                        <Items>
+                                            <DxStackLayoutItem CssClass="text-right" Length="@(IsXSmallScreen ? "1fr": formCaptionWidth)">
+                                                <Template>
+                                                    <span style="margin-right: 2px;">@AppState["label.overlap"] </span>
+                                                </Template>
+                                            </DxStackLayoutItem>
+                                            <DxStackLayoutItem Length="@(IsXSmallScreen ? "1fr": formInputWidth)">
+                                                <Template>
+                                                    <DxComboBox Data="@ChartAxisAlignments"
+                                                                @bind-Value=@Serie.CustomValueAxisAlignment
+                                                                SelectedItemChanged="@((i) => AppState.Update = true )">
+                                                    </DxComboBox>
+                                                </Template>
+                                            </DxStackLayoutItem>
+                                        </Items>
+                                    </DxStackLayout>
+                                </Template>
+                            </DxStackLayoutItem>
+                        </Items>
+                    </DxStackLayout>
+                </Template>
+            </DxGridLayoutItem>
+            @* Config des filtres de la série *@
+            <DxGridLayoutItem Row="1">
+                <Template>
+                    <div class="card w-100 h-100" style=" margin-right: 2px;">
+                        <div class="card-header bc-header-3 border-0 d-flex flex-row p-0 bc-text-align ">
+                            <span class="ml-auto mr-auto">
+                                @AppState["Filters"]
+                            </span>
+                        </div>
+                        <div class="card-body model-form-card-body overflow-y-auto">
+                            @{
+                                int size = Serie.SerieFilter.ItemsCount;
+                                @for (int i = 0; i < size; i++)
+                                {
+                                    var filter = Serie.SerieFilter.ItemList[i];
+                                    if (filter.Field.Type == DimensionType.ATTRIBUTE)
+                                    {
+                                        <SAttributeFilterElement @bind-FilterItem=@filter
+                                                                 Fields=@Fields
+                                                                 OnClickRemove=@((f) => DeleteFilterElement(f))>
+                                        </SAttributeFilterElement>
+                                    }
+                                    else if (filter.Field.Type == DimensionType.PERIOD)
+                                    {
+                                        <S_PeriodFilterElement @bind-FilterItem=@filter
+                                                               Fields=@Fields
+                                                               OnClickRemove=@((f) => DeleteFilterElement(f))>
+                                        </S_PeriodFilterElement>
+                                    }
+                                    else if (filter.Field.Type == DimensionType.MEASURE)
+                                    {
+                                        <SMeasureFilterElement @bind-FilterItem=@filter
+                                                               Fields=@Fields
+                                                               OnClickRemove=@((f) => DeleteFilterElement(f))>
+                                        </SMeasureFilterElement>
+                                    }
+                                }
+                            }
+
+                            <DxComboBox @key="@(Guid.NewGuid().ToString("d"))" CssClass="wid-150" Data="Fields"
+                                        TData="DashboardReportField" TValue="DashboardReportField"
+                                        TextFieldName="@nameof(DashboardReportField.Name)"
+                                        ValueChanged="@AddFilterElement">
+                            </DxComboBox>
+                        </div>
+                    </div>
+                </Template>
+            </DxGridLayoutItem>
+        </Items>
+    </DxGridLayout>
+</div>
+
+@code {
+
+}

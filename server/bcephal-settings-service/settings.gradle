@@ -1,0 +1,2 @@
+rootProject.name = 'bcephal-settings-service'
+includeFlat 'bcephal-base', 'bcephal-chat', 'bcephal-join', 'bcephal-grid', 'bcephal-multitenant-jpa', 'bcephal-utils', 'bcephal-sso' ,'bcephal-security-base'

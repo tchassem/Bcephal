@@ -1,0 +1,84 @@
+﻿
+<DxFormLayout ItemSizeMode="DevExpress.Blazor.SizeMode.Small">
+
+    <DxFormLayoutItem Caption="" BeginRow="true" ColSpanMd="12" ColSpanLg="12" ColSpanSm="12">
+        <Template>
+            <div class="d-flex flex-row w-100 mt-4">
+                <div class="pr-2" style="width:30%;">
+                    <label>@AppState["Gridcolumn.default.value"]</label>
+                </div>
+                <div class="pl-0">
+                    <div class="d-flex flex-row w-100">
+                        <div class="p-0">
+                            @if (GrilleColumn.IsAttribute)
+                            {
+                                <DxTextBox ReadOnly=!Editable @bind-Text="@DefaultStringValue" CssClass="bc-texbox" BindValueMode="BindValueMode.OnLostFocus"></DxTextBox>
+                            }
+                            else
+                            @if (GrilleColumn.IsMeasure)
+                            {
+                                <DxSpinEdit ReadOnly=!Editable @bind-Value="@DefaultDecimalValue" CssClass="spin-edit-filter wid-70" BindValueMode="BindValueMode.OnLostFocus" Increment="1"></DxSpinEdit>
+                            }
+                            else
+                            {
+                                <DxDateEdit Enabled=Editable @bind-Date="@DefaultDateValue" CssClass="date-edit" DisplayFormat="D" Format="d"></DxDateEdit>
+                            }
+                        </div>
+                        <div class="p-0 ml-1">
+                            <DxButton Enabled=Editable Text="@AppState["Gridcolumn.default.reste"]"
+                                      RenderStyleMode="ButtonRenderStyleMode.Text"
+                                      RenderStyle="ButtonRenderStyle.Danger"
+                                      CssClass="height-50"
+                                      Click="ResetValue"></DxButton>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </Template>
+    </DxFormLayoutItem>
+
+    <DxFormLayoutItem Caption="" BeginRow="true" ColSpanMd="12" ColSpanLg="12" ColSpanSm="12">
+        <Template>
+            <div class="d-flex flex-row w-100">
+                <div class="pr-2" style="width:30%;">
+                    <label></label>
+                </div>
+                <div class="p-0" style="width:70%;">
+                    <DxCheckBox Enabled=Editable @bind-Checked="@ApplyDefaultValueIfCellEmpty"
+                                Alignment="CheckBoxContentAlignment.Left" LabelPosition="LabelPosition.Right">
+                        @AppState["Gridcolumn.apply.empty.cell"]
+                    </DxCheckBox>
+                </div>
+            </div>
+        </Template>
+    </DxFormLayoutItem>
+
+    <DxFormLayoutItem Caption="" BeginRow="true" ColSpanMd="12" ColSpanLg="12" ColSpanSm="12">
+        <Template>
+            <div class="d-flex flex-row w-100">
+                <div class="pr-2" style="width:30%;">
+                    <label></label>
+                </div>
+                <div class="p-0" style="width:70%;">
+                    <DxCheckBox Enabled=Editable @bind-Checked="@ApplyDefaultValueToFutureLine"
+                                Alignment="CheckBoxContentAlignment.Left" LabelPosition="LabelPosition.Right">
+                        @AppState["Gridcolumn.apply.future.new.or.modifiy"]
+                    </DxCheckBox>
+                </div>
+            </div>
+        </Template>
+    </DxFormLayoutItem>
+    <DxFormLayoutItem Caption="" BeginRow="true" ColSpanMd="12" ColSpanLg="12" ColSpanSm="12">
+        <Template>
+            <div class="d-flex flex-row w-100">
+                <div class="pr-2" style="width:30%;">
+                    <label></label>
+                </div>
+                <div class="p-0" style="width:70%;">
+                    <DxButton Enabled=Editable Click="Apply" CssClass="wid-100" Text="@AppState["Gridcolumn.apply.button"]"></DxButton>
+                </div>
+            </div>
+        </Template>
+    </DxFormLayoutItem>
+</DxFormLayout>

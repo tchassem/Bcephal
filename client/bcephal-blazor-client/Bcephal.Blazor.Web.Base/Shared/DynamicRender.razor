@@ -1,0 +1,28 @@
+﻿@using System.Reflection;
+
+@RenderFragment
+@code {
+    RenderFragment RenderFragment;
+    Type SelectType;
+    Type[] Types => Assembly.GetExecutingAssembly().GetTypes().Where(type=> type.BaseType == typeof(ComponentBase)).ToArray();
+
+    private string ComponentName_ { get; set; }
+
+    [Parameter]
+    public string ComponentName { get => ComponentName_;
+        set {
+            ComponentName_ = value;
+            if (!string.IsNullOrWhiteSpace(ComponentName_)) {
+                SelectType = Types.Where(type => type.Name.ToLower() == value.ToLower()).FirstOrDefault();
+                if (SelectType != null)
+                {
+                    RenderFragment = (builder) =>
+                    {
+                        builder.OpenComponent(0, SelectType);
+                        builder.CloseComponent();
+                    };
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,46 @@
+﻿
+@BodyContent
+
+@code {
+    public  RenderFragment BodyContent => __builder =>
+    {
+        @if (EditorData != null)
+        {
+            @PivotTableRender
+        }
+    };
+
+    public RenderFragment PivotTableRender => __builder =>
+    {
+        <DxTabs CssClass="m-0 p-0 w-100 bc-tab-h-100"  @bind-ActiveTabIndex="ActiveTabIndex" ScrollMode="TabsScrollMode.Auto">
+            @if (!EditorData.Item.Published)
+            {
+                @PivotTableConfigRender
+            }
+            @PivotTableDataRender
+        </DxTabs>
+    };
+
+    public RenderFragment PivotTableConfigRender => __builder =>
+    {
+        <DxTabPage Text=@AppState["Design"] CssClass="m-0 p-0 h-100">
+            <div style="height: calc(100% - var(--bc-tab-header-height));">
+                    <PivotTableDesignComponent Editable=Editable @bind-EditorData=EditorDataBinding
+                                               Entities=Entities RefreshDesignContentHandler=RefreshDesignContent />
+            </div>    
+        </DxTabPage>
+    };
+
+   public RenderFragment PivotTableDataRender => __builder =>
+   {
+        <DxTabPage Text=@AppState["Data"] CssClass="m-0 p-0 h-100">
+            <div style="height: calc(100% - var(--bc-tab-header-height));">
+                <div class="h-100 overflow-auto">
+                    <PivotGridComponent Editable=Editable @bind-EditorData=EditorDataBinding RefreshDataContentHandler=RefreshDataContent />
+                </div>
+            </div>
+        </DxTabPage>
+   };
+
+
+}

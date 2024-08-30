@@ -1,0 +1,15 @@
+﻿@page "/projects/archives-browser/"
+
+@inherits Base.Shared.Browser
+@{
+    base.BuildRenderTree(__builder);
+}
+
+@code{
+    public override string Title { get { return AppState["Project.List.Backup"]; } }
+
+    protected override RenderFragment _BodyContent_ => __builder =>
+    {
+        <ProjectBackupBrowser_ />
+    };
+}

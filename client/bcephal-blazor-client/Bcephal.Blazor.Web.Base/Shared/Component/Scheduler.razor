@@ -1,0 +1,71 @@
+﻿
+@using DevExpress.Blazor;
+@using Bcephal.Blazor.Web.Base.Services;
+
+
+
+<div class="card border-0 p-0" style="box-sizing: border-box !important; height:var(--bc-dx-tabs-content-panel-height-21);">
+    <div class="card-header bc-header-height bc-header-2 d-flex flex-column  p-0 m-0">
+        <span class="ml-1 mt-auto mb-auto"> @AppState["Scheduler.Title"]</span>
+    </div>
+    <div class="card-body p-0  w-100 h-100">
+        <DxFormLayout ItemSizeMode="SizeMode.Small" CssClass="h-100 m-0 p-0 d-block ">
+
+            <DxFormLayoutItem BeginRow="true" CssClass="h-100 p-0" ColSpanLg="12" ColSpanMd="12" ColSpanSm="12">
+                <Template>
+                    <div class="d-flex flex-row align-items-center h-100 pr-1 pl-1 mt-2">
+                        <div class="d-block"><DxCheckBox Enabled="Editable" CssClass="ml-1" Checked="@IsSchedulerActive"></DxCheckBox></div>
+                        <div class="d-block"><span class="ml-1">@AppState["IsSchedulerActive"]</span></div>
+                    </div>
+                </Template>
+            </DxFormLayoutItem>
+
+            <DxFormLayoutItem BeginRow="true" CssClass="w-100 p-0 " ColSpanLg="12" ColSpanMd="12" ColSpanSm="12">
+                <Template>
+                    <div class="d-flex flex-row pr-1 pl-1">
+                        <label class="flex-shrink-0 mt-auto mb-auto ml-1">@AppState["RefreshFrequency"]</label>
+                    </div>
+                </Template>
+            </DxFormLayoutItem>
+            <DxFormLayoutItem BeginRow="true" CssClass="w-100 p-0 " ColSpanLg="12" ColSpanMd="12" ColSpanSm="12">
+                <Template>
+                    <div class="d-flex flex-row pr-1 pl-1">
+                        <DxSpinEdit ReadOnly="!Editable" CssClass="spin-edit-filter wid-70 flex-shrink-2 ml-1 mt-auto mb-auto" MaxValue="10000" MinValue="0" NullText="0" Value="@SchedulerValue"></DxSpinEdit>
+                        <DxComboBox Enabled="Editable" CssClass="flex-shrink-1 ml-1 mt-auto mb-auto mr-1" Data="@TimesFrequency" @bind-Value="@TimeFrequency"></DxComboBox>
+                    </div>
+                </Template>
+            </DxFormLayoutItem>
+        </DxFormLayout>
+    </div>
+</div>
+@code {
+
+    [Inject]
+    private AppState AppState { get; set; }
+
+    [Parameter]
+    public bool IsSchedulerActive { get; set; }
+
+    [Parameter]
+    public EventCallback<bool> IsSchedulerActiveChanged { get; set; }
+
+    [Parameter]
+    public int SchedulerValue { get; set; }
+
+    [Parameter]
+    public EventCallback<int> SchedulerValueChanged { get; set; }
+
+    public List<string> TimesFrequency = new List<string>() { "Hours (s)", "Minute(s)", "Second(s)" };
+
+    [Parameter]
+    public string TimeFrequency { get; set; }
+
+    [Parameter]
+    public EventCallback<string> TimeFrequencyChanged { get; set; }
+
+    [Parameter]
+    public bool Editable { get; set; }
+
+
+
+}

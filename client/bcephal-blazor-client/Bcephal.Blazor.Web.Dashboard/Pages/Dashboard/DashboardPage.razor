@@ -1,0 +1,21 @@
+﻿@implements IAsyncDisposable
+
+@if (DashBoardBinding != null)
+{
+    var Key = $"{AppState.ClientId}__{AppState.ProjectCode}__{AppState.ProfilId}__{DashBoardBinding.Id}";
+    <DashboardForm Id="DashBoardBinding.Id" @key="Key" ActiveTabIndex="1" DisplayDesign="false" IsHomePage="true" CssClass="bc-home-dashboard" />
+}
+
+@code {
+    private RenderFragment SelectedDashdoard() => __builder =>
+        {
+            if (Dashboards != null)
+            {
+            <DxComboBox Data=Dashboards
+                        TData="Models.Dashboards.Dashboard"
+                        TValue="Models.Dashboards.Dashboard"
+                        @bind-Value="DashBoardBinding"
+                        CssClass="m-0 p-0 pl-1 pr-1  w-100" DropDownWidthMode="DropDownWidthMode.EditorWidth" InputCssClass="m-0 p-0  pl-1 pr-1  w-100" />
+            }
+        };
+}

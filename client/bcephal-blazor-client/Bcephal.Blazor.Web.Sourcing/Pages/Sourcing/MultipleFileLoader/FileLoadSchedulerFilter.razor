@@ -1,0 +1,210 @@
+﻿
+@RenderLoaderConfigContent
+
+@code {
+
+    string HeightSm = "auto";
+    string HeightLg = "7%";
+
+    string Col1 = "1fr";
+    string Col2 = "3.5fr";
+    string Col3 = "2fr";
+
+    public RenderFragment SplitterPanelContent => __builder =>
+    {
+        <SplitterPanel Panes="new List<RenderFragment>() { RenderLoaderConfigLeftContent, FileNameConditionsContent }" LeftSize="1" />
+    };
+
+    public RenderFragment RenderLoaderConfigContent => __builder =>
+    {
+    <div class="card w-100 border-left-0 border-right-0" style="height: var(--bc-dx-tabs-content-panel-height);">
+        <div class="card-header bc-header-height bc-header-2 d-flex flex-column  p-0 m-0">
+            <span class="ml-1 mt-auto mb-auto">@AppState["LoaderConfiguration"]</span>
+        </div>
+        <div class="card-body w-100 h-100">
+            <DxLayoutBreakpoint DeviceSize="DeviceSize.Medium | DeviceSize.Small | DeviceSize.XSmall" @bind-IsActive="IsSmallScreen" />
+            <DxGridLayout ColumnSpacing="10px">
+                <Rows>
+                    <DxGridLayoutRow Areas="R1" />
+                </Rows>
+                <Columns>
+                    <DxGridLayoutColumn Width="1fr" />
+                </Columns>
+                <Items>
+                    <DxGridLayoutItem Area="R1">
+                        <Template>
+                            @*@if(EditorData.Item.Scheduled)
+                                {
+                                    @SplitterPanelContent
+                                }else {
+                                    @RenderLoaderConfigLeftContent
+                                }*@
+                            @SplitterPanelContent
+                        </Template>
+                    </DxGridLayoutItem>
+                </Items>
+            </DxGridLayout>
+        </div>
+    </div>
+    };
+
+    public RenderFragment FileNameConditionsContent => __builder =>
+    {
+        <div class="card p-0 h-100 w-100">
+            <div class="card-header m-0 p-0 bc-header-2 bc-header-height bc-text-align">
+                <span class="text-left ml-1">
+                    <i class="mr-1 ml-1 mt-auto mb-auto "></i>
+                    @AppState["Conditions"]
+                </span>
+            </div>
+            <div class="card-body d-flex flex-column p-0 mt-2 overflow-auto" style="height: calc(100% - var(--bc-header-height))!important;">
+                @{
+                        int offset = 0;
+                }
+                @while (offset < renders.Count)
+                    {
+                    @renders[offset]
+                        offset++;
+                    }
+            </div>
+        </div>
+    };
+
+    RenderFragment renderInputCondition(Models.Loaders.FileLoaderNameCondition item) => __builder =>
+    {
+        <FileNameConditionsComponent @key="item.Key" item="item"
+                                     AddItem="AddCondition"
+                                     UpdateItem="updateCondition"
+                                     AddRender="AddRenderCondition"
+                                     DeleteItem="DeleteCondition"
+                                     EditorData="EditorData">
+        </FileNameConditionsComponent>
+    };
+
+    public RenderFragment ChildR2Content => __builder =>
+    {
+        <DxGridLayout ColumnSpacing="10px">
+            <Rows>
+                @if (IsSmallScreen)
+                    {
+                    <DxGridLayoutRow Areas="R1Name" Height="@HeightSm" />
+                    <DxGridLayoutRow Areas="R1NameValue" Height="@HeightSm" />
+                    <DxGridLayoutRow Areas="R1NameCkech" Height="@HeightSm" />
+                }
+                else
+                {
+                    <DxGridLayoutRow Areas="R1Name R1NameValue R1NameCkech" Height="@HeightLg" />
+                }
+            </Rows>
+            <Columns>
+                @if (IsSmallScreen)
+                    {
+                    <DxGridLayoutColumn Width="0.5fr" />
+                }
+                else
+                {
+                    <DxGridLayoutColumn Width="@Col1" />
+                    <DxGridLayoutColumn Width="@Col2" />
+                    <DxGridLayoutColumn Width="@Col3" />
+                }
+            </Columns>
+            <Items>
+                <DxGridLayoutItem Area="R1Name">
+                    <Template>
+                        <div class="d-flex flex-column h-100 text-right">
+                            <label class="@(IsSmallScreen ? "mr-1 ml-1 mt-3 mb-auto" : EditorData.Item.Scheduled ? " mr-1 ml-1 mt-auto mb-auto" : " mr-1 ml-1 mt-auto mb-auto")"> @AppState["PageLoader.MaxBackupCount"]</label>
+                        </div>
+                    </Template>
+                </DxGridLayoutItem>
+                <DxGridLayoutItem Area="R1NameValue">
+                    <Template>
+                        <div class="d-flex flex-column h-100" style="margin-left:@(IsSmallScreen ? "0.25rem" : "0px");margin-top:@(IsSmallScreen ? "1rem" : "0px");">
+                            <DxComboBox CssClass="mt-auto mb-auto" Data="maxBackupCount" NullText=@AppState["PageLoader.MaxBackup"] @bind-Value=MaxBackupCount />
+                        </div>
+                    </Template>
+                </DxGridLayoutItem>
+                <DxGridLayoutItem CssClass="d-flex flex-row" Area="R1NameCkech">
+                    <Template>
+                        <div class="d-flex flex-column h-100" style="margin-left:@(IsSmallScreen ? "0.25rem" : "0px");margin-top:@(IsSmallScreen ? "1rem" : "0.125rem");">
+                            <DxCheckBox CssClass="mt-auto mb-auto w-auto" @bind-Checked=AllowBackup Alignment="CheckBoxContentAlignment.Left" LabelPosition="LabelPosition.Right">
+                                @AppState["PageLoader.NoBackup"]
+                            </DxCheckBox>
+                        </div>
+                    </Template>
+                </DxGridLayoutItem>
+            </Items>
+        </DxGridLayout>
+    };
+
+    public RenderFragment ChildR6Content => __builder =>
+    {
+        <DxGridLayout ColumnSpacing="10px">
+            <Rows>
+                @if (IsSmallScreen)
+                    {
+                    <DxGridLayoutRow Areas="R1Name" Height="@HeightSm" />
+                    <DxGridLayoutRow Areas="R1NameValue" Height="@HeightSm" />
+                    <DxGridLayoutRow Areas="R1NameValue3" Height="@HeightSm" />
+                    }
+                    else
+                    {
+                    <DxGridLayoutRow Areas="R1Name R1NameValue R1NameValue3" Height="@HeightLg" />
+                    }
+            </Rows>
+            <Columns>
+                @if (IsSmallScreen)
+                    {
+                    <DxGridLayoutColumn Width="0.5fr" />
+                    }
+                    else
+                    {
+                    <DxGridLayoutColumn Width="@Col1" />
+                    <DxGridLayoutColumn Width="@Col2" />
+                    <DxGridLayoutColumn Width="@Col3" />
+                    }
+            </Columns>
+            <Items>
+
+                <DxGridLayoutItem Area="R1Name">
+                    <Template>
+                        <div class="d-flex flex-column h-100">
+                            <label class="@(IsSmallScreen ? "mr-1 ml-1 mt-4 mb-auto text-right" : " mr-1 ml-1 mt-auto mb-auto text-right")">@AppState["PageLoader.RepositoryOnServer"]</label>
+                        </div>
+                    </Template>
+                </DxGridLayoutItem>
+
+                <DxGridLayoutItem Area="R1NameValue">
+                    <Template>
+                        <div class="d-flex flex-column h-100" style="margin-left:@(IsSmallScreen ? "0.25rem" : "0px");margin-top:@(IsSmallScreen ? "1rem" : "0px");">
+                            <DxTextBox CssClass="mt-auto mb-auto" NullText=@AppState["PageLoader.FolderWhereFilesArePostedOnServerSide"] @bind-Text=RepositoryOnServer />
+                        </div>
+                    </Template>
+                </DxGridLayoutItem>
+                <DxGridLayoutItem Area="R1NameValue3" />
+            </Items>
+        </DxGridLayout>
+    };
+
+    public RenderFragment RenderLoaderConfigLeftContent => __builder =>
+    {
+        <div class="card p-0 h-100">
+            <div class="card-header m-0 p-0 bc-header-2 bc-header-height bc-text-align">
+                <span class="text-left ml-1">
+                    <i class="mr-1 ml-1 mt-auto mb-auto "></i>
+                    @AppState["Files"]
+                </span>
+            </div>
+            <div class="card-body d-flex flex-column p-0 mt-2">
+                <SchedulerItemsInfos P="FileLoader" @bind-EditorData=EditorData Editable=Editable>
+                    <ChildR2Content>
+                        @ChildR2Content
+                    </ChildR2Content>
+                    <ChildR6Content>
+                        @ChildR6Content
+                    </ChildR6Content>
+                </SchedulerItemsInfos>
+            </div>
+        </div>
+    };
+
+}

@@ -1,0 +1,53 @@
+@page "/reconciliation-run-auto/"
+@page "/reconciliation-run-auto/{ReconciliationFilterId:long}"
+
+@inherits Form<AutoReco, RecoBrowserData>
+@if (EditorData == null)
+{
+    AppState.ShowLoadingStatus();
+}
+@{
+    base.BuildRenderTree(__builder);
+}
+
+
+
+@code
+{
+    public override RenderFragment LeftContent => __builder =>
+        {
+            <ReconciliationRunAutoBrowser /> 
+        };
+
+
+    public override RenderFragment RightContent => __builder =>
+    {
+        <DxFormLayout CssClass="bc-dxform-header-2">
+            <DxFormLayoutGroup CaptionCssClass="ml-2" Caption="@AppState["reconciliation.ExecutionOption"]" ColSpanLg="12" ColSpanMd="12"
+            ColSpanSm="12" ColSpanXl="12" ColSpanXs="12">
+                <DxFormLayoutItem CaptionCssClass="item-caption" Caption="" ColSpanMd=12 ColSpanLg=12 ColSpanSm=12>
+                    <Template>
+                        <div class="card">
+                            <ul class="list-group list-group-flush bg-white text-dark" style="border:none">
+                                <li class="list-group-item" style="background-color:transparent;color:inherit;">
+                                    <DxCheckBox CheckType="CheckType.Switch" LabelPosition="LabelPosition.Left"
+                                    style="width:100%" @bind-Checked="@Paralel" 
+                                    Alignment="CheckBoxContentAlignment.SpaceBetween">
+                                        Parallel Execution
+                                    </DxCheckBox>
+                                </li>
+                                <li class="list-group-item" style="background-color:transparent;color:inherit;">
+                                    <DxCheckBox CheckType="CheckType.Switch" LabelPosition="LabelPosition.Left"
+                                    style="width:100%" @bind-Checked="@Sequential"
+                                    Alignment="CheckBoxContentAlignment.SpaceBetween">
+                                        Sequentiel Execution
+                                    </DxCheckBox>
+                                </li>
+                            </ul>
+                        </div>
+                    </Template>
+                </DxFormLayoutItem>
+            </DxFormLayoutGroup>
+        </DxFormLayout>
+    };
+}

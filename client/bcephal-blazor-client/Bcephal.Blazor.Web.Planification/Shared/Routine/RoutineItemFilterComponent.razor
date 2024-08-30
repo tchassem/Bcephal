@@ -1,0 +1,35 @@
+﻿@using Bcephal.Blazor.Web.Base.Services;
+
+<DxButton RenderStyle="ButtonRenderStyle.Link"
+          Text=@(" " + AppState["Edit.filter"])
+          Title="@AppState["Edit.filter"]"
+          IconCssClass="fa fa-plus-circle mr-1"
+          Click=@(() => ShowMappingModal = true )
+          IconPosition="ButtonIconPosition.BeforeText" />
+
+<BaseModalComponent Title=@AppState["Edit.filter"] @bind-ShowModal=@ShowMappingModal
+                    ApplyBackgroundShading="true"
+                    BodyClass="p-0 h-50" OkHandler=@ModalOkHandler Height="60% !important" Width="48% !important">
+    @*<div class="h-100" style=" width: 100%; border: 1px solid red;">*@
+    <div class="h-100 p-1 ">
+        <DxLayoutBreakpoint DeviceSize="DeviceSize.XSmall | DeviceSize.Small | DeviceSize.Medium " @bind-IsActive="@isXSmallScreen" />
+        Alex
+    </div>
+</BaseModalComponent>
+
+@code {
+
+    [Inject] public AppState AppState { get; set; }
+
+    [Parameter] public UniverseFilter Filter { get; set; }
+    [Parameter] public EventCallback<UniverseFilter> FilterChanged { get; set; }
+    [Parameter] public bool ShowMappingModal { get; set; } = false;
+
+    public bool isXSmallScreen;
+
+
+    public async void ModalOkHandler()
+    {
+
+    }
+}

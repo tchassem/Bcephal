@@ -1,0 +1,34 @@
+
+<DxTabs @bind-ActiveTabIndex="@ActiveTabIndexBinding" ScrollMode="TabsScrollMode.Auto">
+    <DxTabPage Text="@AppState["Grid.user.filter"]">
+        @if (EditorData != null && EditorData.Item != null)
+        {
+            <FilterComponent Editable=Editable @bind-UniverseFilter="@UserFilterBinding"
+                             Attributes="@Entities"
+                             Measures="@EditorData.Measures"
+                             Periods="EditorData.Periods"
+                             CanRefreshGrid="CanRefreshGrid"
+                             FilterName="GridFilterComponentUserFilter">
+            </FilterComponent>
+        }
+    </DxTabPage>
+    <DxTabPage Text="@AppState["Grid.admin.filter"]">
+        @if (EditorData != null && EditorData.Item != null)
+        {
+            <FilterComponent Editable=Editable @bind-UniverseFilter="@AdminFilterBinding"
+                             Attributes="@Entities"
+                             Measures="@EditorData.Measures"
+                             Periods="EditorData.Periods"
+                             CanRefreshGrid="CanRefreshGrid"
+                             FilterName="GridFilterComponentAdminFilter">
+            </FilterComponent>
+        }
+    </DxTabPage>
+    <DxTabPage Text="@AppState["Link"]">
+        @if (EditorData != null && EditorData.Item != null)
+        {
+            <LinkComponent Editable=Editable @bind-EditorData="EditorDataBinding" />
+        }
+    </DxTabPage>
+</DxTabs>
+

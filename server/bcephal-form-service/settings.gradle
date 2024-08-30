@@ -1,0 +1,2 @@
+rootProject.name = 'bcephal-form-service'
+includeFlat 'bcephal-multitenant-jpa', 'bcephal-utils', 'bcephal-sso', 'bcephal-grid', 'bcephal-base','bcephal-security-base'

@@ -1,0 +1,144 @@
+{
+  "allowRemoteResourceManagement": true,
+  "policyEnforcementMode": "ENFORCING",
+  "resources": [
+    {
+      "name": "Default Resource",
+      "type": "urn:bcephal:resources:default",
+      "ownerManagedAccess": false,
+      "attributes": {},
+      "_id": "7cb61f80-045e-47a9-a717-33cf5e145f03",
+      "uris": [
+        "/*"
+      ]
+    },
+    {
+      "name": "Projects Resource",
+      "ownerManagedAccess": false,
+      "displayName": "Projects Resource",
+      "attributes": {},
+      "_id": "e8f5cc46-36af-4802-80f6-7ddd85f090df",
+      "uris": [
+        "/projects/*"
+      ]
+    }
+  ],
+  "policies": [
+    {
+      "id": "76f1deab-1328-443b-a46d-e75fda8fe555",
+      "name": "Default Policy",
+      "description": "A policy that grants access only for users within this realm",
+      "type": "js",
+      "logic": "POSITIVE",
+      "decisionStrategy": "AFFIRMATIVE",
+      "config": {
+        "code": "// by default, grants any permission associated with this policy\n$evaluation.grant();\n"
+      }
+    },
+    {
+      "id": "c40de8bb-1ecb-43dc-b50f-78f6989e627d",
+      "name": "_bcephal_all",
+      "type": "role",
+      "logic": "POSITIVE",
+      "decisionStrategy": "UNANIMOUS",
+      "config": {
+        "roles": "[{\"id\":\"bcephal/_bcephal_create\",\"required\":true},{\"id\":\"bcephal/_bcephal_print\",\"required\":true},{\"id\":\"bcephal/_bcephal_delete\",\"required\":true},{\"id\":\"bcephal/_bcephal_edit\",\"required\":true},{\"id\":\"bcephal/_bcephal_run\",\"required\":true},{\"id\":\"bcephal/_bcephal_view\",\"required\":true}]"
+      }
+    },
+    {
+      "id": "698ad897-b522-426a-8115-a5965ba4047c",
+      "name": "_bcephal_group_all",
+      "type": "group",
+      "logic": "POSITIVE",
+      "decisionStrategy": "UNANIMOUS",
+      "config": {
+        "groups": "[{\"path\":\"/superUser\",\"extendChildren\":false},{\"path\":\"/users\",\"extendChildren\":false},{\"path\":\"/admin\",\"extendChildren\":false}]"
+      }
+    },
+    {
+      "id": "1e5d2444-9611-4870-aaee-98c064b8bf83",
+      "name": "_bcephal_user_joel",
+      "type": "user",
+      "logic": "POSITIVE",
+      "decisionStrategy": "UNANIMOUS",
+      "config": {
+        "users": "[\"joel\"]"
+      }
+    },
+    {
+      "id": "0b5e470d-9451-40fd-8002-5c8eb79a3dc6",
+      "name": "_bcephal_group_admin",
+      "type": "group",
+      "logic": "POSITIVE",
+      "decisionStrategy": "UNANIMOUS",
+      "config": {
+        "groups": "[{\"path\":\"/admin\",\"extendChildren\":false}]"
+      }
+    },
+    {
+      "id": "ceb1f872-328f-4a82-91e2-8abba8e6d876",
+      "name": "_bcephal_group_superUser",
+      "type": "group",
+      "logic": "POSITIVE",
+      "decisionStrategy": "UNANIMOUS",
+      "config": {
+        "groups": "[{\"path\":\"/superUser\",\"extendChildren\":false}]"
+      }
+    },
+    {
+      "id": "315ed439-782b-4cce-a6af-379838722a62",
+      "name": "_bcephal_group_users",
+      "type": "group",
+      "logic": "POSITIVE",
+      "decisionStrategy": "UNANIMOUS",
+      "config": {
+        "groups": "[{\"path\":\"/users\",\"extendChildren\":false}]"
+      }
+    },
+    {
+      "id": "d50a6a75-8e3c-4345-86dd-639cdec47ebe",
+      "name": "_bcephal_group_adminOrsuperUser",
+      "type": "aggregate",
+      "logic": "POSITIVE",
+      "decisionStrategy": "UNANIMOUS",
+      "config": {
+        "applyPolicies": "[\"_bcephal_group_admin\",\"_bcephal_group_superUser\",\"_bcephal_policy\"]"
+      }
+    },
+    {
+      "id": "3d725ea5-891f-49bb-897a-4c3e3eb0d41d",
+      "name": "_bcephal_policy",
+      "type": "client",
+      "logic": "POSITIVE",
+      "decisionStrategy": "UNANIMOUS",
+      "config": {
+        "clients": "[\"bcephal\"]"
+      }
+    },
+    {
+      "id": "d8d1bde8-bd01-4744-8681-934f7d8a9a84",
+      "name": "Default Permission",
+      "description": "A permission that applies to the default resource type",
+      "type": "resource",
+      "logic": "POSITIVE",
+      "decisionStrategy": "UNANIMOUS",
+      "config": {
+        "defaultResourceType": "urn:bcephal:resources:default",
+        "applyPolicies": "[\"Default Policy\"]"
+      }
+    },
+    {
+      "id": "924ac0b2-a87b-4ed8-9d2e-0ea0c330cb04",
+      "name": "_bcephal_RpermissionProject_adminOrsuperUser",
+      "type": "resource",
+      "logic": "POSITIVE",
+      "decisionStrategy": "UNANIMOUS",
+      "config": {
+        "resources": "[\"Projects Resource\"]",
+        "applyPolicies": "[\"_bcephal_group_adminOrsuperUser\",\"_bcephal_user_joel\"]"
+      }
+    }
+  ],
+  "scopes": [],
+  "decisionStrategy": "UNANIMOUS"
+}

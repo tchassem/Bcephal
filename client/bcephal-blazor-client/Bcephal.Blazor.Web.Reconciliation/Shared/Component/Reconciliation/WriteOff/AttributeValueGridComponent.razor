@@ -1,0 +1,163 @@
+﻿
+@implements IDisposable
+
+<DxPopup @ref=DxPopupRef
+         CloseOnOutsideClick="false"
+         CloseOnEscape="false"
+         ShowFooter="true"
+         ShowCloseButton="false"
+         HeaderText=""
+         CssClass="custom-popup"
+         HeaderCssClass="font-weight-light"
+         @bind-Visible="Show">
+    <Content>
+        @RenderAttributeValueComponent()
+    </Content>
+    <FooterContentTemplate>
+        <div class="d-flex flex-row">
+            <div class="ml-auto mr-auto d-flex flex-row">
+                <div class="mr-1">
+                    <DxButton Enabled="@(SelectedItem != null)" IconCssClass="fa fa-check mr-1" IconPosition=ButtonIconPosition.BeforeText CssClass="wid-100" Text="@AppState["Ok"]" Click="ButtonClick"></DxButton>
+                </div>
+                <div class="ml-1">
+                    <DxButton CssClass="wid-100" IconCssClass="fa fa-ban mr-1" IconPosition=ButtonIconPosition.BeforeText Text="@AppState["Cancel"]" Click="ClosePopup"></DxButton>
+                </div>
+            </div>
+        </div>
+    </FooterContentTemplate>
+</DxPopup>
+
+@code {
+
+        public List<Models.Dimensions.Attribute> Attributes { get; set; } = new List<Models.Dimensions.Attribute>();
+
+        [Inject]
+        private AppState AppState { get; set; }
+
+    DxPopup DxPopupRef;
+
+    [Parameter]
+    public BrowserData SelectedItem { get; set; }
+
+    [Parameter]
+    public EventCallback<BrowserData> SelectedItemChanged { get; set; }
+
+    [Parameter]
+    public bool Show
+    {
+        get { return IsOpen; }
+        set { IsOpen = value; }
+    }
+
+    [Parameter]
+    public EventCallback<bool> ShowChanged { get; set; }
+
+    public bool IsOpen { get; set; }
+
+    [Parameter]
+    public long? AttributeId { get; set; }
+
+    [Parameter]
+    public WriteOffFieldValue Item { get; set; }
+
+    [Parameter]
+    public EventCallback<WriteOffFieldValue> CallBackAddorUpdate { get; set; }
+
+    [Parameter]
+    public Action AddRenderNext { get; set; }
+
+    [Parameter]
+    public List<BrowserData> SelectedItemList { get; set; }
+
+    [Parameter]
+    public EventCallback<List<BrowserData>> SelectedItemListChanged { get; set; }
+
+    [Parameter]
+    public bool RemoveButton_ { get; set; }
+
+    [Parameter]
+    public EventCallback<bool> RemoveButton_Changed { get; set; }
+
+    async Task ButtonClick()
+    {
+        if (SelectedItem != null && Item != null)
+        {
+            await SelectedItemChanged.InvokeAsync(SelectedItem);
+            if (SelectedItemList == null)
+            {
+                SelectedItemList = new List<BrowserData>();
+            }
+            RemoveButton_ = true;
+            await RemoveButton_Changed.InvokeAsync(RemoveButton_);
+            SelectedItemList.Add(new BrowserData() { Name = SelectedItem.Name });
+            await SelectedItemListChanged.InvokeAsync(SelectedItemList);
+            await SelectedItemChanged.InvokeAsync(SelectedItem);
+            Item.StringValue = SelectedItem.Name;
+            await CallBackAddorUpdate.InvokeAsync(Item);
+            AddRenderNext.Invoke();
+            StateHasChanged();
+        }
+        ClosePopup();
+    }
+
+    async Task ButtonClick_(GridRowClickEventArgs args)
+    {
+        await ButtonClick();
+    }
+
+    ElementReference AttributeValueBrowserRef;
+
+
+    RenderFragment RenderAttributeValueComponent()
+    {
+        RenderFragment RenderWidgetB = __builder =>
+        {
+        @if (Show == true)
+            {
+            <div class="d-flex flex-column" style="height: 300px; overflow-y: auto;">
+                <AttributeValueBrowser @bind-SelectedItemList="SelectedItemList"
+                                       @bind-SelectedItem_="SelectedItem"
+                                       @key="Key"
+                                       AttributeId="AttributeId"
+                                       OndbClickRow=" async args => await ButtonClick_(args) " />
+            </div>
+            }
+        };
+        return RenderWidgetB;
+
+    }
+
+
+    public void Dispose()
+    {
+        GC.SuppressFinalize(DxPopupRef);
+        GC.SuppressFinalize(this);
+    }
+
+    public async void ClosePopup()
+    {
+        Show = false;
+        await ShowChanged.InvokeAsync(Show);
+        Dispose();
+    }
+
+    public string Key
+    {
+        get
+        {
+            if (string.IsNullOrWhiteSpace(Key_))
+            {
+                Key_ = Guid.NewGuid().ToString("d");
+            }
+            return Key_;
+        }
+        set
+        {
+            Key_ = value;
+        }
+    }
+
+    private string Key_ { get; set; }
+
+
+}

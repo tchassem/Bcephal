@@ -1,0 +1,17 @@
+﻿@page "/client-browser"
+@using Bcephal.Blazor.Web.Base.Pages.Project.Client
+@inherits Base.Shared.Browser
+@{
+    base.BuildRenderTree(__builder);
+}
+
+@code{
+    public override string Title { get { return AppState["List.Customer"]; } }
+
+    public override string TitleIcon { get { return "bi bi-list"; } }
+
+    protected override RenderFragment _BodyContent_ => __builder =>
+    {
+    <ClientBrowser_ />
+    };
+}

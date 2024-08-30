@@ -1,0 +1,58 @@
+﻿@using Bcephal.Blazor.Web.Base.Services;
+@using Bcephal.Blazor.Web.Sourcing.Shared.Grille
+@using Microsoft.JSInterop
+
+<DxButton RenderStyle="ButtonRenderStyle.Link"
+          Text=@(" " + AppState["Edit.filter"])
+          Title="@AppState["Edit.filter"]"
+          CssClass="white-space-nowrap"
+          IconCssClass="fa fa-pencil mr-1"
+          Click=@(() => ShowMappingModal = true )
+          IconPosition="ButtonIconPosition.BeforeText" />
+
+<BaseModalComponent Title=@AppState["Edit.filter"] @bind-ShowModal=@ShowMappingModal
+                    ApplyBackgroundShading="true"
+                    BodyClass="p-0 h-50" OkHandler=@ModalOkHandler Height="64% !important" Width="48% !important">
+    @*<div class="h-100" style=" width: 100%; border: 1px solid red;">*@
+    <div class="h-100 p-1 overflow-auto">
+        @try
+        {
+            <FilterComponent @bind-UniverseFilter=@Filter
+                             Attributes=@Attributes
+                             Measures=@(Measures.Cast<Bcephal.Models.Dimensions.Measure>().ToObservableCollection())
+                             Periods=@(Periods.Cast<Bcephal.Models.Dimensions.Period>().ToObservableCollection())
+                             CanRefreshGrid="false"
+                             FilterName="RoutineItemEditFilterComponent">
+            </FilterComponent>
+        }
+        catch (Exception) { }
+    </div>
+</BaseModalComponent>
+
+@code {
+
+    [Inject] public AppState AppState { get; set; }
+    [Inject] IJSRuntime JSRuntime { get; set; }
+
+    [Parameter] public UniverseFilter Filter { get; set; }
+    [Parameter] public EventCallback<UniverseFilter> FilterChanged { get; set; }
+    [Parameter] public bool ShowMappingModal { get; set; } = false;
+    [Parameter] public ObservableCollection<HierarchicalData> Attributes { get; set; }
+    [Parameter] public ObservableCollection<HierarchicalData> Measures { get; set; }
+    [Parameter] public ObservableCollection<HierarchicalData> Periods { get; set; }
+
+    public bool isXSmallScreen;
+
+    protected override void OnInitialized()
+    {
+        //JSRuntime.InvokeVoidAsync("console.log", "attributes => " , Attributes);
+        //JSRuntime.InvokeVoidAsync("console.log", "measures => " , Measures.Cast<Bcephal.Models.Dimensions.Measure>().ToObservableCollection());
+        //JSRuntime.InvokeVoidAsync("console.log", "periods => " , Periods.Cast<Bcephal.Models.Dimensions.Period>().ToObservableCollection());
+
+    }
+
+    public  void ModalOkHandler()
+    {
+
+    }
+}

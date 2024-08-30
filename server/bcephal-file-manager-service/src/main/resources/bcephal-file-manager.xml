@@ -1,0 +1,20 @@
+<service>
+	<!-- https://github.com/winsw/winsw/blob/v3/docs/installation.md -->
+  <id>Bcephal-file-manager-7</id>
+  <name>Bcephal-file-manager-7</name>
+  <description>This service runs Bcephal file manager  continuous integration system.</description>
+  <!--env name="BCEPHAL_HOME" value="%BASE%"/-->
+  <executable>%BASE%\jre\bin\java</executable>
+  <workingdirectory>%BASE%</workingdirectory>
+  <!-- For Debug uncomment next line -->
+  <!--arguments>-agentlib:jdwp=transport=dt_socket,server=y,address=4101,suspend=n -Xms256m -Xmx512m -Dfile.encoding=UTF-8 -jar *.jar</arguments-->
+  <arguments>-Xms256m -Xmx512m -Dfile.encoding=UTF-8 -jar lib/bcephal-file-manager-0.0.1-SNAPSHOT.jar</arguments>
+  <log mode="roll-by-size-time">
+	  <sizeThreshold>10240</sizeThreshold>
+	  <pattern>yyyy-MM-dd</pattern>
+  	  <autoRollAtTime>00:00:00</autoRollAtTime>
+  </log>
+  <logpath>%BASE%\logs</logpath>
+  <delayedAutoStart>true</delayedAutoStart>
+  <onfailure action="restart" delay="20 sec"/>
+</service>

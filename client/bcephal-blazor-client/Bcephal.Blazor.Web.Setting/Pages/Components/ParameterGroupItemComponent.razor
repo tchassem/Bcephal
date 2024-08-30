@@ -1,0 +1,99 @@
+﻿@if ( Parameter != null)
+{
+    @RenderParameterGroupItem
+}
+
+
+
+@code {
+
+    private RenderFragment RendSelectFragment => __builder =>
+    {
+        if (Parameter.IsPeriod)
+        {
+            <TreeViewFilter C="Models.Dimensions.Period" SelectedItem=@Parameter.Name ItemsFilter=@EditorData.Periods SelectFilterItemCallback=DimensionChanged />
+        }
+        if (Parameter.IsEntity)
+        {
+            <TreeViewFilter CanSelectEntity="true" C="HierarchicalData" ItemsFilter=@Entities SelectedItem=@Parameter.Name SelectFilterItemCallback=EntityChanged />
+        }
+        if (Parameter.IsModel)
+        {
+            <TreeViewFilter CanSelectModel="true" C="Models.Dimensions.Model" ItemsFilter=@EditorData.Models SelectedItem=@Parameter.Name SelectFilterItemCallback=ModelChanged />
+        }
+        if (Parameter.IsMeasure)
+        {
+           <TreeViewFilter C="Models.Dimensions.Measure" ItemsFilter=@EditorData.Measures SelectedItem=@Parameter.Name SelectFilterItemCallback=DimensionChanged />
+        }
+        if (Parameter.IsAttribute)
+        {
+           <TreeViewFilter C="HierarchicalData" CanSelectEntity=false CanSelectModel=false ItemsFilter=@Entities SelectedItem=@Parameter.Name SelectFilterItemCallback=DimensionChanged />
+        }
+        if (Parameter.IsIncrementalNumber)
+        {
+            <DxComboBox Data="EditorData.Sequences" CssClass="w-100" TData="Nameable" TValue="Nameable" TextFieldName="Name" Value=@IncrementalNumber ValueChanged=IncrementalNumberChanged />
+        }
+        if (Parameter.IsAttributeValue)
+        {
+            <DxTextBox CssClass="w-100" Text=@Parameter.StringValue TextChanged=AttributeValueChanged />
+        }
+        if (Parameter.IsGrid)
+        {   
+            <DxComboBox Data="EditorData.Grids" CssClass="w-100" TData="Nameable" TValue="Nameable" TextFieldName="Name" Value=@Grid ValueChanged=GridChanged />
+        }
+        if (Parameter.IsBillTemplate)
+        {
+            <DxComboBox Data="EditorData.Billtemplates" CssClass="w-100" TData="Nameable" TValue="Nameable" TextFieldName="Name" Value=@BillTemplate ValueChanged=BillTemplateChanged />
+        }
+    };
+
+    private RenderFragment RenderParameterGroupItem => __builder =>
+    {
+
+    <DxStackLayout CssClass="w-100" Orientation="Orientation.Horizontal" ItemSpacing="1px">
+        <Items>
+            <DxStackLayoutItem CssClass="d-flex align-items-center justify-content-end h-100" Length="0.3fr">
+                <Template>
+                    <div class="d-flex align-items-center justify-content-end mr-1">
+                        <span>@AppState[Parameter.Code]</span>
+                    </div>
+                </Template>
+            </DxStackLayoutItem>
+            <DxStackLayoutItem CssClass="mr-1 d-flex align-items-center justify-content-center h-100" Length="0.3fr">
+                <Template>
+                     @RendSelectFragment
+                </Template>
+            </DxStackLayoutItem>
+            <DxStackLayoutItem CssClass="d-flex align-items-center justify-content-center h-100" Length="0.2fr">
+                <Template>
+                    <DxStackLayout CssClass="w-100 d-flex align-items-center justify-content-center h-100" Orientation="Orientation.Horizontal" ItemSpacing="1px">
+                        <Items>
+                            <DxStackLayoutItem Visible=CanReset CssClass="d-flex align-items-center justify-content-center h-100" Length="0.07fr">
+                                <Template>
+                                    <div class="d-flex w-100 flex-row align-items-center justify-content-center">
+                                        <DxButton Visible=CanReset IconCssClass="fa fa-remove"
+                                                  CssClass="w-50 ml-1 mr-1"
+                                                  RenderStyleMode="ButtonRenderStyleMode.Text"
+                                                  RenderStyle="ButtonRenderStyle.Danger"
+                                                  Click="() => Reset()">
+                                        </DxButton>
+                                    </div>
+                                </Template>
+                            </DxStackLayoutItem>
+                            <DxStackLayoutItem CssClass="d-flex align-items-center justify-content-start h-100" Length="@(CanReset ? "0.93fr" : "1fr")">
+                                <Template>
+                                    <div class="ml-1 d-flex w-100 align-items-center justify-content-start h-100 ">
+                                        @*@LocalizeHelper.GetTitle(Item.Type, AppState)*@
+                                        @AppState[GetItemType()]
+                                    </div>
+                                </Template>
+                            </DxStackLayoutItem>
+                        </Items>
+                    </DxStackLayout>
+                </Template>
+            </DxStackLayoutItem>
+            <DxStackLayoutItem Length="0.2fr" />
+        </Items>
+    </DxStackLayout>
+    };
+}

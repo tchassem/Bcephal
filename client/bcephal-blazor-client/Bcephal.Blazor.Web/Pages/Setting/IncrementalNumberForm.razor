@@ -1,0 +1,221 @@
+﻿@page "/edit-incremental-number"
+@page "/edit-incremental-number/{Id:long}"
+@using Bcephal.Blazor.Web.Base.Shared
+@using Bcephal.Models.Settings 
+
+@inherits Form<Models.Settings.IncrementalNumber, IncrementalNumberBrowserData>
+
+@{
+    base.BuildRenderTree(__builder);
+}
+
+@code {
+    [Inject]
+    public IncrementalNumberService IncrementalNumberService { get; set; }
+
+    string lenghtone = "1fr";
+    string lenghttwo = "3fr";
+    string lenght = "1fr";
+    bool IsXSmallScreen;
+    string labelSm = "d-flex flex-column h-100 justify-content-center ml-1";
+    string labelLg = "d-flex flex-column h-100 justify-content-center text-right mr-1";
+
+    protected override IncrementalNumberService GetService()
+    {
+        return IncrementalNumberService;
+    }
+
+    protected override EditorDataFilter getEditorDataFilter()
+    {
+        return new EditorDataFilter();
+    }
+
+    public override string LeftTitle => AppState["New.Incremental.Number"];
+
+    protected override string DuplicateName()
+    {
+        return AppState["duplicate.incremental.number.name", EditorData.Item.Name];
+    }
+
+    public override string GetBrowserUrl { get => Route.BROWSER_INCREMENTAL_NUMBER; set => base.GetBrowserUrl = value; }
+
+    public override RenderFragment RightContent => __builder =>
+    {
+         <GridItemInfos @bind-EditorData=@EditorDataBinding T="IncrementalNumber"
+                           DisplayGroup="true" DisplayVisibleInShortcut="true">
+         </GridItemInfos>
+    };
+
+    public override RenderFragment LeftContent => __builder =>
+    {
+    @if (EditorDataBinding != null && EditorDataBinding.Item != null)
+        {
+        <DxLayoutBreakpoint DeviceSize="DeviceSize.Large" @bind-IsActive="@IsXSmallScreen" />
+        <DxStackLayout  CssClass="mt-2 w-50" Orientation="Orientation.Vertical" ItemSpacing="15px">
+            <Items>
+                <DxStackLayoutItem Length="@lenght">
+                    <Template>
+                        <DxStackLayout CssClass="w-100 h-100" Orientation="@(IsXSmallScreen ? Orientation.Vertical : Orientation.Horizontal)">
+                            <Items>
+                                <DxStackLayoutItem Length="@lenghtone">
+                                    <Template>
+                                        <div class="@(IsXSmallScreen ? labelSm : labelLg)">
+                                            @AppState["InitialValue"]
+                                        </div>
+                                    </Template>
+                                </DxStackLayoutItem>
+                                <DxStackLayoutItem Length="@lenghttwo">
+                                    <Template>
+                                        <DxSpinEdit T="long" CssClass="d-flex flex-column h-100 justify-content-center w-50" @bind-value=EditorDataBinding.Item.InitialValue></DxSpinEdit>
+                                    </Template>
+                                </DxStackLayoutItem>
+                            </Items>
+                        </DxStackLayout>
+                    </Template>
+                </DxStackLayoutItem>
+                <DxStackLayoutItem Length="@lenght">
+                    <Template>
+                        <DxStackLayout Orientation="@(IsXSmallScreen ? Orientation.Vertical : Orientation.Horizontal)">
+                            <Items>
+                                <DxStackLayoutItem Length="@lenghtone">
+                                    <Template>
+                                        <div class="@(IsXSmallScreen ? labelSm : labelLg)">
+                                            @AppState["Increment"]
+                                        </div>
+                                    </Template>
+                                </DxStackLayoutItem>
+                                <DxStackLayoutItem Length="@lenghttwo">
+                                    <Template>
+                                        <DxSpinEdit T="long" CssClass="d-flex flex-column h-100 justify-content-center w-50" @bind-Value=EditorDataBinding.Item.IncrementValue></DxSpinEdit>
+                                    </Template>
+                                </DxStackLayoutItem>
+                            </Items>
+                        </DxStackLayout>
+                    </Template>
+                </DxStackLayoutItem>
+                <DxStackLayoutItem Length="@lenght">
+                    <Template>
+                        <DxStackLayout Orientation="@(IsXSmallScreen ? Orientation.Vertical : Orientation.Horizontal)">
+                            <Items>
+                                <DxStackLayoutItem Length="@lenghtone">
+                                    <Template>
+                                        <div class="@(IsXSmallScreen ? labelSm : labelLg)">
+                                            @AppState["MinimumValue"]
+                                        </div>
+                                    </Template>
+                                </DxStackLayoutItem>
+                                <DxStackLayoutItem Length="@lenghttwo">
+                                    <Template>
+                                        <DxSpinEdit T="long" CssClass="d-flex flex-column h-100 justify-content-center w-50" @bind-Value=EditorDataBinding.Item.MinimumValue></DxSpinEdit>
+                                    </Template>
+                                </DxStackLayoutItem>
+                            </Items>
+                        </DxStackLayout>
+                    </Template>
+                </DxStackLayoutItem>
+                <DxStackLayoutItem Length="@lenght">
+                    <Template>
+                        <DxStackLayout Orientation="@(IsXSmallScreen ? Orientation.Vertical : Orientation.Horizontal)">
+                            <Items>
+                                <DxStackLayoutItem Length="@lenghtone">
+                                    <Template>
+                                        <div class="@(IsXSmallScreen ? labelSm : labelLg)">
+                                            @AppState["MaximumValue"]
+                                        </div>
+                                    </Template>
+                                </DxStackLayoutItem>
+                                <DxStackLayoutItem Length="@lenghttwo">
+                                    <Template>
+                                        <DxSpinEdit T="long" CssClass="d-flex flex-column h-100 justify-content-center w-50" @bind-Value=EditorDataBinding.Item.MaximumValue></DxSpinEdit>
+                                    </Template>
+                                </DxStackLayoutItem>
+                            </Items>
+                        </DxStackLayout>
+                    </Template>
+                </DxStackLayoutItem>
+                <DxStackLayoutItem Length="@lenght">
+                    <Template>
+                        <DxStackLayout Orientation="@(IsXSmallScreen ? Orientation.Vertical : Orientation.Horizontal)">
+                            <Items>
+                                <DxStackLayoutItem Length="@lenghtone">
+                                    <Template>
+                                        <div class="@(IsXSmallScreen ? labelSm : labelLg)">
+                                            @AppState["Cycle"]
+                                        </div>
+                                    </Template>
+                                </DxStackLayoutItem>
+                                <DxStackLayoutItem Length="@lenghttwo">
+                                    <Template>
+                                        <DxCheckBox CssClass="d-flex flex-column h-100 justify-content-center w-50" @bind-Checked=EditorDataBinding.Item.Cycle></DxCheckBox>
+                                    </Template>
+                                </DxStackLayoutItem>
+                            </Items>
+                        </DxStackLayout>
+                    </Template>
+                </DxStackLayoutItem>
+                <DxStackLayoutItem Length="@lenght">
+                    <Template>
+                        <DxStackLayout Orientation="@(IsXSmallScreen ? Orientation.Vertical : Orientation.Horizontal)">
+                            <Items>
+                                <DxStackLayoutItem Length="@lenghtone">
+                                    <Template>
+                                        <div class="@(IsXSmallScreen ? labelSm : labelLg)">
+                                            @AppState["Size"]
+                                        </div>
+                                    </Template>
+                                </DxStackLayoutItem>
+                                <DxStackLayoutItem Length="@lenghttwo">
+                                    <Template>
+                                        <DxSpinEdit T="int" CssClass="d-flex flex-column h-100 justify-content-center w-50" @bind-Value=EditorDataBinding.Item.Size></DxSpinEdit>
+                                    </Template>
+                                </DxStackLayoutItem>
+                            </Items>
+                        </DxStackLayout>
+                    </Template>
+                </DxStackLayoutItem>
+                <DxStackLayoutItem Length="@lenght">
+                    <Template>
+                        <DxStackLayout Orientation="@(IsXSmallScreen ? Orientation.Vertical : Orientation.Horizontal)">
+                            <Items>
+                                <DxStackLayoutItem Length="@lenghtone">
+                                    <Template>
+                                        <div class="@(IsXSmallScreen ? labelSm : labelLg)">
+                                            @AppState["Prefix"]
+                                        </div>
+                                    </Template>
+                                </DxStackLayoutItem>
+                                <DxStackLayoutItem Length="@lenghttwo">
+                                    <Template>
+                                        <DxTextBox CssClass="d-flex flex-column h-100 justify-content-center w-50" @bind-Text=EditorDataBinding.Item.Prefix></DxTextBox>
+                                    </Template>
+                                </DxStackLayoutItem>
+                            </Items>
+                        </DxStackLayout>
+                    </Template>
+                </DxStackLayoutItem>
+                <DxStackLayoutItem Length="@lenght">
+                    <Template>
+                        <DxStackLayout Orientation="@(IsXSmallScreen ? Orientation.Vertical : Orientation.Horizontal)">
+                            <Items>
+                                <DxStackLayoutItem Length="@lenghtone">
+                                    <Template>
+                                        <div class="@(IsXSmallScreen ? labelSm : labelLg)">
+                                            @AppState["Suffix"]
+                                        </div>
+                                    </Template>
+                                </DxStackLayoutItem>
+                                <DxStackLayoutItem Length="@lenghttwo">
+                                    <Template>
+                                        <DxTextBox CssClass="d-flex flex-column h-100 justify-content-center w-50" @bind-Text=EditorDataBinding.Item.Suffix></DxTextBox>
+                                    </Template>
+                                </DxStackLayoutItem>
+                            </Items>
+                        </DxStackLayout>
+                    </Template>
+                </DxStackLayoutItem>
+            </Items>
+        </DxStackLayout>
+        }
+
+    };
+}

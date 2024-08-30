@@ -1,0 +1,3 @@
+
+rootProject.name = 'bcephal-dashboard'
+includeFlat 'bcephal-base', 'bcephal-multitenant-jpa', 'bcephal-utils', 'bcephal-sso','bcephal-grid','bcephal-security-base','bcephal-alarm'

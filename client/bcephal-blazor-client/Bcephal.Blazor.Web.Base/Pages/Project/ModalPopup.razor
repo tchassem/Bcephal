@@ -1,0 +1,284 @@
+﻿@inject ProjectService ProjectService;
+@inject AppState _AppState;
+@inject IToastService toastService;
+@inject IJSRuntime JSRuntime
+@implements IAsyncDisposable
+
+<DxPopup @ref="DxPopupRef"
+         HeaderText="@Title"
+         CloseOnEscape="true"
+         CloseOnOutsideClick="true"
+         ShowFooter="true"
+         ShowCloseButton="false"
+         CssClass="custom-popup"
+         HeaderCssClass="font-weight-light"
+         @bind-Visible="@ModalActioning">
+    <Content>
+        <p class="list-project row p-0 m-0">
+            @if (ActionModal == "Delete")
+            {
+                <span>
+                    @AppState["Projects.WantRemoveProject"]
+                </span>
+            }
+            else if (ActionModal == "Rename")
+            {
+
+                <DxFormLayout CssClass="d-flex flex-column w-100">
+                    <DxFormLayoutItem CssClass="w-100 pl-0" CaptionCssClass="font-weight-normal" Caption="@AppState["Name"]" ColSpanXs="12" ColSpanXl="12" ColSpanSm="12" ColSpanLg="12" ColSpanMd="12">
+                        <Template>
+                            <DxTextBox CssClass="w-100" @bind-Text="@ProjectName" BindValueMode="BindValueMode.OnInput" @ref="ProjectNameRef"
+                                       NullText="@Block.Name"></DxTextBox>
+                        </Template>
+                    </DxFormLayoutItem>
+
+                </DxFormLayout>
+            }
+            else
+            if (ActionModal == "Properties")
+            {
+                <div class="col-lg-6 text-center mb-5">
+                    <span class="text-secondary"> @AppState["Projects.ForegroundColor"]</span>
+                    <input type="color" @bind=Foregrounds>
+                </div>
+
+                <div class="col-lg-6 text-center mb-5">
+                    <span class="text-secondary">@AppState["Projects.BackgroundColor"]</span>
+                    <input type="color" @bind=Backgrounds>
+                </div>
+            }
+        </p>
+    </Content>
+    <FooterContentTemplate>
+        <div class="d-flex flex-column w-100 h-auto">
+            <div class="flex-fill mr-auto ml-auto mt-auto mb-auto">
+                <span class="text-center" style="color:red;">@ProjectService.ErrorMessage</span>
+            </div>
+            <div class="d-flex flex-row">
+                @if (ActionModal == "Delete")
+                {
+
+                    <DxButton IconCssClass="oi oi-trash pr-1"
+                                CssClass="mr-1 ml-auto  wid-100"
+                                RenderStyle="ButtonRenderStyle.Primary"
+                                Enabled="@(Loading ? false : true)"
+                                Text="@(Loading ? AppState["Projects.CreateLoad"] : AppState["Projects.Delete_"])"
+                                Click=@(() => deleteProject()) />
+
+                }
+                else if (ActionModal == "Rename")
+                {
+
+                    <DxButton IconCssClass="oi oi-hard-drive pr-1"
+                              CssClass="mr-1 ml-auto  wid-100"
+                              RenderStyle="ButtonRenderStyle.Primary"
+                              Enabled="@(Loading ? false : Block.Name == ProjectName? false : true)"
+                              Text="@(Loading ? AppState["Projects.CreateLoad"] : AppState["Rename"])"
+                              @onclick="@(() => RenameProject(ProjectName))" />
+                }
+                else
+                if (ActionModal == "Properties")
+                {
+                    <DxButton CssClass="mr-1 ml-auto  wid-100"
+                                IconCssClass="oi oi-hard-drive pr-1"
+                                RenderStyle="ButtonRenderStyle.Primary"
+                                Enabled="@(BColorChange_ || FColorChange_)"
+                                Text="@AppState["Ok"]"
+                                @onclick="@(() => Changecolor())" />
+                }
+
+                <DxButton  CssClass="ml-1 mr-auto wid-100" IconCssClass="oi oi-delete mr-1" RenderStyle="ButtonRenderStyle.Danger" Text="@AppState["Close"]" @onclick="@(() => { ModalActioning = false;ActionModal = "";})" />
+                </div>
+            </div>
+    </FooterContentTemplate>
+</DxPopup>
+
+@code {
+
+    [CascadingParameter]
+    public Error Error { get; set; }
+
+    private DxTextBox ProjectNameRef;
+
+    [Inject]
+    private AppState AppState { get; set; }
+
+    [Parameter]
+    public string Title { get; set; }
+    [Parameter]
+    public EventCallback<string> TitleChanged { get; set; }
+
+    [Parameter]
+    public bool ModalAction { get; set; }
+    [Parameter]
+    public EventCallback<bool> ModalActionChanged { get; set; }
+    DxPopup DxPopupRef;
+    public bool ModalActioning
+    {
+        get => ModalAction;
+        set
+        {
+            ModalAction = value;
+            ModalActionChanged.InvokeAsync(value);
+        }
+    }
+
+
+    [Parameter]
+    public string ActionModal { get; set; }
+    [Parameter]
+    public EventCallback<string> ActionModalChanged { get; set; }
+
+    [Parameter]
+    public bool Loading { get; set; }
+    [Parameter]
+    public EventCallback<bool> LoadingChanged { get; set; }
+
+    private bool BColorChange_ { get; set; } = false;
+    private bool FColorChange_ { get; set; } = false;
+
+    private ProjectBlock Block_ { get; set; }
+
+    [Parameter]
+    public ProjectBlock Block
+    {
+        get { return Block_; }
+        set
+        {
+            Block_ = value;
+            if (Block_ != null)
+            {
+                ProjectName = Block_.Name;
+            }
+        }
+    }
+    [Parameter]
+    public EventCallback<ProjectBlock> BlockChanged { get; set; }
+
+    private string Backgrounds_;
+    private string Backgrounds
+    {
+        get => !BColorChange_ ? Block.Backgrounds : Backgrounds_;
+        set
+        {
+            Backgrounds_ = value;
+            BColorChange_ = true;
+        }
+    }
+
+    private string Foregrounds_;
+    private string Foregrounds
+    {
+        get => !FColorChange_ ? Block.Foregrounds : Foregrounds_;
+        set
+        {
+            Foregrounds_ = value;
+            FColorChange_ = true;
+        }
+    }
+
+
+    [Parameter]
+    public EventCallback<ProjectBlock> CallbackDeleteProject { get; set; }
+
+    private string ProjectName = null;
+
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        if (ActionModal == "Rename")
+        {
+            setFocus();
+        }
+    }
+
+    protected async void setFocus()
+    {
+        await JSRuntime.InvokeVoidAsync("bcephal.focusElement", ProjectNameRef);
+    }
+
+    public async Task Changecolor()
+    {
+        try
+        {
+            if (BColorChange_ || FColorChange_)
+            {
+                if (BColorChange_)
+                {
+                    Block.Backgrounds = Backgrounds_;
+                }
+                if (FColorChange_)
+                {
+                    Block.Foregrounds = Foregrounds_;
+                }
+                List<ProjectBlock> ProjectUpdate = new List<ProjectBlock>();
+                ProjectUpdate.Add(Block);
+                bool res = await ProjectService.Saveprojectsworkpace(ProjectUpdate.ToArray(), Convert.ToString(_AppState.ClientId.Value));
+                toastService.ShowInfo(AppState["Color.SuccessfullyChanged"]);
+                await BlockChanged.InvokeAsync(Block);
+                ModalActioning = false;
+                ActionModal = "";
+                StateHasChanged();
+            }
+            BColorChange_ = false;
+            FColorChange_ = false;
+        }
+        catch (Exception ex)
+        {
+            ProjectService.ErrorMessage = "Error";
+            Error.ProcessError(ex);
+            StateHasChanged();
+        }
+    }
+
+    public async Task RenameProject(string rename)
+    {
+        try
+        {
+            Object project = await ProjectService.RenameProject(Block, rename);
+            if (project is Project)
+            {
+                Block.Name = rename;
+                await BlockChanged.InvokeAsync(Block);
+                ModalActioning = false;
+                ActionModal = "";
+                StateHasChanged();
+                toastService.ShowInfo(AppState["Projects.RenameSuccessfully"]);
+            }
+        }
+        catch (Exception ex)
+        {
+            ProjectService.ErrorMessage = "Error";
+            Error.ProcessError(ex);
+            StateHasChanged();
+        }
+    }
+
+    public async Task deleteProject()
+    {
+        try
+        {
+            await CallbackDeleteProject.InvokeAsync(Block);
+            await BlockChanged.InvokeAsync(Block);
+            ModalActioning = false;
+            ActionModal = "";
+            StateHasChanged();
+        }
+        catch (Exception ex)
+        {
+            ProjectService.ErrorMessage = "Error";
+            Error.ProcessError(ex);
+            StateHasChanged();
+        }
+    }
+
+    public ValueTask DisposeAsync()
+    {
+        // Unsubscribe from the event when our component is disposed
+        GC.SuppressFinalize(DxPopupRef);
+        GC.SuppressFinalize(this);
+        return ValueTask.CompletedTask;
+    }
+
+}

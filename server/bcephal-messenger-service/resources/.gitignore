@@ -1,0 +1,4 @@
+/installService.bat
+/installService.sh
+/post-install-update.sh
+/post-remove-update.sh

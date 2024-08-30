@@ -1,0 +1,31 @@
+﻿
+<BaseModalComponent @ref="ModalAud" Title="@Title" Height="50%" ApplyBackgroundShading="true" CssClass="bc-mw-60" BodyClass="overflow-auto" @bind-ShowModal=ShowModal OkHandler="OkHandler" CancelHandler="CancelHandler">
+    <DxStackLayout ItemSpacing="3px" Orientation=Orientation.Vertical>
+        <Items>
+            <DxStackLayoutItem CssClass="bc-dc h-100 ml-1 mr-1 mx-auto">
+                <Template>
+                    @if (CurrentAlarm != null)
+                    {
+                        <div class="mt-1 p-0">
+                            @foreach (var Item in CurrentAlarm.audienceListChangeHandler.Items)
+                            {
+                                @RenderAlarmAudience(Item, true)
+                            }
+                        </div>
+                        <div class="mt-1 p-0">
+                            @RenderAlarmAudience(new(), false)
+                        </div>
+                    }
+                </Template>
+            </DxStackLayoutItem>
+        </Items>
+    </DxStackLayout>
+</BaseModalComponent>
+
+@code{
+    private RenderFragment RenderAlarmAudience(Models.Alarms.AlarmAudience AlarmAudience, bool IsAdded) => __builder =>
+    {
+        <AlarmAudienceItem Users="@Users" Profiles="@Profiles" AlarmAudience="@AlarmAudience" IsAdded=IsAdded 
+                           Editable=Editable AddItemCallback="AddAudienceItem" UpdateItemCallback="UpdateAudienceItem" DeleteItemCallback="DeleteAudienceItem" />
+    };
+}

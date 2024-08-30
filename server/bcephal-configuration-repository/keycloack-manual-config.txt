@@ -1,0 +1,4 @@
+./add-user-keycloak.sh --server http://127.0.0.1:8080/admin --realm bcephalRealm --user cajobcephal --password caj_HVGCCFDREXSWZLKMNBp__KJH
+./kcadm.sh config credentials --server http://127.0.0.1:7492/auth --realm bcephalRealm --user bcephalV8.
+./kcadm.sh config credentials --server http://127.0.0.1:7492/auth --realm master --user bcephalV8. 
+./kcadm.sh update realms/master -s sslRequired=NONE

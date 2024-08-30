@@ -1,0 +1,17 @@
+﻿@page "/reconciliation-scheduled-auto-reco"
+@using Bcephal.Blazor.Web.Pages.Reconciliation
+@inherits Base.Shared.Browser
+@{
+    base.BuildRenderTree(__builder);
+}
+
+@code{
+    public override string Title { get { return AppState["Scheduled.Auto.Recos"]; } }
+
+    public override string TitleIcon { get { return "bi-calendar"; } }
+
+    protected override RenderFragment _BodyContent_ => __builder =>
+    {
+    <ScheduledAutoRecoBrowser />
+    };
+}

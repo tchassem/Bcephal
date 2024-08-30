@@ -1,0 +1,7 @@
+﻿
+<DxComboBox Data="@SupportedCultures.Cultures"
+            InputCssClass="d-flex flex-row"
+            TextFieldName="TwoLetterISOLanguageName"
+            NullText="@( Culture !=null ? Culture.TwoLetterISOLanguageName :  CultureInfo.CurrentCulture.TwoLetterISOLanguageName)"
+            @bind-Value="@Culture" CssClass="culture">
+</DxComboBox>

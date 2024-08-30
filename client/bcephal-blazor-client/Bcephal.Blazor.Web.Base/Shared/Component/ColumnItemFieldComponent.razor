@@ -1,0 +1,57 @@
+﻿
+@BodyRender
+
+@code{
+
+    public RenderFragment EntitiesRender => __builder =>
+    {
+    <div class="configfilter border-left-0 selected-filter" style="border-color: #dfdfdf !important;">
+        @if (EditorData != null)
+            {
+            <EditeField Editable=Editable items=Entities
+                        T="HierarchicalData"
+                        IconCssClass="fa fa-filter"
+                        headerTitle="@AppState["target.entities"]"
+                        SelectItemCallback="SelectAttributeCallback">
+            </EditeField>
+            }
+    </div>
+    };
+
+    public RenderFragment PeriodsRender => __builder =>
+    {
+    <div class="configfilter border-left-0 selected-filter" style="border-color: #dfdfdf !important;">
+        @if (EditorData != null)
+            {
+            <EditeField Editable=Editable items=EditorData.Periods
+                        T="Models.Dimensions.Period"
+                        IconCssClass="fa fa-calendar"
+                        headerTitle="@AppState["target.period"]"
+                        SelectItemCallback="SelectPeriodeCallback">
+            </EditeField>
+            }
+    </div>
+    };
+    public RenderFragment MeasuresRender => __builder =>
+    {
+    <div class="configfilter border-left-0 selected-filter" style="border-color: #dfdfdf !important;">
+        @if (EditorData != null)
+            {
+
+            <EditeField Editable=Editable items=EditorData.Measures
+                        T="Measure"
+                        IconCssClass="fa fa-balance-scale"
+                        headerTitle="@AppState["MEASURE"]"
+                        SelectItemCallback="SelectMesureCallback">
+            </EditeField>
+            }
+    </div>
+    };
+
+    public RenderFragment BodyRender => __builder =>
+    {
+        var heightCall = "var(--bc-dx-tabs-content-panel-height-30)";
+    <SplitterPanel LeftSize="1" Panes="(new() {MeasuresRender,PeriodsRender, EntitiesRender})"
+                   vertical="false" heightCall=@heightCall />
+    };
+}

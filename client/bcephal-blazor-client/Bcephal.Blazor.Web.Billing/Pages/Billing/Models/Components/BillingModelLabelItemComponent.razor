@@ -1,0 +1,63 @@
+﻿@if (@BillingModelEditorData != null)
+{
+<DxStackLayout CssClass="w-100" Orientation="Orientation.Horizontal" ItemSpacing="2px">
+    <Items>
+        <DxStackLayoutItem CssClass="ml-2"  Length="2fr">
+            <Template>
+                <DxStackLayout CssClass="ml-2 w-100 mb-1 align-items-center bc-box-sizing" Orientation="Orientation.Horizontal" ItemSpacing="10px">
+                    <Items>
+
+                        <DxStackLayoutItem CssClass="d-flex align-items-center justify-content-start" Length="0.5fr">
+                            <Template>
+                                <DxTextBox Enabled="Editable" NullText="@AppState["code"]" @bind-Text=Code__ />
+                            </Template>
+                        </DxStackLayoutItem>
+
+                        @if (!string.IsNullOrWhiteSpace(ModelLabel.Code))
+                        {
+                            <DxStackLayoutItem CssClass=" h-100 d-flex align-items-center w-100" Length="0.5fr">
+                                <Template>
+                                    <DxStackLayout CssClass="w-100 h-100 d-flex align-items-center justify-content-center" Orientation="Orientation.Horizontal" ItemSpacing="5px">
+                                        <Items>
+                                            @foreach (var item in ModelLabel.ValueListChangeHandler.Items)
+                                            {
+                                                <DxStackLayoutItem CssClass="h-100 d-flex align-items-center justify-content-center">
+                                                    <Template>
+                                                        <DxButton RenderStyle="ButtonRenderStyle.Link"
+                                                                  SizeMode="SizeMode.Medium" 
+                                                                  Enabled="Editable"
+                                                                  Text="@item.Locale" 
+                                                                  @onclick="() => ShowValue(item)" />
+                                                    </Template>
+                                                </DxStackLayoutItem>
+                                            }
+                                        </Items>
+                                    </DxStackLayout>
+                                </Template>
+                            </DxStackLayoutItem>
+                        }
+                        else
+                        {
+                            <DxStackLayoutItem Length="0.8fr" />
+                        }
+
+                    </Items>
+                </DxStackLayout>
+            </Template>
+        </DxStackLayoutItem>
+        <DxStackLayoutItem CssClass="h-100 d-flex align-items-center justify-content-start" Length="3fr">
+            <Template>
+                <DxButton IconCssClass="fa fa-remove"
+                            RenderStyleMode="ButtonRenderStyleMode.Text"
+                          Enabled="Editable"
+                            RenderStyle="ButtonRenderStyle.Danger"
+                            Click="()=> RemoveLabel()" />
+
+            </Template>
+        </DxStackLayoutItem>
+</Items>
+</DxStackLayout>
+
+    <BillingModelLabelModalComponent Title="@AppState["edit.invoice.values"]" @bind-showModal="showModal" LabelValue="@CurrentValue"
+                                UpdateValuesCallBack="UpdateValue" BillingModelEditorData=BillingModelEditorData />
+}

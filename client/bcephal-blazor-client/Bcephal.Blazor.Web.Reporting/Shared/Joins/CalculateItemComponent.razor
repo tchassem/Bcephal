@@ -1,0 +1,143 @@
+﻿
+@if (EditorData != null)
+{
+    @RenderItem
+
+}
+
+@code {
+
+    private  RenderFragment RenderDeleteItem => __builder =>
+    {
+        <DxButton  IconCssClass="fa fa-remove" RenderStyleMode="ButtonRenderStyleMode.Text"
+                  RenderStyle="ButtonRenderStyle.Danger"
+                  Click="(() => DeleteItem(Item))">
+        </DxButton>
+
+    };
+
+    private RenderFragment RenderItem => __builder =>
+        {
+                <DxStackLayout  CssClass="m-2 align-items-center bc-box-sizing" Orientation="Orientation.Horizontal" ItemSpacing="4px">
+                    <Items>
+                        <DxStackLayoutItem CssClass="d-flex justify-content-start" Length="108px">
+                            <Template>
+                                <DxStackLayout ItemSpacing="4px">
+                                    <Items>
+                                        <DxStackLayoutItem Length="50px">
+                                            <Template>
+                                                <DxComboBox Data=Signs
+                                                            TData="string"
+                                                            TValue="string"
+                                                            @bind-Value=Item_.Sign>
+                                                </DxComboBox>
+                                            </Template>
+                                        </DxStackLayoutItem>
+                                        <DxStackLayoutItem Length="50px">
+                                            <Template>
+                                                <DxComboBox Data=FilterUtils.OpenBrackets
+                                                            TData="string"
+                                                            TValue="string"
+                                                            @bind-Value=(Item_.OpeningBracket)>
+                                                </DxComboBox>
+                                            </Template>
+                                        </DxStackLayoutItem>
+
+                                    </Items>
+                                </DxStackLayout>
+                            </Template>
+                        </DxStackLayoutItem>
+                        <DxStackLayoutItem CssClass="w-100">
+                            <Template>
+                                <DxStackLayout Orientation="Orientation.Horizontal" ItemSpacing="4px">
+                                    <Items>
+                                        <DxStackLayoutItem Length="32.9%">
+                                            <Template>
+                                                <DxComboBox Data=@Item_.Field.JoinColumnType.GetAllTypePeriods(text => AppState[text])
+                                                            TData="string"
+                                                            TValue="string"
+                                                            @bind-Value=ColumnType>
+                                                </DxComboBox>
+                                            </Template>
+                                        </DxStackLayoutItem>
+                                        @if (Item_ != null && Item_.Field != null && Item_.Field.JoinColumnType != null && !string.IsNullOrWhiteSpace(Item_.Field.Type) && Item_.Field.JoinColumnType.IsFree())
+                                            {
+                                            <DxStackLayoutItem Length="32.9%">
+                                                <Template>
+                                                    <DxSpinEdit T="decimal?" @bind-Value=Item.Field.DecimalValue />
+                                                </Template>
+                                            </DxStackLayoutItem>
+                                            }
+                                            else if (Item_ != null && Item_.Field != null && Item_.Field.JoinColumnType != null && Item_.Field.JoinColumnType.IsColumn())
+                                            {
+                                            <DxStackLayoutItem Length="32.9%">
+                                                <Template>
+                                                    <DxComboBox Data=EditorData.Item.GridListChangeHandler.Items
+                                                                TData="JoinGrid"
+                                                                TValue="JoinGrid"
+                                                                TextFieldName="Name"
+                                                                @bind-Value=JoinGrid_>
+                                                    </DxComboBox>
+                                                </Template>
+                                            </DxStackLayoutItem>
+                                            }
+                                        @if (Item_ != null && Item_.Field != null && Item_.Field.JoinColumnType != null && Item_.Field.JoinColumnType.IsCopy())
+                                            {
+                                            <DxStackLayoutItem @key="@(Guid.NewGuid().ToString("d"))" Length="32.9%">
+                                                <Template>
+                                                    <DxComboBox Data=@EditorData.Item.ColumnListChangeHandler.Items.Where(x => x.IsPersistent == true && x.Type.Equals(DimensionType.MEASURE))
+                                                                TData="JoinColumn"
+                                                                TValue="JoinColumn"
+                                                                TextFieldName="Name"
+                                                                @bind-Value=SelectedJoinColumn>
+                                                    </DxComboBox>
+                                                </Template>
+                                            </DxStackLayoutItem>
+                                            }
+                                            else if (Item_ != null && Item_.Field != null && Item_.Field.JoinColumnType != null && Item_.Field.JoinColumnType.IsColumn() && JoinGrid_ != null && JoinGrid_.GridId.HasValue)
+                                            {
+                                            <DxStackLayoutItem  @key="@(Guid.NewGuid().ToString("d"))" Length="32.9%">
+                                                <Template>
+                                                    <DxComboBox Data=GetColumns()
+                                                                TData="SmallGrilleColumn"
+                                                                TValue="SmallGrilleColumn"
+                                                                TextFieldName="Name"
+                                                                @bind-Value=SelectedColumn>
+                                                    </DxComboBox>
+                                                </Template>
+                                            </DxStackLayoutItem>
+                                            }
+                                    </Items>
+                                </DxStackLayout>
+                            </Template>
+                        </DxStackLayoutItem>
+                        <DxStackLayoutItem CssClass="d-flex justify-content-end" Length="88px">
+                            <Template>
+                                <DxStackLayout ItemSpacing="4px">
+                                    <Items>                                        
+                                        <DxStackLayoutItem @key="@(Guid.NewGuid().ToString("d"))" Length="50px">
+                                            <Template>
+                                                <DxComboBox Data=FilterUtils.CloseBrackets
+                                                            TData="string"
+                                                            TValue="string"
+                                                            @bind-Value=(Item_.ClosingBracket)>
+                                                </DxComboBox>
+                                            </Template>
+                                        </DxStackLayoutItem>
+                                        <DxStackLayoutItem Length="30px">
+                                            <Template>
+                                                @if (!IsNew)
+                                                    {
+                                                    @RenderDeleteItem
+                                                    }
+                                            </Template>
+                                        </DxStackLayoutItem>
+                                    </Items>
+                                </DxStackLayout>
+                            </Template>
+                        </DxStackLayoutItem>
+                    </Items>
+                </DxStackLayout>
+        };
+
+}

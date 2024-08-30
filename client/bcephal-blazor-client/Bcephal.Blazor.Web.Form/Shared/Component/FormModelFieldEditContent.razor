@@ -1,0 +1,32 @@
+﻿@if (Fields != null)
+{
+
+<DxGridLayout ColumnSpacing="0px">
+    <Rows>
+        @{
+            foreach (var field in Fields)
+            {
+                <DxGridLayoutRow Areas="@(filedName + "P" + field.Position)" Height="auto" />
+            }
+        }
+    </Rows>
+    <Columns>
+        <DxGridLayoutColumn Width="1fr" />
+    </Columns>
+    <Items>
+        @{
+            foreach (var field in Fields)
+            {
+                <FormModelFieldContentItem filedName=@(filedName + "P" + field.Position) 
+                                           Field=field 
+                                           AddOrUpdateHandler=AddOrUpdateFromData
+                                           ValueHandler=GetData
+                                           />
+            }
+            }
+    </Items>
+</DxGridLayout>
+            }
+@code {
+
+}

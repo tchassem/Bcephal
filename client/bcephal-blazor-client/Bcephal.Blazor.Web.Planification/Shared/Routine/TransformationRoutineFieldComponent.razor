@@ -1,0 +1,238 @@
+﻿
+<DxStackLayout ItemSpacing=@ItemSpacing Orientation=Orientation.Horizontal CssClass=@ItemCssClass>
+    <Items>
+        <DxStackLayoutItem Length="@(SourceTypeSize)">
+            <Template>
+                <DxStackLayout Orientation=@Orientation.Vertical ItemSpacing="0px">
+                    <Items>
+                        @if (ShowItemLabels)
+                        {
+                            <DxStackLayoutItem Length=@TextLength>
+                                <Template>
+                                    <span>@AppState["With"]</span>
+                                </Template>
+                            </DxStackLayoutItem>
+                        }
+                        <DxStackLayoutItem Length="1fr">
+                            <Template>
+                                <DxComboBox Data=@(SourceTypes != null ? SourceTypes : TransformationRoutineSourceType.GetAll(Type))
+                                            TData="TransformationRoutineSourceType"
+                                            TValue="TransformationRoutineSourceType"
+                                            @bind-Value=@(RoutineSourceType)>
+                                </DxComboBox>
+                            </Template>
+                        </DxStackLayoutItem>
+                    </Items>
+                </DxStackLayout>
+            </Template>
+        </DxStackLayoutItem>
+        @if (RoutineSourceType == TransformationRoutineSourceType.DIMENSION)
+        {
+            <DxStackLayoutItem Length="*">
+                <Template>
+                    <DxStackLayout Orientation=@Orientation.Vertical ItemSpacing="0px">
+                        <Items>
+                            @if (ShowItemLabels)
+                            {
+                                <DxStackLayoutItem Length=@dimensionTextLenght>
+                                </DxStackLayoutItem>
+                            }
+                            <DxStackLayoutItem Length="1fr">
+                                <Template>
+                                    <DxStackLayout Orientation=@Orientation.Horizontal ItemSpacing=@ItemSpacing>
+                                        <Items>
+                                            <DxStackLayoutItem Length=@(Type == DimensionType.PERIOD ? "0.4fr" : "1fr")>
+                                                <Template>
+                                                    <TreeViewFilter C="Bcephal.Models.Base.HierarchicalData"
+                                                                    ItemsFilter="Dimensions"
+                                                                    SelectedItem=@(Dimension != null ? Dimension.Name : null)
+                                                                    SelectFilterItemCallback=@OnDimensionChanged>
+                                                    </TreeViewFilter>
+                                                </Template>
+                                            </DxStackLayoutItem>
+                                            @if (Type == DimensionType.PERIOD)
+                                            {
+                                                <DxStackLayoutItem Length="0.6fr">
+                                                    <Template>
+                                                        <PeriodValueeComponent @bind-FilterItem=@PeriodValue
+                                                                               SimplifiedView="true"
+                                                                               ItemSpacing=@ItemSpacing>
+                                                        </PeriodValueeComponent>
+                                                    </Template>
+                                                </DxStackLayoutItem>
+                                            }
+                                        </Items>
+                                    </DxStackLayout>
+                                </Template>
+                            </DxStackLayoutItem>
+                        </Items>
+                    </DxStackLayout>
+                </Template>
+            </DxStackLayoutItem>
+        }
+        else if (RoutineSourceType == TransformationRoutineSourceType.MAPPING)
+        {
+            if (true)
+            {
+
+            }
+            <DxStackLayoutItem Length="*">
+                <Template>
+                    <DxStackLayout Orientation=@Orientation.Vertical ItemSpacing="0px">
+                        <Items>
+                            @if (ShowItemLabels)
+                            {
+                                <DxStackLayoutItem Length=@TextLength>
+                                </DxStackLayoutItem>
+                            }
+                            <DxStackLayoutItem Length="1fr">
+                                <Template>
+                                    <RoutineMappingComponent @bind-RoutineMapping=@Mapping Type="@Type">
+                                    </RoutineMappingComponent>
+                                </Template>
+                            </DxStackLayoutItem>
+                        </Items>
+                    </DxStackLayout>
+                </Template>
+            </DxStackLayoutItem>
+        }
+        else if (RoutineSourceType == TransformationRoutineSourceType.CONCATENATE)
+        {
+            <DxStackLayoutItem Length="*">
+                <Template>
+                    <DxStackLayout Orientation=@Orientation.Vertical ItemSpacing="0px">
+                        <Items>
+                            @if (ShowItemLabels)
+                            {
+                                <DxStackLayoutItem Length=@TextLength>
+                                </DxStackLayoutItem>
+                            }
+                            <DxStackLayoutItem Length="1fr">
+                                <Template>
+                                    @Fragment
+                                </Template>
+                            </DxStackLayoutItem>
+                        </Items>
+                    </DxStackLayout>
+                </Template>
+            </DxStackLayoutItem>
+        }
+        else if (RoutineSourceType == TransformationRoutineSourceType.CALCULATE)
+        {
+            <DxStackLayoutItem Length="*">
+                <Template>
+                    <DxStackLayout Orientation=@Orientation.Vertical ItemSpacing="0px">
+                        <Items>
+                            @if (ShowItemLabels)
+                            {
+                                <DxStackLayoutItem Length=@TextLength>
+                                </DxStackLayoutItem>
+                            }
+                            <DxStackLayoutItem Length="1fr">
+                                <Template>
+                                    @Fragment
+                                </Template>
+                            </DxStackLayoutItem>
+                        </Items>
+                    </DxStackLayout>
+                </Template>
+            </DxStackLayoutItem>
+        }
+        else if (RoutineSourceType == TransformationRoutineSourceType.FREE)
+        {
+            <DxStackLayoutItem Length="*">
+                <Template>
+                    <DxStackLayout Orientation=@Orientation.Vertical ItemSpacing="0px">
+                        <Items>
+                            @if (ShowItemLabels)
+                            {
+                                <DxStackLayoutItem Length=@freeTextLenght>
+                                </DxStackLayoutItem>
+                            }
+                            <DxStackLayoutItem Length="1fr">
+                                <Template>
+                                    @if (Type == DimensionType.ATTRIBUTE)
+                                    {
+                                        <DxTextBox @bind-Text=@StringValue></DxTextBox>
+                                    }
+                                    else if (Type == DimensionType.MEASURE)
+                                    {
+                                        <DxSpinEdit T="decimal?" 
+                                                    @bind-Value="@DecimalValue"
+                                                    ShowSpinButtons="false">
+                                        </DxSpinEdit>
+                                    }
+                                    else if (Type == DimensionType.PERIOD)
+                                    {
+                                        <PeriodValueeComponent @bind-FilterItem=@PeriodValue
+                                                               SimplifiedView="false"
+                                                               ItemSpacing=@ItemSpacing>
+                                        </PeriodValueeComponent>
+                                    }
+                                </Template>
+                            </DxStackLayoutItem>
+                        </Items>
+                    </DxStackLayout>
+                </Template>
+            </DxStackLayoutItem>
+        }
+        else if (RoutineSourceType == TransformationRoutineSourceType.POSITION)
+        {
+            <DxStackLayoutItem Length="*">
+                <Template>
+                    <DxStackLayout Orientation=@Orientation.Vertical ItemSpacing="0px">
+                        <Items>
+                            @if (ShowItemLabels)
+                            {
+                                <DxStackLayoutItem Length=@TextLength>
+                                </DxStackLayoutItem>
+                            }
+                            <DxStackLayoutItem Length="1fr" >
+                                <Template>
+                                    <DxStackLayout Orientation=@Orientation.Horizontal ItemSpacing=@ItemSpacing >
+                                        <Items>
+                                            <DxStackLayoutItem Length="auto">
+                                                <Template>
+                                                    <span class="ml-2">@AppState["From_"]</span>
+                                                </Template>
+                                            </DxStackLayoutItem>
+                                            <DxStackLayoutItem Length="1fr">
+                                                <Template>
+                                                    <DxSpinEdit T="int?"
+                                                                @bind-Value=@PositionStart
+                                                                ShowSpinButtons="false">
+                                                    </DxSpinEdit>
+                                                </Template>
+                                            </DxStackLayoutItem>
+                                            <DxStackLayoutItem Length="auto">
+                                                <Template>
+                                                    <span class="ml-2">@AppState["To_"]</span>
+                                                </Template>
+                                            </DxStackLayoutItem>
+                                            <DxStackLayoutItem Length="1fr">
+                                                <Template>
+                                                    <DxSpinEdit T="int?"
+                                                                @bind-Value=@PositionEnd
+                                                                ShowSpinButtons="false">
+                                                    </DxSpinEdit>
+                                                </Template>
+                                            </DxStackLayoutItem>
+                                        </Items>
+                                    </DxStackLayout>
+                                </Template>
+                            </DxStackLayoutItem>
+                        </Items>
+                    </DxStackLayout>
+                </Template>
+            </DxStackLayoutItem>
+        }
+    </Items>
+</DxStackLayout>
+
+@code {
+
+}
+
+@code {
+
+}

@@ -1,0 +1,184 @@
+﻿
+<CardComponent CanDisplayHeader="(EditorData != null)" CardCssClass="card" HeaderCssClass="bc-header-2 card-header mt-1 pt-1">
+    <Header>
+        <span>@AppState["Invoice"]</span>
+    </Header>
+    <ChildContent>
+        @if (EditorData != null)
+        {
+            <DxLayoutBreakpoint DeviceSize="DeviceSize.Medium | DeviceSize.Small | DeviceSize.XSmall" @bind-IsActive="@IsSmallScreen" />
+            <DxStackLayout CssClass="w-100 h-100" Orientation="Orientation.Vertical" ItemSpacing="15px">
+                <Items>
+                    <DxStackLayoutItem CssClass="ml-2 mr-2" Length="1fr">
+                        <Template>
+                            <DxStackLayout CssClass="w-100 mt-2" Orientation="Orientation.Vertical" ItemSpacing="10px">
+                                <Items>
+                                    <DxStackLayoutItem CssClass="w-100" Length="auto">
+                                        <Template>
+                                            <DxStackLayout CssClass="w-100" Orientation="Orientation.Horizontal">
+                                                <Items>
+                                                    <DxStackLayoutItem Length="@LengthItem1Lg">
+                                                        <Template>
+                                                            <div class="d-flex flex-column h-100">
+                                                                <span class="@(IsSmallScreen ? labelSm : labelLg)">@AppState["ref"]</span>
+                                                            </div>
+                                                        </Template>
+                                                    </DxStackLayoutItem>
+                                                    <DxStackLayoutItem Length=@LengthItem2Lg>
+                                                        <Template>
+                                                            <DxTextBox ReadOnly="true" @bind-Text="@Reference" BindValueMode="BindValueMode.OnInput"/>
+                                                        </Template>
+                                                    </DxStackLayoutItem>
+                                                </Items>
+                                            </DxStackLayout>
+                                        </Template>
+                                    </DxStackLayoutItem>
+                                    <DxStackLayoutItem CssClass="w-100" Length="auto">
+                                        <Template>
+                                            <DxStackLayout CssClass="w-100" Orientation="Orientation.Horizontal">
+                                                <Items>
+                                                    <DxStackLayoutItem Length="@LengthItem1Lg">
+                                                        <Template>
+                                                            <div class="d-flex flex-column h-100">
+                                                                <span class="@(IsSmallScreen ? labelSm : labelLg)">@AppState["DATE"]</span>
+                                                            </div>
+                                                        </Template>
+                                                    </DxStackLayoutItem>
+                                                    <DxStackLayoutItem Length="@LengthItem2Lg">
+                                                        <Template>
+                                                            <DxDateEdit Enabled="false" @bind-Date="@CreationDateTime" Mask="dd-MM-yyyy" ClearButtonDisplayMode="DataEditorClearButtonDisplayMode.Never" />
+                                                        </Template>
+                                                    </DxStackLayoutItem>
+                                                </Items>
+                                            </DxStackLayout>
+                                        </Template>
+                                    </DxStackLayoutItem>
+                                    <DxStackLayoutItem CssClass="w-100" Length="auto">
+                                        <Template>
+                                            <DxStackLayout CssClass="w-100" Orientation="Orientation.Horizontal">
+                                                <Items>
+                                                    <DxStackLayoutItem Length="@LengthItem1Lg">
+                                                        <Template>
+                                                            <div class="d-flex flex-column h-100">
+                                                                <span class="@(IsSmallScreen ? labelSm : labelLg)">@AppState["DueDate"]</span>
+                                                            </div>
+                                                        </Template>
+                                                    </DxStackLayoutItem>
+                                                    <DxStackLayoutItem Length="@LengthItem2Lg">
+                                                        <Template>
+                                                            <DxDateEdit Enabled="false" @bind-Date="@DueDate" Mask="dd-MM-yyyy" ClearButtonDisplayMode="DataEditorClearButtonDisplayMode.Auto" />
+                                                        </Template>
+                                                    </DxStackLayoutItem>
+                                                </Items>
+                                            </DxStackLayout>
+                                        </Template>
+                                    </DxStackLayoutItem>
+                                    <DxStackLayoutItem CssClass="w-100" Length="auto">
+                                        <Template>
+                                            <DxStackLayout CssClass="w-100" Orientation="Orientation.Horizontal">
+                                                <Items>
+                                                    <DxStackLayoutItem Length="@LengthItem1Lg">
+                                                        <Template>
+                                                            <div class="d-flex flex-column h-100">
+                                                                <span class="@(IsSmallScreen ? labelSm : labelLg)">@AppState["currency"]</span>
+                                                            </div>
+                                                        </Template>
+                                                    </DxStackLayoutItem>
+                                                    <DxStackLayoutItem Length="@LengthItem2Lg">
+                                                        <Template>
+                                                            <DxTextBox ReadOnly="true" @bind-Text="@Currency" BindValueMode="BindValueMode.OnInput"/>
+                                                        </Template>
+                                                    </DxStackLayoutItem>
+                                                </Items>
+                                            </DxStackLayout>
+                                        </Template>
+                                    </DxStackLayoutItem>
+                                    <DxStackLayoutItem CssClass="w-100" Length="auto">
+                                        <Template>
+                                            <DxStackLayout CssClass="w-100" Orientation="Orientation.Horizontal">
+                                                <Items>
+                                                    <DxStackLayoutItem Length="@LengthItem1Lg">
+                                                        <Template>
+                                                            <div class="d-flex flex-column h-100">
+                                                                <span class="@(IsSmallScreen ? labelSm : labelLg)">@AppState["version"]</span>
+                                                            </div>
+                                                        </Template>
+                                                    </DxStackLayoutItem>
+                                                    <DxStackLayoutItem Length="@LengthItem2Lg">
+                                                        <Template>
+                                                            <DxTextBox ReadOnly="true" @bind-Text="@Version" BindValueMode="BindValueMode.OnInput"/>
+                                                        </Template>
+                                                    </DxStackLayoutItem>
+                                                </Items>
+                                            </DxStackLayout>
+                                        </Template>
+                                    </DxStackLayoutItem>
+                                    <DxStackLayoutItem CssClass="w-100" Length="auto">
+                                        <Template>
+                                            <DxStackLayout CssClass="w-100" Orientation="Orientation.Horizontal">
+                                                <Items>
+                                                    <DxStackLayoutItem Length="@LengthItem1Lg">
+                                                        <Template>
+                                                            <div class="d-flex flex-column h-100">
+                                                                <span class="@(IsSmallScreen ? labelSm : labelLg)">@AppState["modified"]</span>
+                                                            </div>
+                                                        </Template>
+                                                    </DxStackLayoutItem>
+                                                    <DxStackLayoutItem Length="@LengthItem2Lg">
+                                                        <Template>
+                                                            <DxCheckBox Enabled="false" CssClass="w-auto mt-auto mb-auto" @bind-Checked="@Modified" Alignment="CheckBoxContentAlignment.Left" />
+                                                        </Template>
+                                                    </DxStackLayoutItem>
+                                                </Items>
+                                            </DxStackLayout>
+                                        </Template>
+                                    </DxStackLayoutItem>
+                                    <DxStackLayoutItem CssClass="w-100" Length="auto">
+                                        <Template>
+                                            <DxStackLayout CssClass="w-100" Orientation="Orientation.Horizontal">
+                                                <Items>
+                                                    <DxStackLayoutItem Length="@LengthItem1Lg">
+                                                        <Template>
+                                                            <div class="d-flex flex-column h-100">
+                                                                <span class="@(IsSmallScreen ? labelSm : labelLg)">@AppState["Status"]</span>
+                                                            </div>
+                                                        </Template>
+                                                    </DxStackLayoutItem>
+                                                    <DxStackLayoutItem Length="@LengthItem2Lg">
+                                                        <Template>
+                                                            <DxTextBox Enabled="false" @bind-Text="@Status" BindValueMode="BindValueMode.OnInput"/>
+                                                        </Template>
+                                                    </DxStackLayoutItem>
+                                                </Items>
+                                            </DxStackLayout>
+                                        </Template>
+                                    </DxStackLayoutItem>
+                                    <DxStackLayoutItem CssClass="w-100" Length="auto">
+                                        <Template>
+                                            <DxStackLayout CssClass="w-100" Orientation="Orientation.Horizontal">
+                                                <Items>
+                                                    <DxStackLayoutItem Length="@LengthItem1Lg">
+                                                        <Template>
+                                                            <div class="d-flex flex-column h-100">
+                                                                <span class="@(IsSmallScreen ? labelSm : labelLg)">@AppState["Description"]</span>
+                                                            </div>
+                                                        </Template>
+                                                    </DxStackLayoutItem>
+                                                    <DxStackLayoutItem Length="@LengthItem2Lg">
+                                                        <Template>
+                                                            <DxTextBox Enabled="false" @bind-Text="@Description" BindValueMode="BindValueMode.OnInput"/>
+                                                        </Template>
+                                                    </DxStackLayoutItem>
+                                                </Items>
+                                            </DxStackLayout>
+                                        </Template>
+                                    </DxStackLayoutItem>
+                                </Items>
+                            </DxStackLayout>
+                        </Template>
+                    </DxStackLayoutItem>
+                </Items>
+            </DxStackLayout>
+        }
+    </ChildContent>
+</CardComponent>

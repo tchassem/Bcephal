@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bcephal-form-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bcephal-form-service
+    
+  template:
+    metadata:
+      labels:
+        app: bcephal-form-service
+    spec:
+      volumes:
+      - name: bcephal-form-repository
+        hostPath:
+          path: /opt/bcephal-form-repository
+      containers:
+      - name: bcephal-form-service
+        image: localhost:5000/becphal-form-service-docker-image
+        volumeMounts:
+        - name: bcephal-form-repository
+          mountPath: /opt/bcephal-form-repository
+
+        ports:
+        - containerPort: 32007 
+        
+        
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: bcephal-form-service
+spec:
+  selector:
+    app: bcephal-form-service
+  type: NodePort
+  ports:  
+    - name: http
+      nodePort: 32007
+      port: 32007
+      targetPort: 32007
+      protocol: TCP
+   
+  
+  
+
+
+  
+

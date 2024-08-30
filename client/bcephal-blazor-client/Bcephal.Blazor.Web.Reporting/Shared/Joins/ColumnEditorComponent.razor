@@ -1,0 +1,627 @@
+﻿@if (EditorData != null && JoinColumn_ != null)
+{
+    <CardComponent @ref="CardComponentRef" ShouldRender_="true" CanDisplayHeader="true" Header=HeaderRender CardCssClass="card" HeaderCssClass="bc-header-3 card-header pt-1">
+        @RenderBody_
+    </CardComponent>
+
+    <BaseModalComponent Title="@AppState["Dateformatdescription"]" ApplyBackgroundShading="true" @bind-ShowModal=@ShowFormatPopUp>
+        @RenderContent
+    </BaseModalComponent>
+
+    <JoinEditOperationComponent @bind-ShowModal=CanShowCalcualteModal @bind-EditorData=EditorData Item=JoinColumn_ />
+
+    <Concatenation @bind-ShowModal=CanShowConcatenateModal @bind-EditorData=EditorData JoinColumn=JoinColumn_ />
+}
+@code 
+{
+private RenderFragment HeaderRender => __builder =>
+{
+    <span>@AppState["column.editor"]</span> 
+};
+
+private RenderFragment RenderBody_ => __builder =>
+{
+<CardComponent ShouldRender_="true" CanDisplayHeader="true" HeaderCssClass="mt-1 mb-3">
+    <ChildContent>
+        @RenderColumnEditorContent()
+    </ChildContent>
+</CardComponent> };
+
+public RenderFragment RenderColumnEditorContent()
+{
+RenderFragment RenderWidget = __builder =>
+{
+<div class="h-100 overflow-auto">
+    <div class="px-1 h-100 overflow-auto min-w-600">
+        @if (JoinColumn_.DimensionName != null)
+    {
+<DxStackLayout ItemSpacing=@ItemSpacing Orientation=Orientation.Horizontal CssClass="px-1 pb-1">
+    <Items>
+        @RenderDimension
+    </Items>
+</DxStackLayout>}
+        <DxStackLayout ItemSpacing=@ItemSpacing Orientation=Orientation.Horizontal CssClass="px-1 pb-1 d-flex align-items-center">
+            <Items>
+                @RenderColumnName
+                @RenderColumnSize
+            </Items>
+        </DxStackLayout>
+        @if (JoinColumn_.Category.IsCustom())
+    {
+<DxStackLayout ItemSpacing=@ItemSpacing Orientation=Orientation.Horizontal CssClass="px-1 pb-1">
+    <Items>
+        @RenderProperties
+    </Items>
+</DxStackLayout>}
+        <DxStackLayout ItemSpacing=@ItemSpacing Orientation=Orientation.Horizontal CssClass="px-1 pb-1 d-flex align-items-center">
+            <Items>
+                @RenderPublication
+                @RenderFunction
+            </Items>
+        </DxStackLayout>
+        <DxStackLayout ItemSpacing=@ItemSpacing Orientation=Orientation.Horizontal CssClass="px-1 d-flex align-items-center">
+            <Items>
+                @RenderShapeColor
+                @RenderTextColor
+                @RenderFixedStyle
+                @FormatRender
+            </Items>
+        </DxStackLayout>
+    </div>
+</div> };
+return RenderWidget;
+}
+
+RenderFragment RenderDimension => __builder =>
+{
+<DxStackLayoutItem Length=@TextLength>
+    <Template>
+        <div class="fs-sm"><span class="text-uppercase">@JoinColumn_.Type.GetText(text => AppState[text]) : </span>@JoinColumn_.Name</div>
+    </Template>
+</DxStackLayoutItem> };
+
+
+RenderFragment RenderColumnName => __builder =>
+{
+<DxStackLayoutItem Length=@ItemLength>
+    <Template>
+        <DxStackLayout Orientation=@Orientation.Vertical ItemSpacing="0px">
+            <Items>
+                <DxStackLayoutItem Length=@LabelLength>
+                    <Template>
+                        <span class="text-truncate fs-sm">@AppState["Gridcolumn.ColumnName"]</span>
+                    </Template>
+                </DxStackLayoutItem>
+                <DxStackLayoutItem Length=@ItemLength>
+                    <Template>
+                        <DxTextBox ReadOnly=!Editable @bind-Text=Name></DxTextBox>
+                    </Template>
+                </DxStackLayoutItem>
+            </Items>
+        </DxStackLayout>
+    </Template>
+</DxStackLayoutItem> 
+};
+
+RenderFragment RenderColumnSize => __builder =>
+{
+<DxStackLayoutItem>
+    <Template>
+        <DxStackLayout Orientation=@Orientation.Vertical ItemSpacing="0px">
+            <Items>
+                <DxStackLayoutItem Length=@LabelLength>
+                    <Template>
+                        <span class="text-truncate fs-sm">@AppState["column.size"]</span>
+                    </Template>
+                </DxStackLayoutItem>
+                <DxStackLayoutItem>
+                    <Template>       
+                        <DxStackLayout Orientation=@Orientation.Horizontal ItemSpacing=@ItemSpacing CssClass="d-flex align-items-center">
+                            <Items>
+                                <DxStackLayoutItem Length=@ItemLength>
+                                    <Template>
+                                        <DxSpinEdit ReadOnly=!Editable @bind-Value=Width T="int?" MinValue="5" />
+                                    </Template>
+                                </DxStackLayoutItem>
+                                <DxStackLayoutItem Length=@ItemLength CssClass="align-self-center">
+                                    <Template>
+                                        <DxCheckBox Enabled=Editable @bind-Checked=Show Alignment="CheckBoxContentAlignment.Left" CssClass="fs-sm" LabelPosition="LabelPosition.Right">
+                                            @AppState["Gridcolumn.show.column"]
+                                        </DxCheckBox>
+                                    </Template>
+                                </DxStackLayoutItem>
+                            </Items>
+                        </DxStackLayout>
+                    </Template>
+                </DxStackLayoutItem>
+            </Items>
+        </DxStackLayout>
+    </Template>
+</DxStackLayoutItem> 
+};
+
+RenderFragment RenderProperties => __builder =>
+{
+<DxStackLayoutItem Length=@TextLength>
+    <Template>
+        <DxStackLayout Orientation=@Orientation.Vertical ItemSpacing="0px">
+            <Items>
+                <DxStackLayoutItem Length=@LabelLength>
+                    <Template>
+                        <span class="fs-sm">@AppState["Grid.edit.column.properties"]</span>
+                    </Template>
+                </DxStackLayoutItem>
+                <DxStackLayoutItem Length=@TextLength>
+                    <Template>
+                        <DxStackLayout Orientation=@Orientation.Horizontal ItemSpacing=@ItemSpacing CssClass="d-flex align-items-center">
+                            <Items>
+                                <DxStackLayoutItem Length=@ItemLength>
+                                    <Template>
+                                        <DxComboBox Enabled="Editable" Data=@DimensionTypes TData="string" TValue="string"
+                                                    @bind-Value=@DimensionType_>
+                                        </DxComboBox>
+                                    </Template>
+                                </DxStackLayoutItem>
+                                <DxStackLayoutItem Length=@ItemLength>
+                                    <Template>
+                                        @if (@DimensionType == DimensionType.ATTRIBUTE)
+                                        {
+                                            <DxComboBox Data=@ColumnAttributeTypes @bind-Value=@JoinColumnType_ />
+                                         }
+                                        else if (@DimensionType == DimensionType.MEASURE)
+                                        {
+                                            <DxComboBox Data=@ColumnMeasureTypes @bind-Value=@JoinColumnType_ />
+                                         }
+                                        else
+                                        {
+                                            <DxComboBox Data=@ColumnPeriodTypes @bind-Value=@JoinColumnType_ />
+                                        }
+                                    </Template>
+                                </DxStackLayoutItem>
+                                @if (JoinColumn_ != null && JoinColumn_.Properties != null && JoinColumn_.Properties.Field != null)
+                                {
+                                    if (JoinColumn_.Properties.Field.JoinColumnType == JoinColumnType.FREE)
+                                    {
+                                        @RenderColumnTypeFree 
+                                    }
+                                    if (JoinColumn_.Properties.Field.JoinColumnType == JoinColumnType.COLUMN)
+                                    {
+                                        @RenderColumnTypeColumn 
+                                    }
+                                    if (JoinColumn_.Properties.Field.JoinColumnType == JoinColumnType.COPY)
+                                    {
+                                        @RenderColumnTypeCopy 
+                                    }
+                                    if (JoinColumn_.Properties.Field.JoinColumnType == JoinColumnType.CONCATENATE)
+                                    {
+                                        @RenderColumnTypeConcatenate 
+                                    }
+                                    if (JoinColumn_.Properties.Field.JoinColumnType == JoinColumnType.POSITION)
+                                    {
+                                        @RenderColumnTypePosition 
+                                    }
+                                    if (JoinColumn_.Properties.Field.JoinColumnType == JoinColumnType.CALCULATE)
+                                    {
+                                        @RenderColumnTypeCalculate 
+                                    }
+                                    if (JoinColumn_.Properties.Field.JoinColumnType == JoinColumnType.SEQUENCE)
+                                    {
+                                        @RenderColumnTypeSequence 
+                                    }
+                                    if (JoinColumn_.Properties.Field.JoinColumnType == JoinColumnType.SPOT)
+                                    {
+                                        @RenderColumnTypeSpot
+                                    }
+                                }
+                            </Items>
+                        </DxStackLayout>
+                    </Template>
+                </DxStackLayoutItem>
+            </Items>
+        </DxStackLayout>
+    </Template>
+</DxStackLayoutItem> };
+
+RenderFragment RenderColumnTypeColumn => __builder =>
+{
+<DxStackLayoutItem Length=@ItemLength>
+    <Template>
+        <DxComboBox Enabled="Editable" Data=GetEditorData().Item.GridListChangeHandler.Items TData="JoinGrid" TValue="JoinGrid" TextFieldName="Name"
+                    NullText="@AppState["SelectGrid"]" @bind-Value="Grille" />
+    </Template>
+</DxStackLayoutItem>
+<DxStackLayoutItem Length=@ItemLength>
+    <Template>
+        <DxComboBox Enabled="Editable" Data=GetColumns() TData="SmallGrilleColumn" TValue="SmallGrilleColumn"
+                    NullText="@AppState["select.column"]" @bind-Value="@Column" />
+    </Template>
+</DxStackLayoutItem>
+@if (@DimensionType == DimensionType.PERIOD)
+{
+<DxStackLayoutItem Length="0.4fr">
+    <Template>
+        <PeriodValueeComponent @bind-FilterItem=@PeriodValue_
+                                SimplifiedView="true"
+                                ItemSpacing=@ItemSpacing>
+        </PeriodValueeComponent>
+    </Template>
+</DxStackLayoutItem>
+} 
+};
+
+RenderFragment RenderColumnTypeCopy => __builder =>
+{
+<DxStackLayoutItem Length=@ItemLength>
+    <Template>
+        <DxComboBox Enabled="Editable" Data=@EditorData.Item.ColumnListChangeHandler.Items.Where(x => (x.IsPersistent == true && x.Type.Equals(JoinColumn_.Properties.Field.DimensionType)) ) NullText="@AppState["select.column"]"
+                    TData="JoinColumn" TValue="JoinColumn"
+                    TextFieldName="Name" @bind-Value=SelectedJoinColumn>
+        </DxComboBox>
+    </Template>
+</DxStackLayoutItem> 
+};
+
+RenderFragment RenderColumnTypeFree => __builder =>
+{
+if (JoinColumn_.Properties.Field.DimensionType.IsAttribute())
+{
+<DxStackLayoutItem Length=@ItemLength>
+    <Template>
+        <DxTextBox ReadOnly=!Editable @bind-Text=StringValue NullText=""></DxTextBox>
+    </Template>
+</DxStackLayoutItem> }
+else if (JoinColumn_.Properties.Field.DimensionType.IsMeasure())
+{
+<DxStackLayoutItem Length=@ItemLength>
+    <Template>
+        <DxSpinEdit ReadOnly=!Editable @bind-Value="DecimalValue" MinValue="0" />
+    </Template>
+</DxStackLayoutItem> }
+else
+{
+<DxStackLayoutItem Length="0.6fr">
+    <Template>
+        <PeriodValueeComponent @bind-FilterItem=PeriodValue_
+                               SimplifiedView="false"
+                               CanUpdateFilter="true"
+                               ItemSpacing=@ItemSpacing>
+        </PeriodValueeComponent>
+    </Template>
+</DxStackLayoutItem> }
+};
+
+private RenderFragment RenderColumnTypeConcatenate => __builder =>
+{
+@if (@DimensionType == DimensionType.ATTRIBUTE)
+{
+<DxStackLayoutItem Length=@TextLength>
+    <Template>
+        <DxButton CssClass="border-0"
+                  RenderStyle="ButtonRenderStyle.Link"
+                  RenderStyleMode="ButtonRenderStyleMode.Contained"
+                  Text="@AppState["edit.concatenation"]"
+                  Click="ShowModalConcatenate" />
+    </Template>
+</DxStackLayoutItem>} };
+
+RenderFragment RenderColumnTypePosition => __builder =>
+{
+@if (@DimensionType == DimensionType.ATTRIBUTE)
+{
+<DxStackLayoutItem Length=@ItemLength CssClass="d-flex align-items-center">
+    <Template>
+        <span class="mr-1 fs-sm">@AppState["From"]</span>
+        <DxSpinEdit ReadOnly=!Editable @bind-Value="StartPosition" MinValue="0" />
+    </Template>
+</DxStackLayoutItem>
+<DxStackLayoutItem Length=@ItemLength CssClass="d-flex align-items-center">
+    <Template>
+        <span class="mr-1 fs-sm">@AppState["Size"]</span>
+        <DxSpinEdit ReadOnly=!Editable @bind-Value="EndPosition" MinValue="0" />
+    </Template>
+</DxStackLayoutItem>
+} 
+};
+
+private RenderFragment RenderColumnTypeCalculate => __builder =>
+{
+@if (@DimensionType == DimensionType.MEASURE)
+{
+<DxStackLayoutItem Length=@TextLength>
+    <Template>
+        <DxButton CssClass="border-0"
+                  RenderStyle="ButtonRenderStyle.Link"
+                  RenderStyleMode="ButtonRenderStyleMode.Contained"
+                  Text="@AppState["edit.operation"]"
+                  Click="ShowModalCalculate" />
+    </Template>
+</DxStackLayoutItem>} };
+
+RenderFragment RenderColumnTypeSequence => __builder =>
+{
+if (JoinColumn_.Properties.Field.DimensionType.IsAttribute())
+{
+<DxStackLayoutItem Length=@ItemLength>
+    <Template>
+        <DxComboBox Enabled="Editable" Data=GetEditorData().Sequences
+                    TData="Nameable" TValue="Nameable"
+                    @bind-Value="Sequence">
+        </DxComboBox>
+    </Template>
+</DxStackLayoutItem> }
+};
+
+RenderFragment RenderColumnTypeSpot => __builder =>
+{
+if (JoinColumn_.Properties.Field.DimensionType.IsMeasure())
+{
+<DxStackLayoutItem Length=@ItemLength>
+    <Template>
+        <DxComboBox Enabled="Editable" Data=GetEditorData().Spots
+                    TData="Nameable" TValue="Nameable"
+                    @bind-Value="Spot">
+        </DxComboBox>
+    </Template>
+</DxStackLayoutItem> }
+};
+
+RenderFragment RenderPublication => __builder =>
+{
+<DxStackLayoutItem Length="0.3fr">
+    <Template>
+        <DxStackLayout Orientation=@Orientation.Vertical ItemSpacing="0px">
+            <Items>
+                <DxStackLayoutItem Length=@LabelLength>
+                    <Template>
+                        <span class="fs-sm">@AppState["for.publication"]</span>
+                    </Template>
+                </DxStackLayoutItem>
+                <DxStackLayoutItem>
+                    <Template>
+                        <DxStackLayout Orientation=@Orientation.Horizontal ItemSpacing=@ItemSpacing CssClass="d-flex align-items-center">
+                            <Items>
+                                <DxStackLayoutItem Length=@CheckboxLength CssClass="align-self-center">
+                                    <Template>
+                                        <DxCheckBox Enabled=Editable @bind-Checked=UsedForPublication />
+                                    </Template>
+                                </DxStackLayoutItem>
+                                <DxStackLayoutItem Length="0.9fr">
+                                    <Template>
+                                        @{ if (JoinColumn_.Type.IsMeasure())
+                            {
+<TreeViewFilter C="Models.Dimensions.Measure"
+                Editable=Editable
+                ItemsFilter=EditorData.Measures
+                SelectFilterItemCallback="JoinColumnDimensionChanged"
+                SelectedItem=@DimensionName>
+</TreeViewFilter>
+ }
+else if (JoinColumn_.Type.IsPeriod())
+{
+<TreeViewFilter C="Models.Dimensions.Period"
+                Editable=Editable
+                ItemsFilter=EditorData.Periods
+                SelectFilterItemCallback="JoinColumnDimensionChanged"
+                SelectedItem=@DimensionName>
+</TreeViewFilter>
+ }
+else
+{
+<TreeViewFilter C="Bcephal.Models.Base.HierarchicalData"
+                Editable=Editable
+                ItemsFilter="Entities"
+                SelectFilterItemCallback="JoinColumnDimensionChanged"
+                SelectedItem=@DimensionName>
+</TreeViewFilter>
+ } }
+
+                                    </Template>
+                                </DxStackLayoutItem>
+                            </Items>
+                        </DxStackLayout>
+                    </Template>
+                </DxStackLayoutItem>
+            </Items>
+        </DxStackLayout>
+    </Template>
+</DxStackLayoutItem> };
+
+RenderFragment RenderFunction => __builder =>
+{
+@if (JoinColumn_ != null && JoinColumn_.Properties != null && JoinColumn_.Properties.Field != null && JoinColumn_.Properties.Field.DimensionType.IsMeasure())
+{
+<DxStackLayoutItem Length=@ItemLength CssClass="align-self-start">
+    <Template>
+        <DxStackLayout Orientation=@Orientation.Vertical ItemSpacing="0px">
+            <Items>
+                <DxStackLayoutItem Length=@LabelLength>
+                    <Template>
+                        <span class="text-truncate fs-sm">@AppState["Gridcolumn.function"]</span>
+                    </Template>
+                </DxStackLayoutItem>
+                <DxStackLayoutItem Length=@ItemLength>
+                    <Template>
+                        <DxComboBox Enabled=Editable Data="@Functions" TData="string" TValue="string" @bind-Text=DimensionFunction />
+                    </Template>
+                </DxStackLayoutItem>
+            </Items>
+        </DxStackLayout>
+    </Template>
+</DxStackLayoutItem>} };
+
+RenderFragment RenderShapeColor => __builder =>
+{
+<DxStackLayoutItem Length=@ItemLength>
+    <Template>
+        <DxStackLayout Orientation=@Orientation.Vertical ItemSpacing="0px">
+            <Items>
+                <DxStackLayoutItem Length=@LabelLength>
+                    <Template>
+                        <span class="text-truncate fs-sm">@AppState["Gridcolumn.shape.color"]</span>
+                    </Template>
+                </DxStackLayoutItem>
+                <DxStackLayoutItem Length=@ItemLength>
+                    <Template>
+                        <input style="width:100%;" type="color" @bind=Backgrounds readonly="@(!Editable)">
+                    </Template>
+                </DxStackLayoutItem>
+            </Items>
+        </DxStackLayout>
+    </Template>
+</DxStackLayoutItem> };
+
+RenderFragment RenderTextColor => __builder =>
+{
+<DxStackLayoutItem Length=@ItemLength>
+    <Template>
+        <DxStackLayout Orientation=@Orientation.Vertical ItemSpacing="0px">
+            <Items>
+                <DxStackLayoutItem Length=@LabelLength>
+                    <Template>
+                        <span class="text-truncate fs-sm">@AppState["Gridcolumn.text.color"]</span>
+                    </Template>
+                </DxStackLayoutItem>
+                <DxStackLayoutItem Length=@ItemLength>
+                    <Template>
+                        <input style="width:100%;" type="color" @bind=Foregrounds readonly="@(!Editable)">
+                    </Template>
+                </DxStackLayoutItem>
+            </Items>
+        </DxStackLayout>
+    </Template>
+</DxStackLayoutItem> };
+
+RenderFragment RenderFixedStyle => __builder =>
+{
+<DxStackLayoutItem Length=@ItemLength CssClass="align-self-center">
+    <Template>
+        <DxStackLayout Orientation=@Orientation.Vertical ItemSpacing="0px">
+            <Items>
+                <DxStackLayoutItem Length=@LabelLength>
+                    <Template>
+                        <span class="text-truncate fs-sm">@AppState["Gridcolumn.fixed.style"]</span>
+                    </Template>
+                </DxStackLayoutItem>
+                <DxStackLayoutItem Length=@ItemLength>
+                    <Template>
+                        <DxComboBox Enabled=Editable Data="GrilleColumnFixedStyles"
+                                    TData="string" TValue="string"
+                                    @bind-Value="GrilleColumnFixedStyle_">
+                        </DxComboBox>
+                    </Template>
+                </DxStackLayoutItem>
+            </Items>
+        </DxStackLayout>
+    </Template>
+</DxStackLayoutItem> };
+
+RenderFragment FormatRender => __builder =>
+{
+@if (DimensionType.IsMeasure())
+{
+<DxStackLayoutItem Length=@ItemLength CssClass="align-self-start">
+    <Template>
+        <DxStackLayout Orientation=@Orientation.Vertical ItemSpacing="0px">
+            <Items>
+                <DxStackLayoutItem Length=@LabelLength>
+                    <Template>
+                        <span class="text-truncate fs-sm">@AppState["Gridcolumn.NumberOfDecimal"]</span>
+                    </Template>
+                </DxStackLayoutItem>
+                <DxStackLayoutItem Length=@ItemLength>
+                    <Template>
+                        <DxSpinEdit ReadOnly=!Editable @bind-Value="NbrOfDecimal" MinValue="0" />
+                    </Template>
+                </DxStackLayoutItem>
+            </Items>
+        </DxStackLayout>
+    </Template>
+</DxStackLayoutItem> }
+else if (DimensionType.IsPeriod())
+{
+<DxStackLayoutItem Length=@ItemLength CssClass="align-self-start">
+    <Template>
+        <DxStackLayout Orientation=@Orientation.Vertical ItemSpacing="0px">
+            <Items>
+                <DxStackLayoutItem Length=@LabelLength>
+                    <Template>
+                        <span class="text-truncate fs-sm">@AppState["Gridcolumn.format"]</span>
+                    </Template>
+                </DxStackLayoutItem>
+                <DxStackLayoutItem Length=@ItemLength>
+                    <Template>
+                        <div class="d-flex m-0">
+                            <DxTextBox ReadOnly=!Editable NullText="yyyy-MM-dd" @bind-Text=DefaultFormat BindValueMode="BindValueMode.OnInput" />
+                            <DxButton Enabled=Editable RenderStyle="ButtonRenderStyle.Dark" CssClass="btn-info-bulle" IconCssClass="fa fa-question-circle fa-lg "
+                                      RenderStyleMode="ButtonRenderStyleMode.Outline" @onclick="(()=> ShowFormatPopUp = true )" />
+                        </div>
+                    </Template>
+                </DxStackLayoutItem>
+            </Items>
+        </DxStackLayout>
+    </Template>
+</DxStackLayoutItem>} };
+
+private RenderFragment RenderContent => __builder =>
+{
+<div>
+    <ul>
+        <li>
+            <b>@AppState["the.year"]:</b>
+            <ul>
+                <li><b>yy:</b> @AppState["date.yy.explain"]</li>
+                <li><b>yyyy:</b> @AppState["date.yyyy.explain"]</li>
+            </ul>
+        </li>
+        <li>
+            <b>@AppState["the.month"]:</b>
+            <ul>
+                <li><b>MM:</b> @AppState["date.mm.explain"]</li>
+                <li><b>MMM:</b> @AppState["date.mmm.explain"]</li>
+                <li><b>MMMM:</b> @AppState["date.mmmm.explain"]</li>
+            </ul>
+        </li>
+        <li>
+            <b>@AppState["the.day"]:</b>
+            <ul>
+                <li><b>dd:</b> @AppState["date.dd.explain"]</li>
+                <li><b>ddd:</b> @AppState["date.ddd.explain"]</li>
+                <li><b>dddd:</b> @AppState["date.dddd.explain"]</li>
+            </ul>
+        </li>
+    </ul>
+    <p>
+        @{ var explDate = DateTime.Now.Date; }
+        <b><u>@AppState["example"]</u>:</b> @AppState["the.date"] @(explDate.ToShortDateString()) :
+        <br />
+        <br />
+        <table border="1" cellpadding="4">
+            <tr>
+                <th style="font-weight: 600;">Format</th>
+                <th style="font-weight: 600;">Resultat</th>
+            </tr>
+            <tr>
+                <td>yyyy-MM-dd &nbsp;</td>
+                <td>@explDate.ToString("yyyy-MM-dd")</td>
+            </tr>
+            <tr>
+                <td>MM-dd-yyyy &nbsp;</td>
+                <td>@explDate.ToString("MM-dd-yyyy")</td>
+            </tr>
+            <tr>
+                <td>MMM-yyyy &nbsp;</td>
+                <td>@explDate.ToString("MMM-yyyy")</td>
+            </tr>
+            <tr>
+                <td>dd-MMMM &nbsp;</td>
+                <td>@explDate.ToString("dd-MMMM")</td>
+            </tr>
+            <tr>
+                @{ var fmt = AppState["custom.full.date"]; }
+                <td>@fmt &nbsp;</td>
+                <td>@explDate.ToString(fmt)</td>
+            </tr>
+        </table>
+    </p>
+</div>};
+}

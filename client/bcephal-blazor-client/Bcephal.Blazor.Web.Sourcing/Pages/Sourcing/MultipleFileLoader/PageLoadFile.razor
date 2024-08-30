@@ -1,0 +1,438 @@
+﻿@page "/new-load-file/"
+@page "/new-load-file/{FileId:long}"
+
+@using Bcephal.Models.Loaders
+@using System.IO
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JSRuntime
+
+@if (editorData != null)
+{
+    <DxFormLayout Data="@editorData.Item">
+        <DxFormLayoutGroup ColSpanMd="6">
+
+            <DxFormLayoutItem Caption="Repository where files are posted :" ColSpanMd="10">
+                <Template>
+                    <DxTextBox Enabled="@Drepository" @bind-Text="Repository"></DxTextBox>
+                </Template>
+            </DxFormLayoutItem>
+
+            <DxFormLayoutItem ColSpanMd="2">
+                <Template>
+                    @*<DxUpload Visible="@VFolder" Name="Repository" SelectButtonText="Path" ShowFileList="false" UploadUrl="@GetUploadUrl(@"mydir")"></DxUpload>*@
+                </Template>
+            </DxFormLayoutItem>
+
+            <DxFormLayoutItem Caption="File extension:" BeginRow="true" ColSpanMd="12">
+                <Template>
+                    <DxComboBox Data="@fileExtension"
+                                NullText="Select File Extension"
+                                @bind-Value=FileExtension>
+                    </DxComboBox>
+                </Template>
+            </DxFormLayoutItem>
+
+
+            <DxFormLayoutItem Caption="File Separator: " BeginRow="true" ColSpanMd="12">
+                <Template>
+                    <DxTextBox @bind-Text=FileSeparator></DxTextBox>
+                </Template>
+            </DxFormLayoutItem>
+
+
+            <DxFormLayoutItem Caption="Upload Method:" BeginRow="true" ColSpanMd="7">
+                <Template>
+                    <DxComboBox Data="@uploadMethod"
+                                NullText="Upload Method"
+                                @bind-Value=UploadMethod>
+                    </DxComboBox>
+                </Template>
+            </DxFormLayoutItem>
+            <DxFormLayoutItem ColSpanMd="5">
+                <Template>
+                    <DxComboBox Data="@uploadMethod2"
+                                NullText=""
+                                @bind-Value="currentUploadMethod">
+                    </DxComboBox>
+                </Template>
+            </DxFormLayoutItem>
+
+
+            <DxFormLayoutItem Caption="maxBackupCount" BeginRow="true" ColSpanMd="9">
+                <Template>
+                    <DxComboBox Data="@maxBackupCount"
+                                NullText="Max Backup"
+                                @bind-Value=MaxBackupCount>
+                    </DxComboBox>
+                </Template>
+            </DxFormLayoutItem>
+            <DxFormLayoutItem ColSpanMd="3">
+                <Template>
+                    <DxCheckBox CssClass="w-100" @bind-Checked=AllowBackup Alignment="CheckBoxContentAlignment.Left" LabelPosition="LabelPosition.Right">No Backup</DxCheckBox>
+                </Template>
+            </DxFormLayoutItem>
+
+
+            <DxFormLayoutItem Caption="schedulerOption" BeginRow="true" ColSpanMd="12">
+                <Template>
+                    <DxComboBox Data="@schedulerOption"
+                                NullText="Scheduler Option"
+                                Value="@currentOption"
+                                ValueChanged="@( (string val) => changedOption(val) )">
+                    </DxComboBox>
+                </Template>
+            </DxFormLayoutItem>
+
+
+            <DxFormLayoutItem Caption="cronExpression" BeginRow="true" ColSpanMd="12" Visible="@VcronExpression">
+                <Template>
+                    <DxTextBox @bind-Text=CronExpression> </DxTextBox>
+                </Template>
+            </DxFormLayoutItem>
+
+
+            <DxFormLayoutItem Caption="repositoryOnServer" BeginRow="true" ColSpanMd="12" Visible="@VrepositoryOnServer">
+                <Template>
+                    <DxTextBox NullText="Folder where files are posted on server side" @bind-Text=RepositoryOnServer> </DxTextBox>
+                </Template>
+            </DxFormLayoutItem>
+        </DxFormLayoutGroup>
+
+
+
+        <DxFormLayoutGroup ColSpanMd="6">
+            @{
+                int offset = 0;
+
+                @renderInputCondition(new FileLoaderNameCondition());
+                while (offset < Conditions.Count)
+                {
+                    @renderInputCondition(Conditions[offset]);
+                    offset++;
+                }
+
+            }
+        </DxFormLayoutGroup>
+
+    </DxFormLayout>
+}
+
+
+
+
+
+
+@code {
+
+
+    [Inject]
+    public AppState appState { get; set; }
+
+    [Inject]
+    public FileLoaderService fileLoaderService { get; set; }
+
+    [CascadingParameter]
+    public Error Error { get; set; }
+
+    [Parameter]
+    public long? FileId { get; set; }
+
+    string pathRepository { get; set; } = null;
+    string filter { get; set; } = null;
+
+    bool VFolder { get; set; } = true;
+    bool Drepository { get; set; } = true;
+    bool VcronExpression { get; set; } = false;
+    bool VrepositoryOnServer { get; set; } = false;
+    string currentOption { get; set; } = "On request";
+    string currentUploadMethod { get; set; } = "";
+
+    ObservableCollection<FileLoaderNameCondition> Conditions
+    {
+        get
+        {
+            return editorData.Item.ConditionListChangeHandler.GetItems();
+        }
+    }
+
+    IEnumerable<string> fileExtension = new List<String>(){
+        "All(.*)",
+        "CSV(.csv)",
+        "EXCEL(.xslx)",
+        "TEXT(.txt)",
+    };
+
+    IEnumerable<FileNameCondition> filenameconditons = new List<FileNameCondition>(){
+      FileNameCondition.BEGINS_WITH,
+      FileNameCondition.CONTAINS,
+      FileNameCondition.DO_NOT_CONTAINS,
+      FileNameCondition.ENDS_WITH,
+};
+
+    IEnumerable<string> uploadMethod = new List<string>(){
+        "DIRECT_TO_GRID",
+    };
+
+    IEnumerable<string> uploadMethod2 = new List<string>() {
+        "Data input 5 - CREC",
+        "Data input 5 - CREC1",
+        "MC_PML_0_Invoice_Tier_Detail_01-03-2021_294",
+    };
+
+    IEnumerable<int> maxBackupCount = new List<int>(){
+        1,
+        2,
+        5,
+       10,
+       15,
+       20,
+       25,
+       30,
+       50,
+    };
+
+    IEnumerable<string> schedulerOption = new List<string>(){
+        "On request",
+        "Scheduler",
+    };
+
+    private void changedOption(string valeur)
+    {
+        currentOption = valeur;
+
+        if (currentOption == "On request")
+        {
+            VFolder = true;
+            Drepository = true;
+            VcronExpression = false;
+            VrepositoryOnServer = false;
+        }
+        else
+        {
+            VFolder = false;
+            Drepository = false;
+            VcronExpression = true;
+            VrepositoryOnServer = true;
+        }
+        StateHasChanged_();
+    }
+
+    protected string GetUploadUrl(string url)
+    {
+        pathRepository = Path.GetFullPath(url);
+        return NavigationManager.ToAbsoluteUri(url).AbsoluteUri;
+    }
+
+    private string Repository
+    {
+        get { return editorData.Item.Repository; }
+        set
+        {
+            editorData.Item.Repository = value;
+            StateHasChanged_();
+        }
+    }
+
+    private string FileExtension
+    {
+        get { return editorData.Item.FileExtension; }
+        set
+        {
+            editorData.Item.FileExtension = value;
+            StateHasChanged_();
+        }
+    }
+
+    private string FileSeparator
+    {
+        get { return editorData.Item.FileSeparator; }
+        set
+        {
+            editorData.Item.FileSeparator = value;
+            StateHasChanged_();
+        }
+    }
+
+    private string CronExpression
+    {
+        get { return editorData.Item.CronExpression; }
+        set
+        {
+            editorData.Item.CronExpression = value;
+            StateHasChanged_();
+        }
+    }
+
+    private string RepositoryOnServer
+    {
+        get { return editorData.Item.RepositoryOnServer; }
+        set
+        {
+            editorData.Item.RepositoryOnServer = value;
+            StateHasChanged_();
+        }
+    }
+
+    private bool AllowBackup
+    {
+        get { return editorData.Item.AllowBackup; }
+        set
+        {
+            editorData.Item.AllowBackup = value;
+            StateHasChanged_();
+        }
+    }
+
+    private int MaxBackupCount
+    {
+        get { return editorData.Item.MaxBackupCount; }
+        set
+        {
+            editorData.Item.MaxBackupCount = value;
+            StateHasChanged_();
+        }
+    }
+
+    private string UploadMethod
+    {
+        get { return editorData.Item.UploadMethod; }
+        set
+        {
+            editorData.Item.UploadMethod = value;
+            StateHasChanged_();
+        }
+    }
+    public EditorData<FileLoader> editorData { get; set; }
+
+    protected async override Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        initComponent();
+    }
+
+
+    private async void initComponent()
+    {
+        try
+        {
+            if (editorData == null)
+            {
+                EditorDataFilter filter = new EditorDataFilter();
+                filter.NewData = true;
+                if (FileId.HasValue)
+                {
+                    filter.NewData = false;
+                    filter.Id = FileId;
+                }
+                editorData = await fileLoaderService.GetEditorData(filter);
+                appState.Update = false;
+                StateHasChanged();
+            }
+        }
+        catch (Exception ex)
+        {
+            Error.ProcessError(ex);
+            StateHasChanged();
+        }
+    }
+
+
+    RenderFragment renderInputCondition(FileLoaderNameCondition item)
+    {
+        RenderFragment renderFragment = __builder =>
+        {
+        <DxFormLayoutItem Caption="File Name Conditions:" ColSpanMd="7">
+            <Template>
+                <DxComboBox Data="filenameconditons"
+                            TData="FileNameCondition"
+                            TValue="FileNameCondition"
+                            Value="(item != null ? item.FileNameCondition : null)" ValueChanged="((FileNameCondition val) => FileNameConditionChanged(val,item, false, filter) )">
+                </DxComboBox>
+            </Template>
+        </DxFormLayoutItem>
+        <DxFormLayoutItem ColSpanMd="4">
+            <Template>
+                <DxTextBox @bind-Text=filter NullText="Filter..."></DxTextBox>
+            </Template>
+        </DxFormLayoutItem>
+        <DxFormLayoutItem ColSpanMd="1">
+            <Template>
+                <DxButton Visible="@(item.FileNameCondition!=null ? true : false)" @onclick="(()=> FileNameConditionChanged(null, item, true, filter))" SizeMode="SizeMode.Small" RenderStyle="ButtonRenderStyle.Danger" Text="Del">  </DxButton>
+            </Template>
+        </DxFormLayoutItem>
+        };
+
+        return renderFragment;
+    }
+
+    protected void FileNameConditionChanged(FileNameCondition val, FileLoaderNameCondition item, bool del, string fil)
+    {
+
+        if (del != true)
+        {
+
+            if (item.Condition == null)
+            {
+                item.FileNameCondition = val;
+                item.Filter = fil;
+                editorData.Item.AddCondition(item);
+            }
+            else
+            {
+                item.FileNameCondition = val;
+                editorData.Item.UpdateCondition(item);
+            }
+            StateHasChanged_();
+        }
+        else
+        {
+            editorData.Item.DeleteOrForgetCondition(item);
+            StateHasChanged_();
+        }
+
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        base.OnAfterRender(firstRender);
+        if (firstRender)
+        {
+            appState.Hander = () => save();
+
+        }
+    }
+
+    public async void save()
+    {
+        if (true)
+        {
+            try
+            {
+                editorData.Item = await fileLoaderService.Save(editorData.Item);
+                appState.Update = false;
+            }
+            catch (Exception ex)
+            {
+                Error.ProcessError(ex);
+            }
+            finally
+            {
+                StateHasChanged();
+            }
+        }
+    }
+
+
+    public void StateHasChanged_()
+    {
+
+        JSRuntime.InvokeVoidAsync("console.log", "obj : ", editorData.Item);
+
+        StateHasChanged();
+        appState.Update = true;
+    }
+
+}
+
+
+

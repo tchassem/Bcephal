@@ -1,0 +1,212 @@
+
+<DxFormLayout CssClass="w-100">
+    <DxFormLayoutItem CssClass="w-100" ColSpanXl="6" ColSpanXs="6" ColSpanLg="6" ColSpanMd="6" ColSpanSm="6">
+        <Template>
+            <NavLink @onclick="@(() => CreateAutomatically())"
+                     class="nav-link pl-0 mt-1"
+                     href="settings/configuration">
+                <span class="@((Parameters == null || Parameters.Values.Count == 0 ) ? "create-auto-active" : "create-auto-inactive")"
+                      aria-hidden="true">
+                    @AppState["CreateAutomatically"]
+                </span>
+            </NavLink>
+        </Template>
+    </DxFormLayoutItem>
+
+    <DxFormLayoutItem CssClass="w-100" Caption=@AppState["DefaultModel"] CaptionCssClass="caption-form" ColSpanLg="12" ColSpanMd="12" ColSpanSm="12">
+        <Template>
+            <div class="d-flex flex-row">
+                <DxComboBox Data="@Modeles"
+                            @bind-Value="DefaultModel"
+                            CssClass="filter-combo wid-200">
+
+                </DxComboBox>
+                <i class="bi bi-file-x-fill" hidden="@(DefaultModel != null ? false : true)"
+                   @onclick="@(() => { DefaultModel = null; Parameters.Remove("DefaultModel"); })"
+                   style="margin-left: .5rem !important; font-size: 1.2rem; color: red; margin-top: auto; margin-bottom: auto;">
+                </i>
+                <label class="ml-2 mt-auto mb-auto"> (@AppState["Model"]) </label>
+            </div>
+        </Template>
+    </DxFormLayoutItem>
+
+    <DxFormLayoutItem CssClass="w-100" Caption=@AppState["LoadedFilenameAttribute"] CaptionCssClass="caption-form" ColSpanLg="12" ColSpanMd="12" ColSpanSm="12">
+        <Template>
+            <div class="d-flex flex-row">
+                <DxComboBox Data="@Attributes"
+                            @bind-Value="LoadedfilenameAttribute"
+                            CssClass="filter-combo wid-200">
+
+                </DxComboBox>
+                <i class="bi bi-file-x-fill" hidden="@(LoadedfilenameAttribute != null ? false : true)"
+                   @onclick="@(() => { LoadedfilenameAttribute = null; Parameters.Remove("LoadedfilenameAttribute"); })"
+                   style="margin-left: .5rem !important; font-size: 1.2rem; color: red; margin-top: auto; margin-bottom: auto;">
+                </i>
+                <label class="ml-2 mt-auto mb-auto"> (@AppState["ATTRIBUTE"]) </label>
+            </div>
+        </Template>
+    </DxFormLayoutItem>
+
+    <DxFormLayoutItem CssClass="w-100" Caption=@AppState["LoadNbrAttribute"] CaptionCssClass="caption-form" ColSpanLg="12" ColSpanMd="12" ColSpanSm="12">
+        <Template>
+            <div class="d-flex flex-row">
+                <DxComboBox Data="@Attributes"
+                            @bind-Value="LoadNbrAttribute"
+                            CssClass="filter-combo wid-200">
+
+                </DxComboBox>
+                <i class="bi bi-file-x-fill" hidden="@(LoadNbrAttribute != null ? false : true)"
+                   @onclick="@(() => { LoadNbrAttribute = null; Parameters.Remove("LoadNbrAttribute"); })"
+                   style="margin-left: .5rem !important; font-size: 1.2rem; color: red; margin-top: auto; margin-bottom: auto;">
+                </i>
+                <label class="ml-2 mt-auto mb-auto"> (@AppState["ATTRIBUTE"]) </label>
+            </div>
+        </Template>
+    </DxFormLayoutItem>
+    <DxFormLayoutItem CssClass="w-100" Caption=@AppState["LoadNbrGenerator"] CaptionCssClass="caption-form" ColSpanLg="12" ColSpanMd="12" ColSpanSm="12">
+        <Template>
+            <div class="d-flex flex-row">
+                <DxComboBox Data="@Attributes"
+                            @bind-Value="LoadNbrGenerator"
+                            CssClass="filter-combo wid-200">
+                </DxComboBox>
+                <i class="bi bi-file-x-fill" hidden="@(LoadNbrGenerator !=null ? false : true)"
+                   @onclick="@(() => { LoadNbrGenerator = null;Parameters.Remove("LoadNbrGenerator"); } )"
+                   style="margin-left: .5rem !important; font-size: 1.2rem; color: red; margin-top: auto; margin-bottom: auto;">
+                </i>
+                <label class="ml-2 mt-auto mb-auto"> (@AppState["Sequence_"]) </label>
+            </div>
+        </Template>
+    </DxFormLayoutItem>
+</DxFormLayout>
+
+@code {
+
+    [Inject]
+    private AppState AppState { get; set; }
+
+    [Parameter]
+    public Dictionary<string, string> Parameters { get; set; }
+
+    [Parameter]
+    public EventCallback<Dictionary<string, string>> ParametersChanged { get; set; }
+
+    [Parameter]
+    public ObservableCollection<string> Attributes { get; set; } // To change
+
+    [Parameter]
+    public EventCallback<ObservableCollection<string>> AttributesChanged { get; set; }
+
+    [Parameter]
+    public ObservableCollection<string> Modeles { get; set; }
+
+    [Parameter]
+    public EventCallback<ObservableCollection<string>> ModelesChanged { get; set; }
+
+    public string Class { get; set; } = "active";
+
+    public string DefaultModel
+    {
+        get
+        {
+            Parameters.TryGetValue("DefaultModel", out string value);
+            return value;
+        }
+        set
+        {
+            Parameters.Remove("DefaultModel");
+            Parameters.Add("DefaultModel", value);
+            if (!String.IsNullOrEmpty(value))
+            {
+                AppState.Update = true;
+            }
+
+
+        }
+    }
+
+
+    public string LoadedfilenameAttribute
+    {
+        get
+        {
+            Parameters.TryGetValue("LoadedfilenameAttribute", out string value);
+            return value;
+        }
+        set
+        {
+            Parameters.Remove("LoadedfilenameAttribute");
+            Parameters.Add("LoadedfilenameAttribute", value);
+            if (!String.IsNullOrEmpty(value))
+            {
+                AppState.Update = true;
+            }
+
+
+        }
+    }
+
+    public string LoadNbrAttribute
+    {
+        get
+        {
+            Parameters.TryGetValue("LoadNbrAttribute", out string value);
+
+            return value;
+        }
+        set
+        {
+            Parameters.Remove("LoadNbrAttribute");
+            Parameters.Add("LoadNbrAttribute", value);
+            if (!String.IsNullOrEmpty(value))
+            {
+                AppState.Update = true;
+            }
+
+
+        }
+    }
+
+    public string LoadNbrGenerator
+    {
+        get
+        {
+            Parameters.TryGetValue("LoadNbrGenerator", out string value);
+
+            return value;
+        }
+        set
+        {
+            Parameters.Remove("LoadNbrGenerator");
+            Parameters.Add("LoadNbrGenerator", value);
+            if (!String.IsNullOrEmpty(value))
+            {
+                AppState.Update = true;
+            }
+
+
+        }
+    }
+
+
+    void CreateAutomatically()
+    {
+
+        if (Parameters.Values.Count == 0)
+        {
+
+
+            Parameters.Add("DefaultModel", "Default Model");
+            Parameters.Add("LoadedfilenameAttribute", "Loaded File");
+            Parameters.Add("LoadNbrAttribute", "Load Nbr");
+            Parameters.Add("LoadNbrGenerator", "Load Nbr Generator");
+
+            Class = "create-auto-inactive";
+            AppState.Update = true;
+            StateHasChanged();
+        }
+
+    }
+
+
+}

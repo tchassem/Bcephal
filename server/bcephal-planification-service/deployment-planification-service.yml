@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bcephal-planification-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bcephal-planification-service
+    
+  template:
+    metadata:
+      labels:
+        app: bcephal-planification-service
+    spec:
+      volumes:
+      - name: bcephal-planification-repository
+        hostPath:
+          path: /opt/bcephal-planification-repository
+      containers:
+      - name: bcephal-planification-service
+        image: localhost:5000/becphal-planification-service-docker-image
+        volumeMounts:
+        - name: bcephal-planification-repository
+          mountPath: /opt/bcephal-planification-repository
+
+        ports:
+        - containerPort: 8080
+        
+        
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: bcephal-planification-service
+spec:
+  selector:
+    app: bcephal-planification-service
+  type: NodePort
+  ports:  
+    - name: http
+      port: 8080
+      targetPort: 8080
+      protocol: TCP
+   
+  
+  
+
+
+  
+

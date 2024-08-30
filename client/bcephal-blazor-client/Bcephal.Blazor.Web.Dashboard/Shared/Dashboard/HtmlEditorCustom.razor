@@ -1,0 +1,65 @@
+﻿
+<div class="card p-0 w-100 h-100">
+    <div class="card-header" id="htmeditor-header">
+        <DxToolbar ItemClick="OnItemClick">
+            <Items>
+                <DxToolbarItem GroupName="bold" Name="bold" IconCssClass="fa fa-bold" />
+                <DxToolbarItem GroupName="italic" Name="italic" IconCssClass="fa fa-italic" />
+                <DxToolbarItem GroupName="underline" Name="underline" IconCssClass="fa fa-underline" />
+                @*<DxToolbarItem GroupName="strike" Name="strike" IconCssClass="fa fa-strikethrough" />*@
+                <DxToolbarItem IconCssClass="fa fa-align-left"
+                               Text=""
+                               GroupName="left" Name="left" />
+                <DxToolbarItem IconCssClass="fa fa-align-center"
+                               Text=""
+                               GroupName="center" Name="center" />
+                <DxToolbarItem IconCssClass="fa fa-align-right"
+                               Text=""
+                               GroupName="right" Name="right" />
+                <DxToolbarItem IconCssClass="fa fa-align-justify"
+                               Text=""
+                               GroupName="justify" Name="justify" Tooltip="Justify" />
+
+                <DxToolbarItem >
+                    <Template>
+                        <input class="h-100" type="color" @onchange=UpdateColor value=@TextColor />
+                    </Template>
+                </DxToolbarItem>
+
+                <DxToolbarItem   DropDownCssClass="fontsizedropdown"  CssClass="w-50" DropDownDisplayMode="DropDownDisplayMode.DropDown" Text="@AppState["font.size"]" BeginGroup="true">
+                    <Items>
+                        <DxToolbarItem CssClass="w-100" Text="xx-small" Name="xx-small" />
+                        <DxToolbarItem CssClass="w-100"  Text="x-small" Name="x-small" />
+                        <DxToolbarItem CssClass="w-100"  Text="small" Name="small" />
+                        <DxToolbarItem CssClass="w-100"  Text="medium" Name="medium" />
+                        <DxToolbarItem CssClass="w-100"  Text="large" Name="large" />
+                        <DxToolbarItem CssClass="w-100" Text="x-large" Name="x-large" />
+                        <DxToolbarItem CssClass="w-100" Text="xx-large" Name="xx-large" />
+                        <DxToolbarItem CssClass="w-100" Text="xxx-large" Name="xxx-large" />
+                    </Items>
+                </DxToolbarItem>
+                @*<DxToolbarItem IconCssClass="fa fa-list-ol"
+                               Text=""
+                               GroupName="Order list" Name="order" />
+                <DxToolbarItem IconCssClass="fa fa-outdent"
+                               Text=""
+                               GroupName="outdent" Name="outden" />
+                <DxToolbarItem IconCssClass="fa fa-indent"
+                               Text=""
+                               GroupName="indent" Name="indent" />*@
+            </Items>
+        </DxToolbar>
+    </div>
+    <div class="card-body p-0 overflow-auto" style="height:calc(100% - var(--bc-header-height));">
+        <div id="htmleditor" class="htmleditor" style="height:100% !important;width:100%;border: none !important;"
+             @ref="RefDiv" contenteditable="true">
+        @((MarkupString)@UserMessage)</div>
+    </div>
+</div>
+
+@code {
+
+    string space = "&nbsp";
+
+
+}

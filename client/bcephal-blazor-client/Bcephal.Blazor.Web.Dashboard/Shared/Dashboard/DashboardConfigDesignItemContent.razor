@@ -1,0 +1,331 @@
+﻿@BodyFragment
+
+@code {
+
+    string heightCall = "calc(var(--grid-bc-two) - (( var(--grid-bc-two) * 8) / 100 )  - 0.6rem)";
+
+    //public string GetHeight(Models.Dashboards.DashboardItem item)
+    //{
+    //    string str = "" + item.Height + "%";
+
+    //    return str;
+    //}
+
+    //public string GetWidth(Models.Dashboards.DashboardItem item)
+    //{
+    //    string str = "" + item.Width + "%";
+
+    //    return str;
+    //}
+
+    private List<DimensionPanel> GetListDimensionPanel()
+    {
+        List<DimensionPanel> Dimpanels = new();
+        EditorData.Item.ItemsListChangeHandler.Items.ToList().ForEach(x => Dimpanels.Add(x));
+        return Dimpanels;
+    }
+
+    private RenderFragment BodyFragment => __builder =>
+    {
+    @if (EditorData != null && EditorData.Item.DashboardLayout != null)
+        {
+            Models.Dashboards.DashboardLayout layout = EditorData.Item.DashboardLayout;
+            if (layout != null && !string.IsNullOrWhiteSpace(layout.Code))
+            {
+                if (layout.IsHorizontal())
+                {
+                @HorizontalFragment(layout)
+                }
+                else if (layout.IsVertical())
+                {
+                @VerticalFragment(layout)
+                }
+                else if (layout.IsOne())
+                {
+                @OneFragment();
+                }
+            }
+        }
+        else
+        {
+        @EmptyFragment()
+        }
+    };
+
+    private RenderFragment HorizontalFragment(Bcephal.Models.Dashboards.DashboardLayout layout) => __builder =>
+    {
+        if (layout != null)
+        {
+            if (layout.IsHorizontal1x2())
+            {
+            @RenderFragmentHorizontal1x2();
+            }
+            if (layout.IsHorizontal2x2())
+            {
+            @RenderFragmentHorizontal2x2();
+            }
+            else
+            if (layout.IsHorizontal3x3())
+            {
+            @RenderFragmentHorizontal3x3();
+            }
+            else
+            if (layout.IsHorizontal3x4())
+            {
+            @RenderFragmentHorizontal3x4();
+            }
+            else
+            if (layout.IsHorizontal4x3())
+            {
+            @RenderFragmentHorizontal4x3();
+            }
+        }
+
+    };
+
+    private RenderFragment VerticalFragment(Bcephal.Models.Dashboards.DashboardLayout layout) => __builder =>
+    {
+        if (layout != null)
+        {
+            if (layout.IsVertical2x1())
+            {
+            @RenderFragmentVertical2X1();
+            }
+            else
+            if (layout.IsVertical2x2())
+            {
+            @RenderFragmentVertical2X2();
+            }
+            else
+             if (layout.IsVertical3x3())
+            {
+
+            @RenderFragmentVertical3X3();
+            }
+            else
+            if (layout.IsVertical3x4())
+            {
+
+            @RenderFragmentVertical3X4();
+            }
+            else
+            if (layout.IsVertical4x3())
+            {
+            @RenderFragmentVertical4X3();
+            }
+        }
+    };
+
+    private RenderFragment GuildOneFragment(int position) => __builder =>
+    {
+    <DashboardItemPanel Editable=Editable SelectItemNode=SelectItemNode
+                        Position=position
+                        AddItemHandler=AddItem
+                        UpdateItemHandler=UpdateItem
+                        GetItemHandler=GetItemByPosition
+                        DeleteItemHandler=DeleteItem />
+    };
+
+    private RenderFragment SplitterPanelFragment(List<RenderFragment> panes, string heighCall, bool vertical) => __builder =>
+        {
+            if (panes != null && panes.Any())
+            {
+                if (!string.IsNullOrWhiteSpace(heighCall) && !vertical)
+                {
+                  <SplitterPanel Panes=panes heightCall=@heighCall LeftSize=1 vertical=vertical />
+                }
+                else
+                {
+                  <SplitterPanel Panes=panes LeftSize=1 vertical=vertical />
+                }
+
+            }
+        };
+
+    @*private RenderFragment SplitterPanelFragment(List<RenderFragment> panes, string heighCall, bool vertical) => __builder =>
+    {
+        if (panes != null && panes.Any())
+        {
+            if (!string.IsNullOrWhiteSpace(heighCall) && !vertical)
+            {
+            <SplitterPanelStore Items=GetListDimensionPanel() Panes=panes heightCall=@heighCall LeftSize=1 vertical=vertical />
+            }
+            else
+            {
+            <SplitterPanelStore Items=GetListDimensionPanel() Panes=panes LeftSize=1 vertical=vertical />
+            }
+
+        }
+    };*@
+
+    private RenderFragment OneFragment(int position = 0) => __builder =>
+   {
+<DashboardItemPanel Editable=Editable @key="position"
+                    SelectItemNode=SelectItemNode
+                    Position=position
+                    AddItemHandler=AddItem
+                    UpdateItemHandler=UpdateItem
+                    GetItemHandler=GetItemByPosition
+                    DeleteItemHandler=DeleteItem />
+};
+
+ private RenderFragment EmptyFragment() => __builder =>
+ {
+
+ };
+
+
+ public Models.Dashboards.DashboardItem getItemByPosition(int position)
+ {
+     if (EditorData.Item.ItemsListChangeHandler.GetItems().Count() > position)
+     {
+         Models.Dashboards.DashboardItem it = EditorData.Item.ItemsListChangeHandler.GetItems().ElementAt(position);
+         return it;
+     }
+     else
+     {
+         return null;
+     }
+ }
+
+ private RenderFragment RenderFragmentVertical2X1() => __builder =>
+{
+    List<RenderFragment> panel_2 = new() { GuildOneFragment(0), GuildOneFragment(1) };
+
+@SplitterPanelFragment(panel_2, heightCall, false);
+};
+
+private RenderFragment RenderFragmentVertical2X2() => __builder =>
+{
+
+    List<RenderFragment> panes1 = new() { GuildOneFragment(0), GuildOneFragment(1) };
+    List<RenderFragment> panes2 = new() { GuildOneFragment(2), GuildOneFragment(3) };
+    List<RenderFragment> panes3 = new()
+    {
+                SplitterPanelFragment(panes1, heightCall, false),
+                SplitterPanelFragment(panes2, heightCall, false)
+            };
+@SplitterPanelFragment(panes3, heightCall, true);
+
+    };
+
+    private RenderFragment RenderFragmentVertical3X3() => __builder =>
+    {
+
+        List<RenderFragment> panes4 = new() { GuildOneFragment(0), GuildOneFragment(1), GuildOneFragment(2) };
+        List<RenderFragment> panes5 = new() { GuildOneFragment(3), GuildOneFragment(4), GuildOneFragment(5) };
+        List<RenderFragment> panes6 = new() { GuildOneFragment(6), GuildOneFragment(7), GuildOneFragment(8) };
+        List<RenderFragment> panes10 = new()
+        {
+                SplitterPanelFragment(panes4, heightCall, false), // horizontal splitter
+           SplitterPanelFragment(panes5, heightCall, false), // horizontal splitter
+           SplitterPanelFragment(panes6, heightCall, false)
+            };
+@SplitterPanelFragment(panes10, heightCall, true);
+ };
+
+ private RenderFragment RenderFragmentVertical3X4() => __builder =>
+ {
+
+     List<RenderFragment> panes8 = new() { GuildOneFragment(0), GuildOneFragment(1), GuildOneFragment(2), GuildOneFragment(3) };
+     List<RenderFragment> panes9 = new() { GuildOneFragment(4), GuildOneFragment(5), GuildOneFragment(6), GuildOneFragment(7) };
+     List<RenderFragment> panes11 = new() { GuildOneFragment(8), GuildOneFragment(9), GuildOneFragment(10), GuildOneFragment(11) };
+     List<RenderFragment> panes12 = new()
+     {
+                SplitterPanelFragment(panes8, heightCall, false), // horizontal splitter
+        SplitterPanelFragment(panes9, heightCall, false), // horizontal splitter
+        SplitterPanelFragment(panes11, heightCall, false)// horizontal splitter
+    };
+@SplitterPanelFragment(panes12, heightCall, true);
+    };
+
+    private RenderFragment RenderFragmentVertical4X3() => __builder =>
+    {
+
+        List<RenderFragment> pane4 = new() { GuildOneFragment(0), GuildOneFragment(1), GuildOneFragment(2) };
+        List<RenderFragment> pane5 = new() { GuildOneFragment(3), GuildOneFragment(4), GuildOneFragment(5) };
+        List<RenderFragment> pane6 = new() { GuildOneFragment(6), GuildOneFragment(7), GuildOneFragment(8) };
+        List<RenderFragment> pane7 = new() { GuildOneFragment(9), GuildOneFragment(10), GuildOneFragment(11) };
+        List<RenderFragment> pane10 = new()
+        {
+                SplitterPanelFragment(pane4, heightCall, false), // horizontal splitter
+        SplitterPanelFragment(pane5, heightCall, false), // horizontal splitter
+        SplitterPanelFragment(pane6, heightCall, false),// horizontal splitter
+        SplitterPanelFragment(pane7, heightCall, false)// horizontal splitter
+    };
+@SplitterPanelFragment(pane10, heightCall, true);
+    };
+
+
+    private RenderFragment RenderFragmentHorizontal1x2() => __builder =>
+    {
+        List<RenderFragment> panel_1 = new() { GuildOneFragment(0), GuildOneFragment(1) };
+
+@SplitterPanelFragment(panel_1, heightCall, true);
+    };
+    private RenderFragment RenderFragmentHorizontal2x2() => __builder =>
+    {
+        List<RenderFragment> pane12 = new() { GuildOneFragment(0), GuildOneFragment(1) };
+        List<RenderFragment> pane13 = new() { GuildOneFragment(2), GuildOneFragment(3) };
+        List<RenderFragment> pane14 = new()
+        {
+                SplitterPanelFragment(pane12, heightCall, true), // vertical splitter
+        SplitterPanelFragment(pane13, heightCall, true) // vertical splitter
+    };
+@SplitterPanelFragment(pane14, heightCall, false);
+    };
+
+    private RenderFragment RenderFragmentHorizontal3x3() => __builder =>
+    {
+
+        List<RenderFragment> panel12 = new() { GuildOneFragment(0), GuildOneFragment(1), GuildOneFragment(2) };
+        List<RenderFragment> panel13 = new() { GuildOneFragment(3), GuildOneFragment(4), GuildOneFragment(5) };
+        List<RenderFragment> panel14 = new() { GuildOneFragment(6), GuildOneFragment(7), GuildOneFragment(8) };
+        List<RenderFragment> panel15 = new()
+        {
+                SplitterPanelFragment(panel12, heightCall, true), // vertical splitter
+        SplitterPanelFragment(panel13, heightCall, true), // vertical splitter
+        SplitterPanelFragment(panel14, heightCall, true) // vertical splitter
+    };
+
+@SplitterPanelFragment(panel15, heightCall, false);
+
+    };
+
+    private RenderFragment RenderFragmentHorizontal3x4() => __builder =>
+    {
+
+
+        List<RenderFragment> panel_12 = new() { GuildOneFragment(0), GuildOneFragment(1), GuildOneFragment(2), GuildOneFragment(3) };
+        List<RenderFragment> panel_13 = new() { GuildOneFragment(4), GuildOneFragment(5), GuildOneFragment(6), GuildOneFragment(7) };
+        List<RenderFragment> panel_14 = new() { GuildOneFragment(8), GuildOneFragment(9), GuildOneFragment(10), GuildOneFragment(11) };
+        List<RenderFragment> panel_15 = new()
+        {
+                SplitterPanelFragment(panel_12, heightCall, true), // vertical splitter
+        SplitterPanelFragment(panel_13, heightCall, true), // vertical splitter
+        SplitterPanelFragment(panel_14, heightCall, true) // vertical splitter
+    };
+
+@SplitterPanelFragment(panel_15, heightCall, false);
+    };
+
+    private RenderFragment RenderFragmentHorizontal4x3() => __builder =>
+    {
+
+        List<RenderFragment> pan1 = new() { GuildOneFragment(0), GuildOneFragment(1), GuildOneFragment(2) };
+        List<RenderFragment> pan2 = new() { GuildOneFragment(3), GuildOneFragment(4), GuildOneFragment(5) };
+        List<RenderFragment> pan4 = new() { GuildOneFragment(6), GuildOneFragment(7), GuildOneFragment(8) };
+        List<RenderFragment> pan3 = new() { GuildOneFragment(9), GuildOneFragment(10), GuildOneFragment(11) };
+        List<RenderFragment> pan5 = new()
+        {
+                SplitterPanelFragment(pan1, heightCall, true), // vertical splitter
+        SplitterPanelFragment(pan2, heightCall, true), // vertical splitter
+        SplitterPanelFragment(pan3, heightCall, true), // vertical splitter
+        SplitterPanelFragment(pan4, heightCall, true) // vertical splitter
+    };
+
+@SplitterPanelFragment(pan5, heightCall, false);
+    };
+
+
+}

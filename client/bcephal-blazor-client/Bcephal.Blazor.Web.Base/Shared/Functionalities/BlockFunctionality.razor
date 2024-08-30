@@ -1,0 +1,49 @@
+﻿
+
+
+@RenderFragmentWithContexMenu
+
+
+<DxContextMenu @ref="@ContextMenu">
+    <Items>
+        @if (ContextualItems != null)
+        {
+            @foreach (var menuItem in ContextualItems)
+            {
+                <DxContextMenuItem IconCssClass="@menuItem.IconClass" CssClass="menuitem" Text="@menuItem.ItemText" Click=@(() => Navigate(menuItem.Route) ) @onclick:preventDefault />
+            }
+        }
+        <DxContextMenuItem IconCssClass="ml-1 bi-trash" CssClass="menuitem" Text="@AppState["Hide"]" Click=@(() => DeleteFunctionalityBlock.InvokeAsync(Block)) @onclick:preventDefault />
+        <DxContextMenuItem IconCssClass="ml-1 bi-gear-fill" CssClass="menuitem" Text="@AppState["Properties"]" Click="@(() => CallChangeColorModal())" @onclick:preventDefault />
+    </Items>
+</DxContextMenu>
+
+<ModalFunctionality @bind-ActionModal=ActionModal
+                    @bind-ModalAction=ModalAction
+                    Title="@Title"
+                    UpdateFunctionalityBlock=UpdateFunctionalityBlock
+                    DeleteFunctionalityBlock=DeleteFunctionalityBlock
+                    @bind-Block=BoundBlock
+                    FunctionalityWorkspace="@FunctionalityWorkspace" />
+@code{
+
+    public RenderFragment RenderFragmentWithContexMenu => __builder =>
+    {
+    <div @onclick="(() => Navigate(DefaultRoute))" class="card block-effect mt-3 mb-3 mr-1 ml-2 card-guttersf" style="cursor: pointer;" @oncontextmenu="((e) => ContextMenu.ShowAsync(e))" @oncontextmenu:preventDefault>
+        <div class="d-flex flex-row" style="height: 100% !important;">
+            <div class="folder-content-next" data-toggle="tooltip" title="@Block.Name" style="border:none !important;">
+                @{
+                    var fName = @Block.Name;
+                    if (fName.Length > 32)
+                    {
+                        fName = fName.Substring(0, 32);
+                    }
+                    <span class="text-center" style="color: @((Block.Foreground == Converter.DefaultIntColor || Block.Foreground == null) ? "#000" : Converter.ConvertInToHex(Block.Foreground));">@fName</span>
+                }
+            </div>
+        </div>
+    </div>
+    };
+
+   
+}

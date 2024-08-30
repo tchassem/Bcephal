@@ -1,0 +1,17 @@
+﻿<div class="card m-0 p-0 w-100 h-100">
+    <div class="card-header m-0 p-0 bc-header-1 bc-header-height bc-text-align">
+        <span class="text-left ml-1">
+            <i class="mr-1 ml-1 mt-auto mb-auto"></i>
+            @if (!string.IsNullOrWhiteSpace(Title))
+            {
+                @Title
+            }
+        </span>
+    </div>
+    <div class="card-body m-0 p-1 overflow-auto" style="height:calc(100% - var(--bc-header-height));box-sizing:border-box;">
+        @if (ChildContent != null)
+        {
+            @ChildContent
+        }
+    </div>
+</div>

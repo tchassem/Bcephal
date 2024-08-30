@@ -1,0 +1,174 @@
+﻿
+<DxLayoutBreakpoint DeviceSize="DeviceSize.XSmall | DeviceSize.Small | DeviceSize.Medium " @bind-IsActive="@IsXSmallScreen" />
+<DxStackLayout ItemSpacing="4px" Orientation=Orientation.Horizontal CssClass=@ItemCssClass>
+    <Items>
+        <DxStackLayoutItem Length="14%">
+            <Template>
+                <DxStackLayout Orientation=@Orientation.Vertical ItemSpacing="0px">
+                    <Items>
+                        <DxStackLayoutItem Length=@textLength>
+                            <Template>
+                                <span>@AppState["Set.value.of"]</span>
+                            </Template>
+                        </DxStackLayoutItem>
+                        <DxStackLayoutItem Length="1fr">
+                            <Template>
+                                <DxComboBox Data=@dimensionTypes
+                                            TData="DimensionType?"
+                                            TValue="DimensionType?"
+                                            @bind-Value=@Type>
+                                </DxComboBox>
+                            </Template>
+                        </DxStackLayoutItem>
+                    </Items>
+                </DxStackLayout>
+            </Template>
+        </DxStackLayoutItem>
+        <DxStackLayoutItem Visible=@(Type.HasValue) Length="15%">
+            <Template>
+                <DxStackLayout Orientation=@Orientation.Vertical ItemSpacing="0px">
+                    <Items>
+                        <DxStackLayoutItem Length=@textLength>
+                        </DxStackLayoutItem>
+                        <DxStackLayoutItem Length="1fr">
+                            <Template>
+                                <TreeViewFilter C="Bcephal.Models.Base.HierarchicalData"
+                                                ItemsFilter="Dimensions"
+                                                SelectedItem=@(TargetDimension != null ? TargetDimension.Name : null)
+                                                SelectFilterItemCallback=@TargetDimensionChanged>
+                                </TreeViewFilter>
+                            </Template>
+                        </DxStackLayoutItem>
+                    </Items>
+                </DxStackLayout>
+            </Template>
+        </DxStackLayoutItem>
+        <DxStackLayoutItem Visible=@(Type.HasValue) Length="14%">
+            <Template>
+                <DxStackLayout Orientation=@Orientation.Vertical ItemSpacing="0px">
+                    <Items>
+                        <DxStackLayoutItem Length=@textLength>
+                            <Template>
+                                <span>@AppState["Within"]</span>
+                            </Template>
+                        </DxStackLayoutItem>
+                        <DxStackLayoutItem Length="1fr">
+                            <Template>
+                                <DxComboBox Data=@Grilles_
+                                            TData="GrilleBrowserData"
+                                            TValue="GrilleBrowserData"
+                                            @bind-Value=@Grille>
+                                </DxComboBox>
+                            </Template>
+                        </DxStackLayoutItem>
+                    </Items>
+                </DxStackLayout>
+            </Template>
+        </DxStackLayoutItem>
+        <DxStackLayoutItem Visible=@(Type.HasValue) Length="auto">
+            <Template>
+                <DxStackLayout Orientation=@Orientation.Vertical ItemSpacing="0px">
+                    <Items>
+                        <DxStackLayoutItem Length="1.12fr">
+                        </DxStackLayoutItem>
+                        <DxStackLayoutItem Length="1fr">
+                            <Template>
+                                <DxCheckBox @bind-Checked=@ApplyOnlyIfEmpty CssClass="d-flex align-items-center" data-toggle="tooltip" title=@AppState["ApplyOnlyIfEmpty"] />
+                            </Template>
+                        </DxStackLayoutItem>
+                    </Items>
+                </DxStackLayout>
+            </Template>
+        </DxStackLayoutItem>
+        <DxStackLayoutItem Visible=@(Type.HasValue) Length="auto">
+            <Template>
+                <DxStackLayout Orientation=@Orientation.Vertical ItemSpacing="0px">
+                    <Items>
+                        <DxStackLayoutItem Length="0.75fr">
+                        </DxStackLayoutItem>
+                        <DxStackLayoutItem Length="1fr">
+                            <Template>
+                                <EditFilterComponent Filter=@Filter
+                                                     Attributes=@Attributes
+                                                     Measures=@Measures
+                                                     Periods=@Periods >
+                                </EditFilterComponent>
+                            </Template>
+                        </DxStackLayoutItem>
+                    </Items>
+                </DxStackLayout>
+            </Template>
+        </DxStackLayoutItem>
+        <DxStackLayoutItem Visible=@(Type.HasValue) Length="1fr">
+            <Template>
+                <TransformationRoutineFieldComponent SourceField=@(SourceField)
+                                                     SourceFieldChanged=@OnSourceFieldChanged
+                                                     Dimensions=@Dimensions
+                                                     Type=@(Type.Value)
+                                                     Fragment=@FragmentParam()
+                                                     ItemSpacing="4px"
+                                                     TextLength=@textLength>
+                </TransformationRoutineFieldComponent>
+            </Template>
+        </DxStackLayoutItem>
+        <DxStackLayoutItem Visible=@(Type.HasValue) Length="auto">
+            <Template>
+                <DxStackLayout Orientation=@Orientation.Vertical ItemSpacing="0px">
+                    <Items>
+                        <DxStackLayoutItem Length="1fr">
+                        </DxStackLayoutItem>
+                        <DxStackLayoutItem Length="1fr">
+                            <Template>
+                                <DxButton IconCssClass="fa fa-remove" RenderStyleMode="ButtonRenderStyleMode.Text"
+                                          RenderStyle="ButtonRenderStyle.Danger"
+                                          Click=@(() => TRoutineItemDeleted.InvokeAsync(TRoutineItem) )>
+                                </DxButton>
+                            </Template>
+                        </DxStackLayoutItem>
+                    </Items>
+                </DxStackLayout>
+            </Template>
+        </DxStackLayoutItem>
+    </Items>
+</DxStackLayout>
+
+@code {
+
+    private RenderFragment FragmentParam()
+    {
+        if (SourceField != null)
+        {
+            if (SourceField.RoutineSourceType == TransformationRoutineSourceType.CONCATENATE)
+            {
+                return ConcatenateFragment;
+            }
+            else if (SourceField.RoutineSourceType == TransformationRoutineSourceType.CALCULATE)
+            {
+                return CalculationFragment;
+            }
+        }
+
+        return __builder => { };
+
+    }
+
+    private RenderFragment ConcatenateFragment => __builder =>
+    {
+        <RoutineConcatenateComponent ItemsHandler=(TRoutineItem.ConcatenateItemListChangeHandler)
+                                     ItemsHandlerChanged=OnConcatenateItemsChanged
+                                     Dimensions=Dimensions
+                                     Type=(Type.Value)
+                                     TextLength=@(textLength)>
+        </RoutineConcatenateComponent>
+    };
+
+    private RenderFragment CalculationFragment => __builder =>
+    {
+        <RoutineCalculationComponent ItemsHandler=(TRoutineItem.CalculateItemListChangeHandler)
+                                     ItemsHandlerChanged=OnCalculateItemsChanged
+                                     Dimensions=Dimensions
+                                     Type=(Type.Value)
+                                     TextLength=@(textLength) >
+        </RoutineCalculationComponent>
+    };
+}

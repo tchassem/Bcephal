@@ -1,0 +1,49 @@
+﻿<DxPopup @bind-Visible="@ModalBackupProject"
+         ShowFooter="true"
+         @ref="Popup"
+         ShowCloseButton="false"
+         CloseOnEscape="false"
+         CloseOnOutsideClick="false"
+         CssClass="custom-popup"
+         HeaderCssClass="font-weight-light"
+         HeaderText="@AppState["Project.New.Backup"]">
+    <Content>
+        <DxFormLayout CssClass="d-flex flex-column">
+            <div class="w-100 pb-1"><label>@AppState["WantProduceNewArchive"]</label></div>
+            <DxFormLayoutItem CssClass="w-100 pl-0" CaptionCssClass="font-weight-normal" Caption="@AppState["Archive.Name"]" ColSpanXs="12" ColSpanXl="12" ColSpanSm="12" ColSpanLg="12" ColSpanMd="12">
+                <Template>
+                    <DxTextBox CssClass="w-100" InputCssClass="w-100"
+                               @bind-Text=Name InputId="new-backup-id"
+                               NullText="@AppState["Archive.Name"]"></DxTextBox>
+                </Template>
+            </DxFormLayoutItem>
+            <DxFormLayoutItem CssClass="w-100 pl-0" CaptionCssClass="font-weight-normal" Caption="@AppState["Description"]" ColSpanXs="12" ColSpanXl="12" ColSpanSm="12" ColSpanLg="12" ColSpanMd="12">
+                <Template>
+                    <div class="form-group">
+                        <textarea class="form-control w-100" rows="3"
+                                  placeholder="@AppState["Description"]"
+                                  @bind-value=Description
+                                  @bind-value:event="oninput" />
+                    </div>
+                </Template>
+            </DxFormLayoutItem>
+            <DxFormLayoutItem CssClass="w-100 pt-2" CaptionCssClass="font-weight-normal" ColSpanXs="12" ColSpanXl="12" ColSpanSm="12" ColSpanLg="12" ColSpanMd="12">
+                <Template>
+                    <div class="flex-fill mr-auto ml-auto mt-auto mb-auto">
+                        <span class="text-center" style="color:red;">@issueMessage</span>
+                    </div>
+                </Template>
+            </DxFormLayoutItem>
+        </DxFormLayout>
+    </Content>
+    <FooterContentTemplate>
+        <div class="d-flex flex-column w-100 h-auto">
+            <div class="d-flex flex-row">
+                <DxButton CssClass="mr-1 ml-auto wid-100" IconCssClass="bi bi-arrow-down-circle pr-1" RenderStyle="ButtonRenderStyle.Primary" Text="@AppState["Ok"]"
+                          Click=@CreateProjectBackup />
+                <DxButton CssClass="ml-1 mr-auto wid-100" IconCssClass="oi oi-delete pr-1" RenderStyle="ButtonRenderStyle.Danger"
+                          Text="@AppState["Close"]" @onclick=CloseBackupProject />
+            </div>
+        </div>
+    </FooterContentTemplate>
+</DxPopup>

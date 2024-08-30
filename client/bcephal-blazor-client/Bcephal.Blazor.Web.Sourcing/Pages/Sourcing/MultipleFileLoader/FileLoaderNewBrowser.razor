@@ -1,0 +1,15 @@
+﻿@page "/projects/file-loaders"
+
+@inherits Base.Shared.Browser
+@{
+    base.BuildRenderTree(__builder);
+}
+
+@code{
+    public override string Title { get { return AppState["List.Files.Loader"]; } }
+
+    protected override RenderFragment _BodyContent_ => __builder =>
+    {
+        <ListFileLoaders />
+    };
+}

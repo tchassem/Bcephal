@@ -1,0 +1,102 @@
+﻿@using Bcephal.Models.Dashboards;
+
+<BaseModalComponent @ref="ModalPro" Title="@Title" Width="70%" Height="70%" ApplyBackgroundShading="true" BodyClass="p-2" @bind-ShowModal=ShowModal OkHandler="OkHandler" CancelHandler="CancelHandler">
+    <DxLayoutBreakpoint DeviceSize="DeviceSize.XSmall | DeviceSize.Small | DeviceSize.Medium " @bind-IsActive="@IsXSmallScreen" />
+    <div class="p-2 overflow-y-auto" style="height: inherit; height: calc(75vh - 41.2px - 33.2px - 40px); padding-top: 2px !important;">
+        <DxGridLayout RowSpacing="2.4px" ColumnSpacing="2.4px">
+            <Rows>
+                <DxGridLayoutRow Height="100%" />
+                <DxGridLayoutRow Height="100%" />
+            </Rows>
+            <Columns>
+                <DxGridLayoutColumn Width="50%" />
+                <DxGridLayoutColumn />
+            </Columns>
+            <Items>
+                <DxGridLayoutItem Row="0" Column="0">
+                    <Template>
+                        <div class="card w-100 h-100 overflow-auto" style="margin-right: 2px;">
+                            <div class="card-header bg-white border-0 d-flex flex-column p-0">
+                                <span class="ml-auto mr-auto">
+                                    @AppState["Profil.Dashboard.TitleAvailable"]
+                                </span>
+                                <div class="p-2">
+                                    <DxToolbar ItemRenderStyleMode="ToolbarRenderStyleMode.Contained">
+                                        <DxToolbarItem RenderStyle="ButtonRenderStyle.Primary" Text="@AppState["Select.All"]" @onclick="SelectAllAdding" />
+                                        <DxToolbarItem RenderStyle="ButtonRenderStyle.Dark" Text="@AppState["Add.Selected"]" @onclick="HandlerAddingDashboards"
+                                                       Alignment="ToolbarItemAlignment.Right" BeginGroup="false" />
+                                    </DxToolbar>
+                                </div>
+                            </div>
+                            <div class="card-body model-form-card-body overflow-y-auto">
+                                <DxStackLayout ItemSpacing="8px" Orientation=Orientation.Vertical>
+                                    <Items>
+                                        <DxStackLayoutItem Length="auto">
+                                            <Template>
+                                                <div class="row m-0 p-0 h-100">
+                                                    <div class="col p-0 d-flex flex-column">
+                                                        <DxListBox Id="dash" Data="@ProfileDashboardEditorData.Dashboards" TextFieldName="Name" SelectionMode="ListBoxSelectionMode.Multiple"
+                                                                   ShowCheckboxes="@ShowCheckboxes" CssClass="w-100 mt-1 mr-1 ml-1 h-100 border-0 overflow-y-auto" @bind-Values="@AddingDashboards">
+                                                        </DxListBox>
+                                                    </div>
+                                                </div>
+                                            </Template>
+                                        </DxStackLayoutItem>
+                                    </Items>
+                                </DxStackLayout>
+                            </div>
+                        </div>
+                    </Template>
+                </DxGridLayoutItem>
+                <DxGridLayoutItem Row="0" Column="1">
+                    <Template>
+                        <div class="card w-100 h-100" style=" margin-right: 2px;">
+                            <div class="card-header bg-white border-0 d-flex flex-column p-0">
+                                <span class="ml-auto mr-auto">
+                                    @AppState["Profil.Dashboard.TitleSelected"]
+                                </span>
+                                <div class="p-2">
+                                    <DxToolbar ItemRenderStyleMode="ToolbarRenderStyleMode.Contained">
+                                        <DxToolbarItem RenderStyle="ButtonRenderStyle.Primary" Text="@AppState["Select.All"]" @onclick="SelectAllDeleting" />
+                                        <DxToolbarItem RenderStyle="ButtonRenderStyle.Danger" Text="@AppState["remove"]" @onclick="HandlerRemovingDashboards"
+                                                       Alignment="ToolbarItemAlignment.Right" BeginGroup="false" />
+                                    </DxToolbar>
+                                </div>
+                            </div>
+                            <div class="card-body model-form-card-body overflow-y-auto">
+                                <DxStackLayout ItemSpacing="8px" Orientation=Orientation.Vertical>
+                                    <Items>
+                                        <DxStackLayoutItem Length="auto">
+                                            <Template>
+                                                <div class="row m-0 p-0 h-100">
+                                                    <div class="col p-0 d-flex flex-column">
+                                                        <DxListBox Id="dash_" Data="CurrentProfileDashboard.ItemListChangeHandler.Items" TextFieldName="Name" SelectionMode="ListBoxSelectionMode.Multiple"
+                                                                   ShowCheckboxes="@ShowCheckboxes" CssClass="w-100 mt-1 mr-1 ml-1 h-100 border-0 overflow-y-auto" @bind-Values="@DeletingDashboards">
+                                                            <ItemTemplate>
+                                                                <div class="listbox-item-template w-100" @oncontextmenu="((e) => OnContextMenu(e, (ProfileDashboard)context))" @oncontextmenu:preventDefault>
+                                                                    <div class="listbox-item-template-text" style="@(context.DefaultDashboard ? "font-weight: 500" : "")">
+                                                                        <span>@context.Name</span>
+                                                                    </div>
+                                                                </div>
+                                                            </ItemTemplate>
+
+                                                        </DxListBox>
+                                                        <DxContextMenu @ref="@ContextMenu" ItemClick="OnItemClick">
+                                                            <Items>
+                                                                <DxContextMenuItem Text="@AppState["Set.As.Default"]"></DxContextMenuItem>
+                                                            </Items>
+                                                        </DxContextMenu>
+                                                    </div>
+                                                </div>
+                                            </Template>
+                                        </DxStackLayoutItem>
+                                    </Items>
+                                </DxStackLayout>
+                            </div>
+                        </div>
+                    </Template>
+                </DxGridLayoutItem>
+            </Items>
+        </DxGridLayout>
+    </div>
+</BaseModalComponent>

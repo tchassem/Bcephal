@@ -1,0 +1,28 @@
+﻿@if (BillingModelEditorData != null )
+{
+    <DxStackLayout CssClass="ml-5 mb-1 align-items-center bc-box-sizing" Orientation="Orientation.Horizontal" ItemSpacing="2px">
+        <Items>
+            @if (BillingDescription != null)
+            {
+                <DxStackLayoutItem CssClass="d-flex justify-content-start" Length="200px">
+                    <Template>
+                        <DxButton Enabled="Editable" RenderStyle="ButtonRenderStyle.Link" SizeMode="SizeMode.Medium" Text="@BillingDescription.Locale" @onclick="()=>UpdateDescription()" />
+                    </Template>
+                </DxStackLayoutItem>
+
+                <DxStackLayoutItem Length="30px">
+                    <Template>
+                        <DxButton Enabled="Editable" IconCssClass="fa fa-remove"
+                                  CssClass="mt-2"
+                                  RenderStyleMode="ButtonRenderStyleMode.Text"
+                                  RenderStyle="ButtonRenderStyle.Danger"
+                                  Click="()=>RemoveDescription()">
+                        </DxButton>
+                    </Template>
+                </DxStackLayoutItem>
+            }
+        </Items>
+    </DxStackLayout>
+
+    
+}

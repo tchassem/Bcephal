@@ -1,0 +1,279 @@
+﻿@page "/edit-spot/"
+@page "/edit-spot/{Id:long}"
+
+
+@inherits Form<Models.Spot.Spot, BrowserData>
+
+@if (EditorData == null)
+{
+    AppState.ShowLoadingStatus();
+}
+@{
+    base.BuildRenderTree(__builder);
+}
+
+
+@code {
+
+
+    bool IsXSmallScreen;
+
+public string FilterStyle = "h-100 w-100";
+
+string AttributeHeaderStyle = "d-flex flex-row bc-header-3 p-0 bc-header-height bc-text-align pl-1";
+string PeriodHeaderStyle = "d-flex flex-row bc-header-3 p-0 bc-header-height bc-text-align pl-1";
+string MeasureHeaderStyle = "d-flex flex-row bc-header-3 p-0 bc-header-height bc-text-align pl-1";
+string labelSm = "mt-auto mb-auto ml-auto mr-1";
+string labelLg = "mt-auto mb-auto ml-auto mr-1";
+public string LengthItem1Lg = "0.2fr";
+public string LengthItem2Lg = "0.8fr ";
+
+
+public override RenderFragment LeftContent => __builder =>
+{
+@if (EditorData != null && EditorData.Item != null)
+        {
+            AppState.HideLoadingStatus();
+    @RenderSplitterPane
+        }
+    };
+
+    public RenderFragment RenderSplitterPane => __builder =>
+    {
+<SplitterPanel Panes="new List<RenderFragment>() {LeftContent1,LeftContent2  }"
+               LeftSize="1" />
+    };
+
+    public RenderFragment LeftContent1 => __builder =>
+    {
+<div class="card p-0 m-0 h-100 border-bottom-0">
+    <div class="card-header bc-header-height bc-header-2 bc-text-align pl-2">
+        <span class="text-left">
+            @AppState["General"]
+        </span>
+    </div>
+    <div class="card-body p-0" style="height:calc(100% - var(--bc-header-height));">
+        @LeftContent1_
+
+    </div>
+</div>
+    };
+
+
+    public RenderFragment LeftContent1_ => __builder =>
+    {
+
+<DxLayoutBreakpoint DeviceSize="DeviceSize.Medium | DeviceSize.Small | DeviceSize.XSmall" @bind-IsActive="@IsXSmallScreen" />
+<DxStackLayout CssClass="w-100 h-100" Orientation="Orientation.Vertical" ItemSpacing="15px">
+    <Items>
+        <DxStackLayoutItem CssClass="ml-2" Length="1fr">
+            <Template>
+                <DxStackLayout CssClass="w-100 mt-2" Orientation="Orientation.Vertical" ItemSpacing="10px">
+                    <Items>
+                        <DxStackLayoutItem CssClass="w-75" Length="auto">
+                            <Template>
+                                <DxStackLayout CssClass="w-100" Orientation="Orientation.Horizontal">
+                                    <Items>
+                                        <DxStackLayoutItem Length="@LengthItem1Lg">
+                                            <Template>
+                                                <div class="d-flex flex-column h-100">
+                                                    <span class="@(IsXSmallScreen ? labelSm : labelLg)">@AppState["Function"]</span>
+                                                </div>
+                                            </Template>
+                                        </DxStackLayoutItem>
+                                        <DxStackLayoutItem Length=@LengthItem2Lg>
+                                            <Template>
+                                                <DxComboBox NullText=" " CssClass="d-flex flex-column h-100 justify-content-center" Data="MeasureFunctions.GetAll()" TData="MeasureFunctions" TValue="MeasureFunctions" TextFieldName="label" @bind-Value=EditorData.Item.Function></DxComboBox>
+                                            </Template>
+                                        </DxStackLayoutItem>
+                                    </Items>
+                                </DxStackLayout>
+                            </Template>
+                        </DxStackLayoutItem>
+                        <DxStackLayoutItem CssClass="w-75" Length="auto">
+                            <Template>
+                                <DxStackLayout CssClass="w-100" Orientation="Orientation.Horizontal">
+                                    <Items>
+                                        <DxStackLayoutItem Length="@LengthItem1Lg">
+                                            <Template>
+                                                <div class="d-flex flex-column h-100">
+                                                    <span class="@(IsXSmallScreen ? labelSm : labelLg)">@AppState["MEASURE"]</span>
+                                                </div>
+
+                                            </Template>
+                                        </DxStackLayoutItem>
+                                        <DxStackLayoutItem Length="@LengthItem2Lg">
+                                            <Template>
+                                                <TreeViewFilter C="Bcephal.Models.Dimensions.Measure"
+                                                                SelectFilterItemCallback="MeasureChanged"
+                                                                SelectedItem=@(Measure_ != null ? Measure_.Name : null)
+                                                                ItemsFilter="@EditorData.Measures">
+                                                </TreeViewFilter>
+                                            </Template>
+                                        </DxStackLayoutItem>
+                                    </Items>
+                                </DxStackLayout>
+                            </Template>
+                        </DxStackLayoutItem>
+                        <DxStackLayoutItem CssClass="w-75" Length="auto">
+                            <Template>
+                                <DxStackLayout CssClass="w-100" Orientation="Orientation.Horizontal">
+                                    <Items>
+                                        <DxStackLayoutItem Length="@LengthItem1Lg">
+                                            <Template>
+                                                <div class="d-flex flex-column h-100">
+                                                    <span class="@(IsXSmallScreen ? labelSm : labelLg)">@AppState["GRID"]</span>
+                                                </div>
+                                            </Template>
+                                        </DxStackLayoutItem>
+                                        <DxStackLayoutItem Length="@LengthItem2Lg">
+                                            <Template>
+                                                <DxComboBox CssClass="d-flex flex-column h-100 justify-content-center" Data="GridList" TData="Nameable" TValue="Nameable" TextFieldName="Name" @bind-Value=Grid />
+                                            </Template>
+                                        </DxStackLayoutItem>
+                                        @if (Grid != null)
+                                        {
+                                            <DxStackLayoutItem CssClass="" Length="30px">
+                                                <Template>
+                                                    <DxButton IconCssClass="fa fa-remove"
+                                                        CssClass="mt-auto mb-auto"
+                                                        RenderStyleMode="ButtonRenderStyleMode.Text"
+                                                        RenderStyle="ButtonRenderStyle.Danger"
+                                                        Click="()=>RemoveGrid()">
+                                                    </DxButton>
+                                                </Template>
+                                            </DxStackLayoutItem>
+                                        }
+                                    </Items>
+                                </DxStackLayout>
+                            </Template>
+                        </DxStackLayoutItem>
+                        <DxStackLayoutItem CssClass="w-75" Length="auto">
+                            <Template>
+                                <DxStackLayout CssClass="w-100" Orientation="Orientation.Horizontal">
+                                    <Items>
+                                        <DxStackLayoutItem Length="@LengthItem1Lg">
+                                            <Template>
+                                                <div class="d-flex flex-column h-100">
+                                                    <span class="@(IsXSmallScreen ? labelSm : labelLg)">&nbsp;</span>
+                                                </div>
+                                            </Template>
+                                        </DxStackLayoutItem>
+                                        <DxStackLayoutItem Length="@LengthItem2Lg">
+                                            <Template>
+                                                <DxButton RenderStyle="ButtonRenderStyle.Primary" Text="@AppState["evaluate"]" @onclick="async () => { await Evaluate(); }" />
+                                                <DxSpinEdit @bind-Value="Evaluation" ReadOnly="true" />
+                                            </Template>
+                                        </DxStackLayoutItem>
+                                    </Items>
+                                </DxStackLayout>
+                            </Template>
+                        </DxStackLayoutItem>
+                    </Items>
+                </DxStackLayout>
+            </Template>
+        </DxStackLayoutItem>
+    </Items>
+</DxStackLayout>
+
+    };
+
+    public RenderFragment LeftContent2 => __builder =>
+    {
+<div class="card p-0 m-0 h-100 border-bottom-0 border-left-0 border-right-0">
+    <div class="card-header bc-header-height bc-header-2 bc-text-align pl-2">
+        <span class="text-left">
+            @AppState["Filter"]
+        </span>
+    </div>
+    <div class="card-body p-0" style="height: calc(100% - var(--bc-header-height)); overflow-x: scroll; overflow-y: hidden;">
+        @LeftContent2_
+    </div>
+</div>
+    };
+
+    public RenderFragment LeftContent2_ => __builder =>
+    {
+<DxLayoutBreakpoint DeviceSize="DeviceSize.Medium | DeviceSize.Small | DeviceSize.XSmall" @bind-IsActive="@IsXSmallScreen" />
+<DxStackLayout CssClass="w-100 h-100" Orientation="Orientation.Vertical" ItemSpacing="15px">
+    <Items>
+        <DxStackLayoutItem Length="1fr">
+            <Template>
+                <FilterComponent Filterstyle="@FilterStyle"
+                                 UniverseFilter="EditorData.Item.Filter"
+                                 Attributes=Entities
+                                 Measures=EditorData.Measures
+                                 Periods=EditorData.Periods
+                                 AttributeHeaderStyle=@AttributeHeaderStyle
+                                 MeasureHeaderStyle=@MeasureHeaderStyle
+                                 PeriodHeaderStyle=@PeriodHeaderStyle>
+                </FilterComponent>
+            </Template>
+        </DxStackLayoutItem>
+    </Items>
+</DxStackLayout>
+    };
+
+
+    public override RenderFragment RightContent => __builder =>
+    {
+        @if (EditorData != null && EditorData.Item != null)
+          {
+            <div class="d-flex flex-column grid-bc-two h-100 overflow-y-auto" style="display:block;box-sizing:border-box;">
+            <div style="height:auto;padding-bottom:0;margin-bottom:10px;">
+                <GridItemInfos @bind-EditorData=@EditorDataBinding T="Models.Spot.Spot"
+                               DisplayGroup="true" DisplayVisibleInShortcut="false">
+                    <ChildContent>
+                        <DxLayoutBreakpoint DeviceSize="DeviceSize.Medium | DeviceSize.Small | DeviceSize.XSmall" @bind-IsActive="IsXSmallScreen" />
+                        <DxGridLayout CssClass="ml-2" ColumnSpacing="0px">
+                            <Rows>
+                                <DxGridLayoutRow Height="auto" />
+                            </Rows>
+                            <Items>
+                                <DxGridLayoutItem CssClass="mt-1 mb-1" Row="0" Column="0">
+                                    <Template>
+                                        <DxGridLayout ColumnSpacing="0px" RowSpacing="10px">
+                                            <Rows>
+                                                @if (IsXSmallScreen)
+                                                    {
+                                                    <DxGridLayoutRow Areas="DesriptionLabel" Height="auto" />
+                                                    <DxGridLayoutRow Areas="Desription" Height="auto" />
+                                                    }
+                                                    else
+                                                    {
+                                                    <DxGridLayoutRow Areas="DesriptionLabel Desription " Height="auto" />
+                                                    }
+                                            </Rows>
+                                            <Columns>
+                                                @if (IsXSmallScreen)
+                                                    {
+                                                    <DxGridLayoutColumn />
+                                                    }
+                                                    else
+                                                    {
+                                                    <DxGridLayoutColumn Width=@LabelWidth />
+                                                    <DxGridLayoutColumn Width=@TextWidth />
+                                                    }
+                                            </Columns>
+                                            <Items>
+                                                <DxGridLayoutItem Area="DesriptionLabel" CssClass="w-100" />
+                                                <DxGridLayoutItem Area="Desription" CssClass="w-100">
+                                                    <Template>
+                                                        <textarea class="form-control" rows="3" style="width:80%" placeholder="@AppState["Description"]"
+                                                                  @bind-value=@Description @bind-value:event="oninput" />
+                                                    </Template>
+                                                </DxGridLayoutItem>
+                                            </Items>
+                                        </DxGridLayout>
+                                    </Template>
+                                </DxGridLayoutItem>
+                            </Items>
+                        </DxGridLayout>
+                    </ChildContent>
+                </GridItemInfos>
+            </div>
+        </div>
+        }
+
+    };
+}

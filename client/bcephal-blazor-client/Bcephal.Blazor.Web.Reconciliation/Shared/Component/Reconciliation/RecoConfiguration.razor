@@ -1,0 +1,63 @@
+﻿
+@LeftContent
+
+@code {
+
+    public RenderFragment LeftContent => __builder =>
+    {
+    @if (EditorData != null)
+        {
+        <div class="stacklayout-header"> 
+            <DxTabs ScrollMode="TabsScrollMode.Auto">
+                <DxTabPage CssClass="" Text="@AppState["reconciliation"]">
+                    <RecoConfigurationComponentItem Editable=Editable @bind-EditorData=EditorDataBinding Entities=Entities/>
+                </DxTabPage>
+                <DxTabPage Text="@AppState["Reconciliation.Enrichment"]">
+                    @RenderEnrichmentSubTab
+                </DxTabPage>
+                <DxTabPage Text="@AppState["Reconciliation.WriteOff"]">
+                    <WriteOffForm ReconciliationModelSideTypes=ReconciliationModelSideTypes
+                                  @bind-WriteOffEditorData="GetEditorDataBinding"
+                                  Editable=Editable
+                                  WriteOffValueTypesPeriods=WriteOffValueTypesPeriods
+                                  WriteOffValueTypesAttributes=WriteOffValueTypesAttributes />
+                </DxTabPage>
+                <DxTabPage Text="@AppState["Conditions"]">
+                    <div class="h-100 pl-3">
+                        <RecoConditionsComponent 
+                               @bind-EditorData="EditorDataBinding"
+                               Editable=Editable>
+
+                        </RecoConditionsComponent>
+                    </div>
+                </DxTabPage>
+            </DxTabs>
+        </div>
+        }
+    };
+
+
+    public RenderFragment RenderEnrichmentSubTab => __builder =>
+    {
+    <RecoEnrichMainComponent EditorDataBindingLeft=EditorDataBindingLeft
+                             EditorDataBindingRight=EditorDataBindingRight
+                             @bind-EnrichmentValueEditorData=GetEditorDataBinding
+                             Editable=Editable
+                             FreezeTypes=Entities />
+    };
+
+    public RenderFragment RightContent => __builder =>
+    {
+    @if (EditorData != null)
+        {
+        <GridItemInfos 
+                       @bind-EditorData=EditorDataBinding
+                       Editable=Editable
+                       T="Bcephal.Models.Reconciliation.ReconciliationModel"
+                       @bind-BGroups="BGroups_">
+        </GridItemInfos>
+        }
+    };
+
+}
+

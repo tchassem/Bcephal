@@ -1,0 +1,75 @@
+﻿
+<div class="p-2">
+
+    <DxFormLayout Data="@EditorData.Item" CssClass="h-100 w-100">
+        <DxFormLayoutItem Caption="@AppState["scheduling.option"]" CssClass="mt-4 " CaptionCssClass="text-right" BeginRow="true" ColSpanMd="12" ColSpanLg="12" ColSpanXl="12" ColSpanSm="12" ColSpanXs="12">
+            <Template>
+                <DxCheckBox @bind-Checked="@(Scheduled)"  Alignment="CheckBoxContentAlignment.Left" LabelPosition="LabelPosition.Right"></DxCheckBox>
+            </Template>
+        </DxFormLayoutItem>
+        <DxFormLayoutItem Caption="@AppState["reco.auto.recoSchedul.active"]" CaptionCssClass="text-right" BeginRow="true" ColSpanMd="12" ColSpanLg="12" ColSpanXl="12" ColSpanSm="12" ColSpanXs="12">
+            <Template>
+                <DxCheckBox @bind-Checked="@(Active)"  Alignment="CheckBoxContentAlignment.Left" LabelPosition="LabelPosition.Right"></DxCheckBox>
+            </Template>
+        </DxFormLayoutItem>
+        <DxFormLayoutItem Caption="@AppState["cron.expression"]" CaptionCssClass="text-right" BeginRow="true" ColSpanMd="12" ColSpanLg="12" ColSpanXl="12" ColSpanSm="12" ColSpanXs="12">
+            <Template>                
+                <div class="m-0 p-0 d-flex flex-row w-100">
+                    <div class="m-0 p-0" style="width:50%;">
+                        <DxTextBox CssClass="w-100" NullText="@AppState["edit.cron.expression"]" Enabled="true" @bind-Text="@CronExpression"></DxTextBox>
+                    </div>
+                    <div class="m-0 p-0 ml-1" style="width:30%;">
+                        <a href="https://freeformatter.com/cron-expression-generator-quartz.html" target="_blank">@AppState["cron.expression"]</a>
+                    </div>
+                </div>
+            </Template>
+        </DxFormLayoutItem>
+    </DxFormLayout>
+       
+</div>
+
+@code {
+
+    #region Injected properties
+
+    [Inject]
+    public AppState AppState { get; set; }
+    [Parameter]
+    public EditorData<AutoReco> EditorData { get; set; }
+
+    #endregion
+
+
+    #region Properties binded to the form items
+
+    private string CronExpression
+    {
+        get { return EditorData.Item.CronExpression; }
+        set
+        {
+            EditorData.Item.CronExpression = value;
+            AppState.Update = true;
+        }
+    }
+    private bool Scheduled
+    {
+        get { return EditorData.Item.Scheduled; }
+        set
+        {
+            EditorData.Item.Scheduled = value;
+            AppState.Update = true;
+        }
+    }
+    private bool Active
+    {
+        get { return EditorData.Item.Active; }
+        set
+        {
+            EditorData.Item.Active = value;
+            AppState.Update = true;
+        }
+    }
+
+    #endregion
+
+}

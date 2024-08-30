@@ -1,0 +1,35 @@
+﻿
+<SplitterPanel Panes="(new() { LogContent, LogItemContent})" LeftSize="1" RightSize="1" vertical="false" />
+
+
+@code {
+
+    public long? FileLoaderLogId { get; set; }
+
+
+    public long? FileLoaderLogId_
+    {
+        get
+        {
+            return FileLoaderLogId;
+        }
+        set
+        {
+            FileLoaderLogId = value;
+            StateHasChanged();
+        }
+    }
+
+    [Parameter]
+    public EditorData<Models.Loaders.FileLoader> EditorData { get; set; }
+
+    public RenderFragment LogContent => __builder =>
+    {
+    <FileLoaderLogBrowser FileLoaderId_=EditorData.Item.Id @bind-FileLoaderLogId_=FileLoaderLogId_ />
+    };
+    public RenderFragment LogItemContent => __builder =>
+    {
+    <FileLoaderLogItemBrowser @bind-FileLoaderLogId=FileLoaderLogId_ />
+    };
+
+}

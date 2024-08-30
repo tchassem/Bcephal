@@ -1,0 +1,1007 @@
+@using Bcephal.Models.Billing.Model
+
+@RenderDescTabcomponent
+
+@code
+{
+    bool IsXSmallScreen;
+
+    string ItemSpacingSm = "10px";
+    string ItemSpacingLg = "5px";
+    string ItemOrder = "75px";
+    string RowSpacingSm = "10px";
+    string RowSpacingLg = "10px";
+    string rowheightsm = "auto";
+    string CssClassSm = "w-100 h-100 mt-2 overflow-y-bc";
+    string CssClassLg = "w-100 h-100 mt-4 overflow-y-bc";
+    string widthSm = "1fr";
+    string widthLg = "0.8fr";
+    string labelLg = "text-right mr-1";
+    string labelSm = "ml-1";
+    string lengthSm = "1.5fr";
+    string lengthLg = "1fr";
+    string wgriditem1 = "0.75fr";
+    string wgriditem2 = "2fr";
+    string checkboxlength = "0.07fr";
+    string labelcheckboxlength = "0.93fr";
+
+
+
+    RenderFragment RenderDescTabcomponent => __builder =>
+    {
+    <div class="h-100">
+        <SplitterPanel heightCall="@heightCall" vertical="false" LeftSize="1"  Panes="new List<RenderFragment>() { RenderDescTabForm, RenderGroupInvoicePivot }" />
+    </div>
+
+    };
+
+    RenderFragment RenderDescTabForm => __builder =>
+    {
+        <div class="h-100 pb-1">
+            <DxLayoutBreakpoint DeviceSize="DeviceSize.Large" @bind-IsActive="@IsXSmallScreen" />
+            <DxGridLayout CssClass="@(IsXSmallScreen ? CssClassSm : CssClassLg)" ColumnSpacing="2px" RowSpacing="@(IsXSmallScreen ? RowSpacingSm : RowSpacingLg)">
+                <Rows>
+                    <DxGridLayoutRow Height="@(IsXSmallScreen ? @rowheightsm : "auto")" Areas="a1" />
+                    <DxGridLayoutRow Visible="@(BillingModelEditorData.Item.BillingModelPeriodSide == BillingModelPeriodSide.INTERVAL)" Height="@(IsXSmallScreen ? @rowheightsm : "auto")" Areas="a2" />
+                    <DxGridLayoutRow Visible="@(BillingModelEditorData.Item.BillingModelPeriodSide == BillingModelPeriodSide.INTERVAL)" Height="@(IsXSmallScreen ? @rowheightsm : "auto")" Areas="a3" />
+                    <DxGridLayoutRow Height="@(IsXSmallScreen ? @rowheightsm : "auto")" Areas="b1" />
+                    <DxGridLayoutRow Height="@(IsXSmallScreen ? @rowheightsm : "auto")" Areas="a4" />
+                    <DxGridLayoutRow Height="@(IsXSmallScreen ? @rowheightsm : "auto")" Areas="a5" />
+                    <DxGridLayoutRow Height="@(IsXSmallScreen ? @rowheightsm : "auto")" Areas="a6" />
+                    <DxGridLayoutRow Height="@(IsXSmallScreen ? @rowheightsm : "auto")" Areas="a9" />
+                    <DxGridLayoutRow Height="@(IsXSmallScreen ? @rowheightsm : "auto")" Areas="a10" />
+                    <DxGridLayoutRow Height="@(IsXSmallScreen ? @rowheightsm : "auto")" Areas="a7" />
+                    <DxGridLayoutRow Height="@(IsXSmallScreen ? @rowheightsm : "auto")" Areas="a8" />
+                </Rows>
+                <Columns>
+                    <DxGridLayoutColumn Width="@(IsXSmallScreen ? widthSm : widthLg )" />
+                </Columns>
+                <Items>
+                    <DxGridLayoutItem Area="a1">
+                        <Template>
+                            <DxGridLayout>
+                                <Rows>
+                                    @if (IsXSmallScreen)
+                                        {
+                                        <DxGridLayoutRow Height="auto" Areas="a11" />
+                                        <DxGridLayoutRow Height="auto" Areas="a12" />
+                                        }
+                                        else
+                                        {
+                                        <DxGridLayoutRow Height="auto" Areas="a11 a12" />
+                                        }
+                                </Rows>
+                                <Columns>
+                                    @if (IsXSmallScreen)
+                                        {
+                                        <DxGridLayoutColumn />
+                                        }
+                                        else
+                                        {
+                                        <DxGridLayoutColumn Width="@wgriditem1" />
+                                        <DxGridLayoutColumn Width="@wgriditem2" />
+                                        }
+                                </Columns>
+                                <Items>
+                                    <DxGridLayoutItem CssClass="@(IsXSmallScreen ? labelSm : labelLg)" Area="a11">
+                                        <Template>
+                                            <div class="d-flex flex-column h-100 justify-content-center">
+                                                @AppState["billing.event.period"]
+                                            </div>
+                                        </Template>
+                                    </DxGridLayoutItem>
+                                    <DxGridLayoutItem CssClass="mr-1 ml-1" Area="a12">
+                                        <Template>
+                                            <DxStackLayout Orientation="@(IsXSmallScreen ? Orientation.Vertical : Orientation.Horizontal)" ItemSpacing="@(IsXSmallScreen ? ItemSpacingSm : ItemSpacingLg)">
+                                                <Items>
+                                                    <DxStackLayoutItem>
+                                                        <Template>
+                                                            <DxComboBox ReadOnly="!Editable" CssClass="@(BillingModelEditorData.Item.BillingModelPeriodSide != BillingModelPeriodSide.INTERVAL ? "d-flex flex-column h-100 justify-content-center w-100": "d-flex flex-column h-100 justify-content-center w-50")" Data="PeriodSides"
+                                                                        @bind-Value=@PeriodSide>
+                                                            </DxComboBox>
+                                                        </Template>
+                                                    </DxStackLayoutItem>
+                                                    <DxStackLayoutItem Visible="@(BillingModelEditorData.Item.BillingModelPeriodSide != BillingModelPeriodSide.INTERVAL)">
+                                                        <Template>
+                                                            <DxComboBox ReadOnly="!Editable" CssClass="d-flex flex-column h-100 justify-content-center" Data="PeriodGranularities"
+                                                                        @bind-Value=@PeriodGranularity>
+                                                            </DxComboBox>
+                                                        </Template>
+                                                    </DxStackLayoutItem>
+                                                </Items>
+                                            </DxStackLayout>
+                                        </Template>
+                                    </DxGridLayoutItem>
+                                </Items>
+                            </DxGridLayout>
+                        </Template>
+                    </DxGridLayoutItem>
+                    <DxGridLayoutItem Visible="@(BillingModelEditorData.Item.BillingModelPeriodSide == BillingModelPeriodSide.INTERVAL)" Area="a2">
+                        <Template>
+                            <DxGridLayout>
+                                <Rows>
+                                    @if (IsXSmallScreen)
+                                        {
+                                        <DxGridLayoutRow Height="auto" Areas="a21" />
+                                        <DxGridLayoutRow Height="auto" Areas="a22" />
+                                        }
+                                        else
+                                        {
+                                        <DxGridLayoutRow Height="auto" Areas="a21 a22" />
+                                        }
+                                </Rows>
+                                <Columns>
+                                    @if (IsXSmallScreen)
+                                        {
+                                        <DxGridLayoutColumn />
+                                        }
+                                        else
+                                        {
+                                        <DxGridLayoutColumn Width="@wgriditem1" />
+                                        <DxGridLayoutColumn Width="@wgriditem2" />
+                                        }
+                                </Columns>
+                                <Items>
+                                    <DxGridLayoutItem CssClass="@(IsXSmallScreen ? labelSm : labelLg)" Area="a21">
+                                        <Template>
+                                            <div class="d-flex flex-column h-100 justify-content-center">
+                                                @AppState["From"]
+                                            </div>
+                                        </Template>
+                                    </DxGridLayoutItem>
+                                    <DxGridLayoutItem CssClass="mr-1 ml-1" Area="a22">
+                                        <Template>
+                                            <div class="d-flex flex-column h-100 justify-content-center">
+                                                <PeriodValueeComponent @bind-FilterItem="@FromDate" AddSpace="true"></PeriodValueeComponent>
+                                            </div>
+                                        </Template>
+                                    </DxGridLayoutItem>
+                                </Items>
+                            </DxGridLayout>
+                        </Template>
+                    </DxGridLayoutItem>
+                    <DxGridLayoutItem Visible="@(BillingModelEditorData.Item.BillingModelPeriodSide == BillingModelPeriodSide.INTERVAL)" Area="a3">
+                        <Template>
+                            <DxGridLayout>
+                                <Rows>
+                                    @if (IsXSmallScreen)
+                                        {
+                                        <DxGridLayoutRow Height="auto" Areas="a31" />
+                                        <DxGridLayoutRow Height="auto" Areas="a32" />
+                                        }
+                                        else
+                                        {
+                                        <DxGridLayoutRow Height="auto" Areas="a31 a32" />
+                                        }
+                                </Rows>
+                                <Columns>
+                                    @if (IsXSmallScreen)
+                                        {
+                                        <DxGridLayoutColumn />
+                                        }
+                                        else
+                                        {
+                                        <DxGridLayoutColumn Width="@wgriditem1" />
+                                        <DxGridLayoutColumn Width="@wgriditem2" />
+                                        }
+                                </Columns>
+                                <Items>
+                                    <DxGridLayoutItem CssClass="@(IsXSmallScreen ? labelSm : labelLg)" Area="a31">
+                                        <Template>
+                                            <div class="d-flex flex-column h-100 justify-content-center">
+                                                @AppState["to"]
+                                            </div>
+                                        </Template>
+                                    </DxGridLayoutItem>
+                                    <DxGridLayoutItem CssClass="mr-1 ml-1" Area="a32">
+                                        <Template>
+                                            <div class="d-flex flex-column h-100 justify-content-center">
+                                                <PeriodValueeComponent @bind-FilterItem="@ToDate" AddSpace="true"></PeriodValueeComponent>
+                                            </div>
+                                        </Template>
+                                    </DxGridLayoutItem>
+                                </Items>
+                            </DxGridLayout>
+                        </Template>
+                    </DxGridLayoutItem>
+
+
+                 
+
+                    <DxGridLayoutItem Area="b1">
+                        <Template>
+                            <DxGridLayout>
+                                <Rows>
+                                    @if (IsXSmallScreen)
+                                        {
+                                        <DxGridLayoutRow Height="auto" Areas="b11" />
+                                        <DxGridLayoutRow Height="auto" Areas="b12" />
+                                        }
+                                        else
+                                        {
+                                        <DxGridLayoutRow Height="auto" Areas="b11 b12" />
+                                        }
+                                </Rows>
+                                <Columns>
+                                    @if (IsXSmallScreen)
+                                        {
+                                        <DxGridLayoutColumn />
+                                        }
+                                        else
+                                        {
+                                        <DxGridLayoutColumn Width="@wgriditem1" />
+                                        <DxGridLayoutColumn Width="@wgriditem2" />
+                                        }
+                                </Columns>
+                                <Items>
+                                    <DxGridLayoutItem CssClass="@(IsXSmallScreen ? labelSm : labelLg)" Area="b11">
+                                        <Template>
+                                            <div class="d-flex flex-column h-100 justify-content-center">
+                                                @AppState["InvoiceNumber"]
+                                            </div>
+                                        </Template>
+                                    </DxGridLayoutItem>
+                                    <DxGridLayoutItem CssClass="mr-1 ml-1" Area="b12">
+                                        <Template>
+                                            <DxStackLayout Orientation="@(IsXSmallScreen ? Orientation.Vertical : Orientation.Horizontal)" ItemSpacing="@(IsXSmallScreen ? ItemSpacingSm : ItemSpacingLg)">
+                                                <Items>
+                                                    <DxStackLayoutItem>
+                                                        <Template>
+                                                            <DxComboBox ReadOnly="!Editable" CssClass="d-flex flex-column h-100 justify-content-center" Data="@BillingModelEditorData.Sequences"
+                                                                        @bind-Value=@BillingInvoiceNbr TData="Nameable" TValue="long?" ValueFieldName="@nameof(Nameable.Id)" TextFieldName="@nameof(Nameable.Name)">
+                                                            </DxComboBox>
+                                                                </Template>
+                                                        </DxStackLayoutItem>
+                                                    <DxStackLayoutItem>
+                                                        @*<Template>
+                                                            <DxComboBox ReadOnly="!Editable" CssClass="d-flex flex-column h-100 justify-content-center" Data="@BillingModelEditorData.Sequences"
+                                                                        @bind-Value=@BillingInvoiceNbr TData="Nameable" TValue="long?" ValueFieldName="@nameof(Nameable.Id)" TextFieldName="@nameof(Nameable.Name)">
+                                                            </DxComboBox>
+                                                        </Template>*@
+                                                        </DxStackLayoutItem>
+                                                    
+                                                </Items>
+                                            </DxStackLayout>
+                                        </Template>
+                                    </DxGridLayoutItem>
+                                </Items>
+                            </DxGridLayout>
+                        </Template>
+                    </DxGridLayoutItem>       
+
+                    <DxGridLayoutItem Area="a4">
+                        <Template>
+                            <DxGridLayout>
+                                <Rows>
+                                    @if (IsXSmallScreen)
+                                        {
+                                        <DxGridLayoutRow Height="auto" Areas="a41" />
+                                        <DxGridLayoutRow Height="auto" Areas="a42" />
+                                        }
+                                        else
+                                        {
+                                        <DxGridLayoutRow Height="auto" Areas="a41 a42" />
+                                        }
+                                </Rows>
+                                <Columns>
+                                    @if (IsXSmallScreen)
+                                        {
+                                        <DxGridLayoutColumn />
+                                        }
+                                        else
+                                        {
+                                        <DxGridLayoutColumn Width="@wgriditem1" />
+                                        <DxGridLayoutColumn Width="@wgriditem2" />
+                                        }
+                                </Columns>
+                                <Items>
+                                    <DxGridLayoutItem CssClass="@(IsXSmallScreen ? labelSm : labelLg)" Area="a41">
+                                        <Template>
+                                            <div class="d-flex flex-column h-100 justify-content-center">
+                                                @AppState["billing.model.form.desc.currency"]
+                                            </div>
+                                        </Template>
+                                    </DxGridLayoutItem>
+                                    <DxGridLayoutItem CssClass="mr-1 ml-1" Area="a42">
+                                        <Template>
+                                            <DxStackLayout Orientation="@(IsXSmallScreen ? Orientation.Vertical : Orientation.Horizontal)" ItemSpacing="@(IsXSmallScreen ? ItemSpacingSm : ItemSpacingLg)">
+                                                <Items>
+                                                    <DxStackLayoutItem>
+                                                        <Template>
+                                                            <div class="d-flex flex-column h-100 justify-content-center">
+                                                                <DxTextBox ReadOnly="!Editable" @bind-Text="@Currency"></DxTextBox>
+                                                            </div>
+                                                        </Template>
+                                                    </DxStackLayoutItem>
+                                                    <DxStackLayoutItem>
+                                                        <Template>
+                                                            <div class="d-flex flex-column h-100 justify-content-center">
+                                                                <DxStackLayout Orientation="@(IsXSmallScreen ? Orientation.Vertical : Orientation.Horizontal )">
+                                                                    <Items>
+                                                                        <DxStackLayoutItem Length="@checkboxlength">
+                                                                            <Template>
+                                                                                <div class="d-flex flex-column h-100 justify-content-center">
+                                                                                    <DxCheckBox Enabled="Editable" CssClass="ml-1 mr-1" @bind-Checked="@SeparateInvoicePerPeriod"
+                                                                                                Alignment="CheckBoxContentAlignment.Left">
+                                                                                    </DxCheckBox>
+                                                                                </div>
+                                                                            </Template>
+                                                                        </DxStackLayoutItem>
+                                                                        <DxStackLayoutItem Length="@labelcheckboxlength">
+                                                                            <Template>
+                                                                                <div class="d-flex flex-column h-100 justify-content-center ml-1">
+                                                                                    @AppState["billing.model.form.desc.invoice"]
+                                                                                </div>
+                                                                            </Template>
+                                                                        </DxStackLayoutItem>
+                                                                    </Items>
+                                                                </DxStackLayout>
+                                                            </div>
+                                                        </Template>
+                                                    </DxStackLayoutItem>
+                                                </Items>
+                                            </DxStackLayout>
+                                        </Template>
+                                    </DxGridLayoutItem>
+                                </Items>
+                            </DxGridLayout>
+                        </Template>
+                    </DxGridLayoutItem>
+                    <DxGridLayoutItem Area="a5">
+                        <Template>
+                            <DxGridLayout>
+                                <Rows>
+                                    @if (IsXSmallScreen)
+                                        {
+                                        <DxGridLayoutRow Height="auto" Areas="a51" />
+                                        <DxGridLayoutRow Height="auto" Areas="a52" />
+                                        }
+                                        else
+                                        {
+                                        <DxGridLayoutRow Height="auto" Areas="a51 a52" />
+                                        }
+                                </Rows>
+                                <Columns>
+                                    @if (IsXSmallScreen)
+                                        {
+                                        <DxGridLayoutColumn />
+                                        }
+                                        else
+                                        {
+                                        <DxGridLayoutColumn Width="@wgriditem1" />
+                                        <DxGridLayoutColumn Width="@wgriditem2" />
+                                        }
+                                </Columns>
+                                <Items>
+                                    <DxGridLayoutItem CssClass="@(IsXSmallScreen ? labelSm : labelLg)" Area="a51">
+                                        <Template>
+                                            <div class="d-flex flex-column h-100 justify-content-center">
+                                                @AppState["billing.company"]
+                                            </div>
+                                        </Template>
+                                    </DxGridLayoutItem>
+                                    <DxGridLayoutItem CssClass="mr-1 ml-1" Area="a52">
+                                        <Template>
+                                            <DxStackLayout Orientation="@(IsXSmallScreen ? Orientation.Vertical : Orientation.Horizontal)" ItemSpacing="@(IsXSmallScreen ? ItemSpacingSm : ItemSpacingLg)">
+                                                <Items>
+                                                    <DxStackLayoutItem>
+                                                        <Template>
+                                                            <DxComboBox ReadOnly="!Editable" CssClass="d-flex flex-column h-100 justify-content-center" Data="@( BillingCompanies )"
+                                                                        @bind-Value=@BillingCompanyCode>
+                                                            </DxComboBox>
+                                                        </Template>
+                                                    </DxStackLayoutItem>
+                                                    <DxStackLayoutItem>
+                                                        <Template>
+                                                            <div class="d-flex flex-column h-100 justify-content-center">
+                                                                <DxStackLayout Orientation="@(IsXSmallScreen ? Orientation.Vertical : Orientation.Horizontal )">
+                                                                    <Items>
+                                                                        <DxStackLayoutItem Length="@checkboxlength">
+                                                                            <Template>
+                                                                                <div class="d-flex flex-column h-100 justify-content-center">
+                                                                                    <DxCheckBox Enabled="Editable" CssClass="ml-1 mr-1" @bind-Checked="@SelectPeriodAtRuntime">
+                                                                                    </DxCheckBox>
+                                                                                </div>
+                                                                            </Template>
+                                                                        </DxStackLayoutItem>
+                                                                        <DxStackLayoutItem Length="@labelcheckboxlength">
+                                                                            <Template>
+                                                                                <div class="d-flex flex-column h-100 justify-content-center ml-1">
+                                                                                    @AppState["billing.model.form.desc.selper"]
+                                                                                </div>
+                                                                            </Template>
+                                                                        </DxStackLayoutItem>
+                                                                    </Items>
+                                                                </DxStackLayout>
+                                                            </div>
+                                                        </Template>
+                                                    </DxStackLayoutItem>
+                                                </Items>
+                                            </DxStackLayout>
+                                        </Template>
+                                    </DxGridLayoutItem>
+                                </Items>
+                            </DxGridLayout>
+                        </Template>
+                    </DxGridLayoutItem>
+                    <DxGridLayoutItem Area="a6">
+                        <Template>
+                            <DxGridLayout>
+                                <Rows>
+                                    @if (IsXSmallScreen)
+                                        {
+                                        <DxGridLayoutRow Height="auto" Areas="a61" />
+                                        <DxGridLayoutRow Height="auto" Areas="a62" />
+                                        }
+                                        else
+                                        {
+                                        <DxGridLayoutRow Height="auto" Areas="a61 a62" />
+                                        }
+                                </Rows>
+                                <Columns>
+                                    @if (IsXSmallScreen)
+                                        {
+                                        <DxGridLayoutColumn />
+                                        }
+                                        else
+                                        {
+                                        <DxGridLayoutColumn Width="@wgriditem1" />
+                                        <DxGridLayoutColumn Width="@wgriditem2" />
+                                        }
+                                </Columns>
+                                <Items>
+                                    <DxGridLayoutItem CssClass="@(IsXSmallScreen ? labelSm : labelLg)" Area="a61">
+                                        <Template>
+                                            <div class="d-flex flex-column h-100 justify-content-center">
+                                                @AppState["billing.model.form.desc.billtemp"]
+                                            </div>
+                                        </Template>
+                                    </DxGridLayoutItem>
+                                    <DxGridLayoutItem CssClass="mr-1 ml-1" Area="a62">
+                                        <Template>
+                                            <DxStackLayout Orientation="@(IsXSmallScreen ? Orientation.Vertical : Orientation.Horizontal)" ItemSpacing="@(IsXSmallScreen ? ItemSpacingSm : ItemSpacingLg)">
+                                                <Items>
+                                                    <DxStackLayoutItem>
+                                                        <Template>
+                                                            <DxComboBox ReadOnly="!Editable" CssClass="d-flex flex-column h-100 justify-content-center" Data=@BillTemplates.Items ValueFieldName="@nameof(BillingTemplateBrowserData.Code)"
+                                                                        @bind-Value=BillTemplateCode>
+                                                            </DxComboBox>
+                                                        </Template>
+                                                    </DxStackLayoutItem>
+                                                    <DxStackLayoutItem>
+                                                        <Template>
+                                                            <div class="d-flex flex-column h-100 justify-content-center">
+                                                                <DxStackLayout Orientation="@(IsXSmallScreen ? Orientation.Vertical : Orientation.Horizontal )">
+                                                                    <Items>
+                                                                        <DxStackLayoutItem Length="@checkboxlength">
+                                                                            <Template>
+                                                                                <div class="d-flex flex-column h-100 justify-content-center">
+                                                                                    <DxCheckBox Enabled="Editable" CssClass="ml-1 mr-1" @bind-Checked="@IncludeZeroAmountEvents">
+                                                                                    </DxCheckBox>
+                                                                                </div>
+                                                                            </Template>
+                                                                        </DxStackLayoutItem>
+                                                                        <DxStackLayoutItem Length="@labelcheckboxlength">
+                                                                            <Template>
+                                                                                <div class="d-flex flex-column h-100 justify-content-center ml-1">
+                                                                                    @AppState["billing.model.form.desc.incevent"]
+                                                                                </div>
+                                                                            </Template>
+                                                                        </DxStackLayoutItem>
+                                                                    </Items>
+                                                                </DxStackLayout>
+                                                            </div>
+                                                        </Template>
+                                                    </DxStackLayoutItem>
+                                                </Items>
+                                            </DxStackLayout>
+                                        </Template>
+                                    </DxGridLayoutItem>
+                                </Items>
+                            </DxGridLayout>
+                        </Template>
+                    </DxGridLayoutItem>
+                    <DxGridLayoutItem Area="a7">
+                        <Template>
+                            <DxGridLayout>
+                                <Rows>
+                                    @if (IsXSmallScreen)
+                                        {
+                                        <DxGridLayoutRow Height="auto" Areas="a71" />
+                                        <DxGridLayoutRow Height="auto" Areas="a72" />
+                                        }
+                                        else
+                                        {
+                                        <DxGridLayoutRow Height="auto" Areas="a71 a72" />
+                                        }
+                                </Rows>
+                                <Columns>
+                                    @if (IsXSmallScreen)
+                                        {
+                                        <DxGridLayoutColumn />
+                                        }
+                                        else
+                                        {
+                                        <DxGridLayoutColumn Width="@wgriditem1" />
+                                        <DxGridLayoutColumn Width="@wgriditem2" />
+                                        }
+                                </Columns>
+                                <Items>
+                                    <DxGridLayoutItem CssClass="@(IsXSmallScreen ? labelSm : labelLg)" Area="a71">
+                                        <Template>
+                                            <div class="d-flex flex-column h-100 justify-content-center">
+                                                @AppState["billing.model.form.desc.orderitem"]
+                                            </div>
+                                        </Template>
+                                    </DxGridLayoutItem>
+                                    <DxGridLayoutItem CssClass="mr-1 ml-1" Area="a72">
+                                        <Template>
+                                            <DxGridLayout>
+                                                <Rows>
+                                                    @if (IsXSmallScreen)
+                                                        {
+                                                        <DxGridLayoutRow Height="auto" Areas="a71" />
+                                                        <DxGridLayoutRow Height="auto" Areas="a72" />
+                                                        }
+                                                        else
+                                                        {
+                                                        <DxGridLayoutRow Height="auto" Areas="a71 a72 a73 a74" />
+                                                        }
+                                                </Rows>
+                                                <Columns>
+                                                    @if (IsXSmallScreen)
+                                                        {
+                                                        <DxGridLayoutColumn />
+                                                        }
+                                                        else
+                                                        {
+                                                        <DxGridLayoutColumn Width="@checkboxlength" />
+                                                        <DxGridLayoutColumn Width="@ItemOrder" />
+                                                        <DxGridLayoutColumn Width="@wgriditem1" />
+                                                        <DxGridLayoutColumn Width="@wgriditem1" />
+                                                        }
+                                                </Columns>
+                                                <Items>
+                                                    @if (IsXSmallScreen)
+                                                        {
+                                                        <DxGridLayoutItem Area="a73" />
+                                                        <DxGridLayoutItem Area="a74" />
+                                                        }
+
+                                                    <DxGridLayoutItem CssClass="@(IsXSmallScreen ? labelSm : labelLg)" Area="a71">
+                                                        <Template>
+                                                            <div class="d-flex flex-column h-100 justify-content-center">
+                                                                <DxCheckBox Enabled="Editable" @bind-Checked="@OrderItems"></DxCheckBox>
+                                                            </div>
+                                                        </Template>
+                                                    </DxGridLayoutItem>
+                                                    <DxGridLayoutItem CssClass="mr-1 ml-1" Area="a72" Visible="@OrderItems">
+                                                        <Template>
+                                                            <div class="d-flex h-100">
+                                                                <DxComboBox Data="@orderItemsOption"
+                                                                            ReadOnly="!Editable"
+                                                                            DropDownWidthMode="DropDownWidthMode.ContentOrEditorWidth"
+                                                                            @bind-Value="@currentOrderOption">
+                                                                </DxComboBox>
+                                                                @*<DxComboBox ReadOnly="!Editable" Data="@orderItemsOption" TData="string" TValue="string"
+                                                                @bind-Value="@currentOrder">
+                                                    </DxComboBox>*@
+                                                            </div>
+                                                        </Template>
+                                                    </DxGridLayoutItem>
+                                                </Items>
+                                            </DxGridLayout>
+
+                                        </Template>
+                                    </DxGridLayoutItem>
+                                </Items>
+                            </DxGridLayout>
+                        </Template>
+                    </DxGridLayoutItem>
+                    <DxGridLayoutItem Area="a9">
+                        <Template>
+                            <DxGridLayout>
+                                <Rows>
+                                    @if (IsXSmallScreen)
+                                        {
+                                        <DxGridLayoutRow Height="auto" Areas="a91" />
+                                        <DxGridLayoutRow Height="auto" Areas="a92" />
+                                        }
+                                        else
+                                        {
+                                        <DxGridLayoutRow Height="auto" Areas="a91 a92" />
+                                        }
+                                </Rows>
+                                <Columns>
+                                    @if (IsXSmallScreen)
+                                        {
+                                        <DxGridLayoutColumn />
+                                        }
+                                        else
+                                        {
+                                        <DxGridLayoutColumn Width="@wgriditem1" />
+                                        <DxGridLayoutColumn Width="@wgriditem2" />
+                                        }
+                                </Columns>
+                                <Items>
+
+                                    <DxGridLayoutItem CssClass="@(IsXSmallScreen ? labelSm : labelLg)" Area="a91">
+                                        <Template>
+                                            <div class="d-flex flex-column h-100 justify-content-center">
+                                                @AppState["billing.model.form.desc.duedate"]
+                                            </div>
+                                        </Template>
+                                    </DxGridLayoutItem>
+                                    <DxGridLayoutItem CssClass="mr-1 ml-1" Area="a92">
+                                        <Template>
+                                            <DxStackLayout Orientation="@(IsXSmallScreen ? Orientation.Vertical : Orientation.Horizontal)" ItemSpacing="@(IsXSmallScreen ? ItemSpacingSm : ItemSpacingLg)">
+                                                <Items>
+                                                    <DxStackLayoutItem Length="0.3fr">
+                                                        <Template>
+                                                            <div class="d-flex flex-column h-100 justify-content-center">
+                                                                <DxCheckBox Enabled="Editable" @bind-Checked="@DueDateCalculation" />
+                                                            </div>
+                                                        </Template>
+                                                    </DxStackLayoutItem>
+                                                    <DxStackLayoutItem CssClass="d-flex flex-column h-100" Length="10fr" Visible="@DueDateCalculation">
+                                                        <Template>
+                                                            <div class="d-flex flex-column h-100 justify-content-center">
+                                                                <PeriodValueeComponent @bind-FilterItem="@DueDate"></PeriodValueeComponent>
+                                                            </div>
+                                                        </Template>
+                                                    </DxStackLayoutItem>
+                                                </Items>
+                                            </DxStackLayout>
+                                        </Template>
+                                    </DxGridLayoutItem>
+                                </Items>
+                            </DxGridLayout>
+                        </Template>
+                    </DxGridLayoutItem>
+
+                    <DxGridLayoutItem Area="a10">
+                        <Template>
+                            <DxGridLayout>
+                                <Rows>
+                                    @if (IsXSmallScreen)
+                                        {
+                                        <DxGridLayoutRow Height="auto" Areas="a101" />
+                                        <DxGridLayoutRow Height="auto" Areas="a102" />
+                                        }
+                                        else
+                                        {
+                                        <DxGridLayoutRow Height="auto" Areas="a101 a102" />
+                                        }
+                                </Rows>
+                                <Columns>
+                                    @if (IsXSmallScreen)
+                                        {
+                                        <DxGridLayoutColumn />
+                                        }
+                                        else
+                                        {
+                                        <DxGridLayoutColumn Width="@wgriditem1" />
+                                        <DxGridLayoutColumn Width="@wgriditem2" />
+                                        }
+                                </Columns>
+                                <Items>
+
+                                    <DxGridLayoutItem CssClass="@(IsXSmallScreen ? labelSm : labelLg)" Area="a101">
+                                        <Template>
+                                            <div class="d-flex flex-column h-100 justify-content-center">
+                                                @AppState["billing.model.form.desc.invoicedate"]
+                                            </div>
+                                        </Template>
+                                    </DxGridLayoutItem>
+                                    <DxGridLayoutItem CssClass="mr-1 ml-1" Area="a102">
+                                        <Template>
+                                            <DxStackLayout Orientation="@(IsXSmallScreen ? Orientation.Vertical : Orientation.Horizontal)" ItemSpacing="@(IsXSmallScreen ? ItemSpacingSm : ItemSpacingLg)">
+                                                <Items>
+                                                    <DxStackLayoutItem Length="0.3fr">
+                                                        <Template>
+                                                            <div class="d-flex flex-column h-100 justify-content-center">
+                                                                <DxCheckBox Enabled="Editable" @bind-Checked="@InvoiceDateCalculation" />
+                                                            </div>
+                                                        </Template>
+                                                    </DxStackLayoutItem>
+                                                    <DxStackLayoutItem Length="10fr" Visible="@InvoiceDateCalculation">
+                                                        <Template>
+                                                            <div class="d-flex flex-column h-100 justify-content-center">
+                                                                <PeriodValueeComponent @bind-FilterItem="@InvoiceDate"></PeriodValueeComponent>
+                                                            </div>
+                                                        </Template>
+                                                    </DxStackLayoutItem>
+                                                </Items>
+                                            </DxStackLayout>
+                                        </Template>
+                                    </DxGridLayoutItem>
+                                </Items>
+                            </DxGridLayout>
+                        </Template>
+                    </DxGridLayoutItem>
+
+                    <DxGridLayoutItem Area="a8">
+                        <Template>
+                            <DxGridLayout>
+                                <Rows>
+                                    @if (IsXSmallScreen)
+                                        {
+                                        <DxGridLayoutRow Height="auto" Areas="a82" />
+                                        }
+                                        else
+                                        {
+                                        <DxGridLayoutRow Height="auto" Areas="a81 a82" />
+                                        }
+                                </Rows>
+                                <Columns>
+                                    @if (IsXSmallScreen)
+                                        {
+                                        <DxGridLayoutColumn />
+                                        }
+                                        else
+                                        {
+                                        <DxGridLayoutColumn Width="@wgriditem1" />
+                                        <DxGridLayoutColumn Width="@wgriditem2" />
+                                        }
+                                </Columns>
+                                <Items>
+                                    <DxGridLayoutItem Visible="@(!IsXSmallScreen)" Area="a81" />
+                                    <DxGridLayoutItem CssClass="mr-1 ml-1 mb-2" Area="a82">
+                                        <Template>
+                                            <DxStackLayout Orientation="@(IsXSmallScreen ? Orientation.Vertical : Orientation.Horizontal)" ItemSpacing="@(IsXSmallScreen ? ItemSpacingSm : ItemSpacingLg)">
+                                                <Items>
+                                                    <DxStackLayoutItem Length="@lengthLg">
+                                                        <Template>
+                                                            <div class="d-flex flex-column h-100 justify-content-center">
+                                                                <DxStackLayout Orientation="@(IsXSmallScreen ? Orientation.Vertical : Orientation.Horizontal )">
+                                                                    <Items>
+                                                                        <DxStackLayoutItem Length="@checkboxlength">
+                                                                            <Template>
+                                                                                <div class="d-flex flex-column h-100 justify-content-center">
+                                                                                    <DxCheckBox Enabled="Editable" CssClass="mr-1" @bind-Checked="@UseVat">
+                                                                                    </DxCheckBox>
+                                                                                </div>
+                                                                            </Template>
+                                                                        </DxStackLayoutItem>
+                                                                        <DxStackLayoutItem Length="@labelcheckboxlength">
+                                                                            <Template>
+                                                                                <div class="d-flex flex-column h-100 justify-content-center ml-1">
+                                                                                    @AppState["billing.model.form.desc.usevat"]
+                                                                                </div>
+                                                                            </Template>
+                                                                        </DxStackLayoutItem>
+                                                                    </Items>
+                                                                </DxStackLayout>
+                                                            </div>
+                                                        </Template>
+                                                    </DxStackLayoutItem>
+                                                    <DxStackLayoutItem Length="@(IsXSmallScreen ? lengthSm : lengthLg)">
+                                                        <Template>
+                                                            <div class="d-flex flex-column h-100 justify-content-center">
+                                                                <DxStackLayout Orientation="@(IsXSmallScreen ? Orientation.Vertical : Orientation.Horizontal )">
+                                                                    <Items>
+                                                                        <DxStackLayoutItem Length="@checkboxlength">
+                                                                            <Template>
+                                                                                <div class="d-flex flex-column h-100 justify-content-center">
+                                                                                    <DxCheckBox Enabled="Editable" CssClass="ml-1 mr-1" @bind-Checked="@BuildCommunicationMessage">
+                                                                                    </DxCheckBox>
+                                                                                </div>
+                                                                            </Template>
+                                                                        </DxStackLayoutItem>
+                                                                        <DxStackLayoutItem Length="@labelcheckboxlength">
+                                                                            <Template>
+                                                                                <div class="d-flex flex-column h-100 justify-content-center ml-1">
+                                                                                    @AppState["billing.model.form.desc.addstruct"]
+                                                                                </div>
+                                                                            </Template>
+                                                                        </DxStackLayoutItem>
+                                                                    </Items>
+                                                                </DxStackLayout>
+                                                            </div>
+                                                        </Template>
+                                                    </DxStackLayoutItem>
+                                                </Items>
+                                            </DxStackLayout>
+                                        </Template>
+                                    </DxGridLayoutItem>
+                                </Items>
+                            </DxGridLayout>
+                        </Template>
+                    </DxGridLayoutItem>
+                </Items>
+            </DxGridLayout>
+        </div>
+        
+    };
+
+    RenderFragment RenderGroupInvoicePivot => __builder =>
+    {
+    <div class="h-100 pb-1">
+        <DxGridLayout ColumnSpacing="8px" RowSpacing="0px">
+            <Rows>
+                <DxGridLayoutRow Areas="event grouping invoice" />
+            </Rows>
+            <Columns>
+                <DxGridLayoutColumn />
+                <DxGridLayoutColumn />
+                <DxGridLayoutColumn />
+            </Columns>
+            <Items>
+                <DxGridLayoutItem Area="event">
+                    <Template> 
+                        <div class="card ml-0 border-bottom-0 border-left-0" style="border-radius: 0 !important; height: 100% !important; min-width: 290px;">
+                            <div class="card-header bc-header-2 border-0 d-flex flex-row p-0 bc-header-height bc-text-align " style="border-radius: 0 !important; ">
+                                <span class="ml-auto mr-auto text-truncate">
+                                    @AppState["billing.model.form.desc.selevent"]
+                                </span>
+                            </div>
+                            <div class="card-body model-form-no-padding overflow-y-auto">
+                                <DxFormLayout CssClass="mt-3">
+                                    <DxFormLayoutItem BeginRow="true" ColSpanMd="12">
+                                        <Template>
+                                            <DxCheckBox Enabled="Editable" 
+                                                        @bind-Checked=CheckSelectAll 
+                                                        Alignment="CheckBoxContentAlignment.Left" 
+                                                        LabelPosition="LabelPosition.Right">@AppState["billing.model.form.desc.selall"]
+                                            </DxCheckBox>
+                                        </Template>
+                                    </DxFormLayoutItem>
+                                    <DxFormLayoutItem BeginRow="true" ColSpanMd="12">
+                                        <Template>
+                                            <DxCheckBox Enabled="Editable" @bind-Checked=CheckCreditNote Alignment="CheckBoxContentAlignment.Left" LabelPosition="LabelPosition.Right">@AppState["credit.note"]</DxCheckBox>
+                                        </Template>
+                                    </DxFormLayoutItem>
+                                    <DxFormLayoutItem BeginRow="true" ColSpanMd="12">
+                                        <Template>
+                                            <DxCheckBox @bind-Checked=CheckInvoice Enabled="Editable" Alignment="CheckBoxContentAlignment.Left" LabelPosition="LabelPosition.Right">@AppState["billing.model.form.desc.seleventinvoice"]</DxCheckBox>
+                                        </Template>
+                                    </DxFormLayoutItem>
+                                </DxFormLayout>
+                            </div>
+                        </div>
+                    </Template>
+                </DxGridLayoutItem>
+                <DxGridLayoutItem Area="grouping">
+                    <Template>
+                        <div class="card border-bottom-0" style="border-radius: 0 !important; height: 100% !important; min-width: 290px;">
+                            <div class="card-header bc-header-2 border-0 d-flex flex-row p-0 bc-header-height bc-text-align " style="border-radius: 0 !important; ">
+                                <span class="ml-auto mr-auto text-truncate">
+                                    @AppState["billing.model.form.desc.selgrouping"]
+                                </span>
+                            </div>
+                            <div class="card-body model-form-card-body overflow-y-auto">
+                                <div class="row no-gutters pt-1 h-100">
+                                    <div class="col-11">
+                                        <div class="d-flex flex-column h-100">
+                                            <div>
+                                                <TreeViewFilter Editable="Editable" 
+                                                                C="Bcephal.Models.Base.HierarchicalData" 
+                                                                ItemsFilter="@AttributeList"
+                                                                SelectFilterItemCallback="AttributeSelectionChanged">
+                                                </TreeViewFilter>
+                                            </div>
+                                            <div class="h-100 mt-2">
+                                                <DxListBox Data="@BillingModelEditorData.Item.GroupingItemListChangeHandler.Items"
+                                                           TextFieldName="@nameof(BillingModelGroupingItem.Name)"
+                                                           @bind-Values="@SelectedGroupingItems"
+                                                           CssClass="model-list-light"
+                                                           Enabled="Editable"
+                                                           SelectionMode="ListBoxSelectionMode.Single"
+                                                           SelectedItemsChanged=GroupingListSelectionChanged style="height: 200px; max-height:500px;">
+
+                                                </DxListBox>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                    <div class="col-1 pl-1 justify-content-center align-items-center d-flex flex-column">
+                                        <div class="mb-1 mt-5 ml-1">
+                                            <DxButton  IconCssClass="fa fa-arrow-up" 
+                                                      Enabled="@((IsGroupingListItemsSelected && IsGroupingListHasManyItems && !IsGroupingListFirstItemSelected)&& Editable)"
+                                                      RenderStyle="ButtonRenderStyle.Primary" 
+                                                      RenderStyleMode="ButtonRenderStyleMode.Text" 
+                                                      Click=MoveUpSelectedGroupingItem Title=@AppState["MoveUp"]>
+                                            </DxButton>
+                                        </div>
+                                        <div class="mb-1 ml-1">
+                                            <DxButton IconCssClass="fa fa-arrow-down" 
+                                                      Enabled="@((IsGroupingListItemsSelected && IsGroupingListHasManyItems && !IsGroupingListLastItemSelected)&& Editable)"
+                                                      RenderStyle="ButtonRenderStyle.Primary" 
+                                                      RenderStyleMode="ButtonRenderStyleMode.Text" 
+                                                      Click="MoveDownSelectedGroupingItem" Title=@AppState["MoveDown"]>
+                                            </DxButton>
+                                        </div>
+                                        <div class="mt-0 mb-0 ml-1">
+                                            <DxButton IconCssClass="fa fa-close" 
+                                                      Enabled="@Editable"
+                                                      RenderStyleMode="ButtonRenderStyleMode.Text"
+                                                      RenderStyle="ButtonRenderStyle.Danger" 
+                                                      Click=DeleteSelectedGroupingItem Title=@AppState["Delete"]>
+                                            </DxButton>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </Template>
+                </DxGridLayoutItem>
+                <DxGridLayoutItem Area="invoice">
+                    <Template>
+                        <div class="card border-right-0 border-bottom-0" style="border-radius: 0 !important; height: 100% !important; min-width: 290px;">
+                            <div class="card-header bc-header-2 border-0 d-flex flex-row p-0 bc-header-height bc-text-align" style="border-radius: 0 !important; ">
+                                <span class="ml-auto mr-auto text-truncate">
+                                    @AppState["billing.model.form.desc.selinvoice"]
+                                </span>
+                            </div>
+                            <div class="card-body model-form-card-body pt-3 overflow-y-auto">
+
+                                @{
+                                        int i = 0;
+                                }
+                                @while (i < PivotList.Count)
+                                    {
+                                    @renderBillingModelPivot(PivotList[i], (i != 0));
+                                        i++;
+                                    }
+                                <div class="row mt-2 no-gutters">
+                                    <div class="col-11">
+                                        <TreeViewFilter Editable="Editable" 
+                                                        C="HierarchicalData"
+                                                        ItemsFilter="AttributeList"
+                                                        SelectFilterItemCallback=ModelPivotHandler>
+                                        </TreeViewFilter>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </Template>
+                </DxGridLayoutItem>
+            </Items>
+        </DxGridLayout>
+    </div>
+    };
+
+    #region RenderFragments widgets
+    RenderFragment renderBillingModelPivot(BillingModelPivot item, bool canDelete)
+    {
+        RenderFragment renderFragment = __builder =>
+        {
+
+
+<div class="row mb-1 no-gutters">
+    @if (item.Name == "Client")
+        {
+        <div class="col-11">
+            <DxTextBox Enabled="Editable" 
+                       Text="@item.Name">
+
+            </DxTextBox>
+        </div>
+        }
+        else
+        {
+        <div class="col-11">
+            <DxTextBox ReadOnly="!Editable" 
+                       Text="@item.Name">
+
+            </DxTextBox>
+        </div>
+        <div class="col-1">
+            <DxButton IconCssClass="fa fa-close" CssClass="mt-1 ml-1" 
+                      Enabled="@(canDelete && Editable)"
+                      RenderStyleMode="ButtonRenderStyleMode.Text"
+                      RenderStyle="ButtonRenderStyle.Danger"
+                      @onclick="(() => DeleteInvoicePivot(item))">
+            </DxButton>
+        </div>
+        }
+</div>
+        };
+        return renderFragment;
+    }
+
+    #endregion
+
+}

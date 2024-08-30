@@ -1,0 +1,192 @@
+﻿
+
+<DxChartCommonSeries NameField="@((Dictionary<string, object> d) => Serie.IsDefault ? d[Serie.SerieAxis.Name] : Serie.Name )"
+                     ArgumentField="@((Dictionary<string, object> d) => d[Serie.ArgumentAxis.Name] )"
+                     ValueField="@((Dictionary<string, object> d) => d[Serie.ValueAxis.Name] )"
+                     SeriesType=@Type
+                     Filter=@((Dictionary<string, object> d) => ExecuteFilter(d) )>
+    <SeriesTemplate Context="settings">
+        @if (Type == ChartSeriesType.Line)
+        {
+            <DxChartLineSeries Name="@Serie.Name" Settings="@settings"
+                               Color="@ConvertToColor(Serie.Color)" Axis="@AxisName">
+                <DxChartSeriesLabel Visible=@Serie.ShowLabel />
+            </DxChartLineSeries>
+        }
+        else if (Type == ChartSeriesType.Bar)
+        {
+            <DxChartBarSeries Name="@Serie.Name" Settings="@settings" Color="@ConvertToColor(Serie.Color)" Axis="@AxisName">
+                <DxChartSeriesLabel Visible=@Serie.ShowLabel />
+            </DxChartBarSeries>
+        }
+        else if (Type == ChartSeriesType.Area)
+        {
+            <DxChartAreaSeries Name="@Serie.Name" Settings="@settings" Color="@ConvertToColor(Serie.Color)" Axis="@AxisName">
+                <DxChartSeriesLabel Visible=@Serie.ShowLabel />
+            </DxChartAreaSeries>
+        }
+        else if (Type == ChartSeriesType.Bubble)
+        {
+            <DxChartBubbleSeries Name="@Serie.Name" Settings="@settings" SizeField="@((Dictionary<string, object> d) => d[Serie.ValueAxis.Name])" Color="@ConvertToColor(Serie.Color)" Axis="@AxisName">
+                <DxChartSeriesLabel Visible=@Serie.ShowLabel />
+            </DxChartBubbleSeries>
+        }
+        else if (Type == ChartSeriesType.Candlestick)
+        {
+            <DxChartCandlestickSeries Name="@Serie.Name" Settings="@settings" Color="@ConvertToColor(Serie.Color)" Axis="@AxisName">
+                <DxChartSeriesLabel Visible="@Serie.ShowLabel" />
+            </DxChartCandlestickSeries>
+        }
+        else if (Type == ChartSeriesType.Donut)
+        {
+        }
+        else if (Type == ChartSeriesType.FullStackedArea)
+        {
+            <DxChartFullStackedAreaSeries Name="@Serie.Name" Settings="@settings" Color="@ConvertToColor(Serie.Color)" Axis="@AxisName">
+                <DxChartSeriesLabel Visible="@Serie.ShowLabel" />
+            </DxChartFullStackedAreaSeries>
+        }
+        else if (Type == ChartSeriesType.FullStackedBar)
+        {
+            <DxChartFullStackedAreaSeries Name="@Serie.Name" Settings="@settings" Color="@ConvertToColor(Serie.Color)" Axis="@AxisName">
+                <DxChartSeriesLabel Visible="@Serie.ShowLabel" />
+            </DxChartFullStackedAreaSeries>
+        }
+        else if (Type == ChartSeriesType.FullStackedLine)
+        {
+            <DxChartFullStackedLineSeries Name="@Serie.Name" Settings="@settings" Color="@ConvertToColor(Serie.Color)" Axis="@AxisName">
+                <DxChartSeriesLabel Visible="@Serie.ShowLabel" />
+            </DxChartFullStackedLineSeries>
+        }
+        else if (Type == ChartSeriesType.FullStackedSpline)
+        {
+            <DxChartFullStackedSplineSeries Name="@Serie.Name" Settings="@settings" Color="@ConvertToColor(Serie.Color)" Axis="@AxisName">
+                <DxChartSeriesLabel Visible="@Serie.ShowLabel" />
+            </DxChartFullStackedSplineSeries>
+        }
+        else if (Type == ChartSeriesType.FullStackedSplineArea)
+        {
+            <DxChartFullStackedSplineAreaSeries Name="@Serie.Name" Settings="@settings" Color="@ConvertToColor(Serie.Color)" Axis="@AxisName">
+                <DxChartSeriesLabel Visible="@Serie.ShowLabel" />
+            </DxChartFullStackedSplineAreaSeries>
+        }
+        else if (Type == ChartSeriesType.Pie)
+        {
+            <DxChartPieSeries Name="@Serie.Name" Settings="@settings" Color="@ConvertToColor(Serie.Color)" Axis="@AxisName">
+                <DxChartSeriesLabel Visible="@Serie.ShowLabel" />
+            </DxChartPieSeries>
+        }
+        else if (Type == ChartSeriesType.RangeArea)
+        {
+            <DxChartRangeAreaSeries Name="@Serie.Name" Settings="@settings" Color="@ConvertToColor(Serie.Color)" Axis="@AxisName">
+                <DxChartSeriesLabel Visible="@Serie.ShowLabel" />
+            </DxChartRangeAreaSeries>
+        }
+        else if (Type == ChartSeriesType.RangeBar)
+        {
+            <DxChartRangeBarSeries Name="@Serie.Name" Settings="@settings" Color="@ConvertToColor(Serie.Color)" Axis="@AxisName">
+                <DxChartSeriesLabel Visible="@Serie.ShowLabel" />
+            </DxChartRangeBarSeries>
+        }
+        else if (Type == ChartSeriesType.Scatter)
+        {
+            <DxChartScatterSeries Name="@Serie.Name" Settings="@settings" Color="@ConvertToColor(Serie.Color)" Axis="@AxisName">
+                <DxChartSeriesLabel Visible="@Serie.ShowLabel" />
+            </DxChartScatterSeries>
+        }
+        else if (Type == ChartSeriesType.Spline)
+        {
+            <DxChartSplineSeries Name="@Serie.Name" Settings="@settings" Color="@ConvertToColor(Serie.Color)" Axis="@AxisName">
+                <DxChartSeriesLabel Visible="@Serie.ShowLabel" />
+            </DxChartSplineSeries>
+        }
+        else if (Type == ChartSeriesType.SplineArea)
+        {
+            <DxChartSplineAreaSeries Name="@Serie.Name" Settings="@settings" Color="@ConvertToColor(Serie.Color)" Axis="@AxisName">
+                <DxChartSeriesLabel Visible="@Serie.ShowLabel" />
+            </DxChartSplineAreaSeries>
+        }
+        else if (Type == ChartSeriesType.StackedArea)
+        {
+            <DxChartStackedAreaSeries Name="@Serie.Name" Settings="@settings" Color="@ConvertToColor(Serie.Color)" Axis="@AxisName">
+                <DxChartSeriesLabel Visible="@Serie.ShowLabel" />
+            </DxChartStackedAreaSeries>
+        }
+        else if (Type == ChartSeriesType.StackedBar)
+        {
+            <DxChartStackedBarSeries Name="@Serie.Name" Settings="@settings" Color="@ConvertToColor(Serie.Color)" Axis="@AxisName">
+                <DxChartSeriesLabel Visible="@Serie.ShowLabel" />
+            </DxChartStackedBarSeries>
+        }
+        else if (Type == ChartSeriesType.StackedLine)
+        {
+            <DxChartStackedLineSeries Name="@Serie.Name" Settings="@settings" Color="@ConvertToColor(Serie.Color)" Axis="@AxisName">
+                <DxChartSeriesLabel Visible="@Serie.ShowLabel" />
+            </DxChartStackedLineSeries>
+        }
+        else if (Type == ChartSeriesType.StackedSpline)
+        {
+            <DxChartStackedSplineSeries Name="@Serie.Name" Settings="@settings" Color="@ConvertToColor(Serie.Color)" Axis="@AxisName">
+                <DxChartSeriesLabel Visible="@Serie.ShowLabel" />
+            </DxChartStackedSplineSeries>
+        }
+        else if (Type == ChartSeriesType.StackedSplineArea)
+        {
+            <DxChartStackedSplineAreaSeries Name="@Serie.Name" Settings="@settings" Color="@ConvertToColor(Serie.Color)" Axis="@AxisName">
+                <DxChartSeriesLabel Visible="@Serie.ShowLabel" />
+            </DxChartStackedSplineAreaSeries>
+        }
+        else if (Type == ChartSeriesType.StepArea)
+        {
+            <DxChartStepAreaSeries Name="@Serie.Name" Settings="@settings" Color="@ConvertToColor(Serie.Color)" Axis="@AxisName">
+                <DxChartSeriesLabel Visible="@Serie.ShowLabel" />
+            </DxChartStepAreaSeries>
+        }
+        else if (Type == ChartSeriesType.StepLine)
+        {
+            <DxChartStepLineSeries Name="@Serie.Name" Settings="@settings" Color="@ConvertToColor(Serie.Color)" Axis="@AxisName">
+                <DxChartSeriesLabel Visible="@Serie.ShowLabel" />
+            </DxChartStepLineSeries>
+        }
+        else if (Type == ChartSeriesType.Stock)
+        {
+            <DxChartStockSeries Name="@Serie.Name" Settings="@settings" Color="@ConvertToColor(Serie.Color)" Axis="@AxisName">
+                <DxChartSeriesLabel Visible="@Serie.ShowLabel" />
+            </DxChartStockSeries>
+        }
+    </SeriesTemplate>
+</DxChartCommonSeries>
+
+@code {
+
+    [Parameter]
+    public ChartSerie Serie { get; set; }
+    [Parameter]
+    public ChartSeriesType Type { get; set; }
+    [Parameter]
+    public string AxisName { get; set; }
+    public IList<SerieFilterItem> FilterItems => Serie.SerieFilter.ItemList;
+
+    private System.Drawing.Color ConvertToColor(string color)
+    {
+        return !string.IsNullOrWhiteSpace(color) ? System.Drawing.ColorTranslator.FromHtml(color) : new System.Drawing.Color();
+    }
+
+    public bool ExecuteFilter(Dictionary<string, object> element)
+    {
+        //IEnumerable<string> filters = new List<string>();
+        foreach (var filter in FilterItems)
+        {
+            if (element.ContainsKey(filter.Field.DimensionName))
+            {
+                    if (!filter.Validate(element))
+                    {
+                        return false;
+                    }
+            }
+        }
+        return true;
+    }
+
+
+}

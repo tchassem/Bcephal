@@ -1,0 +1,48 @@
+﻿
+<DxCheckBox CssClass="m-1" Checked="@Checked" CheckedChanged="@((bool value) => CheckedChanged(value))">
+    @FunctionalityItem.Name
+</DxCheckBox>
+
+@*<div class="item-functionality">
+        <div class="custom-control custom-checkbox d-flex flex-row" style="width:100%;">
+
+            <input type="checkbox" class="custom-control-input" style="border:1px solid #808080; width:20px; height:30px;" id="@(FunctionalityItem.Name)" @onchange="@(() => ParentMethodSelectFonctionalityWorkspace.InvokeAsync(FunctionalityItem))" />
+            <label class="custom-control-label" for="@FunctionalityItem.Name">
+                <div class="d-inline-block">
+                    <div class="d-flex flex-column align-items-center justify-content-center">
+                        <div class="folder-content-add" style="height: 70px; background-color:#3395ff">
+                        </div>
+                        <div class="text-break">
+                            <small class="text-black d-block text-center">@FunctionalityItem.Name</small>
+                        </div>
+
+                    </div>
+                </div>
+            </label>
+        </div>
+    </div>*@
+
+
+
+@code {
+    [Parameter]
+    public Functionality FunctionalityItem { get; set; }
+
+    [Parameter]
+    public EventCallback<Functionality> ParentMethodSelectFonctionalityWorkspace { get; set; }
+
+    bool Checked { get; set; } = false;
+
+    protected async override Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        //await JSRuntime.InvokeVoidAsync("console.log", " Block => ", FunctionalityItem);
+
+    }
+
+    void CheckedChanged(bool value)
+    {
+        Checked = value;
+        ParentMethodSelectFonctionalityWorkspace.InvokeAsync(FunctionalityItem);
+    }
+}

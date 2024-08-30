@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bcephal-archive-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bcephal-archive-service
+    
+  template:
+    metadata:
+      labels:
+        app: bcephal-archive-service
+    spec:
+      volumes:
+      - name: bcephal-archive-repository
+        hostPath:
+          path: /opt/bcephal-archive-repository
+      containers:
+      - name: bcephal-archive-service
+        image: localhost:5000/becphal-archive-service-docker-image
+        volumeMounts:
+        - name: bcephal-archive-repository
+          mountPath: /opt/bcephal-archive-repository
+
+        ports:
+        - containerPort: 32004 
+        
+        
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: bcephal-archive-service
+spec:
+  selector:
+    app: bcephal-archive-service
+  type: NodePort
+  ports:  
+    - name: http
+      nodePort: 32004
+      port: 32004
+      targetPort: 32004
+      protocol: TCP
+   
+  
+  
+
+
+  
+

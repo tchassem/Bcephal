@@ -1,0 +1,217 @@
+﻿@if (JoinCondition != null)
+{
+    <DxStackLayout @key="@(Guid.NewGuid().ToString("d"))" CssClass="mb-1 align-items-center bc-box-sizing" Orientation="Orientation.Horizontal" ItemSpacing="2px">
+        <Items>
+            <DxStackLayoutItem @key="@(Guid.NewGuid().ToString("d"))" CssClass="d-flex justify-content-start" Length="114px">
+                <Template>
+                    <DxStackLayout @key="@(Guid.NewGuid().ToString("d"))" ItemSpacing="2px">
+                        <Items>
+                            @if (JoinCondition.Item1 != null && JoinCondition.Item1.ColumnId != null)
+                            {
+                                <DxStackLayoutItem @key="@(Guid.NewGuid().ToString("d"))" Length="60px">
+                                    <Template>
+                                        <DxComboBox CssClass="" Data="FilterVerbOperatorCollection_" @bind-Value="@CurrentVerb" />
+                                    </Template>
+                                </DxStackLayoutItem>
+                                <DxStackLayoutItem @key="@(Guid.NewGuid().ToString("d"))" Length="50px">
+                                    <Template>
+                                        <DxComboBox CssClass="" Data="ConditionalOpLeft.GetAll()" TData="ConditionalOpLeft" TValue="ConditionalOpLeft" TextFieldName="@nameof(ConditionalOpLeft.label)" @bind-Value="@OpenBrackets" />
+                                    </Template>
+                                </DxStackLayoutItem>
+                            }
+                        </Items>
+                    </DxStackLayout>
+                </Template>
+            </DxStackLayoutItem>
+            <DxStackLayoutItem @key="@(Guid.NewGuid().ToString("d"))" CssClass="w-100">
+                <Template>
+                    <DxStackLayout @key="@(Guid.NewGuid().ToString("d"))" Orientation="Orientation.Horizontal" ItemSpacing="2px">
+                        <Items>
+                            @if (JoinGrids != null && JoinCondition != null)
+                            {
+                                <DxStackLayoutItem @key="@(Guid.NewGuid().ToString("d"))" Length="37.2%">
+                                    <Template>
+                                        <JoinConditionBaseComponent AddOrUpdateConditionItemCallback=SetConditionItem1Callback
+                                                                    Editable=Editable
+                                                                    Item=JoinCondition.Item1
+                                                                    JoinCondition=JoinCondition
+                                                                    JoinEditorData=JoinEditorData>
+                                        </JoinConditionBaseComponent>
+                                    </Template>
+                                </DxStackLayoutItem>
+                            }
+                            @if (JoinCondition.Item1 != null && JoinCondition.Item1.ColumnId != null && (JoinCondition.Item1.DimensionType.IsMeasure() || JoinCondition.Item1.DimensionType.IsPeriod() ||
+                    JoinCondition.Item1.DimensionType.IsAttribute()))
+                            {
+                                <DxStackLayoutItem @key="@(Guid.NewGuid().ToString("d"))" Length="14.8%">
+                                    <Template>
+                                        @if (JoinCondition.Item1 != null && JoinCondition.Item1.DimensionType.IsAttribute())
+                                        {
+                                            <DxComboBox Data="@AttributeOperatorCollection_" @bind-Value="Operator" />
+                                        }
+                                        else
+                                        {
+                                            <DxComboBox TData="string" TValue="string" Data="MeasureOperator.EQUALS_.GetAllForJoin(label_code => AppState[label_code])" @bind-Value="OperatorPeriode" />
+                                        }
+                                    </Template>
+                                </DxStackLayoutItem>
+                            }
+
+                            @if (JoinCondition.Item1 != null && JoinCondition.Comparator != null && (JoinCondition.Comparator != MeasureOperator.NOT_NULL_.code && JoinCondition.Comparator != MeasureOperator.NULL_.code))
+                            {
+                                <DxStackLayoutItem Length="10.6%" @key="@(Guid.NewGuid().ToString("d"))">
+                                    <Template>
+                                        <DxComboBox Data="@ConditionItemTypeCollection_" @bind-Value="@ItemType" />
+                                    </Template>
+                                </DxStackLayoutItem>
+                            }
+
+                            @if (JoinCondition.Item1 != null && JoinCondition.Item1.ColumnId != null && JoinCondition.Comparator != null && GetJoinConditionItemType().IsSpot()
+                             && (JoinCondition.Comparator != MeasureOperator.NOT_NULL_.code && JoinCondition.Comparator != MeasureOperator.NULL_.code))
+                            {
+                                <DxStackLayoutItem Length="20.2%" @key="@(Guid.NewGuid().ToString("d"))">
+                                    <Template>
+                                        <DxComboBox Enabled="Editable" Data="@SpotData" TData="Nameable" TValue="long?" NullText="@AppState["select.spot"]" ValueFieldName="@nameof(Nameable.Id)" TextFieldName="@nameof(Nameable.Name)" @bind-Value="@SpotId" />
+                                    </Template>
+                                </DxStackLayoutItem>
+                            }
+
+                            @if (JoinCondition.Item1 != null && JoinCondition.Item1.ColumnId != null && JoinCondition.Comparator != null && GetJoinConditionItemType().IsColumn()
+                             && (JoinCondition.Comparator != MeasureOperator.NOT_NULL_.code && JoinCondition.Comparator != MeasureOperator.NULL_.code))
+                            {
+                                <DxStackLayoutItem Length="37.2%" @key="@(Guid.NewGuid().ToString("d"))">
+                                    <Template>
+                                        <JoinConditionBaseComponent AddOrUpdateConditionItemCallback=SetConditionItem2Callback
+                                                                    Editable=Editable
+                                                                    JoinCondition=JoinCondition
+                                                                    Item=JoinCondition.Item2
+                                                                    JoinEditorData=JoinEditorData>
+                                        </JoinConditionBaseComponent>
+                                    </Template>
+                                </DxStackLayoutItem>
+                            }
+
+                            @if (JoinCondition.Item1 != null && GetJoinConditionItemType().IsParameter() && JoinCondition.Item1.DimensionType.IsMeasure() && (JoinCondition.Comparator != MeasureOperator.NOT_NULL_.code && JoinCondition.Comparator != MeasureOperator.NULL_.code))
+                            {
+                                <DxStackLayoutItem Length="37.2%" @key="@(Guid.NewGuid().ToString("d"))">
+                                    <Template>
+                                        <MeasureFilterItemComponent modelmeasure="GetMeasureFilterItem(JoinCondition.Item2)"
+                                                                    Editable=Editable
+                                                                    ShouldRender_="true"
+                                                                    ExpandField="true"
+                                                                    removeButton="true"
+                                                                    DisplayTreeViewFilter="false"
+                                                                    DisplayCloseBrackets="false"
+                                                                    DisplayFilterVerb_="false"
+                                                                    DisplayOpenBrackets="false"
+                                                                    DisplayDeleteButton="false"
+                                                                    DisplaySpinnerMeasure="true"
+                                                                    DisplayOperator="false"
+                                                                    ItemCallback="@((Item) => JoinConditionUpdateMeasureHandler(JoinCondition.Item2, Item))" />
+                                    </Template>
+                                </DxStackLayoutItem>
+                            }
+
+                            @if (JoinCondition.Item1 != null && GetJoinConditionItemType().IsParameter() && JoinCondition.Item1.DimensionType.IsPeriod() && (JoinCondition.Comparator != MeasureOperator.NOT_NULL_.code && JoinCondition.Comparator != MeasureOperator.NULL_.code))
+                            {
+                                <DxStackLayoutItem Length="37.2%" @key="@(Guid.NewGuid().ToString("d"))">
+                                    <Template>
+                                        <PeriodFilterItemComponent periodFilterItem="GetPeriodFilterItem(JoinCondition.Item2)"
+                                                                   Editable=Editable
+                                                                   ShouldRender_="true"
+                                                                   ExpandField="true"
+                                                                   DisplayDeleteButton="false"
+                                                                   DisplayFirstItem="false"
+                                                                   DisplaySecondItem="false"
+                                                                   DisplayGroupItemJoin="false"
+                                                                   removeButton="true"
+                                                                   ItemCallback="@((Item) => JoinConditionUpdatePeriodHandler(JoinCondition.Item2, Item))" />
+                                    </Template>
+                                </DxStackLayoutItem>
+                            }
+
+                            @if (JoinCondition.Item1 != null && GetJoinConditionItemType().IsParameter() && JoinCondition.Item1.DimensionType.IsAttribute() && (JoinCondition.Comparator != MeasureOperator.NOT_NULL_.code && JoinCondition.Comparator != MeasureOperator.NULL_.code))
+                            {
+                                <DxStackLayoutItem Length="30.5%" @key="@(Guid.NewGuid().ToString("d"))">
+                                    <Template>
+                                        <InputFilter modelattribute="GetAttributeFilterItem(JoinCondition.Item1)"
+                                                     EntityItems="Entities"
+                                                     ExpandField="true"
+                                                     Editable=Editable
+                                                     removeButton="false"
+                                                     DisplayTreeViewFilterRender="false"
+                                                     ShouldRender_="true"
+                                                     DisplayFilterVerbs="false"
+                                                     ItemCallback="@((Item) => JoinConditionUpdateAttributeHandler(JoinCondition.Item1, Item))" />
+                                    </Template>
+                                </DxStackLayoutItem>
+                            }
+                        </Items>
+                    </DxStackLayout>
+                </Template>
+            </DxStackLayoutItem>
+            <DxStackLayoutItem @key="@(Guid.NewGuid().ToString("d"))" CssClass="d-flex justify-content-end" Length="176px">
+                <Template>
+                    <DxStackLayout @key="@(Guid.NewGuid().ToString("d"))" ItemSpacing="2px">
+                        <Items>
+                            @if (JoinCondition.Item1 != null && JoinCondition.Item1.DimensionType.IsPeriod() && (GetJoinConditionItemType().IsColumn() || GetJoinConditionItemType().IsParameter()))
+                            {
+                                <DxStackLayoutItem @key="@(Guid.NewGuid().ToString("d"))" Length="50px">
+                                    <Template>
+                                        <DxComboBox ReadOnly=!Editable Data="@FilterUtils.Signs"
+                                                    @bind-Value="@Sign"
+                                                    TData="string"
+                                                    TValue="string"
+                                                    DropDownDirection="DropDownDirection.Down" />
+                                    </Template>
+                                </DxStackLayoutItem>
+                                <DxStackLayoutItem @key="@(Guid.NewGuid().ToString("d"))" Length="40px">
+                                    <Template>
+                                        <DxSpinEdit ReadOnly=!Editable @bind-Value="@Number"
+                                                    T="int"
+                                                    ShowSpinButtons=!Editable />
+                                    </Template>
+                                </DxStackLayoutItem>
+                                <DxStackLayoutItem @key="@(Guid.NewGuid().ToString("d"))" Length="80px">
+                                    <Template>
+                                        <DxComboBox ReadOnly=!Editable Data="PeriodGranularities"
+                                                    @bind-Value="@Granularity"
+                                                    DropDownDirection="DropDownDirection.Down">
+                                        </DxComboBox>
+                                    </Template>
+                                </DxStackLayoutItem>
+
+                            }
+                        </Items>
+                    </DxStackLayout>
+                </Template>
+            </DxStackLayoutItem>
+            <DxStackLayoutItem @key="@(Guid.NewGuid().ToString("d"))" CssClass="d-flex justify-content-end" Length="84px">
+                <Template>
+                    <DxStackLayout @key="@(Guid.NewGuid().ToString("d"))" ItemSpacing="2px">
+                        <Items>
+                            @if (JoinCondition.Item1 != null && JoinCondition.Item1.ColumnId != null)
+                            {
+                                <DxStackLayoutItem @key="@(Guid.NewGuid().ToString("d"))" Length="50px">
+                                    <Template>
+                                        <DxComboBox Data="ConditionalOpRight.GetAll()" TData="ConditionalOpRight" TValue="ConditionalOpRight" @bind-Value="@CloseBrackets" />
+                                    </Template>
+                                </DxStackLayoutItem>
+                                <DxStackLayoutItem @key="@(Guid.NewGuid().ToString("d"))" Length="30px">
+                                    <Template>
+                                        <DxButton IconCssClass="fa fa-remove"
+                                                  CssClass="mt-auto mb-auto"
+                                                  RenderStyleMode="ButtonRenderStyleMode.Text"
+                                                  RenderStyle="ButtonRenderStyle.Danger"
+                                                  Click="()=>RemoveCondition(JoinCondition)">
+                                        </DxButton>
+                                    </Template>
+                                </DxStackLayoutItem>
+                            }
+                        </Items>
+                    </DxStackLayout>
+                </Template>
+            </DxStackLayoutItem>
+        </Items>
+    </DxStackLayout>
+}

@@ -1,0 +1,51 @@
+@page "/access/right"
+
+
+@if (!InfosKey.Equals("InfosKey"))
+{
+    <div class="card w-100 h-100">
+        <div class="card-header @HeaderStyle">
+            <div class="d-flex flex-row">
+                <i class="mr-1 ml-1 mt-auto mb-auto fa fa-filter" style="cursor:pointer;"></i>
+                <span class="mr-auto"> @AppState["ATTRIBUTE"] </span>
+            </div>
+            <span class="ml-auto mr-1">
+                <i class="m-2 fa fa-expand" style="cursor:pointer;" id="expand" @onclick="@(() => ShowOtherFieldFilters())"></i>
+            </span>
+        </div>
+        <div class="card-body w-100 p-0" style="height: calc(100% - var(--bc-header-height)); overflow: auto;">
+            @{
+                int offset = 0;
+                int Count = Items.Count;
+                @while (offset < Count)
+                {
+                    @RenderTemplate(Items[offset], true, true);
+                    offset++;
+                }
+                @RenderTemplate(new AttributeFilterItem(), false, false);
+            }
+        </div>
+    </div>
+}
+@code {
+
+
+
+    RenderFragment RenderTemplate(AttributeFilterItem item_, bool addButton, bool MinField) => __builder =>
+        { //  @key=InfosKey
+        <div class="mt-1 w-100">
+            <InputFilter Editable=Editable modelattribute="item_"
+                         OnClickRemove="RemoveAttributeFilter"
+                         ExpandField="MinField"
+                         ExpandOtherFields="IsExpand"
+                         Values="AttributesValues"
+                         removeButton="addButton"
+                         EntityItems="EntityItems"
+                         ItemCallback="TargetFilter"
+                         ShouldRender_="ShouldRender_">
+            </InputFilter>
+        </div>
+        };
+
+
+}

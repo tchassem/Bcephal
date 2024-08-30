@@ -1,0 +1,137 @@
+﻿<DxLayoutBreakpoint DeviceSize="DeviceSize.XSmall | DeviceSize.Small | DeviceSize.Medium" @bind-IsActive="@IsXSmallScreen" />
+<DxStackLayout Orientation="Orientation.Vertical"  CssClass="w-100 h-100 m-0 p-1" ItemSpacing=@ItemSpacing>
+    <Items>
+        <DxStackLayoutItem Length="auto">
+            <Template>
+                <RecoConfigurationRow Item1Length="50%" Item2Length="50%">
+                    <Item1>
+                        <RecoConfigurationRow Item1Length=@Item1Length Item2Length=@Item2Length>
+                            <Item1>
+                                <label class="@(IsXSmallScreen ? labelSm : labelLg)"></label>
+                            </Item1>
+                            <Item2>
+                                <DxCheckBox Enabled=Editable CssClass="m-0 p-0 w-100  mr-auto" @bind-Checked=AllowNeutralization
+                                        Alignment="CheckBoxContentAlignment.Left">@AppState["Allow"]</DxCheckBox>
+                            </Item2>
+                        </RecoConfigurationRow>
+                    </Item1>
+                    <Item2>
+                        <RecoConfigurationRow Item1Length=@Item1Length Item2Length=@Item2Length>
+                            <Item1>
+                            </Item1>
+                            <Item2>
+                            </Item2>
+                        </RecoConfigurationRow>
+                    </Item2>
+                </RecoConfigurationRow>
+            </Template>
+        </DxStackLayoutItem>
+        <DxStackLayoutItem Length="auto">
+            <Template>
+                <RecoConfigurationRow Item1Length="50%" Item2Length="50%">
+                    <Item1>
+                        <RecoConfigurationRow Item2="attributTypeRender()" Item1Length=@Item1Length Item2Length=@Item2Length>
+                            <Item1>
+                                <label class="@(IsXSmallScreen ? labelSm : labelLg)">@AppState["Reconciliation.Neutralization.type"]</label>
+                            </Item1>
+                        </RecoConfigurationRow>
+                    </Item1>
+                    <Item2>
+                        <RecoConfigurationRow Item1Length=@Item1Length Item2Length=@Item2Length>
+                            <Item1>
+                                <label class="@(IsXSmallScreen ? labelSm : labelLg)">@AppState["Sequence_"]</label>
+                            </Item1>
+                            <Item2>
+                                <DxComboBox Enabled=Editable Data="GetEditorData.Sequences" CssClass="h-100 d-flex flex-column justify-content-center"
+                                            TData="Nameable" TValue="Nameable" @bind-Value=NeutralizationSequenceId />
+                            </Item2>
+                        </RecoConfigurationRow>
+                    </Item2>
+                </RecoConfigurationRow>
+
+            </Template>
+        </DxStackLayoutItem>
+        <DxStackLayoutItem Length="auto">
+            <Template>
+                <RecoConfigurationRow Item1Length="50%" Item2Length="50%">
+                    <Item1>
+                        <RecoConfigurationRow Item1Length=@Item1Length Item2Length=@Item2Length>
+                            <Item1>
+                                <label class="@(IsXSmallScreen ? labelSm : labelLg)"></label>
+                            </Item1>
+                            <Item2>
+                                <DxCheckBox Enabled=Editable CssClass="m-0 p-0 w-100  mr-auto" @bind-Checked=NeutralizationRequestSelectValue
+                                            Alignment="CheckBoxContentAlignment.Left">
+                                    <label class=@ChecboxlabelClass>@AppState["NeutralizationRequestSelectValue"]</label>
+                                </DxCheckBox>
+                            </Item2>
+                        </RecoConfigurationRow>
+                    </Item1>
+                    <Item2>
+                        <RecoConfigurationRow Item1Length=@Item1Length Item2Length=@Item2Length>
+                            <Item1>
+                                <label class="@(IsXSmallScreen ? labelSm : labelLg)"></label>
+                            </Item1>
+                            <Item2>
+                                <DxCheckBox Enabled=Editable CssClass="m-0 p-0 w-100  mr-auto" @bind-Checked=NeutralizationAllowCreateNewValue
+                                            Alignment="CheckBoxContentAlignment.Left">
+                                    <label class=@ChecboxlabelClass>@AppState["NeutralizationAllowCreateNewValue"]</label>
+                                </DxCheckBox>
+
+                            </Item2>
+                        </RecoConfigurationRow>
+                    </Item2>
+                </RecoConfigurationRow>
+            </Template>
+        </DxStackLayoutItem>
+        <DxStackLayoutItem Length="auto">
+            <Template>
+                <RecoConfigurationRow Item1Length="50%" Item2Length="50%">
+                    <Item1>
+                        <RecoConfigurationRow Item1Length=@Item1Length Item2Length=@Item2Length>
+                            <Item1>
+                                <label class="@(IsXSmallScreen ? labelSm : labelLg)"></label>
+                            </Item1>
+                            <Item2>
+                                <DxCheckBox Enabled=Editable CssClass="m-0 p-0 w-100  mr-auto" @bind-Checked=NeutralizationInsertNote
+                                            Alignment="CheckBoxContentAlignment.Left">
+                                    <label class=@ChecboxlabelClass>@AppState["NeutralizationInsertNote"]</label>
+                                </DxCheckBox>
+
+                            </Item2>
+                        </RecoConfigurationRow>
+                    </Item1>
+                    <Item2>
+                        <RecoConfigurationRow Item1Length=@Item1Length Item2Length=@Item2Length>
+                            <Item1>
+                                <label class="@(IsXSmallScreen ? labelSm : labelLg)"></label>
+                            </Item1>
+                            <Item2>
+                                <DxCheckBox Enabled=Editable CssClass="m-0 p-0 w-100  mr-auto" @bind-Checked=NeutralizationMandatoryNote
+                                            Alignment="CheckBoxContentAlignment.Left">
+                                    <label class=@ChecboxlabelClass>
+                                        @AppState["NeutralizationMandatoryNote"]
+                                    </label>
+                                </DxCheckBox>
+
+                            </Item2>
+                        </RecoConfigurationRow>
+                    </Item2>
+                </RecoConfigurationRow>
+            </Template>
+        </DxStackLayoutItem>
+        <DxStackLayoutItem Length="auto">
+            <Template>
+                <RecoConfigurationRow Item1Length="20%" Item2Length="80%">
+                    <Item1>
+                        <label class="@(IsXSmallScreen ? labelSm : labelLg)">@AppState["Reconciliation.Reco.sequence"]</label>
+                    </Item1>
+                    <Item2>
+                        <DxMemo Enabled=Editable Rows="3" CssClass="h-100 d-flex flex-column justify-content-center"
+                                BindValueMode="BindValueMode.OnInput" @bind-Text=NeutralizationMessage />
+                    </Item2>
+                </RecoConfigurationRow>
+            </Template>
+        </DxStackLayoutItem>
+    </Items>
+</DxStackLayout>

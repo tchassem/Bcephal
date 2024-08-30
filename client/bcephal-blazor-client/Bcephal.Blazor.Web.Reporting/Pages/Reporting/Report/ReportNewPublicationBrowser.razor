@@ -1,0 +1,15 @@
+﻿@page "/reporting/report/publication/list"
+@inherits Base.Shared.Browser
+@{
+    base.BuildRenderTree(__builder);
+}
+@code {
+    public override string Title { get { return AppState["List.Report.Publication"]; } }
+
+    public override string TitleIcon { get { return "bi-list-stars"; } }
+
+    protected override RenderFragment _BodyContent_ => __builder =>
+    {
+    <ReportPublicationBrowser />
+    };
+}

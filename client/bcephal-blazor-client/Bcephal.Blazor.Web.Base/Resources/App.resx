@@ -1,0 +1,4561 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="About.Bcephal" xml:space="preserve">
+    <value>About Bcephal...</value>
+  </data>
+  <data name="Accessories" xml:space="preserve">
+    <value>Accessories</value>
+  </data>
+  <data name="Acess.Rights" xml:space="preserve">
+    <value>Acess rights</value>
+  </data>
+  <data name="Alarm" xml:space="preserve">
+    <value>Alarm</value>
+  </data>
+  <data name="Archive.Configuration" xml:space="preserve">
+    <value>Archive configuration</value>
+  </data>
+  <data name="Archive.Logs" xml:space="preserve">
+    <value>Archive logs</value>
+  </data>
+  <data name="List.Archive.Logs" xml:space="preserve">
+    <value>List archive logs</value>
+  </data>
+  <data name="Archives" xml:space="preserve">
+    <value>Archives</value>
+  </data>
+  <data name="List.trans.rout" xml:space="preserve">
+    <value>List transformation routines</value>
+  </data>
+  <data name="New.trans.rout" xml:space="preserve">
+    <value>New transformation routine</value>
+  </data>
+  <data name="Trans.routs" xml:space="preserve">
+    <value>Transformation routines</value>
+  </data>
+  <data name="Trans.rout" xml:space="preserve">
+    <value>Transformation routine</value>
+  </data>
+  <data name="BackgroundColor.SuccessfullyChanged" xml:space="preserve">
+    <value>Background  color changed successfully</value>
+  </data>
+  <data name="Backup" xml:space="preserve">
+    <value>Backup</value>
+  </data>
+  <data name="billing" xml:space="preserve">
+    <value>Billing</value>
+  </data>
+  <data name="billing.event" xml:space="preserve">
+    <value>Billing event</value>
+  </data>
+  <data name="billing.event.repository" xml:space="preserve">
+    <value>Billing event repository</value>
+  </data>
+  <data name="billing.model" xml:space="preserve">
+    <value>Billing model</value>
+  </data>
+  <data name="billing.models" xml:space="preserve">
+    <value>Billing models</value>
+  </data>
+  <data name="billing.run" xml:space="preserve">
+    <value>Billing run</value>
+  </data>
+  <data name="billing.run.outcome" xml:space="preserve">
+    <value>Billing run outcome</value>
+  </data>
+  <data name="billing.template" xml:space="preserve">
+    <value>Billing template</value>
+  </data>
+  <data name="Calculated.Measure" xml:space="preserve">
+    <value>Calculated Measure</value>
+  </data>
+  <data name="Chart" xml:space="preserve">
+    <value>Chart</value>
+  </data>
+  <data name="Clear.LoadTable" xml:space="preserve">
+    <value>Clear load table</value>
+  </data>
+  <data name="Client" xml:space="preserve">
+    <value>Customer</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="Close.B-Cephal" xml:space="preserve">
+    <value>Close B-Cephal</value>
+  </data>
+  <data name="Color.SuccessfullyChanged" xml:space="preserve">
+    <value>Color successfully changed</value>
+  </data>
+  <data name="Configuration" xml:space="preserve">
+    <value>Configuration</value>
+  </data>
+  <data name="Connected.users" xml:space="preserve">
+    <value>Connected users</value>
+  </data>
+  <data name="COPY" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="Current.Auto.Recos.Executions" xml:space="preserve">
+    <value>Current auto recos executions</value>
+  </data>
+  <data name="Current.billing.run.status" xml:space="preserve">
+    <value>Current billing run status</value>
+  </data>
+  <data name="Dashboard" xml:space="preserve">
+    <value>Dashboard</value>
+  </data>
+  <data name="dashboarding" xml:space="preserve">
+    <value>Dashboarding</value>
+  </data>
+  <data name="DataManager" xml:space="preserve">
+    <value>DataManager</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="Dynamic.Form" xml:space="preserve">
+    <value>Dynamic Form</value>
+  </data>
+  <data name="Edit.Measure" xml:space="preserve">
+    <value>Edit measure</value>
+  </data>
+  <data name="Edit.Model" xml:space="preserve">
+    <value>Edit model</value>
+  </data>
+  <data name="Edit.Period" xml:space="preserve">
+    <value>Edit period</value>
+  </data>
+  <data name="Export" xml:space="preserve">
+    <value>Export</value>
+  </data>
+  <data name="ExportLoading" xml:space="preserve">
+    <value>Export...</value>
+  </data>
+  <data name="File" xml:space="preserve">
+    <value>File</value>
+  </data>
+  <data name="ForegroundColor.SuccessfullyChanged" xml:space="preserve">
+    <value>Text color changed successfully</value>
+  </data>
+  <data name="Functionality.BackgroundColor" xml:space="preserve">
+    <value>Background color</value>
+  </data>
+  <data name="Functionality.ChangeProperties" xml:space="preserve">
+    <value>Change functionality properties :  </value>
+  </data>
+  <data name="Functionality.ForegroundColor" xml:space="preserve">
+    <value>Foreground color</value>
+  </data>
+  <data name="Functionality.NotFound" xml:space="preserve">
+    <value> Not found functionality</value>
+  </data>
+  <data name="Functionality.SuccessfullyDeleted" xml:space="preserve">
+    <value>Functionality successfully deleted</value>
+  </data>
+  <data name="FunctionalityBlock.FailureAdd" xml:space="preserve">
+    <value>Adding functionalty block failed</value>
+  </data>
+  <data name="FunctionalityBlock.SucessfullyAdded" xml:space="preserve">
+    <value>Functionality block successfully added</value>
+  </data>
+  <data name="GRID" xml:space="preserve">
+    <value>Grid</value>
+  </data>
+  <data name="Groups" xml:space="preserve">
+    <value>Groups</value>
+  </data>
+  <data name="Help" xml:space="preserve">
+    <value>Help</value>
+  </data>
+  <data name="HelpB" xml:space="preserve">
+    <value>Help...</value>
+  </data>
+  <data name="Hide" xml:space="preserve">
+    <value>Hide</value>
+  </data>
+  <data name="Import" xml:space="preserve">
+    <value>Import</value>
+  </data>
+  <data name="Import.Project" xml:space="preserve">
+    <value>Import project</value>
+  </data>
+  <data name="Incremental.Number" xml:space="preserve">
+    <value>Incremental number</value>
+  </data>
+  <data name="Inititiation" xml:space="preserve">
+    <value>Initiation</value>
+  </data>
+  <data name="Input.Table" xml:space="preserve">
+    <value>Input Table</value>
+  </data>
+  <data name="List.Alarms" xml:space="preserve">
+    <value>List alarms</value>
+  </data>
+  <data name="List.Automatic.Reconciliations" xml:space="preserve">
+    <value>List automatic reconciliations</value>
+  </data>
+  <data name="List.Automatic.Sourcing.For.Grid" xml:space="preserve">
+    <value>List automatic sourcing for grid</value>
+  </data>
+  <data name="List.billing.event" xml:space="preserve">
+    <value>List billing events</value>
+  </data>
+  <data name="List.Calculated.Measure" xml:space="preserve">
+    <value>List calculated measure</value>
+  </data>
+  <data name="List.Chart" xml:space="preserve">
+    <value>List charts</value>
+  </data>
+  <data name="List.configurations" xml:space="preserve">
+    <value>List configurations</value>
+  </data>
+  <data name="billing.run.credit.note" xml:space="preserve">
+    <value>List credit notes</value>
+  </data>
+  <data name="List.Dashboard" xml:space="preserve">
+    <value>List dashboards</value>
+  </data>
+  <data name="List.Dynamic.Forms" xml:space="preserve">
+    <value>List dynamic forms</value>
+  </data>
+  <data name="List.Files.Loader" xml:space="preserve">
+    <value>List file loaders</value>
+  </data>
+  <data name="List.Incremental.Numbers" xml:space="preserve">
+    <value>List incremental numbers</value>
+  </data>
+  <data name="List.Input.Grid" xml:space="preserve">
+    <value>List input grids</value>
+  </data>
+  <data name="List.Input.Tables" xml:space="preserve">
+    <value>List inputs spreadsheet</value>
+  </data>
+  <data name="List.invoice" xml:space="preserve">
+    <value>List invoices</value>
+  </data>
+  <data name="List.Links" xml:space="preserve">
+    <value>List links</value>
+  </data>
+  <data name="List.model" xml:space="preserve">
+    <value>List billing models</value>
+  </data>
+  <data name="List.Pivot.Grid" xml:space="preserve">
+    <value>List pivot grids</value>
+  </data>
+  <data name="List.Reconciliation.Filter" xml:space="preserve">
+    <value>List reconciliation filters</value>
+  </data>
+  <data name="List.Report.Grid" xml:space="preserve">
+    <value>List report grids</value>
+  </data>
+  <data name="List.Report.Publication" xml:space="preserve">
+    <value>List report publications</value>
+  </data>
+  <data name="List.Reports" xml:space="preserve">
+    <value>List report spreadsheets</value>
+  </data>
+  <data name="accounting" xml:space="preserve">
+    <value>Accounting</value>
+  </data>
+  <data name="List.template" xml:space="preserve">
+    <value>List templates</value>
+  </data>
+  <data name="SelectSide" xml:space="preserve">
+    <value>Select the side</value>
+  </data>
+  <data name="Load" xml:space="preserve">
+    <value>Load</value>
+  </data>
+  <data name="Load.LoadTable" xml:space="preserve">
+    <value>Load table</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Logout</value>
+  </data>
+  <data name="Manual.billing.event" xml:space="preserve">
+    <value>Manual billing event</value>
+  </data>
+  <data name="MoveDown" xml:space="preserve">
+    <value>Move down</value>
+  </data>
+  <data name="MoveUp" xml:space="preserve">
+    <value>Move up</value>
+  </data>
+  <data name="Multiple.Files.Loader" xml:space="preserve">
+    <value>Multiple files loader</value>
+  </data>
+  <data name="New" xml:space="preserve">
+    <value>New</value>
+  </data>
+  <data name="New.Alarm" xml:space="preserve">
+    <value>New alarm</value>
+  </data>
+  <data name="New.Automatic.Reconciliation" xml:space="preserve">
+    <value>New automatic reconciliation</value>
+  </data>
+  <data name="Automatic.Reconciliation" xml:space="preserve">
+    <value>Automatic reconciliation</value>
+  </data>
+  <data name="New.trans.routine" xml:space="preserve">
+    <value>New transformation routine</value>
+  </data>
+  <data name="trans.routine.run.success" xml:space="preserve">
+    <value>Transformation routine successfully executed</value>
+  </data>
+  <data name="trans.routine.run.error" xml:space="preserve">
+    <value>An error occurred while executing transformation routine</value>
+  </data>
+  <data name="New.Automatic.Sourcing.For.Grid" xml:space="preserve">
+    <value>New automatic sourcing for grid</value>
+  </data>
+  <data name="New.billing.event" xml:space="preserve">
+    <value>New billing event</value>
+  </data>
+  <data name="New.Calculated.Measure" xml:space="preserve">
+    <value>New calculated measure</value>
+  </data>
+  <data name="New.Chart" xml:space="preserve">
+    <value>New chart</value>
+  </data>
+  <data name="New.configuration" xml:space="preserve">
+    <value>New configuration</value>
+  </data>
+  <data name="New.Dashboard" xml:space="preserve">
+    <value>New dashboard</value>
+  </data>
+  <data name="New.Dynamic.Form" xml:space="preserve">
+    <value>New dynamic form</value>
+  </data>
+  <data name="New.Files.Loader" xml:space="preserve">
+    <value>New file loader</value>
+  </data>
+  <data name="New.Incremental.Number" xml:space="preserve">
+    <value>New incremental number</value>
+  </data>
+  <data name="New.Input.Grid" xml:space="preserve">
+    <value>New input grid</value>
+  </data>
+  <data name="New.Input.Table" xml:space="preserve">
+    <value>New input table</value>
+  </data>
+  <data name="New.model" xml:space="preserve">
+    <value>New model</value>
+  </data>
+  <data name="New.Pivot.Grid" xml:space="preserve">
+    <value>New pivot grid</value>
+  </data>
+  <data name="New.Project" xml:space="preserve">
+    <value>New project</value>
+  </data>
+  <data name="New.Reconciliation.Filter" xml:space="preserve">
+    <value>New reconciliation filter</value>
+  </data>
+  <data name="New.Report" xml:space="preserve">
+    <value>New report</value>
+  </data>
+  <data name="New.Report.Grid" xml:space="preserve">
+    <value>New report grid</value>
+  </data>
+  <data name="New.template" xml:space="preserve">
+    <value>New template</value>
+  </data>
+  <data name="Open" xml:space="preserve">
+    <value>Open</value>
+  </data>
+  <data name="Paste" xml:space="preserve">
+    <value>Paste</value>
+  </data>
+  <data name="Pivot.Table" xml:space="preserve">
+    <value>Pivot table</value>
+  </data>
+  <data name="Print" xml:space="preserve">
+    <value>Print</value>
+  </data>
+  <data name="Profil" xml:space="preserve">
+    <value>Profiles</value>
+  </data>
+  <data name="Profile" xml:space="preserve">
+    <value>Profil</value>
+  </data>
+  <data name="project" xml:space="preserve">
+    <value>Project</value>
+  </data>
+  <data name="Project.Automatic.Backup" xml:space="preserve">
+    <value>Automatic backup</value>
+  </data>
+  <data name="Project.New.Backup" xml:space="preserve">
+    <value>New project backup</value>
+  </data>
+  <data name="ProjectFailedClosed" xml:space="preserve">
+    <value>Failed to close project</value>
+  </data>
+  <data name="Projects" xml:space="preserve">
+    <value>Projects</value>
+  </data>
+  <data name="Projects.AddToYourWorkspace" xml:space="preserve">
+    <value>Add project to your workspace</value>
+  </data>
+  <data name="Projects.Available" xml:space="preserve">
+    <value>Available projects</value>
+  </data>
+  <data name="Projects.AvailableHeader" xml:space="preserve">
+    <value>Select the projects to be add</value>
+  </data>
+  <data name="Projects.BackgroundColor" xml:space="preserve">
+    <value>Background color</value>
+  </data>
+  <data name="Projects.ChangeProjectProperties" xml:space="preserve">
+    <value>Change project properties :  </value>
+  </data>
+  <data name="Projects.Create" xml:space="preserve">
+    <value>Create a project</value>
+  </data>
+  <data name="Projects.CreateLoad" xml:space="preserve">
+    <value>Loading...</value>
+  </data>
+  <data name="Projects.DeletionProject" xml:space="preserve">
+    <value>Deletion of project :</value>
+  </data>
+  <data name="Detail" xml:space="preserve">
+    <value>Detail</value>
+  </data>
+  <data name="Projects.EnterProjectName" xml:space="preserve">
+    <value>Enter project name...</value>
+  </data>
+  <data name="Projects.FailureAddProject" xml:space="preserve">
+    <value>Failure to add project</value>
+  </data>
+  <data name="Projects.FailureDeleteProject" xml:space="preserve">
+    <value>Failure to delete project</value>
+  </data>
+  <data name="Projects.ForegroundColor" xml:space="preserve">
+    <value>Foreground  Color </value>
+  </data>
+  <data name="Projects.Functionality.AddToYourWorkspace" xml:space="preserve">
+    <value>Add functionality to project</value>
+  </data>
+  <data name="projects.functionality.available" xml:space="preserve">
+    <value>Available functionalities</value>
+  </data>
+  <data name="Projects.Functionality.NotFound" xml:space="preserve">
+    <value>No feature found.</value>
+  </data>
+  <data name="Projects.Functionality.Project" xml:space="preserve">
+    <value>Project</value>
+  </data>
+  <data name="Projects.HideProject" xml:space="preserve">
+    <value>Hide project :</value>
+  </data>
+  <data name="Projects.NotFound" xml:space="preserve">
+    <value>No project found.</value>
+  </data>
+  <data name="Projects.ProjectFailureCreated" xml:space="preserve">
+    <value>Failed to create project</value>
+  </data>
+  <data name="Projects.ProjectSuccessfullyAdded" xml:space="preserve">
+    <value>Project successfully added</value>
+  </data>
+  <data name="Projects.ProjectSuccessfullyDeleted" xml:space="preserve">
+    <value>Project successfully deleted</value>
+  </data>
+  <data name="Projects.ProjectSuccessfullyHidden" xml:space="preserve">
+    <value>Project successfully hidden </value>
+  </data>
+  <data name="Projects.RenameProject" xml:space="preserve">
+    <value>Rename the project :  </value>
+  </data>
+  <data name="Projects.RenameSuccessfully" xml:space="preserve">
+    <value>Project rename successfully</value>
+  </data>
+  <data name="Projects.SuccessfullyExported" xml:space="preserve">
+    <value>Project successfully exported</value>
+  </data>
+  <data name="Projects.ExportFileIssue" xml:space="preserve">
+    <value>Error occurred while transmitting file content</value>
+  </data>
+  <data name="export.archiveName.required" xml:space="preserve">
+    <value>Archive name is required</value>
+  </data>
+  <data name="Projects.UnknownErrorFailedExport" xml:space="preserve">
+    <value>Unknown error happen while export</value>
+  </data>
+  <data name="Projects.WantHideProject" xml:space="preserve">
+    <value>Do you want to hide this project?</value>
+  </data>
+  <data name="Projects.WantRemoveProject" xml:space="preserve">
+    <value>Do you want to remove this project?</value>
+  </data>
+  <data name="Projects.Workspace" xml:space="preserve">
+    <value>Project workspace</value>
+  </data>
+  <data name="ProjectSuccessfullyClosed" xml:space="preserve">
+    <value>Project closed successfully</value>
+  </data>
+  <data name="ProjectSuccessfullyCreated" xml:space="preserve">
+    <value>Project successfully created</value>
+  </data>
+  <data name="Properties" xml:space="preserve">
+    <value>Properties</value>
+  </data>
+  <data name="reconciliation" xml:space="preserve">
+    <value>Reconciliation</value>
+  </data>
+  <data name="Rename" xml:space="preserve">
+    <value>Rename</value>
+  </data>
+  <data name="Report" xml:space="preserve">
+    <value>Report</value>
+  </data>
+  <data name="reporting" xml:space="preserve">
+    <value>Reporting</value>
+  </data>
+  <data name="Review" xml:space="preserve">
+    <value>Review</value>
+  </data>
+  <data name="Run.Automatic.Reconciliations" xml:space="preserve">
+    <value>Run automatic reconciliations</value>
+  </data>
+  <data name="Run.Files.Loader" xml:space="preserve">
+    <value>Run file loader</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="Scheduled.Alarms" xml:space="preserve">
+    <value>Scheduled alarms</value>
+  </data>
+  <data name="Scheduled.Auto.Recos" xml:space="preserve">
+    <value>Scheduled auto recos</value>
+  </data>
+  <data name="billing.model.scheduler" xml:space="preserve">
+    <value>Scheduled billing models</value>
+  </data>
+  <data name="Scheduling" xml:space="preserve">
+    <value>Scheduling</value>
+  </data>
+  <data name="settings" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="Settlement.Evolution" xml:space="preserve">
+    <value>Settlement Evolution</value>
+  </data>
+  <data name="sourcing" xml:space="preserve">
+    <value>Sourcing</value>
+  </data>
+  <data name="TransformationData" xml:space="preserve">
+    <value>Transformation </value>
+  </data>
+  <data name="TransformationData.CombinedTransformationTree" xml:space="preserve">
+    <value>Combined transformation tree</value>
+  </data>
+  <data name="TransformationData.ListCombinedTransformationTrees" xml:space="preserve">
+    <value>List combined transformation trees</value>
+  </data>
+  <data name="TransformationData.ListTransformationTrees" xml:space="preserve">
+    <value>List transformation trees</value>
+  </data>
+  <data name="TransformationData.NewCombinedTransformationTree" xml:space="preserve">
+    <value>New combined transformation tree</value>
+  </data>
+  <data name="TransformationData.NewTransformationTree" xml:space="preserve">
+    <value>New transformation tree</value>
+  </data>
+  <data name="TransformationData.ScheduledTransformationTrees" xml:space="preserve">
+    <value>Scheduled transformation trees</value>
+  </data>
+  <data name="TransformationData.TransformationTree" xml:space="preserve">
+    <value>Transformation tree</value>
+  </data>
+  <data name="Users" xml:space="preserve">
+    <value>Users</value>
+  </data>
+  <data name="View" xml:space="preserve">
+    <value>View</value>
+  </data>
+  <data name="item.delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="target.period" xml:space="preserve">
+    <value>Period</value>
+  </data>
+  <data name="Grid.configuration" xml:space="preserve">
+    <value>Configuration</value>
+  </data>
+  <data name="target.entities" xml:space="preserve">
+    <value>Entities</value>
+  </data>
+  <data name="target.grid.columns" xml:space="preserve">
+    <value>Grid columns</value>
+  </data>
+  <data name="Gridcolumn.column" xml:space="preserve">
+    <value>Column</value>
+  </data>
+  <data name="category" xml:space="preserve">
+    <value>Category</value>
+  </data>
+  <data name="Gridcolumn.shape.color" xml:space="preserve">
+    <value>Shape color</value>
+  </data>
+  <data name="Gridcolumn.text.color" xml:space="preserve">
+    <value>Text color</value>
+  </data>
+  <data name="Gridcolumn.fixed.style" xml:space="preserve">
+    <value>Fixed style</value>
+  </data>
+  <data name="Gridcolumn.show.column" xml:space="preserve">
+    <value>Show column</value>
+  </data>
+  <data name="Gridcolumn.mandatory" xml:space="preserve">
+    <value>Mandatory</value>
+  </data>
+  <data name="Gridcolumn.editable" xml:space="preserve">
+    <value>Editable</value>
+  </data>
+  <data name="Gridcolumn.show.existing.value" xml:space="preserve">
+    <value>Show existing values</value>
+  </data>
+  <data name="MEASURE" xml:space="preserve">
+    <value>Measure</value>
+  </data>
+  <data name="PERIOD" xml:space="preserve">
+    <value>Period</value>
+  </data>
+  <data name="Grid.user.filter" xml:space="preserve">
+    <value>User filter</value>
+  </data>
+  <data name="Grid.admin.filter" xml:space="preserve">
+    <value>Admin filter</value>
+  </data>
+  <data name="initiation" xml:space="preserve">
+    <value>Initiation</value>
+  </data>
+  <data name="grid.VisibleInShortcut" xml:space="preserve">
+    <value>Visible in shortcut</value>
+  </data>
+  <data name="grid.creationDateTime" xml:space="preserve">
+    <value>Creation date</value>
+  </data>
+  <data name="Grid.edit.column" xml:space="preserve">
+    <value>Column</value>
+  </data>
+  <data name="Grid.edit.value" xml:space="preserve">
+    <value>Value</value>
+  </data>
+  <data name="Grid.edit.column.properties" xml:space="preserve">
+    <value>Properties</value>
+  </data>
+  <data name="Gridcolumn.Dimension" xml:space="preserve">
+    <value>Dimension</value>
+  </data>
+  <data name="AppState.lived" xml:space="preserve">
+    <value>Warning: Leaving this page will result in any unsaved data being lost. Are you sure you wish to continue?</value>
+  </data>
+  <data name="DynamicForm.Select" xml:space="preserve">
+    <value>Select the input grid that will collect the data from the form</value>
+  </data>
+  <data name="DynamicForm.Fields" xml:space="preserve">
+    <value>Fields</value>
+  </data>
+  <data name="Gridcolumn.default.value" xml:space="preserve">
+    <value>Field value per default</value>
+  </data>
+  <data name="Gridcolumn.apply.empty.cell" xml:space="preserve">
+    <value>Apply only if cell is empty</value>
+  </data>
+  <data name="Gridcolumn.apply.future.new.or.modifiy" xml:space="preserve">
+    <value>Apply to future new and modified line</value>
+  </data>
+  <data name="Gridcolumn.apply.button" xml:space="preserve">
+    <value>Apply</value>
+  </data>
+  <data name="Gridcolumn.default.reste" xml:space="preserve">
+    <value>Reset</value>
+  </data>
+  <data name="Gridcolumn.columns" xml:space="preserve">
+    <value>Columns</value>
+  </data>
+  <data name="Grid.edit.columns" xml:space="preserve">
+    <value>Columns</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="Show.Filter.Row" xml:space="preserve">
+    <value>Show Filter Row</value>
+  </data>
+  <data name="Column.Chooser" xml:space="preserve">
+    <value>Column Chooser</value>
+  </data>
+  <data name="EDIT.FORM" xml:space="preserve">
+    <value>Edit form</value>
+  </data>
+  <data name="EDIT.FORM.GRID" xml:space="preserve">
+    <value>Edit grid</value>
+  </data>
+  <data name="credit.note" xml:space="preserve">
+    <value>Credit note</value>
+  </data>
+  <data name="CreditNoteAmount" xml:space="preserve">
+    <value>Credit note amount</value>
+  </data>
+  <data name="From" xml:space="preserve">
+    <value>From</value>
+  </data>
+  <data name="From_" xml:space="preserve">
+    <value>From</value>
+  </data>
+  <data name="Invoice" xml:space="preserve">
+    <value>Invoice</value>
+  </data>
+  <data name="InvoiceAmount" xml:space="preserve">
+    <value>Invoice amount</value>
+  </data>
+  <data name="Mode" xml:space="preserve">
+    <value>Mode</value>
+  </data>
+  <data name="NumberAbbreviation" xml:space="preserve">
+    <value>Nº</value>
+  </data>
+  <data name="RunDate" xml:space="preserve">
+    <value>Run date</value>
+  </data>
+  <data name="Status" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="To" xml:space="preserve">
+    <value>To</value>
+  </data>
+  <data name="To_" xml:space="preserve">
+    <value>To</value>
+  </data>
+  <data name="User" xml:space="preserve">
+    <value>User</value>
+  </data>
+  <data name="FileSeparator" xml:space="preserve">
+    <value>File separator</value>
+  </data>
+  <data name="PageLoader.Active" xml:space="preserve">
+    <value>Active</value>
+  </data>
+  <data name="PageLoader.Del" xml:space="preserve">
+    <value>Del</value>
+  </data>
+  <data name="PageLoader.FileExtension" xml:space="preserve">
+    <value>File extension</value>
+  </data>
+  <data name="PageLoader.Configuration" xml:space="preserve">
+    <value>Configuration</value>
+  </data>
+  <data name="PageLoader.FileNameConditions" xml:space="preserve">
+    <value>File name conditions</value>
+  </data>
+  <data name="PageLoader.FileSeparator" xml:space="preserve">
+    <value>File separator</value>
+  </data>
+  <data name="PageLoader.Filter" xml:space="preserve">
+    <value>Filter...</value>
+  </data>
+  <data name="PageLoader.FolderWhereFilesArePostedOnServerSide" xml:space="preserve">
+    <value>Folder where files are posted on server side</value>
+  </data>
+  <data name="PageLoader.Group" xml:space="preserve">
+    <value>Group</value>
+  </data>
+  <data name="PageLoader.HasHeader" xml:space="preserve">
+    <value>Has header</value>
+  </data>
+  <data name="PageLoader.MaxBackup" xml:space="preserve">
+    <value>Max backup</value>
+  </data>
+  <data name="PageLoader.MaxBackupCount" xml:space="preserve">
+    <value>Max backup count</value>
+  </data>
+  <data name="PageLoader.New" xml:space="preserve">
+    <value>New</value>
+  </data>
+  <data name="PageLoader.NoBackup" xml:space="preserve">
+    <value>No backup</value>
+  </data>
+  <data name="PageLoader.Path" xml:space="preserve">
+    <value>Path</value>
+  </data>
+  <data name="PageLoader.Properties" xml:space="preserve">
+    <value>Properties</value>
+  </data>
+  <data name="PageLoader.Repository" xml:space="preserve">
+    <value>Repository where files are posted</value>
+  </data>
+  <data name="PageLoader.SchedulerOption" xml:space="preserve">
+    <value>Scheduler option</value>
+  </data>
+  <data name="repository" xml:space="preserve">
+    <value>Repository</value>
+  </data>
+  <data name="New.billing.temp" xml:space="preserve">
+    <value>New billing template</value>
+  </data>
+  <data name="system.template" xml:space="preserve">
+    <value>System Template</value>
+  </data>
+  <data name="PageLoader.SchedulerOptionNullText" xml:space="preserve">
+    <value>Scheduler option</value>
+  </data>
+  <data name="PageLoader.UploadMethod" xml:space="preserve">
+    <value>Upload method</value>
+  </data>
+  <data name="PageLoader.VisibleInShortcut" xml:space="preserve">
+    <value>Visible in shortcut</value>
+  </data>
+  <data name="AmountWithoutVat" xml:space="preserve">
+    <value>Amount without VAT</value>
+  </data>
+  <data name="ClientName" xml:space="preserve">
+    <value>Client name</value>
+  </data>
+  <data name="ClientNumero" xml:space="preserve">
+    <value>Client number</value>
+  </data>
+  <data name="InvoiceDate" xml:space="preserve">
+    <value>Invoice date</value>
+  </data>
+  <data name="ManuallyModified" xml:space="preserve">
+    <value>Manually modified</value>
+  </data>
+  <data name="Pdf" xml:space="preserve">
+    <value>Pdf</value>
+  </data>
+  <data name="Reference" xml:space="preserve">
+    <value>Reference</value>
+  </data>
+  <data name="Run" xml:space="preserve">
+    <value>Run</value>
+  </data>
+  <data name="TotalAmount" xml:space="preserve">
+    <value>Total amount</value>
+  </data>
+  <data name="BillingType" xml:space="preserve">
+    <value>Billing type</value>
+  </data>
+  <data name="Creation" xml:space="preserve">
+    <value>Creation</value>
+  </data>
+  <data name="End" xml:space="preserve">
+    <value>End</value>
+  </data>
+  <data name="LastModification" xml:space="preserve">
+    <value>Last modification</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="Group.add.title" xml:space="preserve">
+    <value>Add Group</value>
+  </data>
+  <data name="saving" xml:space="preserve">
+    <value>Being processed</value>
+  </data>
+  <data name="ATTRIBUTE" xml:space="preserve">
+    <value>Attribute</value>
+  </data>
+  <data name="AttributeValue" xml:space="preserve">
+    <value>Attribute Value</value>
+  </data>
+  <data name="AutoManualRecoAttribute" xml:space="preserve">
+    <value>Auto\Manual reco attribute</value>
+  </data>
+  <data name="AutoRecoValue" xml:space="preserve">
+    <value>Automatic reco value</value>
+  </data>
+  <data name="CreditValue" xml:space="preserve">
+    <value>Credit Value</value>
+  </data>
+  <data name="DebitCreditAttribute" xml:space="preserve">
+    <value>Debit\Credit Attribute</value>
+  </data>
+  <data name="DebitValue" xml:space="preserve">
+    <value>Debit Value</value>
+  </data>
+  <data name="DefaultModel" xml:space="preserve">
+    <value>Default Model</value>
+  </data>
+  <data name="LoadedFilenameAttribute" xml:space="preserve">
+    <value>Loaded file name Attribute</value>
+  </data>
+  <data name="LoadNbrAttribute" xml:space="preserve">
+    <value>Load nbr attribute</value>
+  </data>
+  <data name="ManualRecoValue" xml:space="preserve">
+    <value>Manual reco value</value>
+  </data>
+  <data name="MODEL" xml:space="preserve">
+    <value>Model</value>
+  </data>
+  <data name="Object" xml:space="preserve">
+    <value>Object</value>
+  </data>
+  <data name="Partners" xml:space="preserve">
+    <value>Partners</value>
+  </data>
+  <data name="RecoTypeBlock" xml:space="preserve">
+    <value>Reco type block</value>
+  </data>
+  <data name="Roles" xml:space="preserve">
+    <value>Roles</value>
+  </data>
+  <data name="Twodots" xml:space="preserve">
+    <value>:</value>
+  </data>
+  <data name="UserAttribute" xml:space="preserve">
+    <value>User Attribute</value>
+  </data>
+  <data name="Move.up" xml:space="preserve">
+    <value>Move up</value>
+  </data>
+  <data name="Move.down" xml:space="preserve">
+    <value>Move down</value>
+  </data>
+  <data name="Move.up.upper" xml:space="preserve">
+    <value>Move up of 5</value>
+  </data>
+  <data name="Move.down.upper" xml:space="preserve">
+    <value>Move down of 5</value>
+  </data>
+  <data name="remove" xml:space="preserve">
+    <value>Remove</value>
+  </data>
+  <data name="Move.start" xml:space="preserve">
+    <value>Move to begin</value>
+  </data>
+  <data name="Move.end" xml:space="preserve">
+    <value>Move to end</value>
+  </data>
+  <data name="select.file.to.Import" xml:space="preserve">
+    <value>Select file to import</value>
+  </data>
+  <data name="Max.allowed.file" xml:space="preserve">
+    <value>Max allowed files</value>
+  </data>
+  <data name="Max.file.size" xml:space="preserve">
+    <value>Max file size</value>
+  </data>
+  <data name="Upload.file.loader.message" xml:space="preserve">
+    <value>Upload up to {0} Mb</value>
+  </data>
+  <data name="Upload.file.name" xml:space="preserve">
+    <value>File name</value>
+  </data>
+  <data name="Upload.file.last.modified" xml:space="preserve">
+    <value>Last modified</value>
+  </data>
+  <data name="Upload.file.size" xml:space="preserve">
+    <value>Size (bytes)</value>
+  </data>
+  <data name="SAME_DAY" xml:space="preserve">
+    <value>Same day</value>
+  </data>
+  <data name="SAME_WEEK" xml:space="preserve">
+    <value>Same week</value>
+  </data>
+  <data name="SAME_MONTH" xml:space="preserve">
+    <value>Same month</value>
+  </data>
+  <data name="SAME_YEAR" xml:space="preserve">
+    <value>Same year</value>
+  </data>
+  <data name="SelectOperator" xml:space="preserve">
+    <value>Select the operator</value>
+  </data>
+  <data name="ExcludeNullValue" xml:space="preserve">
+    <value>Exclude null value</value>
+  </data>
+  <data name="Upload.file.type" xml:space="preserve">
+    <value>Content type</value>
+  </data>
+  <data name="import.file" xml:space="preserve">
+    <value>File</value>
+  </data>
+  <data name="import.operation" xml:space="preserve">
+    <value>Operation</value>
+  </data>
+  <data name="ImportProjectData.newProjectName" xml:space="preserve">
+    <value>New name</value>
+  </data>
+  <data name="ImportProjectData.renameProjectToImport" xml:space="preserve">
+    <value>Rename project to import</value>
+  </data>
+  <data name="ImportProjectData.renameExistingProject" xml:space="preserve">
+    <value>Rename existing project</value>
+  </data>
+  <data name="ImportProjectData.overwriteExistingProject" xml:space="preserve">
+    <value>Overwrite existing project</value>
+  </data>
+  <data name="Billing.Template.SuccessfullyAdd" xml:space="preserve">
+    <value>Billing template added</value>
+  </data>
+  <data name="import.project.successfuly" xml:space="preserve">
+    <value>Import of project {0} successfuly ended</value>
+  </data>
+  <data name="List.Pivot.Table" xml:space="preserve">
+    <value>List pivot tables</value>
+  </data>
+  <data name="New.Pivot.Table" xml:space="preserve">
+    <value>New pivot table</value>
+  </data>
+  <data name="DashboardReportProperties" xml:space="preserve">
+    <value>Dashboard report properties</value>
+  </data>
+  <data name="Data" xml:space="preserve">
+    <value>Data</value>
+  </data>
+  <data name="Default" xml:space="preserve">
+    <value>Default</value>
+  </data>
+  <data name="Design" xml:space="preserve">
+    <value>Design</value>
+  </data>
+  <data name="IsSchedulerActive" xml:space="preserve">
+    <value>Is scheduler active?</value>
+  </data>
+  <data name="Layout" xml:space="preserve">
+    <value>Layout</value>
+  </data>
+  <data name="RefreshFrequency" xml:space="preserve">
+    <value>Refresh frequency</value>
+  </data>
+  <data name="Scheduler.Title" xml:space="preserve">
+    <value>Refresh Scheduler</value>
+  </data>
+  <data name="VisibleInBrowser" xml:space="preserve">
+    <value>Visible in browser</value>
+  </data>
+  <data name="Panels" xml:space="preserve">
+    <value>Panels</value>
+  </data>
+  <data name="Panel" xml:space="preserve">
+    <value>Panel</value>
+  </data>
+  <data name="AlarmProperties" xml:space="preserve">
+    <value>Alarm Properties</value>
+  </data>
+  <data name="Audience" xml:space="preserve">
+    <value>Audience</value>
+  </data>
+  <data name="Filter" xml:space="preserve">
+    <value>Filter</value>
+  </data>
+  <data name="Logs" xml:space="preserve">
+    <value>Logs</value>
+  </data>
+  <data name="Messages" xml:space="preserve">
+    <value>Messages</value>
+  </data>
+  <data name="ChatMessage" xml:space="preserve">
+    <value>Chat message</value>
+  </data>
+  <data name="MailTitle" xml:space="preserve">
+    <value>Mail title</value>
+  </data>
+  <data name="SendChat" xml:space="preserve">
+    <value>Send chat</value>
+  </data>
+  <data name="SendMail" xml:space="preserve">
+    <value>Send mail</value>
+  </data>
+  <data name="SendSms" xml:space="preserve">
+    <value>Send sms</value>
+  </data>
+  <data name="SmsMessage" xml:space="preserve">
+    <value>Sms message</value>
+  </data>
+  <data name="MailMessage" xml:space="preserve">
+    <value>Mail message</value>
+  </data>
+  <data name="Audiences" xml:space="preserve">
+    <value>Audiences</value>
+  </data>
+  <data name="Profils" xml:space="preserve">
+    <value>Profiles</value>
+  </data>
+  <data name="scheduling.option" xml:space="preserve">
+    <value>Scheduling option</value>
+  </data>
+  <data name="billing.model.form.appendice" xml:space="preserve">
+    <value>Add appendices with billing event details</value>
+  </data>
+  <data name="appendices" xml:space="preserve">
+    <value>Appendices</value>
+  </data>
+  <data name="billing.model.form.enrich" xml:space="preserve">
+    <value>Enrich infos with the following values</value>
+  </data>
+  <data name="parameters" xml:space="preserve">
+    <value>Parameters</value>
+  </data>
+  <data name="unit.cost.driver" xml:space="preserve">
+    <value>Unit cost and driver</value>
+  </data>
+  <data name="Reconciliation.Configuration.SuccessfullyAdd" xml:space="preserve">
+    <value>Configuration successfully added</value>
+  </data>
+  <data name="reconciliation.ExecutionOption" xml:space="preserve">
+    <value>Execution Options </value>
+  </data>
+  <data name="Files.Loader.Logs" xml:space="preserve">
+    <value>Files loader logs</value>
+  </data>
+  <data name="Loader" xml:space="preserve">
+    <value>Loader</value>
+  </data>
+  <data name="Method" xml:space="preserve">
+    <value>Method</value>
+  </data>
+  <data name="billing.model.form.cost.exclvalues" xml:space="preserve">
+    <value>Exclude values for the following groups</value>
+  </data>
+  <data name="billing.model.form.cost.inclunit" xml:space="preserve">
+    <value>Include unit cost and driver</value>
+  </data>
+  <data name="billing.model.form.cost.usebillamount" xml:space="preserve">
+    <value>Use unit cost to calculate billing amount</value>
+  </data>
+  <data name="billing.model.form.desc.addstruct" xml:space="preserve">
+    <value>Add a structured payment instruct</value>
+  </data>
+  <data name="billing.model.form.desc.billtemp" xml:space="preserve">
+    <value>Bill template</value>
+  </data>
+  <data name="billing.model.form.desc.currency" xml:space="preserve">
+    <value>Currency</value>
+  </data>
+  <data name="billing.model.form.desc.duedate" xml:space="preserve">
+    <value>Due date calculation</value>
+  </data>
+  <data name="billing.model.form.desc.invoicedate" xml:space="preserve">
+    <value>Invoice date calculation</value>
+  </data>
+  <data name="billing.model.form.desc.incevent" xml:space="preserve">
+    <value>Include events with amount = 0</value>
+  </data>
+  <data name="billing.model.form.desc.invoice" xml:space="preserve">
+    <value>Invoice separately per selected period</value>
+  </data>
+  <data name="billing.model.form.desc.orderitem" xml:space="preserve">
+    <value>Order items</value>
+  </data>
+  <data name="billing.model.form.desc.selall" xml:space="preserve">
+    <value>Select all</value>
+  </data>
+  <data name="billing.model.form.desc.selevent" xml:space="preserve">
+    <value>Select billing event types</value>
+  </data>
+  <data name="billing.model.form.desc.seleventinvoice" xml:space="preserve">
+    <value>Invoice</value>
+  </data>
+  <data name="billing.model.form.desc.selgrouping" xml:space="preserve">
+    <value>Select grouping items</value>
+  </data>
+  <data name="billing.model.form.desc.selinvoice" xml:space="preserve">
+    <value>Select invoice pivot</value>
+  </data>
+  <data name="billing.model.form.desc.selper" xml:space="preserve">
+    <value>Select period at runtime</value>
+  </data>
+  <data name="billing.model.form.desc.usevat" xml:space="preserve">
+    <value>Use VAT</value>
+  </data>
+  <data name="select.type" xml:space="preserve">
+    <value>Select a type</value>
+  </data>
+  <data name="billing.model.form.param.attr" xml:space="preserve">
+    <value>Attribute</value>
+  </data>
+  <data name="auto.add.billing.filter" xml:space="preserve">
+    <value>Automatically add billing filters</value>
+  </data>
+  <data name="billing.parameter" xml:space="preserve">
+    <value>Billing parameter</value>
+  </data>
+  <data name="enter.parameter.name" xml:space="preserve">
+    <value>Enter the parameter name</value>
+  </data>
+  <data name="billing.model.form.param.period" xml:space="preserve">
+    <value>Period</value>
+  </data>
+  <data name="Dimensions" xml:space="preserve">
+    <value>Dimensions</value>
+  </data>
+  <data name="grid.dimensions" xml:space="preserve">
+    <value>Grid dimensions</value>
+  </data>
+  <data name="SelectedDimensions" xml:space="preserve">
+    <value>Selected dimensions</value>
+  </data>
+  <data name="Reconciliation.Action" xml:space="preserve">
+    <value>Action</value>
+  </data>
+  <data name="Reconciliation.RecoN" xml:space="preserve">
+    <value>Reco N</value>
+  </data>
+  <data name="Reconciliation.LeftAmount" xml:space="preserve">
+    <value>Left amount</value>
+  </data>
+  <data name="Reconciliation.RightAmount" xml:space="preserve">
+    <value>Right amount</value>
+  </data>
+  <data name="Reconciliation.BalanceAmount" xml:space="preserve">
+    <value>Balance amount</value>
+  </data>
+  <data name="Reconciliation.DeltaAmount" xml:space="preserve">
+    <value>Delta amount</value>
+  </data>
+  <data name="EnterValue" xml:space="preserve">
+    <value>Enter a value</value>
+  </data>
+  <data name="CreateAutomatically" xml:space="preserve">
+    <value>Create automatically</value>
+  </data>
+  <data name="ENTITY" xml:space="preserve">
+    <value>Entity</value>
+  </data>
+  <data name="LoadNbrGenerator" xml:space="preserve">
+    <value>Load nbr generator</value>
+  </data>
+  <data name="Sequence_" xml:space="preserve">
+    <value>Sequence</value>
+  </data>
+  <data name="BillingCompanyId" xml:space="preserve">
+    <value>Billing company Id</value>
+  </data>
+  <data name="BillingCompanyName" xml:space="preserve">
+    <value>Billing company name</value>
+  </data>
+  <data name="ClientContact" xml:space="preserve">
+    <value>Client contact</value>
+  </data>
+  <data name="DepartmentName" xml:space="preserve">
+    <value>Department name</value>
+  </data>
+  <data name="DepartmentNumber" xml:space="preserve">
+    <value>Department number</value>
+  </data>
+  <data name="Reconciliation.Left" xml:space="preserve">
+    <value>Left</value>
+  </data>
+  <data name="Reconciliation.Right" xml:space="preserve">
+    <value>Right</value>
+  </data>
+  <data name="Reconciliation.Configuration" xml:space="preserve">
+    <value>Configuration</value>
+  </data>
+  <data name="Reconciliation.RecoType" xml:space="preserve">
+    <value>Reco type </value>
+  </data>
+  <data name="Reconciliation.RecoAmount" xml:space="preserve">
+    <value>Reco amount</value>
+  </data>
+  <data name="Reconciliation.LeftMeasure" xml:space="preserve">
+    <value>Left measure</value>
+  </data>
+  <data name="Reconciliation.UseDc" xml:space="preserve">
+    <value>Use D/C ?</value>
+  </data>
+  <data name="Reconciliation.DebitLines" xml:space="preserve">
+    <value>Debit lines in red ? </value>
+  </data>
+  <data name="Reconciliation.Enrichment" xml:space="preserve">
+    <value>Enrichment</value>
+  </data>
+  <data name="Reconciliation.EnrichValue" xml:space="preserve">
+    <value>Enrich value when reconciling</value>
+  </data>
+  <data name="Reconciliation.RecoDate" xml:space="preserve">
+    <value>Reco date</value>
+  </data>
+  <data name="Reconciliation.AutomaticManual" xml:space="preserve">
+    <value>Automatic/Manual</value>
+  </data>
+  <data name="Reconciliation.Customized" xml:space="preserve">
+    <value>Customized</value>
+  </data>
+  <data name="Reconciliation.WriteOff" xml:space="preserve">
+    <value>Write off</value>
+  </data>
+  <data name="Reconciliation.LeftConfiguration" xml:space="preserve">
+    <value>Left configuration</value>
+  </data>
+  <data name="Reconciliation.RightConfiguration" xml:space="preserve">
+    <value>Right configuration</value>
+  </data>
+  <data name="Reconciliation.BottomConfiguration" xml:space="preserve">
+    <value>Bottom configuration</value>
+  </data>
+  <data name="Reconciliation.Logs" xml:space="preserve">
+    <value>Logs</value>
+  </data>
+  <data name="BillingTemplate.SelectedItem" xml:space="preserve">
+    <value>Selected item :</value>
+  </data>
+  <data name="billing.model.form.cost.saisi" xml:space="preserve">
+    <value>Enter a new value ...</value>
+  </data>
+  <data name="billing.model.successfullyAdded" xml:space="preserve">
+    <value>The billing model has been successfully added</value>
+  </data>
+  <data name="HttpServiceUnavailable" xml:space="preserve">
+    <value>Service unavailable</value>
+  </data>
+  <data name="HttpServiceRequestTimeout" xml:space="preserve">
+    <value>Request time out</value>
+  </data>
+  <data name="enrich.value.of" xml:space="preserve">
+    <value>Enrich value of</value>
+  </data>
+  <data name="reconciliation.filter" xml:space="preserve">
+    <value>Reconciliation filter</value>
+  </data>
+  <data name="Reconciliation.RightMeasure" xml:space="preserve">
+    <value>Right measure</value>
+  </data>
+  <data name="billing.model.form.scheduling" xml:space="preserve">
+    <value>Scheduling</value>
+  </data>
+  <data name="ClientId" xml:space="preserve">
+    <value>Client Id</value>
+  </data>
+  <data name="CommunicationMessage" xml:space="preserve">
+    <value>Communication message</value>
+  </data>
+  <data name="CreditNoteNbrGen" xml:space="preserve">
+    <value>Credit note nbr generator</value>
+  </data>
+  <data name="CreditNoteNumber" xml:space="preserve">
+    <value>Credit note number</value>
+  </data>
+  <data name="DefaultLanguage" xml:space="preserve">
+    <value>Default language</value>
+  </data>
+  <data name="DefaultTemplate" xml:space="preserve">
+    <value>Default template</value>
+  </data>
+  <data name="DraftValue" xml:space="preserve">
+    <value>Draft value</value>
+  </data>
+  <data name="DueDate" xml:space="preserve">
+    <value>Due date</value>
+  </data>
+  <data name="DueDateCalculation" xml:space="preserve">
+    <value>Due date calculation</value>
+  </data>
+  <data name="InvoicedAmountExcelVat" xml:space="preserve">
+    <value>Invoiced amount Excel VAT</value>
+  </data>
+  <data name="InvoicedAmountInclVat" xml:space="preserve">
+    <value>Invoiced amount incl. VAT</value>
+  </data>
+  <data name="InvoicedVatAmount" xml:space="preserve">
+    <value>Invoiced VAT amount</value>
+  </data>
+  <data name="InvoiceNbrGenerator" xml:space="preserve">
+    <value>Invoice nbr generator</value>
+  </data>
+  <data name="InvoiceNumber" xml:space="preserve">
+    <value>Invoice number</value>
+  </data>
+  <data name="LegalForm" xml:space="preserve">
+    <value>Legal form </value>
+  </data>
+  <data name="NotYetSentValue" xml:space="preserve">
+    <value>Not yet sent value</value>
+  </data>
+  <data name="PostalCode" xml:space="preserve">
+    <value>Postal code</value>
+  </data>
+  <data name="SendingStatus" xml:space="preserve">
+    <value>Sending status</value>
+  </data>
+  <data name="SentValue" xml:space="preserve">
+    <value>Sent value</value>
+  </data>
+  <data name="StreetNumberBox" xml:space="preserve">
+    <value>Street, number and box </value>
+  </data>
+  <data name="SubInvoiceNumber" xml:space="preserve">
+    <value>Sub invoice number</value>
+  </data>
+  <data name="ToCheckValue" xml:space="preserve">
+    <value>To check value</value>
+  </data>
+  <data name="ValidatedValue" xml:space="preserve">
+    <value>Validated Value</value>
+  </data>
+  <data name="VatNumber" xml:space="preserve">
+    <value>Vat number</value>
+  </data>
+  <data name="import.project.failure" xml:space="preserve">
+    <value>Import operation failed</value>
+  </data>
+  <data name="confirm.project.replace" xml:space="preserve">
+    <value>Confirm project replace</value>
+  </data>
+  <data name="project.import.name.issue" xml:space="preserve">
+    <value>There is already a project with the same name. Select the action you want to execute.</value>
+  </data>
+  <data name="project.import.valid.name.issue" xml:space="preserve">
+    <value>The name you typed cannot be used, please enter another one</value>
+  </data>
+  <data name="project.import.valid.name.empty" xml:space="preserve">
+    <value>Please enter a name to continue importing the project</value>
+  </data>
+  <data name="BillTemplate" xml:space="preserve">
+    <value>Bill Template</value>
+  </data>
+  <data name="AutomaticValue" xml:space="preserve">
+    <value>Automatic value</value>
+  </data>
+  <data name="BilledStatusValue" xml:space="preserve">
+    <value>Billed status value</value>
+  </data>
+  <data name="BillingAmount" xml:space="preserve">
+    <value>Billing amount</value>
+  </data>
+  <data name="BillingDriver" xml:space="preserve">
+    <value>Billing driver</value>
+  </data>
+  <data name="BillingEventDate" xml:space="preserve">
+    <value>Billing event date </value>
+  </data>
+  <data name="BillingRun" xml:space="preserve">
+    <value>Billing run</value>
+  </data>
+  <data name="BillingRunDate" xml:space="preserve">
+    <value>Billing run date</value>
+  </data>
+  <data name="CreationTypeAm" xml:space="preserve">
+    <value>Creation type (A/M)</value>
+  </data>
+  <data name="CreditNoteTypeValue" xml:space="preserve">
+    <value>Credit note type value</value>
+  </data>
+  <data name="DraftStatusValue" xml:space="preserve">
+    <value>Draft status value</value>
+  </data>
+  <data name="FrozenNoteStatusValue" xml:space="preserve">
+    <value>Frozen note status value</value>
+  </data>
+  <data name="InvoiceTypeValue" xml:space="preserve">
+    <value>Invoice type value</value>
+  </data>
+  <data name="ManualValue" xml:space="preserve">
+    <value>Manual value</value>
+  </data>
+  <data name="UnitCost" xml:space="preserve">
+    <value>Unit cost</value>
+  </data>
+  <data name="VatRate" xml:space="preserve">
+    <value>VAT rate</value>
+  </data>
+  <data name="billing.template.mainfile" xml:space="preserve">
+    <value>Main file</value>
+  </data>
+  <data name="billing.model.duplicateName" xml:space="preserve">
+    <value>A billing model already has this name, please enter a different one.</value>
+  </data>
+  <data name="billing.model.successfullyModified" xml:space="preserve">
+    <value>The billing model has been successfully modified</value>
+  </data>
+  <data name="save.SuccessfullyAdd" xml:space="preserve">
+    <value>Successfully saved {0}</value>
+  </data>
+  <data name="ActivateFileLoaderScheduling" xml:space="preserve">
+    <value>Activate file loader scheduling</value>
+  </data>
+  <data name="DesactivateFileLoaderScheduling" xml:space="preserve">
+    <value>Disable file loader schedule</value>
+  </data>
+  <data name="ActivateAutoRecoScheduling" xml:space="preserve">
+    <value>Activate auto reco scheduling</value>
+  </data>
+  <data name="DesactivateAutoRecoScheduling" xml:space="preserve">
+    <value>Disable auto reco scheduling</value>
+  </data>
+  <data name="ActivateLogAutoRecoScheduling" xml:space="preserve">
+    <value>Activate auto reco log scheduling</value>
+  </data>
+  <data name="DesactivateLogAutoRecoScheduling" xml:space="preserve">
+    <value>Disable auto reco log scheduling</value>
+  </data>
+  <data name="CurrentExecutionFirstTime" xml:space="preserve">
+    <value>Current execution first time</value>
+  </data>
+  <data name="CurrentlyExecuting" xml:space="preserve">
+    <value>Currently executing</value>
+  </data>
+  <data name="NextFiretime" xml:space="preserve">
+    <value>Next fire time</value>
+  </data>
+  <data name="PrevFiretime" xml:space="preserve">
+    <value>Previous fire time</value>
+  </data>
+  <data name="CurrentExecutionRunTime" xml:space="preserve">
+    <value>Current Execution RunTime</value>
+  </data>
+  <data name="Scheduled.Files.Loader.Logs" xml:space="preserve">
+    <value>Scheduled files loader logs</value>
+  </data>
+  <data name="billing.model.form.schedul.sched" xml:space="preserve">
+    <value>Scheduled</value>
+  </data>
+  <data name="functionality.createFileLoader" xml:space="preserve">
+    <value>New file loader</value>
+  </data>
+  <data name="functionality.listFileLoaders" xml:space="preserve">
+    <value>List files loaders</value>
+  </data>
+  <data name="Functionality.list.billingListInvoice" xml:space="preserve">
+    <value>List billing invoices</value>
+  </data>
+  <data name="Functionality.list.billingModel" xml:space="preserve">
+    <value>List billing models</value>
+  </data>
+  <data name="Functionality.list.billingRunCreditNote" xml:space="preserve">
+    <value>List billing credit notes</value>
+  </data>
+  <data name="Functionality.list.billingtemplate" xml:space="preserve">
+    <value>List billing templates</value>
+  </data>
+  <data name="Functionality.list.inputgrid" xml:space="preserve">
+    <value>List input grids</value>
+  </data>
+  <data name="Functionality.new.billingModel" xml:space="preserve">
+    <value>New billing model</value>
+  </data>
+  <data name="Functionality.new.reportingChart" xml:space="preserve">
+    <value>New reporting chart</value>
+  </data>
+  <data name="Functionality.new.billingrunoutcome" xml:space="preserve">
+    <value>Show billing run outcome</value>
+  </data>
+  <data name="Functionality.new.billingtemplate" xml:space="preserve">
+    <value>New billing template</value>
+  </data>
+  <data name="Functionality.new.dynamicform" xml:space="preserve">
+    <value>New dynamic form</value>
+  </data>
+  <data name="Functionality.new.inputgrid" xml:space="preserve">
+    <value>New input grid</value>
+  </data>
+  <data name="Functionality.new.reconciliationlog" xml:space="preserve">
+    <value>New reconciliation log</value>
+  </data>
+  <data name="Functionality.list.billingEvent" xml:space="preserve">
+    <value>List billing event repository</value>
+  </data>
+  <data name="Functionality.list.billingRunStatus" xml:space="preserve">
+    <value>List billing run status</value>
+  </data>
+  <data name="Functionality.list.dashboardAlarm" xml:space="preserve">
+    <value>List dashboard alarms</value>
+  </data>
+  <data name="Functionality.list.dashboardAlarmScheduled" xml:space="preserve">
+    <value>List dashboard alarm scheduled</value>
+  </data>
+  <data name="Functionality.list.fileLoaderLog" xml:space="preserve">
+    <value>List file loader logs</value>
+  </data>
+  <data name="Functionality.list.fileLoaderScheduling" xml:space="preserve">
+    <value>List scheduled file loaders</value>
+  </data>
+  <data name="Functionality.list.reconciliationFilter" xml:space="preserve">
+    <value>List reconciliation filters</value>
+  </data>
+  <data name="Functionality.list.reportDashboard" xml:space="preserve">
+    <value>List report dashboard</value>
+  </data>
+  <data name="Functionality.list.reportingChart" xml:space="preserve">
+    <value>List reporting charts</value>
+  </data>
+  <data name="Functionality.list.reportingGrid" xml:space="preserve">
+    <value>List reporting grids</value>
+  </data>
+  <data name="Functionality.list.reportingReport" xml:space="preserve">
+    <value>List reporting reports</value>
+  </data>
+  <data name="Functionality.list.reportPivotTable" xml:space="preserve">
+    <value>List report pivot tables</value>
+  </data>
+  <data name="Functionality.list.reportPublication" xml:space="preserve">
+    <value>List report publications</value>
+  </data>
+  <data name="Functionality.new.dashboardAlarm" xml:space="preserve">
+    <value>New dashboard alarm</value>
+  </data>
+  <data name="Functionality.new.reconciliationFilter" xml:space="preserve">
+    <value>New reconciliation filter</value>
+  </data>
+  <data name="Functionality.new.reportDashboard" xml:space="preserve">
+    <value>New report dashboard</value>
+  </data>
+  <data name="Functionality.new.reportingGrid" xml:space="preserve">
+    <value>New reporting grid</value>
+  </data>
+  <data name="Functionality.new.reportPivotTable" xml:space="preserve">
+    <value>New report pivot table</value>
+  </data>
+  <data name="Functionality.settings.configuration" xml:space="preserve">
+    <value>Open settings configuration</value>
+  </data>
+  <data name="import.FeedBack" xml:space="preserve">
+    <value>Recommended actions</value>
+  </data>
+  <data name="ReImport" xml:space="preserve">
+    <value>Apply &amp; import</value>
+  </data>
+  <data name="reco.auto.duplicateName" xml:space="preserve">
+    <value>A automatic reconciliation already has this name, please type a different one.</value>
+  </data>
+  <data name="reco.auto.recoFilter" xml:space="preserve">
+    <value>Reconciliation filter</value>
+  </data>
+  <data name="reco.auto.recoFilter.availableText" xml:space="preserve">
+    <value>Available attributes and periods</value>
+  </data>
+  <data name="reco.auto.recoFilter.commonText" xml:space="preserve">
+    <value>Common attributes and periods</value>
+  </data>
+  <data name="reco.auto.recoFilterSelect" xml:space="preserve">
+    <value>Select reconciliation filter to automatic rec</value>
+  </data>
+  <data name="reco.auto.recoFilterText" xml:space="preserve">
+    <value>Define required conditions between left and right elements</value>
+  </data>
+  <data name="reco.auto.successfullyAdded" xml:space="preserve">
+    <value>The automatic reconciliation has been successfully added</value>
+  </data>
+  <data name="reco.auto.successfullyUpdated" xml:space="preserve">
+    <value>The automatic reconciliation has been successfully updated</value>
+  </data>
+  <data name="reco.auto.tab1" xml:space="preserve">
+    <value>Filter</value>
+  </data>
+  <data name="maxValue" xml:space="preserve">
+    <value>Max value</value>
+  </data>
+  <data name="minValue" xml:space="preserve">
+    <value>Min value</value>
+  </data>
+  <data name="reco.auto.filter" xml:space="preserve">
+    <value>Filter</value>
+  </data>
+  <data name="reco.auto.recoFilter.recoCond" xml:space="preserve">
+    <value>Reconciliation condition</value>
+  </data>
+  <data name="reco.auto.recoFilter.recoMethod" xml:space="preserve">
+    <value>Reconciliation method</value>
+  </data>
+  <data name="reco.auto.recoFilter.useCombi" xml:space="preserve">
+    <value>Use combinations</value>
+  </data>
+  <data name="reco.auto.recoSchedul.active" xml:space="preserve">
+    <value>Active</value>
+  </data>
+  <data name="edit.cron.expression" xml:space="preserve">
+    <value>Edit cron expression</value>
+  </data>
+  <data name="selectElement" xml:space="preserve">
+    <value>Select an item</value>
+  </data>
+  <data name="HttpError.NotFound" xml:space="preserve">
+    <value>Resource not found</value>
+  </data>
+  <data name="InputGrid" xml:space="preserve">
+    <value>Input Grid</value>
+  </data>
+  <data name="duplicate.grid.column" xml:space="preserve">
+    <value>Cannot duplicate grid column {0}</value>
+  </data>
+  <data name="duplicate.grid.dimension" xml:space="preserve">
+    <value>Cannot duplicate grid dimension {0}</value>
+  </data>
+  <data name="AllowReconciliationDelta" xml:space="preserve">
+    <value>Allow reconciliation delta</value>
+  </data>
+  <data name="FieldToShowForAReconciliationDelta" xml:space="preserve">
+    <value>Field to show for a reconciliation delta</value>
+  </data>
+  <data name="left" xml:space="preserve">
+    <value>Left</value>
+  </data>
+  <data name="CUSTOM" xml:space="preserve">
+    <value>Custom</value>
+  </data>
+  <data name="right" xml:space="preserve">
+    <value>Right</value>
+  </data>
+  <data name="balance" xml:space="preserve">
+    <value>Balance</value>
+  </data>
+  <data name="show.all.row.by.default" xml:space="preserve">
+    <value>Show all rows by default ?</value>
+  </data>
+  <data name="allow.row.counting" xml:space="preserve">
+    <value>Allow row counting ?</value>
+  </data>
+  <data name="using.link" xml:space="preserve">
+    <value>Use links ?</value>
+  </data>
+  <data name="Functionality.list.autoReco" xml:space="preserve">
+    <value>List automatic reconciliations</value>
+  </data>
+  <data name="Functionality.new.autoReco" xml:space="preserve">
+    <value>New automatic reconciliation</value>
+  </data>
+  <data name="all" xml:space="preserve">
+    <value>All</value>
+  </data>
+  <data name="not.reconciled.row.only" xml:space="preserve">
+    <value>Not reconciled row only</value>
+  </data>
+  <data name="New billing event" xml:space="preserve">
+    <value>New billing event</value>
+  </data>
+  <data name="reconciled.row.only" xml:space="preserve">
+    <value>Reconciled row only</value>
+  </data>
+  <data name="show" xml:space="preserve">
+    <value>Show</value>
+  </data>
+  <data name="Side" xml:space="preserve">
+    <value>Side</value>
+  </data>
+  <data name="positive.amount" xml:space="preserve">
+    <value>Positive amount</value>
+  </data>
+  <data name="negative.amount" xml:space="preserve">
+    <value>Negative amount</value>
+  </data>
+  <data name="clear.grid" xml:space="preserve">
+    <value>Clear grid</value>
+  </data>
+  <data name="show.counter.part" xml:space="preserve">
+    <value>Show counterpart</value>
+  </data>
+  <data name="change.position" xml:space="preserve">
+    <value>Change position</value>
+  </data>
+  <data name="With.Following.Value.Of" xml:space="preserve">
+    <value>With following value of</value>
+  </data>
+  <data name="billing.model.form.enrich.errorEventRepo" xml:space="preserve">
+    <value>Cannot display the columns for the repository, please configure the Billing event repo</value>
+  </data>
+  <data name="reco.auto.script" xml:space="preserve">
+    <value>Script</value>
+  </data>
+  <data name="reco.auto.script.execScript" xml:space="preserve">
+    <value>Execute extra script</value>
+  </data>
+  <data name="DeltaMeasure" xml:space="preserve">
+    <value>Delta Measure</value>
+  </data>
+  <data name="reco.auto.recoFilterException" xml:space="preserve">
+    <value>Unable to get the reconciliation filters</value>
+  </data>
+  <data name="Reconciliation.FreezeType" xml:space="preserve">
+    <value>Freeze type</value>
+  </data>
+  <data name="NoteType" xml:space="preserve">
+    <value>Note type</value>
+  </data>
+  <data name="AccountId" xml:space="preserve">
+    <value>Account Id</value>
+  </data>
+  <data name="DoYouConfirmOperation" xml:space="preserve">
+    <value>Do you confirm operation?</value>
+  </data>
+  <data name="ThisReconciliationWillProduceDelta" xml:space="preserve">
+    <value>This reconciliation will produce a delta</value>
+  </data>
+  <data name="billing.model.form.cost.selGrouptext" xml:space="preserve">
+    <value>Select a grouping item</value>
+  </data>
+  <data name="Freeze.type" xml:space="preserve">
+    <value>On hold row only</value>
+  </data>
+  <data name="DeleteAll" xml:space="preserve">
+    <value>Delete All</value>
+  </data>
+  <data name="DeleteSelection" xml:space="preserve">
+    <value>Delete selection</value>
+  </data>
+  <data name="Freeze" xml:space="preserve">
+    <value>Freeze</value>
+  </data>
+  <data name="Unfreeze" xml:space="preserve">
+    <value>Unfreeze</value>
+  </data>
+  <data name="Reconciliate" xml:space="preserve">
+    <value>Reconciliate</value>
+  </data>
+  <data name="Hide.counter.part" xml:space="preserve">
+    <value>Hide counter part</value>
+  </data>
+  <data name="using.Consolidated" xml:space="preserve">
+    <value>Consolidated</value>
+  </data>
+  <data name="open.project.list" xml:space="preserve">
+    <value>Open project list</value>
+  </data>
+  <data name="project.select" xml:space="preserve">
+    <value>Please select your project</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="Projects.DefaultProject" xml:space="preserve">
+    <value>Default project</value>
+  </data>
+  <data name="SureToCloseProjectOrDoYouWantToOpenAnotherProject" xml:space="preserve">
+    <value>Are you sure to close project or do you want to open another project ?</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="FunctionalityBlockGroup.SuccessFullyDeleted" xml:space="preserve">
+    <value>Functionality block group successfully deleted</value>
+  </data>
+  <data name="TagHasBeenSuccessfullyRemoved" xml:space="preserve">
+    <value>Tab has been successfully removed</value>
+  </data>
+  <data name="RenameTab" xml:space="preserve">
+    <value>Rename tab</value>
+  </data>
+  <data name="customized" xml:space="preserve">
+    <value>Customized</value>
+  </data>
+  <data name="standard" xml:space="preserve">
+    <value>Standard</value>
+  </data>
+  <data name="Gridcolumn.format" xml:space="preserve">
+    <value>Format</value>
+  </data>
+  <data name="Scheduled" xml:space="preserve">
+    <value>Scheduled</value>
+  </data>
+  <data name="PageLoader.RepositoryOnServer" xml:space="preserve">
+    <value>Repository  on server</value>
+  </data>
+  <data name="Gridcolumn.column.properties" xml:space="preserve">
+    <value>Column properties</value>
+  </data>
+  <data name="Gridcolumn.function" xml:space="preserve">
+    <value>Function</value>
+  </data>
+  <data name="ReportGrid" xml:space="preserve">
+    <value>Report Grid</value>
+  </data>
+  <data name="SelectFileExtension" xml:space="preserve">
+    <value>Select file extension</value>
+  </data>
+  <data name="HomePage" xml:space="preserve">
+    <value>Home page</value>
+  </data>
+  <data name="GridMappingConfiguration" xml:space="preserve">
+    <value>Grid mapping configuration </value>
+  </data>
+  <data name="LoaderConfiguration" xml:space="preserve">
+    <value>Loader configuration</value>
+  </data>
+  <data name="Mapping" xml:space="preserve">
+    <value>Mapping</value>
+  </data>
+  <data name="SelectFiles" xml:space="preserve">
+    <value>Select files</value>
+  </data>
+  <data name="SelectFolder" xml:space="preserve">
+    <value>Select folder</value>
+  </data>
+  <data name="Values&amp;Format" xml:space="preserve">
+    <value>Values &amp; Format</value>
+  </data>
+  <data name="FileLoader" xml:space="preserve">
+    <value>File loader</value>
+  </data>
+  <data name="Format" xml:space="preserve">
+    <value>Format</value>
+  </data>
+  <data name="Value" xml:space="preserve">
+    <value>Value</value>
+  </data>
+  <data name="ADDCOLUMNTOTARGET" xml:space="preserve">
+    <value>Add column to target</value>
+  </data>
+  <data name="ColumnName" xml:space="preserve">
+    <value>Grid Column</value>
+  </data>
+  <data name="InputFileColumn" xml:space="preserve">
+    <value>Input file column</value>
+  </data>
+  <data name="NEWPERIODMEASUREATTRIBUTE" xml:space="preserve">
+    <value>New Period/Measure/Attribute</value>
+  </data>
+  <data name="SelectionDimension" xml:space="preserve">
+    <value>Dimension</value>
+  </data>
+  <data name="VIEWGRID" xml:space="preserve">
+    <value>View grid</value>
+  </data>
+  <data name="ProjectsList" xml:space="preserve">
+    <value>Projects list</value>
+  </data>
+  <data name="Gridcolumn.ColumnName" xml:space="preserve">
+    <value>Column name</value>
+  </data>
+  <data name="PageLoaderUploadMethod" xml:space="preserve">
+    <value>Upload method</value>
+  </data>
+  <data name="Gridcolumn.NumberOfDecimal" xml:space="preserve">
+    <value>Number of decimal
+</value>
+  </data>
+  <data name="Gridcolumn.UseSeparator" xml:space="preserve">
+    <value>Use separator</value>
+  </data>
+  <data name="HeaderRowCount" xml:space="preserve">
+    <value>Header row count</value>
+  </data>
+  <data name="SelectFile" xml:space="preserve">
+    <value>Select file</value>
+  </data>
+  <data name="Conditions" xml:space="preserve">
+    <value>Conditions</value>
+  </data>
+  <data name="Files" xml:space="preserve">
+    <value>Files</value>
+  </data>
+  <data name="ConfirmationMessage" xml:space="preserve">
+    <value>Are you sure that you want to delete this element?</value>
+  </data>
+  <data name="empty.input.files" xml:space="preserve">
+    <value>Empty input file</value>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="warning" xml:space="preserve">
+    <value>Warning</value>
+  </data>
+  <data name="ErrorFileCount" xml:space="preserve">
+    <value># Error</value>
+  </data>
+  <data name="FileCount" xml:space="preserve">
+    <value># File</value>
+  </data>
+  <data name="Refresh" xml:space="preserve">
+    <value>Refresh</value>
+  </data>
+  <data name="reporting.chart.form.data" xml:space="preserve">
+    <value>Data</value>
+  </data>
+  <data name="reporting.chart.form.design" xml:space="preserve">
+    <value>Design</value>
+  </data>
+  <data name="LoadFiles" xml:space="preserve">
+    <value>Load files</value>
+  </data>
+  <data name="SelectTemplate" xml:space="preserve">
+    <value>Select template</value>
+  </data>
+  <data name="Template" xml:space="preserve">
+    <value>Template</value>
+  </data>
+  <data name="LoadTemplate" xml:space="preserve">
+    <value>load template</value>
+  </data>
+  <data name="LigneNumber" xml:space="preserve">
+    <value>N°</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>Update</value>
+  </data>
+  <data name="CreationDate" xml:space="preserve">
+    <value>Creation date</value>
+  </data>
+  <data name="ModificationDate" xml:space="preserve">
+    <value>Modification date</value>
+  </data>
+  <data name="Sheet" xml:space="preserve">
+    <value>Sheet</value>
+  </data>
+  <data name="HttpError.BadRequest" xml:space="preserve">
+    <value>Bad request</value>
+  </data>
+  <data name="LineCount" xml:space="preserve">
+    <value># Line</value>
+  </data>
+  <data name="Active" xml:space="preserve">
+    <value>Active</value>
+  </data>
+  <data name="Mandatory" xml:space="preserve">
+    <value>Mandatory</value>
+  </data>
+  <data name="VisibleInShortcut" xml:space="preserve">
+    <value>Visible in shortcut</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>Create</value>
+  </data>
+  <data name="Ok" xml:space="preserve">
+    <value>Ok</value>
+  </data>
+  <data name="Editable" xml:space="preserve">
+    <value>Editable</value>
+  </data>
+  <data name="Cycle" xml:space="preserve">
+    <value>Cycle</value>
+  </data>
+  <data name="Increment" xml:space="preserve">
+    <value>Increment</value>
+  </data>
+  <data name="InitialValue" xml:space="preserve">
+    <value>Initial value</value>
+  </data>
+  <data name="MaximumValue" xml:space="preserve">
+    <value>Maximum value</value>
+  </data>
+  <data name="MinimumValue" xml:space="preserve">
+    <value>Minimum value</value>
+  </data>
+  <data name="Prefix" xml:space="preserve">
+    <value>Prefix</value>
+  </data>
+  <data name="Size" xml:space="preserve">
+    <value>Size</value>
+  </data>
+  <data name="Suffix" xml:space="preserve">
+    <value>Suffix</value>
+  </data>
+  <data name="LinkedAttribute" xml:space="preserve">
+    <value>Linked Attribute</value>
+  </data>
+  <data name="PrimaryAttribute" xml:space="preserve">
+    <value>Primary Attribute</value>
+  </data>
+  <data name="EditLink" xml:space="preserve">
+    <value>Edit Link</value>
+  </data>
+  <data name="Link" xml:space="preserve">
+    <value>Link</value>
+  </data>
+  <data name="LinkName" xml:space="preserve">
+    <value>Link name</value>
+  </data>
+  <data name="LoadedSuccess.files.message" xml:space="preserve">
+    <value>Successfuly loaded file(s)</value>
+  </data>
+  <data name="load.template.confirmation.dialog" xml:space="preserve">
+    <value>You have already loaded this template, do you want to reload it?</value>
+  </data>
+  <data name="OpenOnNewTab" xml:space="preserve">
+    <value>Open in a new tab</value>
+  </data>
+  <data name="IndentifySheetByPosition" xml:space="preserve">
+    <value>Indentify sheet by position</value>
+  </data>
+  <data name="LoadAllSheets" xml:space="preserve">
+    <value>Load all sheets</value>
+  </data>
+  <data name="DeletionTitle" xml:space="preserve">
+    <value>Deletion</value>
+  </data>
+  <data name="SureToDeleteAllItem" xml:space="preserve">
+    <value>Are you sure you want to delete all elements ?</value>
+  </data>
+  <data name="SureToDeleteSelectedItem" xml:space="preserve">
+    <value>Are you sure you want to delete {0} ?</value>
+  </data>
+  <data name="New.Spot" xml:space="preserve">
+    <value>New spot</value>
+  </data>
+  <data name="List.Spot" xml:space="preserve">
+    <value>List spots</value>
+  </data>
+  <data name="SPOT" xml:space="preserve">
+    <value>Spot</value>
+  </data>
+  <data name="Function" xml:space="preserve">
+    <value>Function</value>
+  </data>
+  <data name="General" xml:space="preserve">
+    <value>General</value>
+  </data>
+  <data name="AVG" xml:space="preserve">
+    <value>Average</value>
+  </data>
+  <data name="BEGIN_MONTH" xml:space="preserve">
+    <value>Begin month</value>
+  </data>
+  <data name="BEGIN_WEEK" xml:space="preserve">
+    <value>Begin week</value>
+  </data>
+  <data name="BEGIN_YEAR" xml:space="preserve">
+    <value>Begin year</value>
+  </data>
+  <data name="CALENDAR" xml:space="preserve">
+    <value>Calendar</value>
+  </data>
+  <data name="CONTAINS" xml:space="preserve">
+    <value>Contains</value>
+  </data>
+  <data name="COUNT" xml:space="preserve">
+    <value>Count</value>
+  </data>
+  <data name="CUSTOM_DATE" xml:space="preserve">
+    <value>Custom Date</value>
+  </data>
+  <data name="DAY" xml:space="preserve">
+    <value>Day</value>
+  </data>
+  <data name="ENDS_WITH" xml:space="preserve">
+    <value>Ends with</value>
+  </data>
+  <data name="END_MONTH" xml:space="preserve">
+    <value>End  month</value>
+  </data>
+  <data name="END_WEEK" xml:space="preserve">
+    <value>End  week</value>
+  </data>
+  <data name="END_YEAR" xml:space="preserve">
+    <value>End  year</value>
+  </data>
+  <data name="FREE" xml:space="preserve">
+    <value>Free</value>
+  </data>
+  <data name="LEFT_SIDE" xml:space="preserve">
+    <value>Left side</value>
+  </data>
+  <data name="LIST_OF_VALUES" xml:space="preserve">
+    <value>List of values</value>
+  </data>
+  <data name="MAX" xml:space="preserve">
+    <value>Max</value>
+  </data>
+  <data name="MIN" xml:space="preserve">
+    <value>Min</value>
+  </data>
+  <data name="MONTH" xml:space="preserve">
+    <value>Month</value>
+  </data>
+  <data name="NOT_CONTAINS" xml:space="preserve">
+    <value>Not contains</value>
+  </data>
+  <data name="NOT_EQUALS" xml:space="preserve">
+    <value>Not equals</value>
+  </data>
+  <data name="NOT_NULL" xml:space="preserve">
+    <value>Not null</value>
+  </data>
+  <data name="NULL" xml:space="preserve">
+    <value>Null</value>
+  </data>
+  <data name="RIGHT_SIDE" xml:space="preserve">
+    <value>Right side</value>
+  </data>
+  <data name="specific" xml:space="preserve">
+    <value>Specific</value>
+  </data>
+  <data name="STARTS_WITH" xml:space="preserve">
+    <value>Begin with</value>
+  </data>
+  <data name="SUM" xml:space="preserve">
+    <value>Sum</value>
+  </data>
+  <data name="TODAY" xml:space="preserve">
+    <value>Today</value>
+  </data>
+  <data name="WEEK" xml:space="preserve">
+    <value>Week</value>
+  </data>
+  <data name="YEAR" xml:space="preserve">
+    <value>Year</value>
+  </data>
+  <data name="EQUALS_" xml:space="preserve">
+    <value>Equals</value>
+  </data>
+  <data name="Dateformatdescription" xml:space="preserve">
+    <value>Date format description</value>
+  </data>
+  <data name="AND" xml:space="preserve">
+    <value>And</value>
+  </data>
+  <data name="OR" xml:space="preserve">
+    <value>Or</value>
+  </data>
+  <data name="SelectFilesDescription" xml:space="preserve">
+    <value>You can choose one or more files at a time and the first file will be used as a template.</value>
+  </data>
+  <data name="EditNewGridName" xml:space="preserve">
+    <value>Edit new grid name</value>
+  </data>
+  <data name="SelectGrid" xml:space="preserve">
+    <value>Select grid</value>
+  </data>
+  <data name="export.grid.data" xml:space="preserve">
+    <value>Export grid data</value>
+  </data>
+  <data name="download.grid.data" xml:space="preserve">
+    <value>Download grid data</value>
+  </data>
+  <data name="DefaultValue" xml:space="preserve">
+    <value>Default value</value>
+  </data>
+  <data name="custom.full.date" xml:space="preserve">
+    <value>dddd, MMMM dd yyyy</value>
+  </data>
+  <data name="date.dd.explain" xml:space="preserve">
+    <value>Day in two digits</value>
+  </data>
+  <data name="date.ddd.explain" xml:space="preserve">
+    <value>The abbreviated name of the day of the week in three letters</value>
+  </data>
+  <data name="date.dddd.explain" xml:space="preserve">
+    <value>The full name of the day of the week</value>
+  </data>
+  <data name="date.mm.explain" xml:space="preserve">
+    <value>Month as a number from 1 to 12</value>
+  </data>
+  <data name="date.mmm.explain" xml:space="preserve">
+    <value>The name of the month in three letters. January = Jan</value>
+  </data>
+  <data name="date.mmmm.explain" xml:space="preserve">
+    <value>The name of the month spelled in full</value>
+  </data>
+  <data name="date.yy.explain" xml:space="preserve">
+    <value>The last two digits of the year number.</value>
+  </data>
+  <data name="date.yyyy.explain" xml:space="preserve">
+    <value>The year number in four digits.</value>
+  </data>
+  <data name="example" xml:space="preserve">
+    <value>Example</value>
+  </data>
+  <data name="the.date" xml:space="preserve">
+    <value>The date</value>
+  </data>
+  <data name="the.day" xml:space="preserve">
+    <value>The day</value>
+  </data>
+  <data name="the.month" xml:space="preserve">
+    <value>The month</value>
+  </data>
+  <data name="the.year" xml:space="preserve">
+    <value>The year</value>
+  </data>
+  <data name="not.found.repository" xml:space="preserve">
+    <value>The billing event repository not found</value>
+  </data>
+  <data name="New_Attribute" xml:space="preserve">
+    <value>New attribute</value>
+  </data>
+  <data name="New_Measure" xml:space="preserve">
+    <value>New measure</value>
+  </data>
+  <data name="New_Period" xml:space="preserve">
+    <value>New period</value>
+  </data>
+  <data name="DimensionCreation" xml:space="preserve">
+    <value>Create dimension</value>
+  </data>
+  <data name="DimensionCreateSuccessfully" xml:space="preserve">
+    <value>Dimension created successfully</value>
+  </data>
+  <data name="UnableToCreateDimension" xml:space="preserve">
+    <value>Unable to create dimension</value>
+  </data>
+  <data name="dynamicInputGridEdit" xml:space="preserve">
+    <value>Edit {0}</value>
+  </data>
+  <data name="grid.export.error" xml:space="preserve">
+    <value>Error occurred while exporting the grid</value>
+  </data>
+  <data name="grid.export.success" xml:space="preserve">
+    <value>The grid has been successfully exported</value>
+  </data>
+  <data name="Background" xml:space="preserve">
+    <value>Background</value>
+  </data>
+  <data name="Foreground" xml:space="preserve">
+    <value>Foreground</value>
+  </data>
+  <data name="Height" xml:space="preserve">
+    <value>Height</value>
+  </data>
+  <data name="ShowBox" xml:space="preserve">
+    <value>Show box</value>
+  </data>
+  <data name="ShowTitleBar" xml:space="preserve">
+    <value>Show title bar</value>
+  </data>
+  <data name="Title" xml:space="preserve">
+    <value>Title</value>
+  </data>
+  <data name="Width" xml:space="preserve">
+    <value>Width</value>
+  </data>
+  <data name="Chart.config" xml:space="preserve">
+    <value>Chart configuration</value>
+  </data>
+  <data name="RowFields" xml:space="preserve">
+    <value>Row fields</value>
+  </data>
+  <data name="ColumnFields" xml:space="preserve">
+    <value>Column Fields</value>
+  </data>
+  <data name="DataFields" xml:space="preserve">
+    <value>Data Fields</value>
+  </data>
+  <data name="AllFields" xml:space="preserve">
+    <value>All fields</value>
+  </data>
+  <data name="FilterFields" xml:space="preserve">
+    <value>Filter fields</value>
+  </data>
+  <data name="EmptyDimensionName" xml:space="preserve">
+    <value>Empty dimension name</value>
+  </data>
+  <data name="NullEntity" xml:space="preserve">
+    <value>Null entity</value>
+  </data>
+  <data name="Functionality.list.dashboard" xml:space="preserve">
+    <value>List dashboards</value>
+  </data>
+  <data name="Functionality.new.dashboard" xml:space="preserve">
+    <value>New dashboard</value>
+  </data>
+  <data name="Published" xml:space="preserve">
+    <value>Published</value>
+  </data>
+  <data name="UnPublished" xml:space="preserve">
+    <value>UnPublish</value>
+  </data>
+  <data name="Welcome" xml:space="preserve">
+    <value>Welcome</value>
+  </data>
+  <data name="List.screen" xml:space="preserve">
+    <value>List screens</value>
+  </data>
+  <data name="available.dimensions" xml:space="preserve">
+    <value>Available dimensions</value>
+  </data>
+  <data name="selected.dimensions" xml:space="preserve">
+    <value>Selected dimensions</value>
+  </data>
+  <data name="Archives.Browser" xml:space="preserve">
+    <value>Archive Browser</value>
+  </data>
+  <data name="List.Archives" xml:space="preserve">
+    <value>List archives</value>
+  </data>
+  <data name="New.Archives" xml:space="preserve">
+    <value>New archive</value>
+  </data>
+  <data name="EditCustomer" xml:space="preserve">
+    <value>Edit customer</value>
+  </data>
+  <data name="List.Customer" xml:space="preserve">
+    <value>List customers</value>
+  </data>
+  <data name="New.Costumer" xml:space="preserve">
+    <value>New costumer</value>
+  </data>
+  <data name="Edit.Archive" xml:space="preserve">
+    <value> Edit archive</value>
+  </data>
+  <data name="Backup.Configuration" xml:space="preserve">
+    <value>Backup configuration</value>
+  </data>
+  <data name="Enrichment" xml:space="preserve">
+    <value>Enrichment</value>
+  </data>
+  <data name="Replacement.Configuration" xml:space="preserve">
+    <value>Replacement configuration</value>
+  </data>
+  <data name="MeasureData.New" xml:space="preserve">
+    <value>Create measure</value>
+  </data>
+  <data name="MeasureData.Title" xml:space="preserve">
+    <value>Measures</value>
+  </data>
+  <data name="MeasureData.Tree" xml:space="preserve">
+    <value>Edit measures</value>
+  </data>
+  <data name="PeriodData.New" xml:space="preserve">
+    <value>Create period</value>
+  </data>
+  <data name="PeriodData.Title" xml:space="preserve">
+    <value>Periods</value>
+  </data>
+  <data name="PeriodData.Tree" xml:space="preserve">
+    <value>Edit periods</value>
+  </data>
+  <data name="Initialization" xml:space="preserve">
+    <value>Initialization</value>
+  </data>
+  <data name="alignment" xml:space="preserve">
+    <value>Alignment</value>
+  </data>
+  <data name="chart.rotation" xml:space="preserve">
+    <value>Graph rotation</value>
+  </data>
+  <data name="chart.title" xml:space="preserve">
+    <value>Chart title</value>
+  </data>
+  <data name="hide.series" xml:space="preserve">
+    <value>Hide series</value>
+  </data>
+  <data name="insert.border" xml:space="preserve">
+    <value>Insert a border</value>
+  </data>
+  <data name="label.overlap" xml:space="preserve">
+    <value>Label overlap</value>
+  </data>
+  <data name="Legend" xml:space="preserve">
+    <value>Legend</value>
+  </data>
+  <data name="orientation" xml:space="preserve">
+    <value>Orientation</value>
+  </data>
+  <data name="POSITION" xml:space="preserve">
+    <value>Position</value>
+  </data>
+  <data name="Visible" xml:space="preserve">
+    <value>Visible</value>
+  </data>
+  <data name="x.bar.title" xml:space="preserve">
+    <value>X bar title</value>
+  </data>
+  <data name="y.bar.title" xml:space="preserve">
+    <value>Y bar title</value>
+  </data>
+  <data name="allow.hide.series" xml:space="preserve">
+    <value>Allow hiding series</value>
+  </data>
+  <data name="Show.Axis.Titles" xml:space="preserve">
+    <value>Show axis titles</value>
+  </data>
+  <data name="Visibility" xml:space="preserve">
+    <value>Visibility</value>
+  </data>
+  <data name="Booking.list" xml:space="preserve">
+    <value>Liste des réservations</value>
+  </data>
+  <data name="Booking.Pivot" xml:space="preserve">
+    <value>Booking pivot</value>
+  </data>
+  <data name="Select.Booking.Pivot" xml:space="preserve">
+    <value>Select booking pivot</value>
+  </data>
+  <data name="BackgroundTitle" xml:space="preserve">
+    <value>Title background </value>
+  </data>
+  <data name="ForegroundTitle" xml:space="preserve">
+    <value>Title foreground</value>
+  </data>
+  <data name="Home.page" xml:space="preserve">
+    <value>Home page</value>
+  </data>
+  <data name="BackgroundBox" xml:space="preserve">
+    <value>Box background</value>
+  </data>
+  <data name="ForegroundBox" xml:space="preserve">
+    <value>Box foreground</value>
+  </data>
+  <data name="TextEditor" xml:space="preserve">
+    <value>Text editor</value>
+  </data>
+  <data name="Argument" xml:space="preserve">
+    <value>Argument</value>
+  </data>
+  <data name="Reset" xml:space="preserve">
+    <value>Reset</value>
+  </data>
+  <data name="Select.arg" xml:space="preserve">
+    <value>Select the argument dimension</value>
+  </data>
+  <data name="Select.serie" xml:space="preserve">
+    <value>Select the serie dimension</value>
+  </data>
+  <data name="Select.serie.type" xml:space="preserve">
+    <value>Select the serie type</value>
+  </data>
+  <data name="Select.value" xml:space="preserve">
+    <value>Select the value dimension</value>
+  </data>
+  <data name="Serie" xml:space="preserve">
+    <value>Serie</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="ModelData.Tree" xml:space="preserve">
+    <value>Edit models</value>
+  </data>
+  <data name="Default.Subscription" xml:space="preserve">
+    <value>Default Subscription</value>
+  </data>
+  <data name="Max.User" xml:space="preserve">
+    <value>Max user</value>
+  </data>
+  <data name="Owner.User" xml:space="preserve">
+    <value>Owner user</value>
+  </data>
+  <data name="billing.event.period" xml:space="preserve">
+    <value>Billing event period</value>
+  </data>
+  <data name="Booking.Model" xml:space="preserve">
+    <value>Booking model</value>
+  </data>
+  <data name="Booking.Model.includeZeroAmountEntries" xml:space="preserve">
+    <value>Include posting entry with amount = 0</value>
+  </data>
+  <data name="Booking.Model.selectPeriodAtRuntime" xml:space="preserve">
+    <value>Select period at runtime</value>
+  </data>
+  <data name="List.Booking.Model" xml:space="preserve">
+    <value>List booking models</value>
+  </data>
+  <data name="New.Booking.Model" xml:space="preserve">
+    <value>New booking model</value>
+  </data>
+  <data name="New.Booking.Log" xml:space="preserve">
+    <value>New booking log</value>
+  </data>
+  <data name="Default.serie" xml:space="preserve">
+    <value>Default serie</value>
+  </data>
+  <data name="Show.label" xml:space="preserve">
+    <value>Show labels</value>
+  </data>
+  <data name="Dashboard.home.page" xml:space="preserve">
+    <value>Dashboard home page</value>
+  </data>
+  <data name="ShowBorder" xml:space="preserve">
+    <value>Show border</value>
+  </data>
+  <data name="Tiles" xml:space="preserve">
+    <value>Tiles</value>
+  </data>
+  <data name="Enter.serie.name" xml:space="preserve">
+    <value>Enter serie name</value>
+  </data>
+  <data name="config.series.issue" xml:space="preserve">
+    <value>Unable to save a series that has no name, argument, or value</value>
+  </data>
+  <data name="config.defaultSerie.issue" xml:space="preserve">
+    <value>Unable to save configuration because default series has no dimension name, argument or value</value>
+  </data>
+  <data name="chart.show.defaultSerie.issue" xml:space="preserve">
+    <value>Unable to display the chart because the default series is not well configured</value>
+  </data>
+  <data name="chart.show.series.issue" xml:space="preserve">
+    <value>Unable to display the chart because one of the series is not well configured</value>
+  </data>
+  <data name="Form.NoEmpty" xml:space="preserve">
+    <value>The field can not be empty!</value>
+  </data>
+  <data name="Form.UName" xml:space="preserve">
+    <value>The name must be unique !</value>
+  </data>
+  <data name="ModelData.Attribute" xml:space="preserve">
+    <value>Edit attribute</value>
+  </data>
+  <data name="ModelData.Entity" xml:space="preserve">
+    <value>Edit entity</value>
+  </data>
+  <data name="Duplicate" xml:space="preserve">
+    <value>Duplicate</value>
+  </data>
+  <data name="ON_REQUEST" xml:space="preserve">
+    <value>On request</value>
+  </data>
+  <data name="SCHEDULER" xml:space="preserve">
+    <value>Scheduler</value>
+  </data>
+  <data name="AddVal" xml:space="preserve">
+    <value>Add value</value>
+  </data>
+  <data name="Declare" xml:space="preserve">
+    <value>Declare</value>
+  </data>
+  <data name="List.User" xml:space="preserve">
+    <value>List users</value>
+  </data>
+  <data name="New.User" xml:space="preserve">
+    <value>New user</value>
+  </data>
+  <data name="Profil.List" xml:space="preserve">
+    <value>List profiles</value>
+  </data>
+  <data name="Profil.New" xml:space="preserve">
+    <value>New profile</value>
+  </data>
+  <data name="Client.Code" xml:space="preserve">
+    <value>Client code</value>
+  </data>
+  <data name="Default.Language" xml:space="preserve">
+    <value>Default language</value>
+  </data>
+  <data name="Edit.User" xml:space="preserve">
+    <value>Edit user</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="EmailVerified" xml:space="preserve">
+    <value>Email verified</value>
+  </data>
+  <data name="Enabled" xml:space="preserve">
+    <value>Enabled</value>
+  </data>
+  <data name="FirstName" xml:space="preserve">
+    <value>First name</value>
+  </data>
+  <data name="LastName" xml:space="preserve">
+    <value>Last name</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="User.Id" xml:space="preserve">
+    <value>User Id</value>
+  </data>
+  <data name="Profil.Edit" xml:space="preserve">
+    <value>Edit profile</value>
+  </data>
+  <data name="Neutralization" xml:space="preserve">
+    <value>Neutralization</value>
+  </data>
+  <data name="PartialReconciliation" xml:space="preserve">
+    <value>Partial reconciliation</value>
+  </data>
+  <data name="Reconciliation.Reco.sequence" xml:space="preserve">
+    <value>Reco sequence</value>
+  </data>
+  <data name="Reconciliation.Partial.RecoType" xml:space="preserve">
+    <value>Partial reco type</value>
+  </data>
+  <data name="Reconciliation.Neutralization.type" xml:space="preserve">
+    <value>Neut. type</value>
+  </data>
+  <data name="Reconciliation.partiel.recoliated.amount" xml:space="preserve">
+    <value>Reconciliated amount</value>
+  </data>
+  <data name="Reconciliation.partiel.remaining.amount" xml:space="preserve">
+    <value>Remaining amount</value>
+  </data>
+  <data name="Confirmation.Password" xml:space="preserve">
+    <value>Confirmation password</value>
+  </data>
+  <data name="User.name" xml:space="preserve">
+    <value>Username</value>
+  </data>
+  <data name="Filename" xml:space="preserve">
+    <value>File name</value>
+  </data>
+  <data name="Default.Client" xml:space="preserve">
+    <value>Default client</value>
+  </data>
+  <data name="NeutralizationRequestSelectValue" xml:space="preserve">
+    <value>Request</value>
+  </data>
+  <data name="NeutralizationAllowCreateNewValue" xml:space="preserve">
+    <value>Create</value>
+  </data>
+  <data name="NeutralizationInsertNote" xml:space="preserve">
+    <value>Insert note</value>
+  </data>
+  <data name="NeutralizationMandatoryNote" xml:space="preserve">
+    <value>Mandatory note</value>
+  </data>
+  <data name="RefreshReconciliation" xml:space="preserve">
+    <value>Refresh reconciliated and remaining amounts</value>
+  </data>
+  <data name="UnNeutralization" xml:space="preserve">
+    <value>UnNeutralization</value>
+  </data>
+  <data name="ArchiveSuccess.create.message" xml:space="preserve">
+    <value>Successfully created archive(s).</value>
+  </data>
+  <data name="Posting.Balance" xml:space="preserve">
+    <value>Balance</value>
+  </data>
+  <data name="Posting.Edit" xml:space="preserve">
+    <value>Posting edition</value>
+  </data>
+  <data name="Posting.EntryDate" xml:space="preserve">
+    <value>Entry date</value>
+  </data>
+  <data name="Posting.Id" xml:space="preserve">
+    <value>Posting Id</value>
+  </data>
+  <data name="Posting.List" xml:space="preserve">
+    <value>List manual postings</value>
+  </data>
+  <data name="Posting.New" xml:space="preserve">
+    <value>New manual posting</value>
+  </data>
+  <data name="Posting.Repo" xml:space="preserve">
+    <value>Posting entry repository</value>
+  </data>
+  <data name="Posting.Status" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="Posting.Title" xml:space="preserve">
+    <value>Posting</value>
+  </data>
+  <data name="Posting.ValueDate" xml:space="preserve">
+    <value>Value date</value>
+  </data>
+  <data name="List.Manual.Reconciliations" xml:space="preserve">
+    <value>List manual reconciliations</value>
+  </data>
+  <data name="ProjectName" xml:space="preserve">
+    <value>Project name</value>
+  </data>
+  <data name="Booking.Model.Log" xml:space="preserve">
+    <value>Booking logs</value>
+  </data>
+  <data name="List.Booking.Logs" xml:space="preserve">
+    <value>List booking logs</value>
+  </data>
+  <data name="confirme.reco.type.message1" xml:space="preserve">
+    <value>This reconciliation will create a delta.</value>
+  </data>
+  <data name="confirme.reco.type.partial" xml:space="preserve">
+    <value>Partial reco</value>
+  </data>
+  <data name="confirme.reco.type.write.offt" xml:space="preserve">
+    <value>Write off</value>
+  </data>
+  <data name="confirme.reco.type.message2" xml:space="preserve">
+    <value>Do you confirm operation?</value>
+  </data>
+  <data name="confirme.reco.type.message3" xml:space="preserve">
+    <value>Unable to create a reconciliation with a delta</value>
+  </data>
+  <data name="Neutralizer" xml:space="preserve">
+    <value>Neutralize</value>
+  </data>
+  <data name="Add.axis.serie" xml:space="preserve">
+    <value>Add an axis for this serie</value>
+  </data>
+  <data name="Show.title.axis" xml:space="preserve">
+    <value>Show the title of this axis</value>
+  </data>
+  <data name="Add.serie" xml:space="preserve">
+    <value>Add a serie</value>
+  </data>
+  <data name="empty.archive.config" xml:space="preserve">
+    <value>Empty configuration archive</value>
+  </data>
+  <data name="billing.run.invoice" xml:space="preserve">
+    <value>List invoices</value>
+  </data>
+  <data name="List.Spreadsheet" xml:space="preserve">
+    <value>List spreadsheets</value>
+  </data>
+  <data name="New.Spreadsheet" xml:space="preserve">
+    <value>New spreadsheet</value>
+  </data>
+  <data name="Spreadsheet" xml:space="preserve">
+    <value>Spreadsheet</value>
+  </data>
+  <data name="Export.To.CSV" xml:space="preserve">
+    <value>Export to CSV</value>
+  </data>
+  <data name="Export.To.Excel" xml:space="preserve">
+    <value>Export to Excel</value>
+  </data>
+  <data name="CSV" xml:space="preserve">
+    <value>CSV</value>
+  </data>
+  <data name="XLS" xml:space="preserve">
+    <value>XLS</value>
+  </data>
+  <data name="Export.To" xml:space="preserve">
+    <value>Export to</value>
+  </data>
+  <data name="JSON" xml:space="preserve">
+    <value>JSON</value>
+  </data>
+  <data name="unable.to.load.client" xml:space="preserve">
+    <value>Unable to load client</value>
+  </data>
+  <data name="unable.to.load.profile" xml:space="preserve">
+    <value>Unable to load profile</value>
+  </data>
+  <data name="export.Success.files.message" xml:space="preserve">
+    <value>The export file is successfully created</value>
+  </data>
+  <data name="export.Error.files.message" xml:space="preserve">
+    <value>Download error</value>
+  </data>
+  <data name="account.name" xml:space="preserve">
+    <value>Account name</value>
+  </data>
+  <data name="Posting.EntryAmount" xml:space="preserve">
+    <value>Entry amount</value>
+  </data>
+  <data name="Posting.Sign" xml:space="preserve">
+    <value>Sign</value>
+  </data>
+  <data name="Profil.Role.TitleFct" xml:space="preserve">
+    <value>Functionalities</value>
+  </data>
+  <data name="Profil.Role.TitleRole" xml:space="preserve">
+    <value>Available roles</value>
+  </data>
+  <data name="Add.Selected" xml:space="preserve">
+    <value>Add selected</value>
+  </data>
+  <data name="Profil.User.TitleAvailable" xml:space="preserve">
+    <value>Available users</value>
+  </data>
+  <data name="Profil.User.TitleSelected" xml:space="preserve">
+    <value>Selected users</value>
+  </data>
+  <data name="Restore" xml:space="preserve">
+    <value>Restore</value>
+  </data>
+  <data name="ArchiveSuccess.restore.message" xml:space="preserve">
+    <value>Archive successfully restored</value>
+  </data>
+  <data name="functionalities" xml:space="preserve">
+    <value>Functionalities</value>
+  </data>
+  <data name="Select.All" xml:space="preserve">
+    <value>Select all</value>
+  </data>
+  <data name="Deselect.All" xml:space="preserve">
+    <value>Deselect All</value>
+  </data>
+  <data name="ModelData.Attribute.Add" xml:space="preserve">
+    <value>Add attribute</value>
+  </data>
+  <data name="ModelData.Attribute.Val" xml:space="preserve">
+    <value>Add attribute value</value>
+  </data>
+  <data name="ModelData.Tree.Add" xml:space="preserve">
+    <value>Add entity</value>
+  </data>
+  <data name="initiation.period" xml:space="preserve">
+    <value>Edit periods</value>
+  </data>
+  <data name="administration" xml:space="preserve">
+    <value>Administration</value>
+  </data>
+  <data name="administration.profile" xml:space="preserve">
+    <value>Profiles</value>
+  </data>
+  <data name="administration.user" xml:space="preserve">
+    <value>User</value>
+  </data>
+  <data name="dashboarding.alarm" xml:space="preserve">
+    <value>Alarm</value>
+  </data>
+  <data name="dashboarding.alarm.scheduler" xml:space="preserve">
+    <value>Scheduled alarm</value>
+  </data>
+  <data name="dashboarding.alarm.scheduler.log" xml:space="preserve">
+    <value>Scheduled alarm log</value>
+  </data>
+  <data name="dashboarding.dashboard" xml:space="preserve">
+    <value>Dashboard</value>
+  </data>
+  <data name="data.management" xml:space="preserve">
+    <value>Data management</value>
+  </data>
+  <data name="data.management.archive" xml:space="preserve">
+    <value>Archive</value>
+  </data>
+  <data name="data.management.archive.config" xml:space="preserve">
+    <value>Configuration</value>
+  </data>
+  <data name="data.management.archive.config.scheduler" xml:space="preserve">
+    <value>Configuration scheduler</value>
+  </data>
+  <data name="data.management.archive.config.scheduler.log" xml:space="preserve">
+    <value>Configuration scheduler log</value>
+  </data>
+  <data name="initiation.calendar" xml:space="preserve">
+    <value>Edit calendar</value>
+  </data>
+  <data name="initiation.measure" xml:space="preserve">
+    <value>Edit measures</value>
+  </data>
+  <data name="initiation.model" xml:space="preserve">
+    <value>Edit model</value>
+  </data>
+  <data name="project.backup" xml:space="preserve">
+    <value>Backup</value>
+  </data>
+  <data name="project.backup.scheduler" xml:space="preserve">
+    <value>Project simple backup</value>
+  </data>
+  <data name="project.backup.scheduler.log" xml:space="preserve">
+    <value>Project automatic backup</value>
+  </data>
+  <data name="project.import" xml:space="preserve">
+    <value>Import project</value>
+  </data>
+  <data name="reconciliation.auto.reco" xml:space="preserve">
+    <value>Automatic reconciliation</value>
+  </data>
+  <data name="reconciliation.auto.reco.scheduler" xml:space="preserve">
+    <value>Scheduled auto recos</value>
+  </data>
+  <data name="reconciliation.auto.reco.scheduler.log" xml:space="preserve">
+    <value>Current auto recos executions</value>
+  </data>
+  <data name="reporting.chart" xml:space="preserve">
+    <value>Chart</value>
+  </data>
+  <data name="reporting.pivot.table" xml:space="preserve">
+    <value>Pivot table</value>
+  </data>
+  <data name="reporting.report.grid" xml:space="preserve">
+    <value>Grid</value>
+  </data>
+  <data name="reporting.report.spreadsheet" xml:space="preserve">
+    <value>Spreadsheet</value>
+  </data>
+  <data name="settings.group" xml:space="preserve">
+    <value>Groups</value>
+  </data>
+  <data name="settings.incremental.number" xml:space="preserve">
+    <value>Incremental number</value>
+  </data>
+  <data name="sourcing.file.loader" xml:space="preserve">
+    <value>File loader</value>
+  </data>
+  <data name="sourcing.file.loader.scheduler" xml:space="preserve">
+    <value>Scheduled file loader </value>
+  </data>
+  <data name="sourcing.file.loader.scheduler.log" xml:space="preserve">
+    <value>Scheduled file loader log</value>
+  </data>
+  <data name="sourcing.input.grid" xml:space="preserve">
+    <value>Input grid</value>
+  </data>
+  <data name="sourcing.input.spreadsheet" xml:space="preserve">
+    <value>Input spreadsheet</value>
+  </data>
+  <data name="sourcing.link" xml:space="preserve">
+    <value>Link</value>
+  </data>
+  <data name="sourcing.spot" xml:space="preserve">
+    <value>Spot</value>
+  </data>
+  <data name="transformation" xml:space="preserve">
+    <value>Transformation</value>
+  </data>
+  <data name="TRANSFORMATION_TREE" xml:space="preserve">
+    <value>Transformation tree</value>
+  </data>
+  <data name="transformation.tree.scheduler" xml:space="preserve">
+    <value>Scheduled transformation trees</value>
+  </data>
+  <data name="transformation.tree.scheduler.log" xml:space="preserve">
+    <value>Scheduled transformation trees log</value>
+  </data>
+  <data name="administration.connected.user" xml:space="preserve">
+    <value>Connected users</value>
+  </data>
+  <data name="data.management.log" xml:space="preserve">
+    <value>Data management log</value>
+  </data>
+  <data name="dashboards" xml:space="preserve">
+    <value>Dashboards</value>
+  </data>
+  <data name="Profil.Dashboard.TitleAvailable" xml:space="preserve">
+    <value>Available dashboards</value>
+  </data>
+  <data name="Profil.Dashboard.TitleSelected" xml:space="preserve">
+    <value>Selected dashboards</value>
+  </data>
+  <data name="CUSTOM_" xml:space="preserve">
+    <value>Custom</value>
+  </data>
+  <data name="LEFT_" xml:space="preserve">
+    <value>Left</value>
+  </data>
+  <data name="Reconciliation.RecoFormula" xml:space="preserve">
+    <value>Reco formula</value>
+  </data>
+  <data name="ResetReCoConfirmation" xml:space="preserve">
+    <value>Do you want to reset reconciliation ?</value>
+  </data>
+  <data name="Resetting" xml:space="preserve">
+    <value>Resetting</value>
+  </data>
+  <data name="Upload.data.error.message" xml:space="preserve">
+    <value>Upload data error</value>
+  </data>
+  <data name="Set.As.Default" xml:space="preserve">
+    <value>Set as default</value>
+  </data>
+  <data name="Set.value.of" xml:space="preserve">
+    <value>Set value of</value>
+  </data>
+  <data name="Within" xml:space="preserve">
+    <value>Within</value>
+  </data>
+  <data name="With" xml:space="preserve">
+    <value>With</value>
+  </data>
+  <data name="access.rights" xml:space="preserve">
+    <value>Access rights</value>
+  </data>
+  <data name="Profiles.Available" xml:space="preserve">
+    <value>Available profiles</value>
+  </data>
+  <data name="Profiles.Selected" xml:space="preserve">
+    <value>Selected profiles</value>
+  </data>
+  <data name="initiation.default.entity" xml:space="preserve">
+    <value>Default entity</value>
+  </data>
+  <data name="initiation.default.model" xml:space="preserve">
+    <value>Default model</value>
+  </data>
+  <data name="initiation.file.loader.file.attribute" xml:space="preserve">
+    <value>File loader file name attribute</value>
+  </data>
+  <data name="initiation.file.loader.load.nbr.attribute" xml:space="preserve">
+    <value>Load nbr attribute</value>
+  </data>
+  <data name="initiation.file.loader.load.nbr.sequence" xml:space="preserve">
+    <value>File loader nbr generator</value>
+  </data>
+  <data name="add.to.description" xml:space="preserve">
+    <value>Add to description</value>
+  </data>
+  <data name="Variables" xml:space="preserve">
+    <value>Variables</value>
+  </data>
+  <data name="Validate" xml:space="preserve">
+    <value>Validate</value>
+  </data>
+  <data name="reset.messages" xml:space="preserve">
+    <value>Reset messages</value>
+  </data>
+  <data name="Reset.pub" xml:space="preserve">
+    <value>Reset the publication</value>
+  </data>
+  <data name="Refresh.pub" xml:space="preserve">
+    <value>Refresh the publication</value>
+  </data>
+  <data name="SureToDeleteAllSelectedItems" xml:space="preserve">
+    <value>Are you sure you want to delete all selected elements ?</value>
+  </data>
+  <data name="Save.All" xml:space="preserve">
+    <value>Save all</value>
+  </data>
+  <data name="ATTRIBUTE_VALUE" xml:space="preserve">
+    <value>Attribut value</value>
+  </data>
+  <data name="BILL_TEMPLATE" xml:space="preserve">
+    <value>Billing template</value>
+  </data>
+  <data name="BOOLEAN" xml:space="preserve">
+    <value>Boolean</value>
+  </data>
+  <data name="DATE" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="DECIMAL" xml:space="preserve">
+    <value>Decimal</value>
+  </data>
+  <data name="INCREMENTAL_NUMBER" xml:space="preserve">
+    <value>Incremental number</value>
+  </data>
+  <data name="INTEGER" xml:space="preserve">
+    <value>Integer</value>
+  </data>
+  <data name="LONG" xml:space="preserve">
+    <value>Long</value>
+  </data>
+  <data name="reconciliation.auto.manual.attribute" xml:space="preserve">
+    <value>Auto manual attribute</value>
+  </data>
+  <data name="reconciliation.automatic.value" xml:space="preserve">
+    <value>Automatic value</value>
+  </data>
+  <data name="reconciliation.credit.value" xml:space="preserve">
+    <value>Credit value</value>
+  </data>
+  <data name="reconciliation.dc.attribute" xml:space="preserve">
+    <value>DC attribute</value>
+  </data>
+  <data name="reconciliation.debit.value" xml:space="preserve">
+    <value>Debit value</value>
+  </data>
+  <data name="reconciliation.manual.value" xml:space="preserve">
+    <value>Manual value</value>
+  </data>
+  <data name="reconciliation.user.attribute" xml:space="preserve">
+    <value>Attribut utilisateur</value>
+  </data>
+  <data name="STRING" xml:space="preserve">
+    <value>String</value>
+  </data>
+  <data name="Project.List.Backup" xml:space="preserve">
+    <value>List project backups</value>
+  </data>
+  <data name="List.button" xml:space="preserve">
+    <value>List</value>
+  </data>
+  <data name="Accounting.entry.repository.grid" xml:space="preserve">
+    <value>Entry repository grid</value>
+  </data>
+  <data name="accountingbooking" xml:space="preserve">
+    <value>Accounting booking</value>
+  </data>
+  <data name="accountingbooking.amount.measure" xml:space="preserve">
+    <value>Amount measure</value>
+  </data>
+  <data name="accountingbooking.ma.attribute" xml:space="preserve">
+    <value>Ma </value>
+  </data>
+  <data name="accountingbooking.ma.automatic.value" xml:space="preserve">
+    <value>Ma automatic value</value>
+  </data>
+  <data name="accountingbooking.ma.manual.value" xml:space="preserve">
+    <value>Ma manual value</value>
+  </data>
+  <data name="accountingbooking.number.sequence" xml:space="preserve">
+    <value>Number sequence</value>
+  </data>
+  <data name="accountingbooking.repository.grid" xml:space="preserve">
+    <value>Repository grid</value>
+  </data>
+  <data name="Accountingposting" xml:space="preserve">
+    <value>Accounting posting</value>
+  </data>
+  <data name="accountingposting.account.grid" xml:space="preserve">
+    <value>Account grid</value>
+  </data>
+  <data name="accountingposting.amount.measure" xml:space="preserve">
+    <value>Amount</value>
+  </data>
+  <data name="accountingposting.comment.attribute" xml:space="preserve">
+    <value>Comment</value>
+  </data>
+  <data name="accountingposting.entry.date.period" xml:space="preserve">
+    <value>Entry date period</value>
+  </data>
+  <data name="accountingposting.number.sequence" xml:space="preserve">
+    <value>Number sequence</value>
+  </data>
+  <data name="accountingposting.sign.attribute" xml:space="preserve">
+    <value>Sign</value>
+  </data>
+  <data name="accountingposting.sign.credit.value" xml:space="preserve">
+    <value>Sign credit value</value>
+  </data>
+  <data name="accountingposting.sign.debit.value" xml:space="preserve">
+    <value>Sign debit value</value>
+  </data>
+  <data name="accountingposting.status.attribute" xml:space="preserve">
+    <value>Status </value>
+  </data>
+  <data name="accountingposting.status.draft.value" xml:space="preserve">
+    <value>Draft value</value>
+  </data>
+  <data name="accountingposting.user.attribute" xml:space="preserve">
+    <value>User </value>
+  </data>
+  <data name="SuccessfullyCreateAutomatically" xml:space="preserve">
+    <value>Successfully created automatically</value>
+  </data>
+  <data name="AutoRecoSuccess.create.message" xml:space="preserve">
+    <value>AutoReco run successfully</value>
+  </data>
+  <data name="loading" xml:space="preserve">
+    <value>Loading...</value>
+  </data>
+  <data name="billing.event.name.attribute" xml:space="preserve">
+    <value>Name attribute</value>
+  </data>
+  <data name="billing.invoice" xml:space="preserve">
+    <value>Billing invoice</value>
+  </data>
+  <data name="billing.role" xml:space="preserve">
+    <value>Role</value>
+  </data>
+  <data name="billing.company" xml:space="preserve">
+    <value>Billing company</value>
+  </data>
+  <data name="id" xml:space="preserve">
+    <value>Id</value>
+  </data>
+  <data name="billing.role.client" xml:space="preserve">
+    <value>Client</value>
+  </data>
+  <data name="billing.role.client.contact.attribute" xml:space="preserve">
+    <value>Contact </value>
+  </data>
+  <data name="billing.role.client.department.internal.number.attribute" xml:space="preserve">
+    <value>Internal number department</value>
+  </data>
+  <data name="billing.role.client.department.name.attribute" xml:space="preserve">
+    <value>Department name</value>
+  </data>
+  <data name="billing.role.client.department.number.attribute" xml:space="preserve">
+    <value>Number department</value>
+  </data>
+  <data name="billing.role.client.doing.business.as.attribute" xml:space="preserve">
+    <value>Doing business as attribute</value>
+  </data>
+  <data name="billing.role.client.internal.id.attribute" xml:space="preserve">
+    <value>Internal id </value>
+  </data>
+  <data name="billing.role.grid" xml:space="preserve">
+    <value>Grid</value>
+  </data>
+  <data name="Archive.Name" xml:space="preserve">
+    <value>Archive name</value>
+  </data>
+  <data name="comments" xml:space="preserve">
+    <value>Comments</value>
+  </data>
+  <data name="Backup.Successfully.Created" xml:space="preserve">
+    <value>Backup successfully created</value>
+  </data>
+  <data name="Project.Code" xml:space="preserve">
+    <value>Project code</value>
+  </data>
+  <data name="billing.credit.note.invoice.cn.attribute" xml:space="preserve">
+    <value>Invoice cn</value>
+  </data>
+  <data name="billing.credit.note.invoice.cn.cn.value" xml:space="preserve">
+    <value>Invoice cn cn</value>
+  </data>
+  <data name="billing.credit.note.invoice.cn.invoice.value" xml:space="preserve">
+    <value>Invoice cn value</value>
+  </data>
+  <data name="billing.credit.note.number.attribute" xml:space="preserve">
+    <value>Number</value>
+  </data>
+  <data name="billing.credit.note.number.sequence" xml:space="preserve">
+    <value>Number sequence</value>
+  </data>
+  <data name="billing.event.am.attribute" xml:space="preserve">
+    <value>Am </value>
+  </data>
+  <data name="billing.event.am.auto.value" xml:space="preserve">
+    <value>Am auto value</value>
+  </data>
+  <data name="billing.event.am.manual.value" xml:space="preserve">
+    <value>Am manual value</value>
+  </data>
+  <data name="billing.event.billing.driver.measure" xml:space="preserve">
+    <value>Billing driver </value>
+  </data>
+  <data name="billing.event.driver.name.attribute" xml:space="preserve">
+    <value>Driver name</value>
+  </data>
+  <data name="billing.event.grid" xml:space="preserve">
+    <value>Grid</value>
+  </data>
+  <data name="billing.event.manual.billing.event.dinamic.form" xml:space="preserve">
+    <value>Manual billing event dynamic form</value>
+  </data>
+  <data name="billing.event.repository.grid" xml:space="preserve">
+    <value>Repository grid</value>
+  </data>
+  <data name="billing.event.run.attribute" xml:space="preserve">
+    <value>Run </value>
+  </data>
+  <data name="billing.event.run.date.period" xml:space="preserve">
+    <value>Run date</value>
+  </data>
+  <data name="billing.event.run.type.attribute" xml:space="preserve">
+    <value>Run type</value>
+  </data>
+  <data name="billing.event.status.attribute" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="billing.event.status.billed.value" xml:space="preserve">
+    <value>Status billed value</value>
+  </data>
+  <data name="billing.event.status.draft.value" xml:space="preserve">
+    <value>Draft value</value>
+  </data>
+  <data name="billing.event.status.frozen.value" xml:space="preserve">
+    <value>Status frozen value</value>
+  </data>
+  <data name="billing.event.type.credit.note.value" xml:space="preserve">
+    <value>Type credit note value</value>
+  </data>
+  <data name="billing.event.type.invopice.value" xml:space="preserve">
+    <value>Type invopice value</value>
+  </data>
+  <data name="billing.event.unit.cost.measure" xml:space="preserve">
+    <value>Unit cost </value>
+  </data>
+  <data name="billing.event.vat.rate.measure" xml:space="preserve">
+    <value>VAT rate</value>
+  </data>
+  <data name="billing.invoice.billed.amount.without.vat.measure" xml:space="preserve">
+    <value>Billed amount without vat</value>
+  </data>
+  <data name="billing.invoice.communication.message.attribute" xml:space="preserve">
+    <value>Communication message</value>
+  </data>
+  <data name="billing.invoice.due.date.calculation.measure" xml:space="preserve">
+    <value>Due date calculation</value>
+  </data>
+  <data name="billing.invoice.due.date.period" xml:space="preserve">
+    <value>Due date</value>
+  </data>
+  <data name="billing.invoice.number.attribute" xml:space="preserve">
+    <value>Number</value>
+  </data>
+  <data name="billing.invoice.number.sequence" xml:space="preserve">
+    <value>Number sequence</value>
+  </data>
+  <data name="billing.invoice.sending.status.attribute" xml:space="preserve">
+    <value>Sending status</value>
+  </data>
+  <data name="billing.invoice.sending.status.notyetsent.value" xml:space="preserve">
+    <value>Sending status not yet sent</value>
+  </data>
+  <data name="billing.invoice.sending.status.sent.value" xml:space="preserve">
+    <value>Sending status sent</value>
+  </data>
+  <data name="billing.invoice.status.attribute" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="billing.invoice.status.draft.value" xml:space="preserve">
+    <value>Status draft </value>
+  </data>
+  <data name="billing.invoice.status.tocheck.value" xml:space="preserve">
+    <value>Status to check</value>
+  </data>
+  <data name="billing.invoice.status.validated.value" xml:space="preserve">
+    <value>Status validated</value>
+  </data>
+  <data name="billing.invoice.total.amount.measure" xml:space="preserve">
+    <value>Total amount</value>
+  </data>
+  <data name="billing.invoicesub.invoice.number.attribute" xml:space="preserve">
+    <value>sub invoice number</value>
+  </data>
+  <data name="city" xml:space="preserve">
+    <value>City</value>
+  </data>
+  <data name="country" xml:space="preserve">
+    <value>Country</value>
+  </data>
+  <data name="street" xml:space="preserve">
+    <value>Street</value>
+  </data>
+  <data name="billing.role.default.language.attribute" xml:space="preserve">
+    <value>Default language</value>
+  </data>
+  <data name="billing.role.legal.form.attribute" xml:space="preserve">
+    <value>Legal form</value>
+  </data>
+  <data name="billing.role.status.active.value" xml:space="preserve">
+    <value>Status active</value>
+  </data>
+  <data name="billing.role.status.attribute" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="billing.role.status.inactive.value" xml:space="preserve">
+    <value>Status inactive</value>
+  </data>
+  <data name="billing.role.vat.number.attribute" xml:space="preserve">
+    <value>Vat number</value>
+  </data>
+  <data name="billing.invoice.invoice.cn.attribute" xml:space="preserve">
+    <value>Invoice cn</value>
+  </data>
+  <data name="billing.invoice.invoice.cn.cn.value" xml:space="preserve">
+    <value>Invoice cn cn</value>
+  </data>
+  <data name="billing.invoice.invoice.cn.invoice.value" xml:space="preserve">
+    <value>Invoice cn value</value>
+  </data>
+  <data name="WantProduceNewArchive" xml:space="preserve">
+    <value>Do you want to produce a new archive ?</value>
+  </data>
+  <data name="total.rows.count" xml:space="preserve">
+    <value>Total</value>
+  </data>
+  <data name="Edit.mapping" xml:space="preserve">
+    <value>Edit mapping</value>
+  </data>
+  <data name="Edit.filter" xml:space="preserve">
+    <value>Edit filter</value>
+  </data>
+  <data name="Edit.concat" xml:space="preserve">
+    <value>Edit concatenation</value>
+  </data>
+  <data name="Edit.calc" xml:space="preserve">
+    <value>Edit calculation</value>
+  </data>
+  <data name="Mapp.grid" xml:space="preserve">
+    <value>Mapping grid</value>
+  </data>
+  <data name="Val.col" xml:space="preserve">
+    <value>Value column</value>
+  </data>
+  <data name="Map.cols" xml:space="preserve">
+    <value>Mapping columns</value>
+  </data>
+  <data name="map.card.un.title" xml:space="preserve">
+    <value>Grid and value</value>
+  </data>
+  <data name="Projects.Edit" xml:space="preserve">
+    <value>Edit project</value>
+  </data>
+  <data name="Projects.ProjectSuccessfullyEdited" xml:space="preserve">
+    <value>Successfully modified project</value>
+  </data>
+  <data name="data.messenger" xml:space="preserve">
+    <value>Messenger</value>
+  </data>
+  <data name="SMS" xml:space="preserve">
+    <value>SMS</value>
+  </data>
+  <data name="Attachments" xml:space="preserve">
+    <value>Attachments</value>
+  </data>
+  <data name="Recipients" xml:space="preserve">
+    <value>Recipients</value>
+  </data>
+  <data name="ApplyOnlyIfEmpty" xml:space="preserve">
+    <value>Apply only if empty</value>
+  </data>
+  <data name="Chat" xml:space="preserve">
+    <value>Chat</value>
+  </data>
+  <data name="invoice.description" xml:space="preserve">
+    <value>Invoice description</value>
+  </data>
+  <data name="Grid.Input" xml:space="preserve">
+    <value>Grid</value>
+  </data>
+  <data name="Booking" xml:space="preserve">
+    <value>Booking</value>
+  </data>
+  <data name="InsertVariables" xml:space="preserve">
+    <value>Insert variables</value>
+  </data>
+  <data name="Phone" xml:space="preserve">
+    <value>Phone</value>
+  </data>
+  <data name="List.Message.Logs" xml:space="preserve">
+    <value>List message logs</value>
+  </data>
+  <data name="Group" xml:space="preserve">
+    <value>Group</value>
+  </data>
+  <data name="Address" xml:space="preserve">
+    <value>Address</value>
+  </data>
+  <data name="elements" xml:space="preserve">
+    <value>Elements</value>
+  </data>
+  <data name="Nature" xml:space="preserve">
+    <value>Nature</value>
+  </data>
+  <data name="parent" xml:space="preserve">
+    <value>Parent</value>
+  </data>
+  <data name="generic" xml:space="preserve">
+    <value>Generic</value>
+  </data>
+  <data name="attachment.template.select" xml:space="preserve">
+    <value>Select template</value>
+  </data>
+  <data name="routines" xml:space="preserve">
+    <value>Routines</value>
+  </data>
+  <data name="select.routine" xml:space="preserve">
+    <value>Select routine</value>
+  </data>
+  <data name="select.spot" xml:space="preserve">
+    <value>Select  spot</value>
+  </data>
+  <data name="add.child.attribute" xml:space="preserve">
+    <value>Add child attribute</value>
+  </data>
+  <data name="add.child.measure" xml:space="preserve">
+    <value>Add child measure</value>
+  </data>
+  <data name="add.child.period" xml:space="preserve">
+    <value>Add child period</value>
+  </data>
+  <data name="delete.attribute" xml:space="preserve">
+    <value>Delete attribute</value>
+  </data>
+  <data name="delete.entity" xml:space="preserve">
+    <value>Delete entity</value>
+  </data>
+  <data name="delete.measure" xml:space="preserve">
+    <value>Delete measure</value>
+  </data>
+  <data name="delete.model" xml:space="preserve">
+    <value>Delete model</value>
+  </data>
+  <data name="delete.period" xml:space="preserve">
+    <value>Delete period</value>
+  </data>
+  <data name="edit.models" xml:space="preserve">
+    <value>Edit models</value>
+  </data>
+  <data name="select.profile" xml:space="preserve">
+    <value>Select profile</value>
+  </data>
+  <data name="select.user" xml:space="preserve">
+    <value>Select user</value>
+  </data>
+  <data name="show.all.row" xml:space="preserve">
+    <value>Show all rows ?</value>
+  </data>
+  <data name="UnableToDeleteSelectedItem" xml:space="preserve">
+    <value>Unable to delete selected item {0}</value>
+  </data>
+  <data name="my.profile" xml:space="preserve">
+    <value>My profile</value>
+  </data>
+  <data name="right.click.edit.measure" xml:space="preserve">
+    <value>Right click to edit measure</value>
+  </data>
+  <data name="right.click.edit.object" xml:space="preserve">
+    <value>Right click to edit object</value>
+  </data>
+  <data name="right.click.edit.period" xml:space="preserve">
+    <value>Right click to edit period</value>
+  </data>
+  <data name="scheduler.alarm" xml:space="preserve">
+    <value>Alarm form</value>
+  </data>
+  <data name="scheduler.booking" xml:space="preserve">
+    <value>Booking form</value>
+  </data>
+  <data name="cron.expression" xml:space="preserve">
+    <value>Cron expression</value>
+  </data>
+  <data name="last.execution.time" xml:space="preserve">
+    <value>Last execution time</value>
+  </data>
+  <data name="next.execution.time" xml:space="preserve">
+    <value>Next execution time</value>
+  </data>
+  <data name="restart" xml:space="preserve">
+    <value>Restart</value>
+  </data>
+  <data name="stop" xml:space="preserve">
+    <value>Stop</value>
+  </data>
+  <data name="message" xml:space="preserve">
+    <value>Message</value>
+  </data>
+  <data name="first.send.date" xml:space="preserve">
+    <value>First send date</value>
+  </data>
+  <data name="last.send.date" xml:space="preserve">
+    <value>Last send date</value>
+  </data>
+  <data name="max.send.attempts" xml:space="preserve">
+    <value>Max send attempts</value>
+  </data>
+  <data name="send.attempts" xml:space="preserve">
+    <value>Send attempts</value>
+  </data>
+  <data name="select.mode" xml:space="preserve">
+    <value>Select mode ...</value>
+  </data>
+  <data name="select.status" xml:space="preserve">
+    <value>Select status ...</value>
+  </data>
+  <data name="cancel.messages" xml:space="preserve">
+    <value>Cancel messages</value>
+  </data>
+  <data name="send.messages" xml:space="preserve">
+    <value>Send messages</value>
+  </data>
+  <data name="confirmation.cancel.message" xml:space="preserve">
+    <value>Are you sure you want to cancel messages ?</value>
+  </data>
+  <data name="advanced" xml:space="preserve">
+    <value>Advanced</value>
+  </data>
+  <data name="advanced.serie.config" xml:space="preserve">
+    <value>Advanced serie configuration</value>
+  </data>
+  <data name="evaluate" xml:space="preserve">
+    <value>Evaluate</value>
+  </data>
+  <data name="font.size" xml:space="preserve">
+    <value>Font size</value>
+  </data>
+  <data name="select.operator" xml:space="preserve">
+    <value>Select operator</value>
+  </data>
+  <data name="Series" xml:space="preserve">
+    <value>Series</value>
+  </data>
+  <data name="accessDenied" xml:space="preserve">
+    <value>Access denied, contact the administrator for rights.</value>
+  </data>
+  <data name="unable.to.rename.project" xml:space="preserve">
+    <value>Unable to rename project</value>
+  </data>
+  <data name="project.access.right" xml:space="preserve">
+    <value>Project access right</value>
+  </data>
+  <data name="reporting.report.join.grid" xml:space="preserve">
+    <value>Join</value>
+  </data>
+  <data name="transformation.routine" xml:space="preserve">
+    <value>Transformation routine</value>
+  </data>
+  <data name="transformation.routine.scheduler" xml:space="preserve">
+    <value>Transformation routine scheduler</value>
+  </data>
+  <data name="transformation.routine.scheduler.log" xml:space="preserve">
+    <value>Transformation routine scheduler log</value>
+  </data>
+  <data name="Join.Grid" xml:space="preserve">
+    <value>Join</value>
+  </data>
+  <data name="Conf.Join.Grid" xml:space="preserve">
+    <value>Joining configuration</value>
+  </data>
+  <data name="Data.Join.Grid" xml:space="preserve">
+    <value>Data of joining</value>
+  </data>
+  <data name="List.Join.Grid" xml:space="preserve">
+    <value>List of joining reports</value>
+  </data>
+  <data name="New.Join.Grid" xml:space="preserve">
+    <value>New join reports</value>
+  </data>
+  <data name="Edit.Join.Grid" xml:space="preserve">
+    <value>Joining Edition</value>
+  </data>
+  <data name="RIGHT_" xml:space="preserve">
+    <value>Right</value>
+  </data>
+  <data name="AutoRun" xml:space="preserve">
+    <value>Auto run</value>
+  </data>
+  <data name="greater" xml:space="preserve">
+    <value>Greater</value>
+  </data>
+  <data name="greaterOrEqual" xml:space="preserve">
+    <value>Greater or equal</value>
+  </data>
+  <data name="less" xml:space="preserve">
+    <value>Less</value>
+  </data>
+  <data name="lessOrEqual" xml:space="preserve">
+    <value>Less or equal</value>
+  </data>
+  <data name="notEquals" xml:space="preserve">
+    <value>Not equals</value>
+  </data>
+  <data name="duplicate.name" xml:space="preserve">
+    <value>Duplicates</value>
+  </data>
+  <data name="unable.to.get.rows.dashboard.data" xml:space="preserve">
+    <value>Unable to get rows dashboard data</value>
+  </data>
+  <data name="unable.to.save.entity" xml:space="preserve">
+    <value>Unable to save entity</value>
+  </data>
+  <data name="unable.to.retreive.user.clients" xml:space="preserve">
+    <value>Unable to retreive user clients</value>
+  </data>
+  <data name="unable.to.retreive.user.info" xml:space="preserve">
+    <value>Unable to retreive user info</value>
+  </data>
+  <data name="unable.to.retreive.user.privileges" xml:space="preserve">
+    <value>Unable to retreive user privileges</value>
+  </data>
+  <data name="unable.to.save.profile.projects" xml:space="preserve">
+    <value>Unable to save profile projects</value>
+  </data>
+  <data name="unable.to.search.entity.by.filter" xml:space="preserve">
+    <value>Unable to search entity by filter</value>
+  </data>
+  <data name="unable.to.evaluate.spot" xml:space="preserve">
+    <value>Unable to evaluate spot : the spot measure is not defined!</value>
+  </data>
+  <data name="credit" xml:space="preserve">
+    <value>Credit</value>
+  </data>
+  <data name="debit" xml:space="preserve">
+    <value>Debit</value>
+  </data>
+  <data name="CLOSED" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="JOIN" xml:space="preserve">
+    <value>Join</value>
+  </data>
+  <data name="List.Joins" xml:space="preserve">
+    <value>List joins</value>
+  </data>
+  <data name="New.Join" xml:space="preserve">
+    <value>New join</value>
+  </data>
+  <data name="List.Join.Log" xml:space="preserve">
+    <value>List joins logs</value>
+  </data>
+  <data name="APPEND" xml:space="preserve">
+    <value>Append</value>
+  </data>
+  <data name="EndDate" xml:space="preserve">
+    <value>End date</value>
+  </data>
+  <data name="NEW_GRID" xml:space="preserve">
+    <value>New grid</value>
+  </data>
+  <data name="ACTIVED" xml:space="preserve">
+    <value>ACTIVED</value>
+  </data>
+  <data name="END_OF_TRIAL" xml:space="preserve">
+    <value>END OF TRIAL</value>
+  </data>
+  <data name="SUSPENDED" xml:space="preserve">
+    <value>SUSPENDED</value>
+  </data>
+  <data name="TRIAL" xml:space="preserve">
+    <value>ESSAI</value>
+  </data>
+  <data name="PublicationGridName" xml:space="preserve">
+    <value>Publication grid name</value>
+  </data>
+  <data name="PublicationNbrAttributeId" xml:space="preserve">
+    <value>Publication number attribute Id</value>
+  </data>
+  <data name="PublicationNbrAttributeName" xml:space="preserve">
+    <value>Publication number attribute name</value>
+  </data>
+  <data name="PublicationNumber" xml:space="preserve">
+    <value>Publication number</value>
+  </data>
+  <data name="RowCount" xml:space="preserve">
+    <value>Row count</value>
+  </data>
+  <data name="condition.title" xml:space="preserve">
+    <value>Conditions</value>
+  </data>
+  <data name="join.keys" xml:space="preserve">
+    <value>Join keys</value>
+  </data>
+  <data name="CALCULATE" xml:space="preserve">
+    <value>Calculate</value>
+  </data>
+  <data name="COLUMN" xml:space="preserve">
+    <value>Column</value>
+  </data>
+  <data name="CONCATENATE" xml:space="preserve">
+    <value>Concatenate</value>
+  </data>
+  <data name="credit.note.validation.message" xml:space="preserve">
+    <value>You are about to validate {0} credit note.</value>
+  </data>
+  <data name="select.column" xml:space="preserve">
+    <value>Select column</value>
+  </data>
+  <data name="report.columns" xml:space="preserve">
+    <value>Report columns</value>
+  </data>
+  <data name="selected.columns" xml:space="preserve">
+    <value>Selected columns</value>
+  </data>
+  <data name="column.editor" xml:space="preserve">
+    <value>Column editor</value>
+  </data>
+  <data name="for.publication" xml:space="preserve">
+    <value>For publication</value>
+  </data>
+  <data name="ROUTINE" xml:space="preserve">
+    <value>Routine</value>
+  </data>
+  <data name="grid_" xml:space="preserve">
+    <value>Grid</value>
+  </data>
+  <data name="join.grid.title" xml:space="preserve">
+    <value>Select join grids</value>
+  </data>
+  <data name="addcustomcolumn" xml:space="preserve">
+    <value>Add custom column</value>
+  </data>
+  <data name="duplicate.join.column" xml:space="preserve">
+    <value>Cannot duplicate join column {0}</value>
+  </data>
+  <data name="add.run.nbr" xml:space="preserve">
+    <value>Add run nbr</value>
+  </data>
+  <data name="refresh.grid" xml:space="preserve">
+    <value>Refresh grids before publication</value>
+  </data>
+  <data name="run.method" xml:space="preserve">
+    <value>Run method</value>
+  </data>
+  <data name="search" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="edit.concatenation" xml:space="preserve">
+    <value>Edit concatenation</value>
+  </data>
+  <data name="edit.operation" xml:space="preserve">
+    <value>Edit operation</value>
+  </data>
+  <data name="DIRECT_TO_GRID" xml:space="preserve">
+    <value>Direct to grid</value>
+  </data>
+  <data name="POST" xml:space="preserve">
+    <value>Post</value>
+  </data>
+  <data name="PRE" xml:space="preserve">
+    <value>Pre</value>
+  </data>
+  <data name="graph" xml:space="preserve">
+    <value>Graph</value>
+  </data>
+  <data name="report.grid" xml:space="preserve">
+    <value>Report grid</value>
+  </data>
+  <data name="report.spreadsheet" xml:space="preserve">
+    <value>Report spreadsheet</value>
+  </data>
+  <data name="allrightsreserved" xml:space="preserve">
+    <value>All rights reserved</value>
+  </data>
+  <data name="None" xml:space="preserve">
+    <value>None</value>
+  </data>
+  <data name="duplicate.file.loader.name" xml:space="preserve">
+    <value>Another file foader is already using the name {0}</value>
+  </data>
+  <data name="duplicate.project.name" xml:space="preserve">
+    <value>Another project is already using the name {0}</value>
+  </data>
+  <data name="duplicate.dashboard.name" xml:space="preserve">
+    <value>Another dashboard is already using the name {0}</value>
+  </data>
+  <data name="duplicate.alarm.name" xml:space="preserve">
+    <value>Another alarm is already using the name {0}</value>
+  </data>
+  <data name="duplicate.archive.config.name" xml:space="preserve">
+    <value>Another archive configuration is already using the name {0}</value>
+  </data>
+  <data name="duplicate.measure.name" xml:space="preserve">
+    <value>Another measure is already using the name {0}</value>
+  </data>
+  <data name="duplicate.model.and.attribute.name" xml:space="preserve">
+    <value>Another model is already using the name {0}</value>
+  </data>
+  <data name="duplicate.periode.name" xml:space="preserve">
+    <value>Another period is already using the name {0}</value>
+  </data>
+  <data name="duplicate.incremental.number.name" xml:space="preserve">
+    <value>Another incremental number is already using the name {0}</value>
+  </data>
+  <data name="duplicate.automatic.reconciliation.name" xml:space="preserve">
+    <value>Another auto reco is already using the name {0}</value>
+  </data>
+  <data name="duplicate.reconciliation.name" xml:space="preserve">
+    <value>Another reconciliation is already using the name {0}</value>
+  </data>
+  <data name="duplicate.client.name" xml:space="preserve">
+    <value>Another customer is already using the name {0}</value>
+  </data>
+  <data name="duplicate.profile.name" xml:space="preserve">
+    <value>Another profil is already using the name {0}</value>
+  </data>
+  <data name="duplicate.user.name" xml:space="preserve">
+    <value>Another user is already using the name {0}</value>
+  </data>
+  <data name="List.scheduler" xml:space="preserve">
+    <value>Scheduler List</value>
+  </data>
+  <data name="credit.notes.validation.message" xml:space="preserve">
+    <value>You are about to validate {0} credit notes.</value>
+  </data>
+  <data name="duplicate.join.name" xml:space="preserve">
+    <value>Another join is already using the name {0}</value>
+  </data>
+  <data name="duplicate.report.pivot.table.name" xml:space="preserve">
+    <value>Another pivot table is already using the name {0}</value>
+  </data>
+  <data name="duplicate.reporting.chart.name" xml:space="preserve">
+    <value>Another chart is already using the name {0}</value>
+  </data>
+  <data name="duplicate.reporting.name" xml:space="preserve">
+    <value>Another reporting  is already using the name {0}</value>
+  </data>
+  <data name="invoice.validation.message" xml:space="preserve">
+    <value>You are about to validate {0} invoice.</value>
+  </data>
+  <data name="duplicate.grille.name" xml:space="preserve">
+    <value>Another input grid is already using the name {0}</value>
+  </data>
+  <data name="duplicate.spot.name" xml:space="preserve">
+    <value>Another spot is already using the name {0}</value>
+  </data>
+  <data name="duplicate.transformationRoutine.name" xml:space="preserve">
+    <value>Another transformation routine is already using the name {0}</value>
+  </data>
+  <data name="duplicate.simpleArchive.name" xml:space="preserve">
+    <value>Another project archive is already using the name {0}</value>
+  </data>
+  <data name="Run.join" xml:space="preserve">
+    <value>Publish as input grid</value>
+  </data>
+  <data name="PARAMETER" xml:space="preserve">
+    <value>Parameter</value>
+  </data>
+  <data name="refresh.publication.success" xml:space="preserve">
+    <value>Publication refreshed successfully</value>
+  </data>
+  <data name="trans.join.run.error" xml:space="preserve">
+    <value>An error occurred while executing joining</value>
+  </data>
+  <data name="trans.join.run.success" xml:space="preserve">
+    <value>Joining successfully executed</value>
+  </data>
+  <data name="list.scheduled.tranformation.routine" xml:space="preserve">
+    <value>List scheduled transformation routine</value>
+  </data>
+  <data name="Scheduled.booking" xml:space="preserve">
+    <value>Scheduled booking</value>
+  </data>
+  <data name="import.sel.backup" xml:space="preserve">
+    <value>Import the selected backup</value>
+  </data>
+  <data name="SEQUENCE" xml:space="preserve">
+    <value>Incremental number</value>
+  </data>
+  <data name="import.name.label.existing" xml:space="preserve">
+    <value>Name to give to the existing project</value>
+  </data>
+  <data name="import.name.label.new" xml:space="preserve">
+    <value>Name to give to the project to import</value>
+  </data>
+  <data name="reporting.report.join.grid.scheduler" xml:space="preserve">
+    <value>Joins scheduler</value>
+  </data>
+  <data name="reporting.report.join.grid.scheduler.log" xml:space="preserve">
+    <value>Joins scheduler logs</value>
+  </data>
+  <data name="publish.input.grid.success" xml:space="preserve">
+    <value>Grid successfully published</value>
+  </data>
+  <data name="publish.input.grid.error" xml:space="preserve">
+    <value>Error occurred while publishing the grid</value>
+  </data>
+  <data name="rest.publication.input.grid.error" xml:space="preserve">
+    <value>Reset publication failed</value>
+  </data>
+  <data name="reset.publication.input.grid.success" xml:space="preserve">
+    <value>The grid has been successfully reset</value>
+  </data>
+  <data name="refresh.publication.input.grid.error" xml:space="preserve">
+    <value>Publication refreshed successfully</value>
+  </data>
+  <data name="duplicate.scheduler.planner.name" xml:space="preserve">
+    <value>Another scheduler is already using the name {0}</value>
+  </data>
+  <data name="list.scheduler.planner" xml:space="preserve">
+    <value>List scheduler</value>
+  </data>
+  <data name="new.scheduler.planner" xml:space="preserve">
+    <value>New scheduler</value>
+  </data>
+  <data name="scheduled.operations" xml:space="preserve">
+    <value>Scheduled operations</value>
+  </data>
+  <data name="scheduling.planner" xml:space="preserve">
+    <value>Scheduling</value>
+  </data>
+  <data name="CONTINUE" xml:space="preserve">
+    <value>Continue</value>
+  </data>
+  <data name="GOTO" xml:space="preserve">
+    <value>Go to</value>
+  </data>
+  <data name="MESSAGE_WITHOUT_CONFIRM" xml:space="preserve">
+    <value>Message without confirmation</value>
+  </data>
+  <data name="MESSAGE_WITH_CONFIRM" xml:space="preserve">
+    <value>Message with confirmation</value>
+  </data>
+  <data name="RESTART_" xml:space="preserve">
+    <value>Restart</value>
+  </data>
+  <data name="SKIP_NEXT" xml:space="preserve">
+    <value>Skip next</value>
+  </data>
+  <data name="STOP_" xml:space="preserve">
+    <value>Stop</value>
+  </data>
+  <data name="list.scheduler.planner.logs" xml:space="preserve">
+    <value>List scheduler planner logs</value>
+  </data>
+  <data name="select.alarm" xml:space="preserve">
+    <value>Select message</value>
+  </data>
+  <data name="select.code" xml:space="preserve">
+    <value>Select instruction</value>
+  </data>
+  <data name="select.decision" xml:space="preserve">
+    <value>Select decision</value>
+  </data>
+  <data name="StartDate" xml:space="preserve">
+    <value>Start date</value>
+  </data>
+  <data name="Step" xml:space="preserve">
+    <value>Step</value>
+  </data>
+  <data name="ACTION" xml:space="preserve">
+    <value>Action</value>
+  </data>
+  <data name="CHECK" xml:space="preserve">
+    <value>Check</value>
+  </data>
+  <data name="HOUR" xml:space="preserve">
+    <value>Hour</value>
+  </data>
+  <data name="MINUTE" xml:space="preserve">
+    <value>Minute</value>
+  </data>
+  <data name="RECO" xml:space="preserve">
+    <value>Reco</value>
+  </data>
+  <data name="REFRESH_PUBLICATIONS" xml:space="preserve">
+    <value>Refresh publications</value>
+  </data>
+  <data name="SECONDE" xml:space="preserve">
+    <value>Second</value>
+  </data>
+  <data name="TEMPORISATION" xml:space="preserve">
+    <value>Temporisation</value>
+  </data>
+  <data name="else" xml:space="preserve">
+    <value>Else</value>
+  </data>
+  <data name="then" xml:space="preserve">
+    <value>Then</value>
+  </data>
+  <data name="wait" xml:space="preserve">
+    <value>Wait</value>
+  </data>
+  <data name="scheduler.planner.run.succes.message" xml:space="preserve">
+    <value>Successfully to run scheduler planner {0}</value>
+  </data>
+  <data name="scheduler.planner" xml:space="preserve">
+    <value>Scheduling</value>
+  </data>
+  <data name="scheduler.planner.scheduler" xml:space="preserve">
+    <value>Scheduler</value>
+  </data>
+  <data name="scheduler.planner.scheduler.log" xml:space="preserve">
+    <value>Scheduler logs</value>
+  </data>
+  <data name="transformation.tree" xml:space="preserve">
+    <value>Transformation tree</value>
+  </data>
+  <data name="filter.left" xml:space="preserve">
+    <value>Left filter</value>
+  </data>
+  <data name="filter.right" xml:space="preserve">
+    <value>Right filter</value>
+  </data>
+  <data name="billing.event.join.repository" xml:space="preserve">
+    <value>Billing join</value>
+  </data>
+  <data name="client.repository" xml:space="preserve">
+    <value>Client repository</value>
+  </data>
+  <data name="repositories" xml:space="preserve">
+    <value>Repositories</value>
+  </data>
+  <data name="new.description" xml:space="preserve">
+    <value>New description</value>
+  </data>
+  <data name="select.language" xml:space="preserve">
+    <value>Select language</value>
+  </data>
+  <data name="QUARTER" xml:space="preserve">
+    <value>Quarter</value>
+  </data>
+  <data name="duplicate.parameter" xml:space="preserve">
+    <value>Cannot duplicate parameter {0}</value>
+  </data>
+  <data name="current" xml:space="preserve">
+    <value>Current</value>
+  </data>
+  <data name="interval" xml:space="preserve">
+    <value>Interval</value>
+  </data>
+  <data name="previous" xml:space="preserve">
+    <value>Previous</value>
+  </data>
+  <data name="confirmation.publication.message" xml:space="preserve">
+    <value>Are you sure you want to publish {0} as an input grid ?</value>
+  </data>
+  <data name="publication" xml:space="preserve">
+    <value>Publication</value>
+  </data>
+  <data name="billing.model.run.error" xml:space="preserve">
+    <value>An error occurred while executing billing model</value>
+  </data>
+  <data name="billing.model.run.success" xml:space="preserve">
+    <value>Billing model successfully executed</value>
+  </data>
+  <data name="labels" xml:space="preserve">
+    <value>Labels</value>
+  </data>
+  <data name="new.label" xml:space="preserve">
+    <value>New label</value>
+  </data>
+  <data name="edit.invoice.values" xml:space="preserve">
+    <value>Edit the label value</value>
+  </data>
+  <data name="billing.run.status" xml:space="preserve">
+    <value>Billing run status</value>
+  </data>
+  <data name="file.manager" xml:space="preserve">
+    <value>File Manager</value>
+  </data>
+  <data name="create.credit.note" xml:space="preserve">
+    <value>Create credit note</value>
+  </data>
+  <data name="reset.credit.note" xml:space="preserve">
+    <value>Reset credit note</value>
+  </data>
+  <data name="reset.invoice" xml:space="preserve">
+    <value>Reset invoice</value>
+  </data>
+  <data name="reset.validation" xml:space="preserve">
+    <value>Reset validation</value>
+  </data>
+  <data name="amount.without.vat" xml:space="preserve">
+    <value>Amount without VAT</value>
+  </data>
+  <data name="total" xml:space="preserve">
+    <value>Total</value>
+  </data>
+  <data name="vat.amount" xml:space="preserve">
+    <value>VAT Amount</value>
+  </data>
+  <data name="vat.rate" xml:space="preserve">
+    <value>VAT Rate</value>
+  </data>
+  <data name="billing.operation.corruption" xml:space="preserve">
+    <value>This operation can lead to serious corruption in accounting if the linked invoices and credit notes have already been posted.</value>
+  </data>
+  <data name="billing.run.outcome.reset" xml:space="preserve">
+    <value>Billing run outcome reset</value>
+  </data>
+  <data name="billing.run.outcome.reset.message" xml:space="preserve">
+    <value>You are about to reset {0} billing run.</value>
+  </data>
+  <data name="billing.run.outcome.validation" xml:space="preserve">
+    <value>Billing run outcome validation</value>
+  </data>
+  <data name="billing.run.outcome.validation.message" xml:space="preserve">
+    <value>You are about to validate {0} billing run.</value>
+  </data>
+  <data name="billing.runs.outcome.reset.message" xml:space="preserve">
+    <value>You are about to reset {0} billing runs.</value>
+  </data>
+  <data name="billing.runs.outcome.validation.message" xml:space="preserve">
+    <value>You are about to validate {0} billing runs.</value>
+  </data>
+  <data name="confirmation.continue" xml:space="preserve">
+    <value>Do you want to continue ?</value>
+  </data>
+  <data name="credit.note.deleted.warning" xml:space="preserve">
+    <value>This credit note will be deleted and the linked events reset.</value>
+  </data>
+  <data name="credit.note.no.modified" xml:space="preserve">
+    <value>This credit note can no longer be modified.</value>
+  </data>
+  <data name="credit.note.operation.corruption" xml:space="preserve">
+    <value>This operation can lead to serious corruption in accounting if the credit note has already been posted.</value>
+  </data>
+  <data name="credit.note.reset" xml:space="preserve">
+    <value>Credit note reset</value>
+  </data>
+  <data name="credit.note.reset.message" xml:space="preserve">
+    <value>You are about to reset {0} credit note.</value>
+  </data>
+  <data name="credit.note.reset.validation" xml:space="preserve">
+    <value>Reset credit note validation</value>
+  </data>
+  <data name="credit.note.reset.validation.message" xml:space="preserve">
+    <value>You are about to unvalidate {0} credit note.</value>
+  </data>
+  <data name="credit.note.validation" xml:space="preserve">
+    <value>Credit note validation</value>
+  </data>
+  <data name="credit.notes.deleted.warning" xml:space="preserve">
+    <value>Theses credit notes will be deleted and the linked events reset.</value>
+  </data>
+  <data name="credit.notes.no.modified" xml:space="preserve">
+    <value>Theses credit notes can no longer be modified.</value>
+  </data>
+  <data name="credit.notes.operation.corruption" xml:space="preserve">
+    <value>This operation can lead to serious corruption in accounting if the credit notes have already been posted.</value>
+  </data>
+  <data name="credit.notes.reset.message" xml:space="preserve">
+    <value>You are about to reset {0} credit notes.</value>
+  </data>
+  <data name="credit.notes.reset.validation.message" xml:space="preserve">
+    <value>You are about to unvalidate {0} credit notes.</value>
+  </data>
+  <data name="invoice.deleted.warning" xml:space="preserve">
+    <value>This invoice note will be deleted and the linked events reset.</value>
+  </data>
+  <data name="invoice.no.modified" xml:space="preserve">
+    <value>This invoice can no longer be modified.</value>
+  </data>
+  <data name="invoice.operation.corruption" xml:space="preserve">
+    <value>This operation can lead to serious corruption in accounting if the invoice has already been posted.</value>
+  </data>
+  <data name="invoice.reset" xml:space="preserve">
+    <value>Invoice reset</value>
+  </data>
+  <data name="invoice.reset.message" xml:space="preserve">
+    <value>You are about to reset {0} invoice.</value>
+  </data>
+  <data name="invoice.reset.validation" xml:space="preserve">
+    <value>Reset invoice validation</value>
+  </data>
+  <data name="invoice.reset.validation.message" xml:space="preserve">
+    <value>You are about to unvalidate {0} invoice.</value>
+  </data>
+  <data name="invoice.validation" xml:space="preserve">
+    <value>Invoice validation</value>
+  </data>
+  <data name="invoices.deleted.warning" xml:space="preserve">
+    <value>Theses invoices will be deleted and the linked events reset.</value>
+  </data>
+  <data name="invoices.no.modified" xml:space="preserve">
+    <value>Theses invoices can no longer be modified.</value>
+  </data>
+  <data name="invoices.operation.corruption" xml:space="preserve">
+    <value>This operation can lead to serious corruption in accounting if the invoices have already been posted.</value>
+  </data>
+  <data name="invoices.reset.message" xml:space="preserve">
+    <value>You are about to reset {0} invoices.</value>
+  </data>
+  <data name="invoices.reset.validation.message" xml:space="preserve">
+    <value>You are about to unvalidate {0} invoices.</value>
+  </data>
+  <data name="invoices.validation.message" xml:space="preserve">
+    <value>You are about to validate {0} invoices.</value>
+  </data>
+  <data name="success.create.credit.note.message" xml:space="preserve">
+    <value>Credit note successfully created.</value>
+  </data>
+  <data name="success.reset.billing.run.message" xml:space="preserve">
+    <value>{0} billing run reset.</value>
+  </data>
+  <data name="success.reset.billings.run.message" xml:space="preserve">
+    <value>{0} billings run reset.</value>
+  </data>
+  <data name="success.reset.credit.note.message" xml:space="preserve">
+    <value>{0} credit note reset.</value>
+  </data>
+  <data name="success.reset.credit.notes.message" xml:space="preserve">
+    <value>{0} credit notes reset.</value>
+  </data>
+  <data name="success.reset.invoice.message" xml:space="preserve">
+    <value>{0} invoice reset.</value>
+  </data>
+  <data name="success.reset.invoices.message" xml:space="preserve">
+    <value>{0} invoices reset.</value>
+  </data>
+  <data name="success.validate.billing.run.message" xml:space="preserve">
+    <value>{0} billing run valideted.</value>
+  </data>
+  <data name="success.validate.billings.run.message" xml:space="preserve">
+    <value>{0} billings run valideted.</value>
+  </data>
+  <data name="success.validate.credit.note.message" xml:space="preserve">
+    <value>{0} credit note valideted.</value>
+  </data>
+  <data name="success.validate.credit.notes.message" xml:space="preserve">
+    <value>{0} credit notes valideted.</value>
+  </data>
+  <data name="success.validate.invoice.message" xml:space="preserve">
+    <value>{0} invoice valideted.</value>
+  </data>
+  <data name="success.validate.invoices.message" xml:space="preserve">
+    <value>{0} invoices valideted.</value>
+  </data>
+  <data name="no" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="success.reset.validation.credit.note.message" xml:space="preserve">
+    <value>{0} credit note unvalidated.</value>
+  </data>
+  <data name="success.reset.validation.credit.notes.message" xml:space="preserve">
+    <value>{0} credit notes unvalidated.</value>
+  </data>
+  <data name="success.reset.validation.invoice.message" xml:space="preserve">
+    <value>{0} invoice unvalidated.</value>
+  </data>
+  <data name="success.reset.validation.invoices.message" xml:space="preserve">
+    <value>{0} invoices unvalidated.</value>
+  </data>
+  <data name="success.send.mail.message" xml:space="preserve">
+    <value>Email sent successfully.</value>
+  </data>
+  <data name="yes" xml:space="preserve">
+    <value>Yes</value>
+  </data>
+  <data name="view.credit.note" xml:space="preserve">
+    <value>View credit note</value>
+  </data>
+  <data name="view.pdf" xml:space="preserve">
+    <value>View pdf</value>
+  </data>
+  <data name="column.size" xml:space="preserve">
+    <value>Column size</value>
+  </data>
+  <data name="accountingbooking.date.period" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="accountingbooking.id.attribute" xml:space="preserve">
+    <value>Id</value>
+  </data>
+  <data name="accountingposting.value.date.period" xml:space="preserve">
+    <value>Value date period</value>
+  </data>
+  <data name="accountingposting.account.name.attribute" xml:space="preserve">
+    <value>Account name</value>
+  </data>
+  <data name="accountingposting.account.id.attribute" xml:space="preserve">
+    <value>Account id</value>
+  </data>
+  <data name="accountingposting.status.validated.value" xml:space="preserve">
+    <value>Validated value</value>
+  </data>
+  <data name="accountingposting.type.attribute" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="accountingposting.id.attribute" xml:space="preserve">
+    <value>Id</value>
+  </data>
+  <data name="billing.event.type.attribute" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="billing.event.billing_amount.measure" xml:space="preserve">
+    <value>Amount</value>
+  </data>
+  <data name="billing.event.date.period" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="billing.event.description.attribute" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="billing.invoice.default.template" xml:space="preserve">
+    <value>Default template</value>
+  </data>
+  <data name="billing.invoice.description.attribute" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="billing.invoice.date.period" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="billing.invoice.vat.amount.measure" xml:space="preserve">
+    <value>VAT amount</value>
+  </data>
+  <data name="billing.role.client.name.attribute" xml:space="preserve">
+    <value>Name </value>
+  </data>
+  <data name="billing.role.client.id.attribute" xml:space="preserve">
+    <value>Id </value>
+  </data>
+  <data name="billing.role.adress.city.attribute" xml:space="preserve">
+    <value>City</value>
+  </data>
+  <data name="billing.role.adress.country.attribute" xml:space="preserve">
+    <value>Country</value>
+  </data>
+  <data name="billing.role.adress.postalcode.attribute" xml:space="preserve">
+    <value>Postal code</value>
+  </data>
+  <data name="billing.role.adress.street.attribute" xml:space="preserve">
+    <value>Street</value>
+  </data>
+  <data name="billing.role.email.attribute" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="billing.role.phone.attribute" xml:space="preserve">
+    <value>Phone</value>
+  </data>
+  <data name="billing.role.billing.company" xml:space="preserve">
+    <value>Billing company</value>
+  </data>
+  <data name="billing.role.billing.company.id.attribute" xml:space="preserve">
+    <value>Id</value>
+  </data>
+  <data name="billing.role.billing.company.name.attribute" xml:space="preserve">
+    <value>Name </value>
+  </data>
+  <data name="billing.event.client.repository" xml:space="preserve">
+    <value>Client repository</value>
+  </data>
+  <data name="billing.template.repo" xml:space="preserve">
+    <value>Repository</value>
+  </data>
+  <data name="run.number" xml:space="preserve">
+    <value>Run number</value>
+  </data>
+  <data name="code" xml:space="preserve">
+    <value>Code</value>
+  </data>
+  <data name="new.dimensions" xml:space="preserve">
+    <value>New(s) dimension(s)</value>
+  </data>
+  <data name="doYouwanToCreatedimensionslistedAboveAfterLoading" xml:space="preserve">
+    <value>Do you want to create dimensions listed above after loading ?</value>
+  </data>
+  <data name="version" xml:space="preserve">
+    <value>Version</value>
+  </data>
+</root>

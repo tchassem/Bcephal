@@ -1,0 +1,34 @@
+﻿@if (SchedulerPlannerEditorData != null)
+{
+    <DxStackLayout Orientation="Orientation.Horizontal" ItemSpacing="2px" CssClass="w-100">
+        <Items>
+
+            <DxStackLayoutItem Length="50.5%" CssClass="mr-2">
+                    <Template>
+                        <DxComboBox Enabled="Editable" Data="@SchedulerPlannerItemDecision_" TData="string" TValue="string"
+                                    NullText="@AppState["select.decision"]" @bind-Value=@Decision />
+                    </Template>
+            </DxStackLayoutItem>
+            
+            @if (Action != null && Action.Decision != null && GetSchedulerPlannerItemDecisionType().IsGoto())
+            {
+                <DxStackLayoutItem Length="49%">
+                    <Template>
+                        <DxComboBox Enabled="Editable" Data="@codes" TData="string" TValue="string"
+                                    NullText="@AppState["select.code"]" @bind-Value=fecthCodde />
+                    </Template>
+                </DxStackLayoutItem>
+            }
+            
+            @if (Action != null && Action.Decision != null && (GetSchedulerPlannerItemDecisionType().IsMessageWithConfirmation() || GetSchedulerPlannerItemDecisionType().IsMessageWithoutConfirmation()))
+            {
+                <DxStackLayoutItem Length="49.5%">
+                    <Template>
+                        <DxComboBox Enabled="Editable" Data="@SchedulerPlannerEditorData.Alarms" TData="Nameable" TValue="long?" NullText="@AppState["select.alarm"]"
+                                    ValueFieldName="@nameof(Nameable.Id)" TextFieldName="@nameof(Nameable.Name)" @bind-Value="@AlarmSelected" />
+                    </Template>
+                </DxStackLayoutItem>
+            }
+            </Items>
+    </DxStackLayout>
+}

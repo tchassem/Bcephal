@@ -1,0 +1,115 @@
+﻿@page "/edit-grille"
+@page "/edit-grille/{Id:long}"
+
+@inherits Form<Bcephal.Models.Grids.Grille, object>
+
+
+@{
+    base.BuildRenderTree(__builder);
+}
+
+@code{
+
+
+
+public override RenderFragment LeftContent => __builder =>
+{
+@if (EditorData != null)
+{
+    @if (EditorData != null)
+    {
+        <DxTabs CssClass="m-0 p-0 bc-tab-h-100" @bind-ActiveTabIndex="ActiveTabIndexBing" ScrollMode="TabsScrollMode.Auto">
+            <DxTabPage Text="@AppState["Grid.Input"]" CssClass="m-0 p-0 h-100">
+                <div style="height: calc(100% - var(--bc-tab-header-height));">
+                    @if (EditorData != null)
+                    {
+                        string key = new Guid().ToString("d");
+                        @if (CustomHeaderRenderHandler() != null)
+                        {
+                            <InputGridComponentForm_ Editable=Editable
+                                                     @bind-EditorData="EditorDataBinding"
+                                                     GrilleService="GetService()"
+                                                     Entities="@Entities"
+                                                     DuplicateButtonVisible="true"
+                                                     @ref="InputGridComponentForm"
+                                                     CustomHeaderRenderHandler=CustomHeaderRenderHandler
+                                                     DataFilter=BuildFilter
+                                                     />
+                        }
+                        else
+                        {
+                            <InputGridComponentForm_ Editable=Editable
+                                                     @bind-EditorData="EditorDataBinding"
+                                                     GrilleService="GetService()"
+                                                     Entities="@Entities"
+                                                     DuplicateButtonVisible="true"
+                                                     @ref="InputGridComponentForm"
+                                                     DataFilter=BuildFilter
+                                                     />
+                        }
+                    }
+                </div>
+            </DxTabPage>
+            <DxTabPage Text="@AppState["Grid.configuration"]" CssClass="m-0 p-0 h-100">
+                <div style="height: calc(100% - var(--bc-tab-header-height));">
+                    @if (EditorDataBinding != null)
+                    {
+                        try
+                        {
+                            var isInput = IsInputGrid();
+                            string key = new Guid().ToString("d");
+                            <ConfigurationGrid @bind-EditorData=EditorDataBinding
+                                               SelectAttributeCallback=addAttributColumn
+                                               SelectMesureCallback=addMeasureColumn
+                                               SelectPeriodeCallback=addPeriodColumn
+                                               Entities=Entities
+                                               DisplayEditable=isInput
+                                               Filter=RefreshRightContent
+                                               @ref=ConfigurationGrid
+                                               @bind-BGroups="BGroups"
+                                               Editable_=Editable
+                                               @bind-ActiveTabIndexFilter="ActiveTabIndexFilter">
+                                @if (RightCustomContent != null)
+                                {
+                                    @RightCustomContent
+                                }
+                            </ConfigurationGrid>
+                        }
+                        catch (BcephalException e)
+                        {
+                            if (canDisplayError)
+                            {
+                                canDisplayError = false;
+                                Error.ProcessError(e);
+                            }
+                        }
+                    }
+                </div>
+            </DxTabPage>
+        </DxTabs>
+    }
+}
+};
+    public override RenderFragment RightContent => CurrentRightContent;
+
+
+
+    public virtual RenderFragment RightCustomContent => __builder =>
+    {
+        @if (EditorDataBinding != null)
+        {
+            <InputGridInfos @bind-EditorData=EditorDataBinding Editable=Editable />
+        }
+    };
+
+    public RenderFragment RightContentSend => __builder =>
+    {
+        @if (EditorDataBinding != null)
+        {
+            <GridFilterComponent @bind-EditorData=EditorDataBinding @bind-ActiveTabIndex="ActiveTabIndexGridFilter"
+                                 Entities=Entities
+                                 CanRefreshGrid=CanRefreshGrid />
+        }
+    };
+
+}

@@ -1,0 +1,386 @@
+﻿@BodyRender
+
+
+@PivoteConfigurationRender
+@code {
+    private RenderFragment BodyRender => __builder =>
+    {
+        if (Report != null)
+        {
+            <div class="card h-100">
+                @if (!Report.Published)
+                {
+                    <div class="card-header d-flex align-items-center p-0 " style="height: var(--bc-header-height);">
+                        <div class="d-flex w-100" @onclick="() => { Properties = (Editable ? true : false); }">
+                            <span class="d-flex ml-2">
+                               @*@Report.Name*@
+                            </span>
+                            <i class="ml-auto mr-1 bi bi-pencil-square mt-auto mb-auto"></i>
+                        </div>
+                    </div>
+                }
+                <div class="card-body d-block p-0" id="dropdown-customization-target-container" style="height: calc(100% - @(!Report.Published ? "var(--bc-header-height)" : "0px")); width:100%;">
+                    @ContentRender
+                </div>
+            </div>
+        }
+    };
+
+    private RenderFragment PivoteConfigurationRender => __builder =>
+    {
+        if (Report != null)
+        {
+
+        @*<DxDropDown @bind-IsOpen=Properties
+                        PositionMode="DropDownPositionMode.Center"
+                        PositionTarget="#dropdown-customization-target-container"
+                        CloseMode="DropDownCloseMode.Close"
+                        PreventCloseOnPositionTargetClick="true"
+                        HeaderVisible="true"
+                        HeaderText=@AppState["settings"]
+                        FooterVisible="true"
+                        Width="auto !important"
+                        Height="auto !important"
+                        RestrictionTarget="#dropdown-customization-target-container"
+                        RestrictionMode="DropDownRestrictionMode.TargetElement"
+                        FitToRestriction="true">
+                <BodyTemplate>
+                    <div style="height: calc(100vh - 50%); width: calc(100vw - 50%);" @ref="ElementReference">
+                        @SettingsRender
+                    </div>
+                </BodyTemplate>
+                <FooterTextTemplate>
+                    <DxButton CssClass="popup-button" RenderStyle="ButtonRenderStyle.Primary" Text="OK" Click=Ok />
+                    <DxButton CssClass="popup-button" RenderStyle="ButtonRenderStyle.Secondary" Text="@AppState["Close"]" Click=Cancel />
+                </FooterTextTemplate>
+            </DxDropDown>*@
+
+        <BaseModalComponent Title=@AppState["settings"]
+                            @bind-ShowModal=Properties
+                            OkHandler=Ok
+                            BodyClass="h-75"
+                            Width="60%"
+                            Height="60%">
+            @*<div style="height: calc(100% - 1px); width: calc(100% - 1px);" @ref="ElementReference">
+                    @SettingsRender
+                </div>*@
+            @*<div style="height: calc(100% - 1px); width: calc(100% - 1px);" BaseModalComponent="Item" >
+                    @SettingsRender
+                </div>*@
+            <div class="h-100 w-100">
+                @SettingsRender1
+            </div>
+        </BaseModalComponent>
+        }
+    };
+
+
+    private RenderFragment SettingsRender => __builder =>
+    {
+    <SplitterPanel heightCall="calc(100% - 1px)" LeftSize="1"
+                   Panes="new() {SettingsLeftRender,SettingsRightRender}" ElementReference="ElementReference" />
+
+    };
+
+    bool IsSmallScreen;
+
+    private RenderFragment SettingsRender1 => __builder =>
+    {
+    <DxLayoutBreakpoint DeviceSize="DeviceSize.Medium | DeviceSize.Small | DeviceSize.XSmall" @bind-IsActive="IsSmallScreen" />
+    <DxGridLayout ColumnSpacing="0px" CssClass="h-100 w-100">
+        <Rows>
+            @if (IsSmallScreen)
+                {
+                <DxGridLayoutRow Areas="R1" Height="2fr" />
+                <DxGridLayoutRow Areas="R2" Height="1fr" />
+                <DxGridLayoutRow Areas="R3" Height="1fr" />
+                <DxGridLayoutRow Areas="R4" Height="1fr" />
+                <DxGridLayoutRow Areas="R5" Height="1fr" />
+                }
+                else
+                {
+                <DxGridLayoutRow Areas="R1 R2" Height="1fr" />
+                <DxGridLayoutRow Areas="R1 R3" Height="1fr" />
+                <DxGridLayoutRow Areas="R5 R4" Height="1fr" />
+                }
+        </Rows>
+        <Columns>
+            @if (IsSmallScreen)
+                {
+                <DxGridLayoutColumn Width="1fr" />
+                }
+                else
+                {
+                <DxGridLayoutColumn Width="1fr" />
+                <DxGridLayoutColumn Width="1fr" />
+                }
+        </Columns>
+        <Items>
+            <DxGridLayoutItem Area="R1">
+                <Template>
+                    @SettingsSelectedRender
+                </Template>
+            </DxGridLayoutItem>
+            <DxGridLayoutItem Area="R2">
+                <Template>
+                    @SettingsRowRender
+                </Template>
+            </DxGridLayoutItem>
+            <DxGridLayoutItem Area="R3">
+                <Template>
+                    @SettingsColumnRender
+                </Template>
+            </DxGridLayoutItem>
+            <DxGridLayoutItem Area="R4">
+                <Template>
+                    @SettingsDataRender
+                </Template>
+            </DxGridLayoutItem>
+            <DxGridLayoutItem Area="R5">
+                <Template>
+                    @SettingsSelectedFilterRender
+                </Template>
+            </DxGridLayoutItem>
+        </Items>
+    </DxGridLayout>
+    };
+
+
+
+
+
+    private RenderFragment SettingsRowRender => __builder =>
+    {
+<div class="card h-100">
+    <div class="card-header d-flex align-items-center p-0 bc-header-2 " style="height: var(--bc-header-height);">
+        <div class="d-flex w-100">
+            <span class="d-flex ml-2">
+                @AppState["RowFields"]
+            </span>
+        </div>
+    </div>
+    @*<div class="card-body d-block p-0 overflowy-bc"
+        style="height: calc(100% - var(--bc-header-height)); width:100%;"
+        dropzone="true" @ondrop=dropRow ondragover="event.preventDefault();">*@
+    <div class="card-body d-block p-0 overflowy-bc"
+         style="height: calc(100% - var(--bc-header-height)); width:100%;"
+         dropzone="@(Editable ? "true" : "false")" ondrop="drop_handler(event, '@IdRow');" ondragover="event.preventDefault();">
+        <ul class="liststylenone ml-1 p-0" dropzone="@(Editable ? "true" : "false")" @oncontextmenu:preventDefault>
+            @if (Report != null && Report.PivotTableProperties != null)
+                {
+                    var items = Report.PivotTableProperties.WebPivotTableLayout.Fields.Where(item => Bcephal.Models.Dashboards.DashboardReportFieldGroup.ROW.Equals(item.FieldGroup));
+                    foreach (var item in items)
+                    {
+                    @RenderLi(item)
+
+                    }
+                }
+        </ul>
+    </div>
+</div>
+    };
+
+    private RenderFragment SettingsColumnRender => __builder =>
+    {
+<div class="card h-100">
+    <div class="card-header d-flex align-items-center p-0 bc-header-2 " style="height: var(--bc-header-height);">
+        <div class="d-flex w-100">
+            <span class="d-flex ml-2">
+                @AppState["ColumnFields"]
+            </span>
+        </div>
+    </div>
+    @*<div class="card-body d-block p-0 overflowy-bc"
+        style="height: calc(100% - var(--bc-header-height)); width:100%;"
+        dropzone="true" @ondrop=dropColumn ondragover="event.preventDefault();">*@
+    <div class="card-body d-block p-0 overflowy-bc"
+         style="height: calc(100% - var(--bc-header-height)); width:100%;"
+         dropzone="@(Editable ? "true" : "false")" ondrop="drop_handler(event, '@IdColumn');" ondragover="event.preventDefault();">
+        <ul class="liststylenone ml-1 p-0" dropzone="@(Editable ? "true" : "false")" @oncontextmenu:preventDefault>
+            @if (Report != null && Report.PivotTableProperties != null)
+                {
+                    var items = Report.PivotTableProperties.WebPivotTableLayout.Fields.Where(item => Bcephal.Models.Dashboards.DashboardReportFieldGroup.COLUMN.Equals(item.FieldGroup));
+                    foreach (var item in items)
+                    {
+                    @RenderLi(item)
+                    }
+                }
+        </ul>
+    </div>
+</div>
+    };
+
+    private RenderFragment RenderLi(WebPivotTableLayoutField item) => __builder =>
+    {
+    <li  class="w-100">
+        <div class="d-flex align-items-center w-100">
+            <div style="width:calc(100% - 50px)">
+                @item.DimensionName
+            </div>
+            <div style="width:50px">
+                <span class="bi bi-trash" @onclick="(e) => DeleteItem(e,item)"/>
+            </div>
+        </div>
+    </li>
+    };
+
+    private RenderFragment SettingsDataRender => __builder =>
+    {
+<div class="card h-100">
+    <div class="card-header d-flex align-items-center p-0 bc-header-2 " style="height: var(--bc-header-height);">
+        <div class="d-flex w-100">
+            <span class="d-flex ml-2">
+                @AppState["DataFields"]
+            </span>
+        </div>
+    </div>
+    @*<div class="card-body d-block p-0 overflowy-bc"
+        style="height: calc(100% - var(--bc-header-height)); width:100%;"
+        dropzone="true" @ondrop=dropData ondragover="event.preventDefault();">*@
+    <div class="card-body d-block p-0 overflowy-bc"
+         style="height: calc(100% - var(--bc-header-height)); width:100%;"
+         dropzone="@(Editable ? "true" : "false")" ondrop="drop_handler(event, '@IdData');" ondragover="event.preventDefault();">
+        <ul class="liststylenone ml-1 p-0" dropzone="@(Editable ? "true" : "false")" @oncontextmenu:preventDefault>
+            @if (Report != null && Report.PivotTableProperties != null)
+                {
+                    var items = Report.PivotTableProperties.WebPivotTableLayout.Fields.Where(item => Bcephal.Models.Dashboards.DashboardReportFieldGroup.COMMON.Equals(item.FieldGroup));
+                    foreach (var item in items)
+                    {
+                    @RenderLi(item)
+                    }
+                }
+        </ul>
+    </div>
+</div>
+    };
+
+    private RenderFragment SettingsSelectedRender => __builder =>
+    {
+    <div class="card h-100">
+        <div class="card-header d-flex align-items-center p-0 bc-header-2 " style="height: var(--bc-header-height);">
+            <div class="d-flex w-100">
+                <span class="d-flex ml-2">
+                    @AppState["AllFields"]
+                </span>
+            </div>
+        </div>
+        <div class="card-body d-block p-0 overflowy-bc"
+             style="height: calc(100% - var(--bc-header-height)); width:100%;">
+            @{
+                    IEnumerable<DashboardReportField> items = Report.FieldListChangeHandler.GetItems();
+            }
+            <DraggableComponent Editable=Editable  P="DashboardReportField" Data=items SelectItemHandler=SelectItemDrap />
+        </div>
+    </div>
+    };
+    private RenderFragment SettingsSelectedFilterRender => __builder =>
+    {
+<div class="card h-100">
+    <div class="card-header d-flex align-items-center p-0 bc-header-2 " style="height: var(--bc-header-height);">
+        <div class="d-flex w-100">
+            <span class="d-flex ml-2">
+                @AppState["FilterFields"]
+            </span>
+        </div>
+    </div>
+    @*<div class="card-body d-block p-0 overflowy-bc"
+        style="height: calc(100% - var(--bc-header-height)); width:100%;"
+        dropzone="true" @ondrop=dropFilter ondragover="event.preventDefault();">*@
+    <div class="card-body d-block p-0 overflowy-bc"
+         style="height: calc(100% - var(--bc-header-height)); width:100%;"
+         dropzone="@(Editable ? "true" : "false")" ondrop="drop_handler(event, '@IdFilter');" ondragover="event.preventDefault();">
+        <ul class="liststylenone ml-1 p-0" dropzone="@(Editable ? "true" : "false")" @oncontextmenu:preventDefault>
+            @if (Report != null && Report.PivotTableProperties != null)
+                {
+                    var items = Report.PivotTableProperties.WebPivotTableLayout.Fields.Where(item => Bcephal.Models.Dashboards.DashboardReportFieldGroup.FILTER.Equals(item.FieldGroup));
+                    foreach (var item in items)
+                    {
+                    @RenderLi(item)
+                    }
+                }
+        </ul>
+    </div>
+</div>
+    };
+
+    private RenderFragment SettingsLeftRender => __builder =>
+    {
+    <SplitterPanel heightCall="calc(100% - 1px)" LeftSize="2" vertical="false"
+                   Panes="new() {SettingsSelectedRender,SettingsSelectedFilterRender}" />
+    };
+
+    private RenderFragment SettingsRightRender => __builder =>
+    {
+    <SplitterPanel heightCall="calc(100% - 1px)" LeftSize="1" vertical="false"
+                   Panes="new() {SettingsRowRender,SettingsColumnRender,SettingsDataRender}" />
+    };
+
+    private RenderFragment ContentRender => __builder =>
+    {
+        if (PivotGridDataProvider != null)
+        {
+            int index = 0;
+        <DxPivotGrid  Data=PivotGridDataProvider.PivotGridDataSource @ref="PivotGrid" T="JObject" CssClass="w-100 h-100 bc-pivote-h-100"
+                     ShowFieldHeaders="true" ShowGrandTotals="true" ShowPager="true" PageSize="25">
+            @if (Report.PivotTableProperties != null)
+                {
+                @foreach (WebPivotTableLayoutField field in Report.PivotTableProperties.WebPivotTableLayout.Fields)
+                    {
+                        field.Position = index++;
+                    @renderField(field);
+                    }
+                }
+        </DxPivotGrid>
+        }
+    };
+
+    private RenderFragment renderField(WebPivotTableLayoutField field) => __builder =>
+    {
+        if (field != null)
+        {
+            PivotGridFieldArea fieldArea = PivotGridFieldArea.Row;
+            if (DashboardReportFieldGroup.COLUMN.Equals(field.FieldGroup))
+            {
+                fieldArea = PivotGridFieldArea.Column;
+            }
+            else
+            if (DashboardReportFieldGroup.COMMON.Equals(field.FieldGroup))
+            {
+                fieldArea = PivotGridFieldArea.Data;
+            }
+
+            if (DimensionType.PERIOD.Equals(field.Type))
+            {
+                var groupInterval = PivotGridGroupInterval.NotSet;
+                if (DashboardReportPeriodGrouping.MONTHLY.Equals(field.PeriodGrouping))
+                {
+                    groupInterval = PivotGridGroupInterval.Month;
+                }
+                else
+                if (DashboardReportPeriodGrouping.QUARTERLY.Equals(field.PeriodGrouping))
+                {
+                    groupInterval = PivotGridGroupInterval.Quarter;
+                }
+                else
+                if (DashboardReportPeriodGrouping.ANNUAL.Equals(field.PeriodGrouping))
+                {
+                    groupInterval = PivotGridGroupInterval.Year;
+                }
+            <DxPivotGridField Field=@field.DimensionName
+                              Caption=@field.Caption
+                              SortOrder="PivotGridSortOrder.Ascending"
+                              GroupInterval=groupInterval Area=fieldArea />
+            }
+            else
+            {
+            <DxPivotGridField Field=@field.DimensionName
+                              Caption=@field.Caption
+                              SortOrder="PivotGridSortOrder.Ascending"
+                              SummaryType="PivotGridSummaryType.Sum"
+                              Area=fieldArea />
+            }
+        }
+    };
+
+}
+

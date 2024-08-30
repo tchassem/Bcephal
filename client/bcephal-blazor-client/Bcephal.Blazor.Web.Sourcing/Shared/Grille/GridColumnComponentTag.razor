@@ -1,0 +1,35 @@
+﻿@using DevExpress.Blazor;
+
+<div class="card w-100 h-100 m-0 p-0 border-right-0" style="border-radius:unset;">
+        <DxTabs CssClass="m-0 p-0 bc-tab-h-100" @bind-ActiveTabIndex="@ActiveTabIndex" ScrollMode="TabsScrollMode.Auto" >
+            <DxTabPage Text="@AppState["Grid.edit.column.properties"]" Visible="true" CssClass="m-0 p-0 h-100">
+                <div style="height: calc(100% - var(--bc-tab-header-height));">
+                        @if (GrilleColumn != null)
+                        {
+                            <div style="height: calc(100%); box-sizing: border-box !important; overflow-y: auto !important;">
+                                <div class="h-100">
+                                    <GridColumnComponent Editable=Editable  @bind-GrilleColumn=GrilleColumnBinding grilleType=grilleType ItemsCount=ItemsCount>
+
+                                    </GridColumnComponent>
+                                </div>
+                            </div>
+                        }
+                </div>
+            </DxTabPage>
+            <DxTabPage Text="@AppState["Grid.edit.value"]" CssClass="m-0 p-0 h-100">
+                <div style="height: calc(100% - var(--bc-tab-header-height));">
+                    
+                        @if (GrilleColumn != null)
+                        {
+                            <div style="height: calc(100%); box-sizing: border-box !important; overflow-y: auto !important;">
+                                <div class="h-100">
+                                    <GridColumnComponentValue Editable=Editable @bind-GrilleColumn=GrilleColumnBinding>
+
+                                    </GridColumnComponentValue>
+                                </div>
+                            </div>
+                        }
+                </div>
+            </DxTabPage>
+        </DxTabs>
+</div>

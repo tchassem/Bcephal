@@ -1,0 +1,82 @@
+﻿@page "/functionalities/{projectId}"
+@using Bcephal.Models.Functionalities;
+
+<DxStackLayout CssClass="w-100 h-100" ItemSpacing="8px" Orientation="Orientation.Vertical">
+    <Items>
+        <DxStackLayoutItem Visible="IsToolbarVisible" Length="0.2fr">
+            <Template>
+                <DxToolbar DropDownDisplayMode="DropDownDisplayMode.Auto"
+                           AdaptivityMinRootItemCount="1" AdaptivityAutoHideRootItems="true" AdaptivityAutoCollapseItemsToIcons="true"
+                           ItemRenderStyleMode="ToolbarRenderStyleMode.Contained" CssClass="toolbar mb-3 pr-3">
+                    <Items>
+                        <DxToolbarItem @bind-Visible="IsToolbarVisible" Click="() => PopupVisible = true" Text="@AppState["Customized"]" Name="" IconCssClass="bi bi-gear-wide" Alignment="ToolbarItemAlignment.Right" />
+                        <DxToolbarItem @bind-Visible="IsToolbarVisible" Click="() => PopupVisible = true" Text="@AppState["Standard"]" Name="" IconCssClass="bi bi-clipboard-check" Alignment="ToolbarItemAlignment.Right" />
+                        @*<DxToolbarItem @bind-Visible="AppState.CanShowStandard" C Text="@AppState["Standard"]" Name="" IconCssClass="bi bi-clipboard-check" Click="StandartEvent" Alignment="ToolbarItemAlignment.Right" />*@
+
+                    </Items>
+                </DxToolbar>
+            </Template>
+        </DxStackLayoutItem>
+        <DxStackLayoutItem Length="0.8fr">
+            <Template>
+                @{ 
+                    @if(functionalityWorkspace != null && functionalityWorkspace.FunctionalityBlockGroups.Count > 0)
+                    {
+                        int lenh = functionalityWorkspace.FunctionalityBlockGroups.Count;
+                        int offset2 = 0;
+                        while(offset2 < lenh)
+                        {
+                            @GroupContentTab(functionalityWorkspace.FunctionalityBlockGroups.ElementAt(offset2), offset2);
+                            offset2++;
+                        }
+                        
+                    }
+                }
+            </Template>
+        </DxStackLayoutItem>
+    </Items>
+</DxStackLayout>
+
+
+<DxPopup CloseOnEscape="true"
+         CssClass="custom-popup-available-project"
+         CloseOnOutsideClick="true"
+         ShowFooter="true"
+         ShowCloseButton="false"
+         HeaderText="@AppState["Projects.Functionality.Available"]"
+         @bind-Visible="@PopupVisible"
+         HeaderCssClass="font-weight-light"
+         ApplyBackgroundShading="false">
+    <BodyContentTemplate>
+        <div class="d-flex flex-column m-3">
+            @if (functionalityWorkspace != null && AvailableFunctionalities != null && AvailableFunctionalities.Count != 0)
+            {
+                @foreach (Functionality Fncty in AvailableFunctionalities)
+                {
+                    <ItemFunctionality FunctionalityItem="@Fncty"
+                                       ParentMethodSelectFonctionalityWorkspace="@SelectFonctionalityWorkspaceAction" />
+                }
+            }
+        </div>
+    </BodyContentTemplate>
+    <FooterContentTemplate>
+        <div class="d-flex flex-row h-100 w-100">
+            <DxButton CssClass="mr-1 ml-auto wid-70" IconCssClass="fa fa-check mr-1" Enabled="@IsEmptyAddFunc()" RenderStyle="ButtonRenderStyle.Primary" Text="@AppState["ok"]" @onclick="((e)=>AddToFunctionalityBlockGroup())" />
+            <DxButton CssClass="ml-1 mr-auto wid-70" IconCssClass="fa fa-remove mr-1" RenderStyle="ButtonRenderStyle.Danger" Text="@AppState["Close"]" @onclick="@(() => PopupVisible = false)" />
+        </div>
+    </FooterContentTemplate>
+</DxPopup>
+
+@code {
+
+
+    private RenderFragment GroupContentTab(Bcephal.Models.Functionalities.FunctionalityBlockGroup item, int index) => __builder =>
+   {
+       if (item != null)
+       {
+        <Bcephal.Blazor.Web.Base.Shared.Functionalities.FunctionalityBlockGroup DeleteFunctionalityBlockGroup=DeleteFunctionalityBlockGroup
+                                                                                @bind-CurrentItem=item
+                                                                                Title=@item.Name />
+       }
+   };
+}

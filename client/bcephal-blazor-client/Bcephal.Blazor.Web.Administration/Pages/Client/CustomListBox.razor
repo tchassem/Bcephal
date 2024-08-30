@@ -1,0 +1,14 @@
+﻿
+<DxListBox Enabled=Editable_ Id="Fonctionnality" Data=Functionalities
+           SelectionMode=ListBoxSelectionMode
+           ShowCheckboxes="@ShowCheckboxes"
+           CssClass=@CssClass
+          
+           @bind-Values=ValuesBinding
+           TData="ClientFunctionality" TValue="ClientFunctionality">
+    <ItemTemplate>
+        <div class="listbox-item-template">
+            <span>@context.Name(AppState)</span>
+        </div>
+    </ItemTemplate>
+</DxListBox>

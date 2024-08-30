@@ -1,0 +1,17 @@
+﻿@if (EditorData != null && EditorData.Item != null)
+{
+                    @foreach (var item in EditorData.Item.RoutineListChangeHandler.Items)
+                        {
+                            <JoinRoutineItem_ Item=item EditorData=EditorData @key="@(Guid.NewGuid().ToString("d"))"
+                                             UpdateItemCallback=UpdateRoutineExecutor
+                                             AddItemCallback=AddRoutineExecutor
+                                             DeletedItemCallback=DeleteRoutineExecutor IsNew="false" />
+                        }
+
+                            <JoinRoutineItem_ Item=@(new()) EditorData=EditorData @key="@(Guid.NewGuid().ToString("d"))"
+                                 UpdateItemCallback=UpdateRoutineExecutor
+                                 AddItemCallback=AddRoutineExecutor
+                                 DeletedItemCallback=DeleteRoutineExecutor IsNew="true"/>
+
+}
+

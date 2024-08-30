@@ -1,0 +1,73 @@
+﻿
+<div class="card ml-2 mr-2" style="background-color: #fff; height: calc(100vh - 212.4px); margin-top: 5px;">
+    <DxTabs CssClass="custom-tab h-100" @bind-ActiveTabIndex="ActiveTabIndex">
+        <DxTab Text=@AppState["Roles"]></DxTab>
+        <DxTab Text=@AppState["Invoice"]></DxTab>
+        <DxTab Text=@AppState["Billing.event"]></DxTab>
+    </DxTabs>
+    <div class="p-0 ml-2 mr-2" style="margin-top: 5px;height: calc(100vh - 262.6px)">
+        @switch (ActiveTabIndex)
+        {
+            case 0:
+                <ConfigBillingRolesForm @bind-Attributes="Attributes" @bind-RolesParameters="RolesParameters"></ConfigBillingRolesForm>
+                break;
+            case 1:
+                <ConfigBillingInvoiceForm @bind-Periods="Periods" @bind-Measures="Measures" @bind-Attributes="Attributes" @bind-InvoiceParameters="InvoiceParameters"></ConfigBillingInvoiceForm>
+                break;
+            case 2:
+                <ConfigBillingEventForm @bind-Periods="Periods" @bind-Measures="Measures" @bind-Attributes="Attributes" @bind-EventParameters="EventParameters"></ConfigBillingEventForm>
+                break;
+        }
+    </div>
+</div>
+
+
+@code {
+
+    int ActiveTabIndex { get; set; } = 0;
+
+    [Inject]
+    private AppState AppState { get; set; }
+
+
+    [Parameter]
+    public ObservableCollection<string> Attributes { get; set; } // To change
+
+    [Parameter]
+    public EventCallback<ObservableCollection<string>> AttributesChanged { get; set; }
+
+
+    [Parameter]
+    public ObservableCollection<string> Periods { get; set; } // To change
+
+    [Parameter]
+    public EventCallback<ObservableCollection<string>> PeriodsChanged { get; set; }
+
+
+    [Parameter]
+    public ObservableCollection<string> Measures { get; set; } // To change
+
+    [Parameter]
+    public EventCallback<ObservableCollection<string>> MeasuresChanged { get; set; }
+
+    [Parameter]
+    public Dictionary<string, string> EventParameters { get; set; }
+
+    [Parameter]
+    public EventCallback<Dictionary<string, string>> EventParametersChanged { get; set; }
+
+    [Parameter]
+    public Dictionary<string, string> RolesParameters { get; set; }
+
+    [Parameter]
+    public EventCallback<Dictionary<string, string>> RolesParametersChanged { get; set; }
+
+    [Parameter]
+    public Dictionary<string, string> InvoiceParameters { get; set; }
+
+    [Parameter]
+    public EventCallback<Dictionary<string, string>> InvoiceParametersChanged { get; set; }
+
+
+
+}

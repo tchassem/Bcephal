@@ -1,0 +1,31 @@
+task inno() {
+	def innoSetupDir = new File("$rootDir/../../../tools/InnoSetup6/ISCC.exe")
+  	def outputDir = new File("$buildDir")
+ /*
+ if(outputDir.exists()){
+  	delete outputDir  
+ }
+ outputDir.mkdir();  
+  
+  copy {
+    //from("${rootProject.projectDir}/gradle/innosetup/setup-left.bmp")
+    //from("${rootProject.projectDir}/gradle/innosetup/setup-top.bmp")
+    // ...
+    into(outputDir)
+  }
+  */
+ 
+  copy {
+    from("$rootDir/inno.iss")    
+    into(outputDir)
+  }
+   
+ 
+  exec {
+    workingDir outputDir
+    commandLine 'cmd', '/c', innoSetupDir, 'inno.iss'
+  }
+  
+  delete new File("$buildDir/inno.iss")
+  
+}

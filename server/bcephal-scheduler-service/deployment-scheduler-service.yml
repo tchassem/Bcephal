@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bcephal-scheduler-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bcephal-scheduler-service
+    
+  template:
+    metadata:
+      labels:
+        app: bcephal-scheduler-service
+    spec:
+      volumes:
+      - name: bcephal-scheduler-repository
+        hostPath:
+          path: /opt/bcephal-scheduler-repository
+      containers:
+      - name: bcephal-scheduler-service
+        image: localhost:5000/becphal-scheduler-service-docker-image
+        volumeMounts:
+        - name: bcephal-scheduler-repository
+          mountPath: /opt/bcephal-scheduler-repository
+
+        ports:
+        - containerPort: 32012 
+        
+        
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: bcephal-scheduler-service
+spec:
+  selector:
+    app: bcephal-scheduler-service
+  type: NodePort
+  ports:  
+    - name: http
+      nodePort: 32012
+      port: 32012
+      targetPort: 32012
+      protocol: TCP
+   
+  
+  
+
+
+  
+

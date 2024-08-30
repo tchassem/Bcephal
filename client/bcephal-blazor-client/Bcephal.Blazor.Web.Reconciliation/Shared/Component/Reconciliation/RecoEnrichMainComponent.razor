@@ -1,0 +1,241 @@
+﻿
+<div class="bc-content-tabtwo-height w-100">
+    @RenderEnRichment
+</div>
+
+@code {
+
+    string label = "0.25fr";
+    string container = "2fr";
+
+    string heightCall = "var(--bc-content-tabtwo-height)";
+    public RenderFragment RenderEnRichment => __builder =>
+    {
+    <SplitterPanel vertical="false" heightCall="@heightCall" LeftSize="1" RightSize="1" Panes="new List<RenderFragment>() { RenderStandardNote, RenderCustomized }" />
+    };
+
+    public RenderFragment RenderStandardNote => __builder =>
+    {
+    <SplitterPanel vertical="true" LeftSize="1" RightSize="1" Panes="new List<RenderFragment>() { RenderStandard, RenderNote}" />
+    };
+
+    public RenderFragment RenderCustomized => __builder =>
+    {
+    <div class="h-100">
+        <div class="card p-0 m-0 h-100 border-right-0 border-bottom-0 " style="height: 98% !important">
+            <div class="card-header bc-header-height bc-header-2 p-0 m-0">
+                <div class="d-flex flex-column h-100">
+                    <span class="text-left ml-3 mt-auto mb-auto">@AppState["Reconciliation.Customized"]</span>
+                </div>
+            </div>
+            <div class="card-body p-0 m-0 " style="height: calc(100% - var(--bc-header-height));display: block !important; overflow-y: auto; overflow-x: hidden;">
+                @{
+                        int offset = 0;
+                }
+                @while (offset < renders.Count)
+                    {
+                    @renders[offset]
+                        offset++;
+                    }
+            </div>
+        </div>
+    </div>
+    };
+
+    public RenderFragment RenderStandard => __builder =>
+    {
+    <div class="h-100 w-100">
+        <div class="card p-0 m-0 h-100">
+            <div class="card-header bc-header-height bc-header-2 p-0 m-0">
+                <div class="d-flex flex-column h-100">
+                    <span class="text-left ml-3 mt-auto mb-auto">@AppState["Standard"]</span>
+                </div>
+            </div>
+            <div class="card-body p-0 m-0">
+                <DxGridLayout CssClass="mt-2">
+                    <Rows>
+                        <DxGridLayoutRow Height="100%" />
+                    </Rows>
+                    <Columns>
+                        <DxGridLayoutColumn Width="1fr" />
+                    </Columns>
+                    <Items>
+                        <DxGridLayoutItem CssClass="ml-1 w-100" Row="0" Column="0">
+                            <Template>
+                                <DxGridLayout RowSpacing="10px">
+                                    <Rows>
+                                        <DxGridLayoutRow Height="auto" />
+                                        <DxGridLayoutRow Height="auto" />
+                                        <DxGridLayoutRow Height="auto" />
+                                        <DxGridLayoutRow Height="auto" />
+                                    </Rows>
+
+                                    <Columns>
+                                        <DxGridLayoutColumn />
+                                    </Columns>
+                                    <Items>
+                                        <DxGridLayoutItem CssClass="ml-1" Row="0" Column="0">
+                                            <Template>
+                                                <label style="font-size: 1rem !important; font-weight: 400 !important;">@AppState["Reconciliation.EnrichValue"]</label>
+                                            </Template>
+                                        </DxGridLayoutItem>
+                                        <DxGridLayoutItem Row="1" Column="0">
+                                            <Template>
+                                                <div class="d-flex flex-row">
+                                                    <DxCheckBox Enabled=Editable LabelPosition="LabelPosition.Right" CssClass="ml-1 mr-1" @bind-Checked=AddRecoDate>
+                                                        @AppState["Reconciliation.RecoDate"]
+                                                    </DxCheckBox>
+                                                    @if (AddRecoDate)
+                                                        {
+                                                        <div class="filter-elt d-flex flex-column" style="min-width:200px;">
+                                                            <TreeViewFilter Editable=Editable C="Bcephal.Models.Dimensions.Period"
+                                                                            SelectFilterItemCallback="PeriodChanged"
+                                                                            SelectedItem=@(RecoPeriod_ != null ? RecoPeriod_.Name : null)
+                                                                            ItemsFilter="@EnrichmentValueEditorData.Periods">
+                                                            </TreeViewFilter>
+                                                        </div>
+
+                                                        }
+                                                </div>
+</Template>
+                                        </DxGridLayoutItem>
+                                        <DxGridLayoutItem Row="2" Column="0">
+                                            <Template>
+                                                <DxCheckBox Enabled=Editable LabelPosition="LabelPosition.Right" CssClass="ml-1 mr-1" @bind-Checked=AddUser>
+                                                    @AppState["User"]
+                                                </DxCheckBox>
+                                            </Template>
+                                        </DxGridLayoutItem>
+                                        <DxGridLayoutItem Row="3" Column="0">
+                                            <Template>
+                                                <DxCheckBox Enabled=Editable LabelPosition="LabelPosition.Right" CssClass="ml-1 mr-1" @bind-Checked=AddAutomaticManual>
+                                                    @AppState["Reconciliation.AutomaticManual"]
+                                                </DxCheckBox>
+                                            </Template>
+                                        </DxGridLayoutItem>
+                                    </Items>
+                                </DxGridLayout>
+                            </Template>
+                        </DxGridLayoutItem>
+                    </Items>
+                </DxGridLayout>
+            </div>
+        </div>
+    </div>
+    };
+
+    public RenderFragment RenderNote => __builder =>
+     {
+    <div class="h-100 w-100">
+        <div class="card p-0 m-0 h-100 border-right-0">
+            <div class="card-header bc-header-height bc-header-2 p-0 m-0">
+                <div class="d-flex flex-column h-100">
+                    <span class="text-left ml-3 mt-auto mb-auto">@AppState["Note"]</span>
+                </div>
+            </div>
+            <div class="card-body p-0 m-0">
+                <DxGridLayout CssClass="w-100 mt-3" RowSpacing="10px">
+                    <Rows>
+                        <DxGridLayoutRow Height="auto" />
+                        <DxGridLayoutRow Height="auto" />
+                        <DxGridLayoutRow Height="auto" />
+                        <DxGridLayoutRow Height="auto" />
+                    </Rows>
+                    <Columns>
+                        <DxGridLayoutColumn Width="1fr" />
+                    </Columns>
+                    <Items>
+                        <DxGridLayoutItem CssClass="ml-1 h-auto" Row="0" Column="0">
+                            <Template>
+                                <label></label>
+                            </Template>
+                        </DxGridLayoutItem>
+                        <DxGridLayoutItem CssClass="ml-1 h-auto" Row="1" Column="0">
+                            <Template>
+                                <DxStackLayout Orientation="Orientation.Horizontal">
+                                    <Items>
+                                        <DxStackLayoutItem CssClass="w-100" Length="@label" />
+                                        <DxStackLayoutItem CssClass="w-100" Length="@container">
+                                            <Template>
+                                                <DxCheckBox  Enabled=Editable  @bind-Checked=IsActive LabelPosition="LabelPosition.Right"> @AppState["Active"]</DxCheckBox>
+                                            </Template>
+                                        </DxStackLayoutItem>
+                                    </Items>
+                                </DxStackLayout>
+                            </Template>
+                        </DxGridLayoutItem>
+                        <DxGridLayoutItem Visible="IsActive" CssClass="ml-1 h-auto" Row="2" Column="0">
+                            <Template>
+                                <DxStackLayout Orientation="Orientation.Horizontal">
+                                    <Items>
+                                        <DxStackLayoutItem CssClass="w-100" Length="@label" />
+                                        <DxStackLayoutItem CssClass="w-100" Length="@container">
+                                            <Template>
+                                                <DxCheckBox Enabled=Editable @bind-Checked=IsMandatory LabelPosition="LabelPosition.Right"> @AppState["Mandatory"]</DxCheckBox>
+                                            </Template>
+                                        </DxStackLayoutItem>
+                                    </Items>
+                                </DxStackLayout>
+                            </Template>
+                        </DxGridLayoutItem>
+                        <DxGridLayoutItem CssClass="ml-1 h-auto" Visible="IsActive" Row="3" Column="0">
+                            <Template>
+                                <DxStackLayout Orientation="Orientation.Horizontal">
+                                    <Items>
+                                        <DxStackLayoutItem CssClass="w-100 " Length="@label">
+                                            <Template>
+                                                <div class="d-flex flex-row h-100">
+                                                    <span class="d-flex flex-column h-100 ml-auto mr-1"><label class="mt-auto mb-auto">@AppState["NoteType"]</label></span>
+                                                </div>
+                                            </Template>
+                                        </DxStackLayoutItem>
+                                        <DxStackLayoutItem CssClass="w-100" Length="@container">
+                                            <Template>
+                                                <div class="w-50">
+                                                    @NoteAttributeRender
+                                                </div>
+                                            </Template>
+                                        </DxStackLayoutItem>
+                                    </Items>
+                                </DxStackLayout>
+                            </Template>
+                        </DxGridLayoutItem>
+                    </Items>
+                </DxGridLayout>
+
+            </div>
+        </div>
+    </div>
+    };
+
+   public RenderFragment RenderWidgetReco(Bcephal.Models.Reconciliation.ReconciliationModelEnrichment item_, bool addButton) =>
+   __builder =>
+   {
+<RecoEnrichValueComponent @bind-EditorDataBindingLeft=EditorDataBindingLeft
+                          @bind-EditorDataBindingRight=EditorDataBindingRight
+                          EnrichmentValueEditorData=EnrichmentValueEditorData
+                          EnrichValuesTargetSideLeft=EnrichValuesTargetSideLeft
+                          EnrichValuesTargetSideRight=EnrichValuesTargetSideRight
+                          Item=item_
+                          Editable=Editable
+                          CallBackAddorUpdate="AddFilter"
+                          CallBackRemove="RemoveFilter"
+                          AddRenderNext="AddRenderNext"
+                          RemoveButton="addButton"
+                          @key="item_.Key">
+</RecoEnrichValueComponent>
+};
+
+public RenderFragment NoteAttributeRender => __builder =>
+{
+@if (EnrichmentValueEditorData != null)
+    {
+    <TreeViewFilter Editable=Editable C="Bcephal.Models.Base.HierarchicalData"
+                    ItemsFilter="FreezeTypes"
+                    SelectFilterItemCallback="AttributeChanged"
+                    SelectedItem=@NoteAttributeName>
+    </TreeViewFilter>
+
+    }
+};
+}

@@ -1,0 +1,48 @@
+﻿
+@if (!InfosKey.Equals("InfosKey"))
+{
+    <div class="card w-100 h-100 zindexposition">
+        <div class="card-header @HeaderStyle ">
+            <div class="d-flex flex-row">
+                <i class="mr-1 ml-1 mt-auto mb-auto fa fa-calendar" style="cursor:pointer;"></i>
+                <span class="mr-auto ml-1"> @AppState["PERIOD"] </span>
+            </div>
+            <span class="ml-auto mr-1">
+                <i class="m-2 fa fa-expand" style="cursor:pointer;" id="expand" @onclick="@(() => ShowOtherFieldFilters())"></i>
+            </span>
+        </div>
+        <div class="card-body w-100 p-0 mt-1 zindexposition" style="height: calc(100% - var(--bc-header-height)); overflow: auto;">
+            @{
+                int offset = 0;
+                int Count = Items.Count;
+                @while (offset < Count)
+                {
+                    @RenderTemplate(Items[offset], true);
+                    offset++;
+                }
+                @RenderTemplate(new PeriodFilterItem(), false);
+            }
+        </div>
+
+    </div>
+}
+
+@code
+{
+
+
+    RenderFragment RenderTemplate(PeriodFilterItem item_, bool addButton)  => __builder =>
+        {//@key= InfosKey
+       <div class="w-100 ">
+       <PeriodFilterItemComponent Editable=Editable periodFilterItem="item_"
+                                  OnClickRemove="RemovePeriodFilter"
+                                  ExpandField="@IsExpand"
+                                  removeButton="addButton"
+                                  Periods_="PeriodsItems_"
+                                  ItemCallback="TargetFilter"
+                                  ShouldRender_="ShouldRender_">
+       </PeriodFilterItemComponent>
+    </div>
+    };
+
+}

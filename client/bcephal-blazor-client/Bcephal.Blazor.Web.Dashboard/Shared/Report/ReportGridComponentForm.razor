@@ -1,0 +1,10 @@
+﻿@if (EditorData != null)
+{
+
+    <div class="h-100  m-0 p-0 ">
+        <InputGridComponentForm_ @bind-EditorData=EditorData
+                                 GrilleService="GetService()"
+                                 Entities="@Entities"
+                                 @ref="InputGridComponentForm" />
+    </div>
+}

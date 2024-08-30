@@ -1,0 +1,31 @@
+﻿
+<BaseModalComponent @ref="ModalAttach" Title="@Title" Height="50%" ApplyBackgroundShading="true" CssClass="bc-mw-60" BodyClass="overflow-auto" @bind-ShowModal=ShowModal OkHandler="OkHandler" CancelHandler="CancelHandler">
+    <DxStackLayout ItemSpacing="3px" Orientation=Orientation.Vertical>
+        <Items>
+            <DxStackLayoutItem CssClass="bc-dc h-100 ml-1 mr-1 mx-auto">
+                <Template>
+                    @if (CurrentAlarm != null)
+                    {
+                        <div class="mt-1 p-0">
+                            @foreach (var Item in CurrentAlarm.attachmentListChangeHandler.Items)
+                            {
+                                @RenderAlarmAttachment(Item, true)
+                            }
+                        </div>
+                        <div class="mt-1 p-0">
+                            @RenderAlarmAttachment(new(), false)
+                        </div>
+                    }
+                </Template>
+            </DxStackLayoutItem>
+        </Items>
+    </DxStackLayout>
+</BaseModalComponent>
+
+@code{
+    private RenderFragment RenderAlarmAttachment(AlarmAttachment AlarmAttachment, bool IsAdded) => __builder =>
+    {
+    <AttachmentItem Graphs="@Graphs" Grids="@Grids" Spreadsheets="@Spreadsheets" AlarmAttachment="@AlarmAttachment" IsAdded=IsAdded 
+                    Editable=Editable AddItemCallback="AddAttachmentItem" UpdateItemCallback="UpdateAttachmentItem" DeleteItemCallback="DeleteAttachmentItem" />
+    };
+}

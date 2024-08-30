@@ -1,0 +1,37 @@
+﻿
+@inherits AbstractNewGridComponent<Invoice, InvoiceItem>
+
+@{ 
+    base.BuildRenderTree(__builder);
+}
+@*@if (EditorData != null)
+{
+    <DxGrid Data="EditorData.Item.ItemListChangeHandler.Items" 
+            UnboundColumnData="Grid_CustomUnboundColumnData"
+            CustomizeSummaryDisplayText="Grid_CustomizeSummaryDisplayText"
+            ShowGroupPanel="false" 
+            CssClass="custom-grid"
+            PagerSwitchToInputBoxButtonCount=10
+            PagerVisible=true
+            PageSize=10
+            PagerPosition="GridPagerPosition.Bottom"
+            PageSizeSelectorVisible=true
+            PageSizeSelectorItems=PageSize
+            PageSizeSelectorAllRowsItemVisible=true
+            PagerVisibleNumericButtonCount=10
+            PagerAutoHideNavButtons="false"
+            PagerNavigationMode=PagerNavigationMode.Auto>
+        <Columns>
+            <DxGridDataColumn FieldName="@nameof(InvoiceItem.Description)" Caption="Description" MinWidth="30" />
+            <DxGridDataColumn FieldName="@nameof(InvoiceItem.Amount)" DisplayFormat="c" UnboundType="GridUnboundColumnType.Decimal" Caption="Amount without VAT" MinWidth="20" />
+            <DxGridDataColumn FieldName="@nameof(InvoiceItem.VatRate)" DisplayFormat="p2" Caption="VAT Rate" MinWidth="10" />
+            <DxGridDataColumn FieldName="VATAmount" DisplayFormat="c" UnboundType="GridUnboundColumnType.Decimal" Caption="VAT Amount" MinWidth="20" />
+            <DxGridDataColumn FieldName="TOTAL" DisplayFormat="c" UnboundType="GridUnboundColumnType.Decimal" Caption="TOTAL" MinWidth="20" />
+        </Columns>
+        <TotalSummary>
+            <DxGridSummaryItem SummaryType="GridSummaryItemType.Sum" FieldName="@nameof(InvoiceItem.Amount)" ValueDisplayFormat="c" Name="SumAmount"/>
+            <DxGridSummaryItem SummaryType="GridSummaryItemType.Sum" FieldName="VATAmount" ValueDisplayFormat="c" Name="SumVatAmount"/>
+            <DxGridSummaryItem SummaryType="GridSummaryItemType.Sum" FieldName="TOTAL" ValueDisplayFormat="c" Name="SumTotal"/>
+        </TotalSummary>
+    </DxGrid>
+}*@

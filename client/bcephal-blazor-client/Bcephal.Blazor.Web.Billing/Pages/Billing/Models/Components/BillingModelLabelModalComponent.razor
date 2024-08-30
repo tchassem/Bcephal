@@ -1,0 +1,50 @@
+﻿@if (BillingModelEditorData != null)
+{
+    <BaseModalComponent Title="@Title" Height="50%" ApplyBackgroundShading="true" CssClass="bc-mw-60" BodyClass="overflow-auto" @bind-ShowModal=showModal OkHandler="OkHandler" CancelHandler="CancelHandler">
+        <DxStackLayout ItemSpacing="3px" Orientation=Orientation.Vertical>
+            <Items>
+                <DxStackLayoutItem CssClass="bc-dc h-100 ml-1 mr-1 mx-auto">
+                    <Template>
+                        <div class="h-100 d-flex flex-column p-0">
+
+                            <div class="form-group ml-15 mr-15 p-2" style="width: 200px;">
+                                <DxTextBox Text="@LabelValue.Locale" />
+                            </div>
+
+                            <div class="@cssclass2 form-group ml-15 mr-15 p-2">
+                                <textarea class="form-control w-100" rows="3" cols="50" placeholder="@AppState["Description"]" name="Textarea1" id="Textarea1" @bind=Value_ />
+                            </div>
+
+                            @if (BillingModelEditorData.Variables != null && BillingModelEditorData.Variables.Count != 0)
+                            {
+                                <div class="@cssclass3" style="height:40% !important;">
+                                    <div class="buttons-group">
+                                        <div class="buttons-group-title mb-2" style="font-weight:500">
+                                            @AppState["InsertVariables"]
+                                        </div>
+                                        <div class="d-flex flex-row flex-wrap">
+                                            @foreach (var item in BillingModelEditorData.Variables)
+                                            {
+                                                <div class="mr-2 mb-2">
+                                                    <DxButton RenderStyle="ButtonRenderStyle.Secondary"
+                                                              Text="@item"
+                                                              @onclick="() => UpdateUserMessage(item)"
+                                                              title="@AppState["add.to.description"]"
+                                                              CssClass="w-100" />
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </Template>
+                </DxStackLayoutItem>
+            </Items>
+        </DxStackLayout>
+    </BaseModalComponent>
+}
+
+
+
+

@@ -1,0 +1,27 @@
+﻿
+@if (EditorDataBinding != null)
+{
+    <DxStackLayout CssClass="w-100" Orientation="Orientation.Vertical">
+        <Items>
+            @foreach (var itemRender in renders)
+            {
+                <DxStackLayoutItem Length="auto">
+                    <Template>
+                        @itemRender
+                    </Template>
+                </DxStackLayoutItem>
+            }
+        </Items>
+    </DxStackLayout>
+}
+@code {
+    private RenderFragment ItemRender(Models.Links.Link item) => __builder =>
+    {
+    <LinkListComponent_ Editable=Editable Link=item @bind-EditorData=EditorDataBinding
+                        StateChange="StateHasChanged"
+                        AddRender="AddRenderLink"
+                        RemoveRender="RemoveRenderLink"
+                        CanDisplay="CanDisplay(item)" />
+    };
+
+}

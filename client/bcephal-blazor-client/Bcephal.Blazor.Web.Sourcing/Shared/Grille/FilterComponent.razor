@@ -1,0 +1,57 @@
+﻿
+@if(!InfosKey.Equals("Infos_Key"))
+{
+@BodyRender
+}
+
+
+@code {
+    
+
+    public RenderFragment AttributeFilterComponentRender => __builder =>
+    {
+    @if (UniverseFilter != null)
+        {
+        <Bcephal.Blazor.Web.Base.Shared.Entities.AttributeFilterComponent Editable=Editable HeaderStyle="@AttributeHeaderStyle" 
+                                                                     @bind-attributeFilter=AttributeFilterBinding
+                                                                     EntityItems="@Attributes" RefreshGrid=RefreshGrid
+                                                                     ShouldRender_="ShouldRender_"
+                                                                     FilterName="@InfosKey">
+        </Bcephal.Blazor.Web.Base.Shared.Entities.AttributeFilterComponent>
+        }
+    };
+
+    public RenderFragment PeriodFilterComponentRender => __builder =>
+   {
+@if (UniverseFilter != null)
+       {
+    <Bcephal.Blazor.Web.Base.Shared.Period.PeriodFilterComponent Editable=Editable HeaderStyle="@PeriodHeaderStyle" 
+                                          @bind-_PeriodFilters=PeriodFilterBinding 
+                                          PeriodsItems="@Periods" RefreshGrid=RefreshGrid
+                                          ShouldRender_="ShouldRender_"
+                                          FilterName="@InfosKey">
+    </Bcephal.Blazor.Web.Base.Shared.Period.PeriodFilterComponent>
+       }
+   };
+
+    public RenderFragment MeasureFilterComponentRender => __builder =>
+  {
+@if (UniverseFilter != null)
+    {
+    <Bcephal.Blazor.Web.Base.Shared.Measure.MeasureFilterComponent Editable=Editable HeaderStyle="@MeasureHeaderStyle" 
+                                           @bind-measureFilter=MeasureFilterBinding 
+                                           MeasureItems="@Measures" RefreshGrid=RefreshGrid
+                                           ShouldRender_="ShouldRender_"
+                                           FilterName="@InfosKey">
+    </Bcephal.Blazor.Web.Base.Shared.Measure.MeasureFilterComponent>
+
+    }
+};
+
+public RenderFragment BodyRender => __builder =>
+{
+<Bcephal.Blazor.Web.Base.Shared.Component.SplitterPane.SplitterPanel LeftSize="1" 
+                                                                     Panes="(new() {MeasureFilterComponentRender,PeriodFilterComponentRender, AttributeFilterComponentRender})"
+               vertical="false" />
+};
+}

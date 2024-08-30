@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bcephal-file-manager-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bcephal-file-manager-service
+    
+  template:
+    metadata:
+      labels:
+        app: bcephal-file-manager-service
+    spec:
+      volumes:
+      - name: bcephal-file-manager-repository
+        hostPath:
+          path: /opt/bcephal-file-manager-repository
+      containers:
+      - name: bcephal-file-manager-service
+        image: localhost:5000/becphal-file-manager-service-docker-image
+        volumeMounts:
+        - name: bcephal-file-manager-repository
+          mountPath: /opt/bcephal-file-manager-repository
+
+        ports:
+        - containerPort: 32015 
+        
+        
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: bcephal-file-manager-service
+spec:
+  selector:
+    app: bcephal-file-manager-service
+  type: NodePort
+  ports:  
+    - name: http
+      nodePort: 32015
+      port: 32015
+      targetPort: 32015
+      protocol: TCP
+   
+  
+  
+
+
+  
+

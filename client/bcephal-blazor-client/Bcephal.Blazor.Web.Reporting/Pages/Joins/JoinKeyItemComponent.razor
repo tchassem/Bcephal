@@ -1,0 +1,52 @@
+﻿
+<DxLayoutBreakpoint DeviceSize="DeviceSize.Medium | DeviceSize.Small | DeviceSize.XSmall" @bind-IsActive="IsSmallScreen" />
+<DxStackLayout CssClass="w-100 mt-1"  Orientation=Orientation.Horizontal>
+    <Items>
+        @if (JoinGridData != null)
+        {
+            <DxStackLayoutItem CssClass="mr-1" Length="1fr">
+                <Template>
+                    <DxComboBox Enabled="Editable" Data="@JoinGridData" TData="JoinGrid" TValue="JoinGrid" NullText="@AppState["SelectGrid"]" TextFieldName="@nameof(JoinGrid.Name)" @bind-Value="@JoinGrid1" />
+                </Template>
+            </DxStackLayoutItem>
+            <DxStackLayoutItem CssClass="mr-1" Length="1fr">
+                <Template>
+                    <DxComboBox Enabled="Editable" Data="@Columns1" TData="SmallGrilleColumn" TValue="SmallGrilleColumn" NullText="@AppState["select.column"]" TextFieldName="@nameof(SmallGrilleColumn.Name)" @bind-Value="@Column1" />
+                </Template>
+            </DxStackLayoutItem>
+            @if (JoinKey.ColumnId1 == null)
+            {
+                <DxStackLayoutItem Length="2.5fr" /> 
+            }
+            else
+            {
+                <DxStackLayoutItem CssClass="text-center mr-1" Length="0.25fr">
+                    <Template>
+                        <span> = </span>
+                    </Template>
+                </DxStackLayoutItem>
+                <DxStackLayoutItem CssClass="mr-1" Length="1fr">
+                    <Template>
+                        <DxComboBox Enabled="Editable" Data="@JoinGridData" TData="JoinGrid" TValue="JoinGrid" NullText="@AppState["SelectGrid"]" TextFieldName="@nameof(JoinGrid.Name)" @bind-Value="@JoinGrid2" />
+                    </Template>
+                </DxStackLayoutItem>
+                <DxStackLayoutItem CssClass="mr-1" Length="1fr">
+                    <Template>
+                        <DxComboBox Enabled="Editable" Data="@Columns2" TData="SmallGrilleColumn" TValue="SmallGrilleColumn" NullText="@AppState["select.column"]" TextFieldName="@nameof(SmallGrilleColumn.Name)" @bind-Value="@Column2" />
+                    </Template>
+                </DxStackLayoutItem>
+                <DxStackLayoutItem CssClass="mr-1" Length="0.25fr">
+                    <Template>
+                        <DxButton IconCssClass="fa fa-remove"
+                                    CssClass="mt-auto mb-auto float-right"
+                                    RenderStyleMode="ButtonRenderStyleMode.Text"
+                                    RenderStyle="ButtonRenderStyle.Danger"
+                                    Click="()=>RemoveKey(JoinKey)">
+                        </DxButton>
+                    </Template>
+                </DxStackLayoutItem>
+            }
+        }
+
+    </Items>
+</DxStackLayout>

@@ -1,0 +1,33 @@
+﻿@typeparam B
+
+<DxPopup @ref="DxPopupRef"
+         CloseOnOutsideClick="false"
+         CloseOnEscape="false"
+         ShowFooter="true"
+         ShowCloseButton="false"
+         HeaderText="@AppState["RenameTab"]"
+         CssClass="custom-popup"
+         HeaderCssClass="font-weight-light"
+         ApplyBackgroundShading="false"
+         @bind-Visible="@RenameVisible">
+    <Content>
+        <DxFormLayout CssClass="d-flex flex-column">
+            <DxFormLayoutItem CssClass="w-100 pl-0" CaptionCssClass="font-weight-normal" Caption="@AppState["Name"]" ColSpanXs="12" ColSpanXl="12" ColSpanSm="12" ColSpanLg="12" ColSpanMd="12">
+                <Template>
+                    <DxTextBox CssClass="w-100" InputCssClass="w-100" @bind-Text=Name BindValueMode="BindValueMode.OnInput"></DxTextBox>
+                </Template>
+            </DxFormLayoutItem>
+        </DxFormLayout>
+    </Content>
+    <FooterContentTemplate>
+        <div class="d-flex flex-column w-100 h-auto">
+            <div class="d-flex flex-row">
+                <DxButton CssClass="mr-1 ml-auto  wid-100" IconCssClass="fa fa-check pr-1" RenderStyle="ButtonRenderStyle.Primary"
+                          Text="@AppState["Rename"]"
+                          Click=Rename />
+                <DxButton CssClass="ml-1 mr-auto wid-100" IconCssClass="fa fa-close pr-1" RenderStyle="ButtonRenderStyle.Danger"
+                          Text="@AppState["Close"]" @onclick=Close />
+            </div>
+        </div>
+    </FooterContentTemplate>
+</DxPopup>

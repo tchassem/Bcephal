@@ -1,0 +1,1489 @@
+﻿@using Bcephal.Models.Forms;
+
+@RenderBody
+
+<Loading />
+<RenderFormContent @ref="RenderFormContentRefCreateProject">
+    @if (ShouldRenderProject_)
+    {
+        <CreateProject @bind-ModalCreateProject=ModalCreateProject @ref=createProject @bind-Loading=Loading ProjectId=ProjectId @key="key" />
+    }
+</RenderFormContent>
+<RenderFormContent @ref="RenderFormContentRefBackupProject">
+    @if (ModalBackupProject)
+    {
+        <BackupProject @ref="BackupRef" @bind-ModalBackupProject="ModalBackupProject" />
+    }
+</RenderFormContent>
+<RenderFormContent @ref="RenderFormContentRefModalImport">
+    @if (ModalImport)
+    {
+        <ImportProject @ref="ImportRef" @bind-ModalAction="ModalImport" />
+    }
+</RenderFormContent>
+<DxContextMenu ItemClick="OnItemClickOpenLinkOnNewTab" @ref="@ContextMenuOpenLinkRef">
+    <Items>
+        <DxContextMenuItem Text="@AppState["Open"]" />
+        <DxContextMenuItem Text="@AppState["OpenOnNewTab"]" />
+    </Items>
+</DxContextMenu>
+<RenderFormContent @ref="RenderFormContentRefProjectList">
+    @if (PopupVisible)
+    {
+        <ProjectListComponent @bind-Projects=Projects_ Open=OpenOrClose
+                              @ref="ProjectListComponent" @bind-PopupVisible=PopupVisible
+                              CloseProjectHandler=CloseEvent />
+    }
+</RenderFormContent>
+@code{
+
+    public RenderFragment RenderBody => __builder =>
+    {
+    <div class="d-flex flex-row mt-auto mb-auto w-100">
+        <DxMenu Title="B-CEPHAL" @key="@(Guid.NewGuid().ToString("d"))"
+                CssClass="w-25 mr-auto border-0 mobilemenu"
+                CollapseItemToIconMode="MenuCollapseItemToIconMode.Sequentially"
+                DisplayMode="MenuDisplayMode.Mobile"
+                HamburgerButtonPosition="MenuHamburgerButtonPosition.Left"
+                CollapseItemsToHamburgerMenu="true">
+            <TitleTemplate>
+                <div class="box mb-0 mt-0">
+                    <ComponentRow Item1Width="auto" Item2Width="auto" Item1CssClass="auto" Item2CssClass="auto">
+                        <Item1>
+                            <a style="cursor:pointer;" @onclick="GotToHomePage">B-CEPHAL</a>
+                        </Item1>
+                        <Item2>
+                            <RenderFormContent @ref="RenderFormContentRefProjectName">
+                                <span class="ml-1" style="cursor: pointer; color: var(--bc-header-1); font-size:medium; line-height:22px;" @onclick="GotToHomePage">@(!string.IsNullOrWhiteSpace(AppState.ProjectName) ? " - " + AppState.ProjectName : "")</span>
+                            </RenderFormContent>
+                        </Item2>
+                    </ComponentRow>
+                </div>
+            </TitleTemplate>
+            <Items>
+                @RenderProject
+                @RenderInitialization
+                @RenderSourcing
+                @RenderTransformationData
+                @RenderReporting
+                @RenderDashboarding
+                @RenderReconciliation
+                @RenderBilling
+                @RenderAccounting
+                @RenderScheduler
+                @RenderDataManager
+                @RenderMessenger
+                @RenderAdministration
+                @RenderSettings
+                @RenderOther
+                @RenderFileManager
+            </Items>
+        </DxMenu>
+
+        <RenderFormContent @ref="RenderFormContentRef">
+            <DxMenu CssClass="w-75 d-flex justify-content-end" DisplayMode="MenuDisplayMode.Desktop" ItemsPosition="ItemPosition.End" DropDownActionMode="MenuDropDownActionMode.Click">
+                <Items>
+                    <DxMenuItem CssClass="ml-1 mt-auto mb-auto bc-45">
+                        <Template>
+                            <div class="d-block w-100" style="box-sizing:border-box;">
+                                <DxToolbar CssClass="d-flex flex-row m-0 ml-1 p-0 w-100">
+                                    <Items>
+                                        <DxToolbarItem CssClass="m-0 p-0  pr-1" Visible="AppState.CanRenderClientBinding" IconCssClass="bi bi-gear-wide" Alignment="ToolbarItemAlignment.Right">
+                                            <Template Context="DxToolbarItem">
+                                                <DxComboBox Data=AppState.ClientsBinding
+                                                            TData="Models.Base.Nameable"
+                                                            TValue="Models.Base.Nameable"
+                                                            @bind-Value="AppState.ClientBinding"
+                                                            CssClass="m-0 p-0 pl-1 pr-1  w-100" DropDownWidthMode="DropDownWidthMode.EditorWidth" InputCssClass="m-0 p-0  pl-1 pr-1  w-100" />
+                                            </Template>
+                                        </DxToolbarItem>
+                                        <DxToolbarItem CssClass="m-0 p-0 pr-1" Visible="AppState.CanRenderProfilBinding" IconCssClass="bi bi-gear-wide" Alignment="ToolbarItemAlignment.Right">
+                                            <Template Context="DxToolbarItem">
+                                                <DxComboBox Data=AppState.ProfilsBinding
+                                                            TData="Models.Base.Nameable"
+                                                            TValue="Models.Base.Nameable"
+                                                            @bind-Value="AppState.ProfilBinding"
+                                                            CssClass="m-0 p-0 pl-1 pr-1 w-100" DropDownWidthMode="DropDownWidthMode.EditorWidth" InputCssClass="m-0 p-0  pl-1 pr-1  w-100" />
+                                            </Template>
+                                        </DxToolbarItem>
+                                        <DxToolbarItem CssClass="m-0 p-0" Visible="AppState.CanRenderDashboard" IconCssClass="bi bi-gear-wide" Alignment="ToolbarItemAlignment.Right">
+                                            <Template Context="DxToolbarItem">
+                                                @AppState.DashboardRender()
+                                            </Template>
+                                        </DxToolbarItem>
+                                        <DxToolbarItem Visible="AppState.CanRenderDashboard && AppState.CanRefresh" Name="" CssClass="m-0 ml-1 p-0 bc-w-15"
+                                                       IconCssClass="bi bi-arrow-repeat"
+                                                       Tooltip="@AppState["Refresh"]"
+                                                       Alignment="ToolbarItemAlignment.Right" Click="RefreshEvent" />
+                                        <DxToolbarItem Visible="AppState.CanRenderDashboard && AppState.CanRefresh" Name="" CssClass="m-0 ml-1 p-0 bc-w-15"
+                                                       Click=AppState.CloseEventHandler IconCssClass="bi bi-x-circle" Tooltip=@AppState["Close"]
+                                                       Alignment="ToolbarItemAlignment.Right" />
+                                    </Items>
+                                </DxToolbar>
+                            </div>
+                        </Template>
+                    </DxMenuItem>
+                    <DxMenuItem IconCssClass="bi-person" Text="@Name" CssClass="ml-1 mt-auto mb-auto">
+                        <Items>
+                            <DxMenuItem CssClass="@CssClass" Visible="AppState.PrivilegeObserver != null && AppState.PrivilegeObserver.AdministrationAllowed" IconCssClass="bi-person-check" Text="@AppState["Administration"]">
+                                <Items>
+                                    <DxMenuItem CssClass="@CssClass" IconCssClass="bi-people" Text="@AppState["Connected.users"]" />
+                                </Items>
+                            </DxMenuItem>
+                            <DxMenuItem CssClass="@CssClass" IconCssClass="bi-info-circle" Text="@AppState["Help"]" AdaptivePriority="0">
+                                <Items>
+                                    <DxMenuItem CssClass="@CssClass" IconCssClass="bi-question-circle-fill" Text="@AppState["HelpB"]" />
+                                    <DxMenuItem Click="AboutBcephal" CssClass="@CssClass" IconCssClass="bi-info-circle-fill" Text="@AppState["About.Bcephal"]" />
+                                </Items>
+                            </DxMenuItem>
+                            <DxMenuItem Click="Edit" Text="@AppState["my.profile"]" CssClass="@CssClass" IconCssClass="bi bi-person-lines-fill" />
+                            <DxMenuItem Click="Logout" Text="@AppState["Logout"]" CssClass="@CssClass" IconCssClass="fa fa-sign-out" />
+                        </Items>
+                    </DxMenuItem>
+                    <DxMenuItem Text="" CssClass="ml-1 mt-auto mb-auto mr-2">
+                        <Template>
+                            <CultureSelector />
+                        </Template>
+                    </DxMenuItem>
+                </Items>
+            </DxMenu>
+        </RenderFormContent>
+    </div>
+
+    };
+
+    public RenderFragment RenderProject => __builder =>
+    {
+    @if (AppState.PrivilegeObserver != null && AppState.PrivilegeObserver.ProjectAllowed)
+        {
+        <DxMenuItem Text="@AppState["project"]">
+            <Items>
+                @if (AppState.PrivilegeObserver.ProjectCreateAllowed)
+                    {
+                    <DxMenuItem CssClass="@CssClass" IconCssClass="bi-folder-plus" Click=CreateProjectEvt Text="@AppState["New.Project"]" />
+                    }
+                <DxMenuItem CssClass="@CssClass" Click="(() => NavigateTo(Route.PROJECT_BROWSER))" IconCssClass="bi-list-stars">
+                    <TextTemplate>
+                        <span @onclick:preventDefault @oncontextmenu:preventDefault @oncontextmenu="((e) => OpenLing(e, Route.PROJECT_BROWSER))">
+                            @AppState["ProjectsList"]
+                        </span>
+                    </TextTemplate>
+                </DxMenuItem>
+
+                @if (AppState.PrivilegeObserver.ProjectBackupAllowed)
+                    {
+                    <DxMenuItem CssClass="@CssClass" IconCssClass="bi bi-hdd" Text="@AppState["Backup"]">
+                        <Items>
+                            @*<DxMenuItem @bind-Enabled="@ClosedItem" Click="(() => NavigateTo(Route.EXPORT_PROJECT) )" CssClass="@CssClass" IconCssClass="bi bi-arrow-down-circle" Text="@AppState["Project.New.Backup"]" />*@
+                            <DxMenuItem @bind-Enabled="@ClosedItem" CssClass="@CssClass" IconCssClass="bi bi-plus" Click=BackupProjectEvt Text="@AppState["Project.New.Backup"]" />
+                            <DxMenuItem CssClass="@CssClass" Click="(() => NavigateTo(Route.PROJECT_BACKUP_BROWSER))" IconCssClass="bi bi-list">
+                                <TextTemplate>
+                                    <span @onclick:preventDefault @oncontextmenu:preventDefault @oncontextmenu="(() => NavigateTo(Route.PROJECT_BACKUP_BROWSER))">
+                                        @AppState["Project.List.Backup"]
+                                    </span>
+                                </TextTemplate>
+                            </DxMenuItem>
+                            <DxMenuItem @bind-Enabled="@ClosedItem" CssClass="@CssClass" IconCssClass="bi bi-arrow-repeat" Text="@AppState["Project.Automatic.Backup"]" />
+                        </Items>
+                    </DxMenuItem>
+                    }
+                @if (AppState.PrivilegeObserver != null && AppState.PrivilegeObserver.ProjectImportAllowed)
+                    {
+                    <DxMenuItem CssClass="@CssClass" IconCssClass="bi-box-arrow-in-down" Click="ImportProject" Text="@AppState["Import.Project"]" />
+                    }
+                @if (AppState.PrivilegeObserver != null && AppState.PrivilegeObserver.AdministrationAllowed)
+                    {
+                    <DxMenuItem @bind-Enabled="@UserConnected" CssClass="@CssClass" Click="(() => NavigateTo(Route.ACCESS_RIGHTS))" IconCssClass="bi bi-key" Text="@AppState["access.rights"]" />
+                    }
+                <DxMenuItem Click="Logout" CssClass="@CssClass" IconCssClass="bi bi-x-circle" Text="@AppState["Close.B-Cephal"]" />
+            </Items>
+        </DxMenuItem>
+        }
+    };
+
+    public RenderFragment RenderInitialization => __builder =>
+    {
+    @if (AppState.PrivilegeObserver != null && AppState.PrivilegeObserver.InitiationAllowed)
+        {
+        <DxMenuItem Text="@AppState["Initialization"]">
+            <Items>
+                @if (AppState.PrivilegeObserver != null && AppState.PrivilegeObserver.InitiationMeasureAllowed)
+                    {
+                    <DxMenuItem @bind-Enabled="@ClosedItem" Click="(() => NavigateTo(Route.MEASURE_TREEVIEW))" CssClass="@CssClass" IconCssClass="bi bi-rulers">
+                        <TextTemplate>
+                            <span @onclick:preventDefault
+                                  @oncontextmenu:preventDefault @oncontextmenu="((e) => OpenLing(e, Route.MEASURE_TREEVIEW))">
+                                @AppState["MeasureData.Tree"]
+                            </span>
+                        </TextTemplate>
+                    </DxMenuItem>
+                    }
+
+                @if (AppState.PrivilegeObserver != null && AppState.PrivilegeObserver.InitiationPeriodAllowed)
+                    {
+                    <DxMenuItem @bind-Enabled="@ClosedItem" Click="(() => NavigateTo(Route.PERIOD_TREEVIEW))" CssClass="@CssClass" IconCssClass="bi bi-calendar-event">
+                        <TextTemplate>
+                            <span @onclick:preventDefault
+                                  @oncontextmenu:preventDefault @oncontextmenu="((e) => OpenLing(e, Route.PERIOD_TREEVIEW))">
+                                @AppState["PeriodData.Tree"]
+                            </span>
+                        </TextTemplate>
+                    </DxMenuItem>
+                    }
+
+                @if (AppState.PrivilegeObserver != null && AppState.PrivilegeObserver.InitiationModelAllowed)
+                    {
+                    <DxMenuItem @bind-Enabled="@ClosedItem" Click="(() => NavigateTo(Route.MODEL_TREEVIEW))" CssClass="@CssClass" IconCssClass="bi bi-diagram-3">
+                        <TextTemplate>
+                            <span @onclick:preventDefault
+                                  @oncontextmenu:preventDefault @oncontextmenu="((e) => OpenLing(e, Route.MODEL_TREEVIEW))">
+                                @AppState["ModelData.Tree"]
+                            </span>
+                        </TextTemplate>
+                    </DxMenuItem>
+                    }
+            </Items>
+        </DxMenuItem>
+        }
+    };
+
+    public RenderFragment RenderSourcing => __builder =>
+    {
+    @if (AppState.PrivilegeObserver != null && AppState.PrivilegeObserver.SourcingAllowed)
+        {
+        <DxMenuItem Text="@AppState["sourcing"]">
+            <Items>
+                @if (AppState.PrivilegeObserver.SourcingInputSpreadsheetAllowed)
+                    {
+                    <DxMenuItem Visible="false" @bind-Enabled="@ClosedItem" CssClass="@CssClass" IconCssClass="bi-table" Click="(() => NavigateTo(Route.INPUT_SPREADSHEET))" Text="@AppState["List.Input.Tables"]" />
+                    }
+
+                @if (AppState.PrivilegeObserver.SourcingInputGridAllowed)
+                    {
+                    <DxMenuItem IconCssClass="bi-grid" Text="@AppState["Grid.Input"]">
+                        <Items>
+                            @if (AppState.PrivilegeObserver.CanCreatedSourcingInputGrid)
+                                {
+                                <DxMenuItem @bind-Enabled="@ClosedItem" Click="(() => NavigateTo(Route.EDIT_GRID))" CssClass="@CssClass" IconCssClass="bi bi-plus">
+                                    <TextTemplate>
+                                        <span @onclick:preventDefault
+                                              @oncontextmenu:preventDefault @oncontextmenu="((e) => OpenLing(e, Route.EDIT_GRID))">
+                                            @AppState["New.Input.Grid"]
+                                        </span>
+                                    </TextTemplate>
+                                </DxMenuItem>
+                                }
+
+
+                            <DxMenuItem @bind-Enabled="@ClosedItem" Click="(() => NavigateTo(Route.BROWSER_GRID))" CssClass="@CssClass" IconCssClass="bi bi-list">
+                                <TextTemplate>
+                                    <span @onclick:preventDefault
+                                          @oncontextmenu:preventDefault @oncontextmenu="((e) => OpenLing(e, Route.BROWSER_GRID))">
+                                        @AppState["List.Input.Grid"]
+                                    </span>
+                                </TextTemplate>
+                            </DxMenuItem>
+                        </Items>
+                    </DxMenuItem>
+                    }
+                <DxMenuItem IconCssClass="fa fa-wpforms" Text="@AppState["Dynamic.Form"]" Visible="false">
+                    <Items>
+                        <DxMenuItem @bind-Enabled="@ClosedItem" Click="(() => NavigateTo(Route.NEW_DYNAMIC_FORM))" CssClass="@CssClass" IconCssClass="bi-file-plus">
+                            <TextTemplate>
+                                <span @onclick:preventDefault
+                                      @oncontextmenu:preventDefault @oncontextmenu="((e) => OpenLing(e, Route.NEW_DYNAMIC_FORM))">
+                                    @AppState["New.Dynamic.Form"]
+                                </span>
+                            </TextTemplate>
+                        </DxMenuItem>
+                        <DxMenuItem @bind-Enabled="@ClosedItem" CssClass="@CssClass" IconCssClass="bi-list" Text="@AppState["List.Dynamic.Forms"]" />
+                    </Items>
+                </DxMenuItem>
+                @if (AppState.PrivilegeObserver.SourcingFileLoaderAllowed)
+                    {
+                    <DxMenuItem IconCssClass="bi bi-file-earmark-arrow-up" Text="@AppState["FileLoader"]">
+                        <Items>
+                            @if (AppState.PrivilegeObserver.CanCreatedSourcingFileLoader)
+                                {
+                                <DxMenuItem @bind-Enabled="@ClosedItem" Click="(() => NavigateTo(Route.NEW_LOAD_FILE))" CssClass="@CssClass" IconCssClass="bi bi-plus">
+                                    <TextTemplate>
+                                        <span @onclick:preventDefault
+                                              @oncontextmenu:preventDefault @oncontextmenu="((e) => OpenLing(e, Route.NEW_LOAD_FILE))">
+                                            @AppState["New.Files.Loader"]
+                                        </span>
+                                    </TextTemplate>
+                                </DxMenuItem>
+                                }
+                            <DxMenuItem @bind-Enabled="@ClosedItem" Click="(() => NavigateTo(Route.LIST_FILES_LOADER))" CssClass="@CssClass" IconCssClass="bi bi-list">
+                                <TextTemplate>
+                                    <span @onclick:preventDefault
+                                          @oncontextmenu:preventDefault @oncontextmenu="((e) => OpenLing(e, Route.LIST_FILES_LOADER))">
+                                        @AppState["List.Files.Loader"]
+                                    </span>
+                                </TextTemplate>
+                            </DxMenuItem>
+                            @if (AppState.PrivilegeObserver.SourcingFileLoaderSchedulerAllowed)
+                                {
+                                <DxMenuItem @bind-Enabled="@ClosedItem" CssClass="@CssClass" IconCssClass="bi bi-calendar" Text="@AppState["Scheduling"]">
+                                    <Items>
+                                        @if (AppState.PrivilegeObserver.SourcingFileLoaderSchedulerLogAllowed)
+                                            {
+                                            <DxMenuItem @bind-Enabled="@ClosedItem" Click="(() => NavigateTo(Route.BROWSER_SCHEDULED_FILES_LOADER))" CssClass="@CssClass" IconCssClass="bi bi-journals">
+                                                <TextTemplate>
+                                                    <span @onclick:preventDefault
+                                                          @oncontextmenu:preventDefault @oncontextmenu="((e) => OpenLing(e, Route.BROWSER_SCHEDULED_FILES_LOADER))">
+                                                        @AppState["Scheduled.Files.Loader.Logs"]
+                                                    </span>
+                                                </TextTemplate>
+                                            </DxMenuItem>
+                                            }
+                                    </Items>
+                                </DxMenuItem>
+
+                                }
+                        </Items>
+                    </DxMenuItem>
+                    }
+
+                @if (AppState.PrivilegeObserver != null && AppState.PrivilegeObserver.SourcingFileLoaderAllowed)
+                    {
+                    <DxMenuItem CssClass="@CssClass" IconCssClass="bi bi-pin-map" Text="@AppState["SPOT"]">
+                        <Items>
+                            @if (AppState.PrivilegeObserver.CanCreatedSourcingSpot)
+                                {
+                                <DxMenuItem @bind-Enabled="@ClosedItem" CssClass="@CssClass" Click="(() => NavigateTo(Route.EDIT_SPOT))" IconCssClass="bi bi-plus" Text="@AppState["New.Spot"]" />
+                                }
+                            <DxMenuItem @bind-Enabled="@ClosedItem" CssClass="@CssClass" Click="(() => NavigateTo(Route.BROWSER_SPOT))" IconCssClass="bi bi-list">
+                                <TextTemplate>
+                                    <span @onclick:preventDefault
+                                          @oncontextmenu:preventDefault @oncontextmenu="((e) => OpenLing(e, Route.BROWSER_SPOT))">
+                                        @AppState["List.Spot"]
+                                    </span>
+                                </TextTemplate>
+                            </DxMenuItem>
+                        </Items>
+                    </DxMenuItem>
+                    }
+
+                @if (AppState.PrivilegeObserver != null && AppState.PrivilegeObserver.SourcingLingAllowed)
+                    {
+                    <DxMenuItem Visible="false" IconCssClass="bi bi-plugin" Text="@AppState["Accessories"]">
+                        <Items>
+                            <DxMenuItem @bind-Enabled="@ClosedItem" CssClass="@CssClass" IconCssClass="bi-link" Text="@AppState["List.Links"]" />
+                        </Items>
+                    </DxMenuItem>
+                    }
+            </Items>
+        </DxMenuItem>
+        }
+    };
+
+    public RenderFragment RenderTransformationData => __builder =>
+    {
+    @if (AppState.PrivilegeObserver != null && AppState.PrivilegeObserver.TransformationAllowed)
+        {
+        <DxMenuItem Text="@AppState["TransformationData"]">
+            <Items>
+                @if (AppState.PrivilegeObserver.TransformationTreeAllowed)
+                    {
+                    <DxMenuItem Visible="false" CssClass="@CssClass" IconCssClass="bi bi-diagram-2-fill" Text="@AppState["TransformationData.TransformationTree"]">
+                        <Items>
+                            @if (AppState.PrivilegeObserver.CanCreatedTransformationTree)
+                                {
+                                <DxMenuItem @bind-Enabled="@ClosedItem" CssClass="@CssClass" IconCssClass="bi bi-plus" Text="@AppState["TransformationData.NewTransformationTree"]" />
+                                }
+                            <DxMenuItem @bind-Enabled="@ClosedItem" CssClass="@CssClass" IconCssClass="bi bi-list" Text="@AppState["TransformationData.ListTransformationTrees"]" />
+                            @if (AppState.PrivilegeObserver != null && AppState.PrivilegeObserver.TransformationTreeSchedulerAllowed)
+                                {
+                                @*<DxMenuItem @bind-Enabled="@ClosedItem" CssClass="@CssClass" IconCssClass="bi bi-calendar" Text="@AppState["TransformationData.ScheduledTransformationTrees"]" />*@
+                                <DxMenuItem @bind-Enabled="@ClosedItem" Click="(() => NavigateTo(Route.BROWSER_SCHEDULED_TRANSFORMATION_TREE))" CssClass="@CssClass" IconCssClass="bi bi-calendar">
+                                    <TextTemplate>
+                                        <span @onclick:preventDefault
+                                              @oncontextmenu:preventDefault @oncontextmenu="((e) => OpenLing(e, Route.BROWSER_SCHEDULED_TRANSFORMATION_TREE))">
+                                            @AppState["TransformationData.ScheduledTransformationTrees"]
+                                        </span>
+                                    </TextTemplate>
+                                </DxMenuItem>
+                                }
+
+                        </Items>
+                    </DxMenuItem>
+                    }
+                <DxMenuItem CssClass="@CssClass" Visible="false" IconCssClass="bi bi-intersect" Text="@AppState["TransformationData.CombinedTransformationTree"]">
+                    <Items>
+
+                        <DxMenuItem @bind-Enabled="@ClosedItem" CssClass="@CssClass" IconCssClass="bi-file-plus" Text="@AppState["TransformationData.NewCombinedTransformationTree"]" />
+
+                        <DxMenuItem @bind-Enabled="@ClosedItem" CssClass="@CssClass" IconCssClass="bi-list" Text="@AppState["TransformationData.ListCombinedTransformationTrees"]" />
+                    </Items>
+                </DxMenuItem>
+
+                @if (AppState.PrivilegeObserver.TransformationRoutineAllowed)
+                    {
+                    <DxMenuItem IconCssClass="bi bi-file-earmark-arrow-up" Text="@AppState["Trans.routs"]">
+                        <Items>
+                            @if (AppState.PrivilegeObserver.CanCreatedTransformationRoutine)
+                                {
+                                <DxMenuItem @bind-Enabled="@ClosedItem" Click="(() => NavigateTo(Route.EDIT_TRANSFORMATION_ROUTINE))" CssClass="@CssClass" IconCssClass="bi bi-plus">
+                                    <TextTemplate>
+                                        <span @onclick:preventDefault
+                                              @oncontextmenu:preventDefault @oncontextmenu="((e) => OpenLing(e, Route.EDIT_TRANSFORMATION_ROUTINE))">
+                                            @AppState["New.trans.rout"]
+                                        </span>
+                                    </TextTemplate>
+                                </DxMenuItem>
+                                }
+                            <DxMenuItem @bind-Enabled="@ClosedItem" Click="(() => NavigateTo(Route.BROWSER_TRANSFORMATION_ROUTINE))" CssClass="@CssClass" IconCssClass="bi bi-list">
+                                <TextTemplate>
+                                    <span @onclick:preventDefault
+                                          @oncontextmenu:preventDefault @oncontextmenu="((e) => OpenLing(e, Route.BROWSER_TRANSFORMATION_ROUTINE))">
+                                        @AppState["List.trans.rout"]
+                                    </span>
+                                </TextTemplate>
+                            </DxMenuItem>
+                            @if (AppState.PrivilegeObserver.TransformationRoutineSchedulerAllowed)
+                                {
+                                <DxMenuItem @bind-Enabled="@ClosedItem" CssClass="@CssClass" IconCssClass="bi bi-calendar" Text="@AppState["Scheduling"]">
+                                    <Items>
+                                        @if (AppState.PrivilegeObserver != null && AppState.PrivilegeObserver.TransformationRoutineSchedulerLogAllowed)
+                                            {
+                                            <DxMenuItem @bind-Enabled="@ClosedItem" Click="(() => NavigateTo(Route.BROWSER_SCHEDULED_ROUTINE))" CssClass="@CssClass" IconCssClass="bi bi-journals">
+                                                <TextTemplate>
+                                                    <span @onclick:preventDefault
+                                                          @oncontextmenu:preventDefault @oncontextmenu="((e) => OpenLing(e, Route.BROWSER_SCHEDULED_ROUTINE))">
+                                                        @AppState["list.scheduled.tranformation.routine"]
+                                                    </span>
+                                                </TextTemplate>
+                                            </DxMenuItem>
+                                            }
+                                    </Items>
+                                </DxMenuItem>
+                                }
+                        </Items>
+                    </DxMenuItem>
+                    }
+            </Items>
+        </DxMenuItem>
+        }
+    };
+
+    public RenderFragment RenderReporting => __builder =>
+    {
+    @if (AppState.PrivilegeObserver != null && AppState.PrivilegeObserver.ReportingAllowed)
+        {
+        <DxMenuItem Text="@AppState["reporting"]">
+            <Items>
+                <DxMenuItem Visible="false" CssClass="@CssClass" IconCssClass="bi bi-file-earmark-bar-graph" Text="@AppState["Report"]">
+                    <Items>
+                        @*<DxMenuItem @bind-Enabled="@ClosedItem" CssClass="@CssClass" IconCssClass="bi-file-plus" Text="@AppState["New.Report"]" />*@
+                        <DxMenuItem @bind-Enabled="@ClosedItem" Click="(() => NavigateTo(Route.BROWSER_REPORT))" CssClass="@CssClass" IconCssClass="bi bi-list">
+                            <TextTemplate>
+                                <span @onclick:preventDefault
+                                      @oncontextmenu:preventDefault @oncontextmenu="((e) => OpenLing(e, Route.BROWSER_REPORT))">
+                                    @AppState["List.Reports"]
+                                </span>
+                            </TextTemplate>
+                        </DxMenuItem>
+                        <DxMenuItem @bind-Enabled="@ClosedItem" Click="(() => NavigateTo(Route.BROWSER_REPORT_PUBLICATION))" CssClass="@CssClass" IconCssClass="bi-list-stars">
+                            <TextTemplate>
+                                <span @onclick:preventDefault
+                                      @oncontextmenu:preventDefault @oncontextmenu="((e) => OpenLing(e, Route.BROWSER_REPORT_PUBLICATION))">
+                                    @AppState["List.Report.Publication"]
+                                </span>
+                            </TextTemplate>
+                        </DxMenuItem>
+                    </Items>
+                </DxMenuItem>
+
+                @if (AppState.PrivilegeObserver != null && AppState.PrivilegeObserver.ReportingReportGridAllowed)
+                    {
+                    <DxMenuItem CssClass="@CssClass" IconCssClass="bi-grid" Text="@AppState["Grid.Input"]">
+                        <Items>
+                            @if (AppState.PrivilegeObserver.CanCreatedReportingReportGrid)
+                                {
+                                <DxMenuItem @bind-Enabled="@ClosedItem" Click="(() => NavigateTo(Route.EDIT_REPORTING_GRID))" CssClass="@CssClass" IconCssClass="bi bi-plus">
+                                    <TextTemplate>
+                                        <span @onclick:preventDefault
+                                              @oncontextmenu:preventDefault @oncontextmenu="((e) => OpenLing(e, Route.EDIT_REPORTING_GRID))">
+                                            @AppState["New.Report.Grid"]
+                                        </span>
+                                    </TextTemplate>
+                                </DxMenuItem>
+                                }
+                            <DxMenuItem @bind-Enabled="@ClosedItem" Click="(() => NavigateTo(Route.BROWSER_REPORTING_GRID))" CssClass="@CssClass" IconCssClass="bi bi-list">
+                                <TextTemplate>
+                                    <span @onclick:preventDefault
+                                          @oncontextmenu:preventDefault @oncontextmenu="((e) => OpenLing(e, Route.BROWSER_REPORTING_GRID))">
+                                        @AppState["List.Report.Grid"]
+                                    </span>
+                                </TextTemplate>
+                            </DxMenuItem>
+                        </Items>
+                    </DxMenuItem>
+                    }
+
+                @if (AppState.PrivilegeObserver != null && AppState.PrivilegeObserver.ReportingPivotTableAllowed)
+                    {
+                    <DxMenuItem CssClass="@CssClass" Visible="true" IconCssClass="bi-geo" Text="@AppState["Pivot.Table"]">
+                        <Items>
+                            @if (AppState.PrivilegeObserver.CanCreatedReportingPivotTable)
+                                {
+                                <DxMenuItem @bind-Enabled="@ClosedItem" Click="(() => NavigateTo(Route.EDIT_REPORT_PIVOT_TABLE))" CssClass="@CssClass" IconCssClass="bi bi-plus">
+                                    <TextTemplate>
+                                        <span @onclick:preventDefault
+                                              @oncontextmenu:preventDefault @oncontextmenu="((e) => OpenLing(e, Route.EDIT_REPORT_PIVOT_TABLE))">
+                                            @AppState["New.Pivot.Table"]
+                                        </span>
+                                    </TextTemplate>
+                                </DxMenuItem>
+                                }
+                            <DxMenuItem @bind-Enabled="@ClosedItem" Click="(() => NavigateTo(Route.BROWSER_REPORT_PIVOT_TABLE))" CssClass="@CssClass" IconCssClass="bi bi-list">
+                                <TextTemplate>
+                                    <span @onclick:preventDefault
+                                          @oncontextmenu:preventDefault @oncontextmenu="((e) => OpenLing(e, Route.BROWSER_REPORT_PIVOT_TABLE))">
+                                        @AppState["List.Pivot.Table"]
+                                    </span>
+                                </TextTemplate>
+                            </DxMenuItem>
+                        </Items>
+                    </DxMenuItem>
+                    }
+
+                @if (AppState.PrivilegeObserver != null && AppState.PrivilegeObserver.ReportingChartAllowed)
+                    {
+                    <DxMenuItem CssClass="@CssClass" IconCssClass="bi-bar-chart" Text="@AppState["Chart"]">
+                        <Items>
+                            @if (AppState.PrivilegeObserver.CanCreatedReportingChart)
+                                {
+                                <DxMenuItem @bind-Enabled="@ClosedItem" Click="(() => NavigateTo(Route.EDIT_REPORTING_CHART))" CssClass="@CssClass" IconCssClass="bi bi-plus">
+                                    <TextTemplate>
+                                        <span @onclick:preventDefault
+                                              @oncontextmenu:preventDefault @oncontextmenu="((e) => OpenLing(e, Route.EDIT_REPORTING_CHART))">
+                                            @AppState["New.Chart"]
+                                        </span>
+                                    </TextTemplate>
+                                </DxMenuItem>
+                                }
+                            <DxMenuItem @bind-Enabled="@ClosedItem" Click="(() => NavigateTo(Route.BROWSER_REPORTING_CHART))" CssClass="@CssClass" IconCssClass="bi bi-list">
+                                <TextTemplate>
+                                    <span @onclick:preventDefault
+                                          @oncontextmenu:preventDefault @oncontextmenu="((e) => OpenLing(e, Route.BROWSER_REPORTING_CHART))">
+                                        @AppState["List.Chart"]
+                                    </span>
+                                </TextTemplate>
+                            </DxMenuItem>
+                        </Items>
+                    </DxMenuItem>
+                    }
+
+                @*@if (AppState.PrivilegeObserver != null && AppState.PrivilegeObserver.ReportingJoinGridAllowed)
+                        {
+                    <DxMenuItem Visible="false" CssClass="@CssClass" IconCssClass="bi bi-intersect" Text="@AppState["Join.Grid"]">
+                        <Items>
+                            @if (AppState.PrivilegeObserver.CanCreatedReportingJoinGrid)
+                                    {
+                                <DxMenuItem @bind-Enabled="@ClosedItem" Click="(() => NavigateTo(Route.EDIT_REPORTING_JOIN_GRID))" CssClass="@CssClass" IconCssClass="bi bi-plus">
+                                    <TextTemplate>
+                                        <span @onclick:preventDefault
+                                              @oncontextmenu:preventDefault @oncontextmenu="((e) => OpenLing(e, Route.EDIT_REPORTING_JOIN_GRID))">
+                                            @AppState["New.Join.Grid"]
+                                        </span>
+                                    </TextTemplate>
+                                </DxMenuItem>
+                                    }
+                            <DxMenuItem @bind-Enabled="@ClosedItem" Click="(() => NavigateTo(Route.BROWSER_REPORTING_JOIN_GRID))" CssClass="@CssClass" IconCssClass="bi bi-list">
+                                <TextTemplate>
+                                    <span @onclick:preventDefault
+                                          @oncontextmenu:preventDefault @oncontextmenu="((e) => OpenLing(e, Route.BROWSER_REPORTING_JOIN_GRID))">
+                                        @AppState["List.Join.Grid"]
+                                    </span>
+                                </TextTemplate>
+                            </DxMenuItem>
+                        </Items>
+                    </DxMenuItem>
+                        }*@
+
+                <DxMenuItem CssClass="@CssClass" IconCssClass="bi bi-intersect" Text="@AppState["JOIN"]">
+                    <Items>
+                        @if (AppState.PrivilegeObserver.CanCreatedReportingJoinGrid)
+                            {
+                            <DxMenuItem @bind-Enabled="@ClosedItem" Click="(() => NavigateTo(Route.EDIT_REPORTING_JOIN))" CssClass="@CssClass" IconCssClass="bi bi-plus">
+                                <TextTemplate>
+                                    <span @onclick:preventDefault
+                                          @oncontextmenu:preventDefault @oncontextmenu="((e) => OpenLing(e, Route.EDIT_REPORTING_JOIN))">
+                                        @AppState["New.Join"]
+                                    </span>
+                                </TextTemplate>
+                            </DxMenuItem>
+                            }
+                        <DxMenuItem @bind-Enabled="@ClosedItem" Click="(() => NavigateTo(Route.BROWSER_REPORTING_JOIN))" CssClass="@CssClass" IconCssClass="bi bi-list">
+                            <TextTemplate>
+                                <span @onclick:preventDefault
+                                      @oncontextmenu:preventDefault @oncontextmenu="((e) => OpenLing(e, Route.BROWSER_REPORTING_JOIN))">
+                                    @AppState["List.Joins"]
+                                </span>
+                            </TextTemplate>
+                        </DxMenuItem>
+                        <DxMenuItem @bind-Enabled="@ClosedItem" Click="(() => NavigateTo(Route.BROWSER_JOIN_LOG))" CssClass="@CssClass" IconCssClass="bi bi-journals">
+                            <TextTemplate>
+                                <span @onclick:preventDefault
+                                      @oncontextmenu:preventDefault @oncontextmenu="((e) => OpenLing(e, Route.BROWSER_JOIN_LOG))">
+                                    @AppState["List.Join.Log"]
+                                </span>
+                            </TextTemplate>
+                        </DxMenuItem>
+                    </Items>
+                </DxMenuItem>
+
+                <DxMenuItem Visible="false" CssClass="@CssClass" IconCssClass="bi bi-file-earmark-spreadsheet" Text="@AppState["Spreadsheet"]">
+                    <Items>
+                        @if (AppState.PrivilegeObserver.CanCreatedReportingChart)
+                            {
+                            <DxMenuItem @bind-Enabled="@ClosedItem" Click="(() => NavigateTo(Route.EDIT_REPORTING_CHART))" CssClass="@CssClass" IconCssClass="bi bi-plus">
+                                <TextTemplate>
+                                    <span @onclick:preventDefault
+                                          @oncontextmenu:preventDefault @oncontextmenu="((e) => OpenLing(e, Route.EDIT_REPORTING_CHART))">
+                                        @AppState["New.Spreadsheet"]
+                                    </span>
+                                </TextTemplate>
+                            </DxMenuItem>
+                            }
+                        <DxMenuItem @bind-Enabled="@ClosedItem" Click="(() => NavigateTo(Route.BROWSER_SPREAD_SHEET))" CssClass="@CssClass" IconCssClass="bi bi-list">
+                            <TextTemplate>
+                                <span @onclick:preventDefault
+                                      @oncontextmenu:preventDefault @oncontextmenu="((e) => OpenLing(e, Route.BROWSER_SPREAD_SHEET))">
+                                    @AppState["List.Spreadsheet"]
+                                </span>
+                            </TextTemplate>
+                        </DxMenuItem>
+                    </Items>
+                </DxMenuItem>
+
+                <DxMenuItem CssClass="@CssClass" Visible="false" IconCssClass="bi-calculator" Text="@AppState["Calculated.Measure"]">
+                    <Items>
+                        <DxMenuItem @bind-Enabled="@ClosedItem" CssClass="@CssClass" IconCssClass="bi bi-plus" Text="@AppState["New.Calculated.Measure"]" />
+                        <DxMenuItem @bind-Enabled="@ClosedItem" CssClass="@CssClass" IconCssClass="bi bi-list" Text="@AppState["List.Calculated.Measure"]" />
+                        <DxMenuItem @bind-Enabled="@ClosedItem" Click="(() => NavigateTo(Route.MEASURE_TREEVIEW))" CssClass="@CssClass" IconCssClass="bi bi-list" />
+                    </Items>
+                </DxMenuItem>
+            </Items>
+        </DxMenuItem>
+        }
+    };
+
+    public RenderFragment RenderDashboarding => __builder =>
+    {
+    @if (AppState.PrivilegeObserver != null && AppState.PrivilegeObserver.DashboardingAllowed)
+        {
+        <DxMenuItem Text="@AppState["dashboarding"]">
+            <Items>
+                @if (AppState.PrivilegeObserver.DashboardingDashboardAllowed)
+                    {
+                    <DxMenuItem CssClass="@CssClass" IconCssClass="bi-speedometer" Text="@AppState["Dashboard"]">
+                        <Items>
+                            @if (AppState.PrivilegeObserver.CanCreatedDashboardingDashboard)
+                                {
+                                <DxMenuItem @bind-Enabled="@ClosedItem" Click="(() => NavigateTo(Route.EDIT_REPORT_DASHBOARD))" CssClass="@CssClass" IconCssClass="bi bi-plus">
+                                    <TextTemplate>
+                                        <span @onclick:preventDefault
+                                              @oncontextmenu:preventDefault @oncontextmenu="((e) => OpenLing(e, Route.EDIT_REPORT_DASHBOARD))">
+                                            @AppState["New.Dashboard"]
+                                        </span>
+                                    </TextTemplate>
+                                </DxMenuItem>
+                                }
+                            <DxMenuItem @bind-Enabled="@ClosedItem" Click="(() => NavigateTo(Route.BROWSER_REPORT_DASHBOARD))" CssClass="@CssClass" IconCssClass="bi bi-list">
+                                <TextTemplate>
+                                    <span @onclick:preventDefault
+                                          @oncontextmenu:preventDefault @oncontextmenu="((e) => OpenLing(e, Route.BROWSER_REPORT_DASHBOARD))">
+                                        @AppState["List.Dashboard"]
+                                    </span>
+                                </TextTemplate>
+                            </DxMenuItem>
+                        </Items>
+                    </DxMenuItem>
+                    }
+
+                @if (AppState.PrivilegeObserver.DashboardingAlarmAllowed)
+                    {
+                    <DxMenuItem CssClass="@CssClass" IconCssClass="bi-alarm" Text="@AppState["Alarm"]">
+                        <Items>
+                            @if (AppState.PrivilegeObserver.CanCreatedDashboardingAlarm)
+                                {
+                                <DxMenuItem @bind-Enabled="@ClosedItem" Click="(() => NavigateTo(Route.EDIT_REPORT_ALARM))" CssClass="@CssClass" IconCssClass="bi bi-plus">
+                                    <TextTemplate>
+                                        <span @onclick:preventDefault
+                                              @oncontextmenu:preventDefault @oncontextmenu="((e) => OpenLing(e, Route.EDIT_REPORT_ALARM))">
+                                            @AppState["New.Alarm"]
+                                        </span>
+                                    </TextTemplate>
+                                </DxMenuItem>
+                                }
+                            <DxMenuItem @bind-Enabled="@ClosedItem" Click="(() => NavigateTo(Route.BROWSER_REPORT_ALARM))" CssClass="@CssClass" IconCssClass="bi bi-list">
+                                <TextTemplate>
+                                    <span @onclick:preventDefault
+                                          @oncontextmenu:preventDefault @oncontextmenu="((e) => OpenLing(e, Route.BROWSER_REPORT_ALARM))">
+                                        @AppState["List.Alarms"]
+                                    </span>
+                                </TextTemplate>
+                            </DxMenuItem>
+                            @if (AppState.PrivilegeObserver.DashboardingAlarmSchedulerAllowed)
+                                {
+                                <DxMenuItem @bind-Enabled="@ClosedItem" Click="(() => NavigateTo(Route.BROWSER_REPORT_SCHEDULED_ALARM))" CssClass="@CssClass" IconCssClass="bi bi-calendar">
+                                    <TextTemplate>
+                                        <span @onclick:preventDefault
+                                              @oncontextmenu:preventDefault @oncontextmenu="((e) => OpenLing(e, Route.BROWSER_REPORT_SCHEDULED_ALARM))">
+                                            @AppState["Scheduled.Alarms"]
+                                        </span>
+                                    </TextTemplate>
+                                </DxMenuItem>
+                                }
+                        </Items>
+                    </DxMenuItem>
+                    }
+            </Items>
+        </DxMenuItem>
+        }
+    };
+
+    public RenderFragment RenderReconciliation => __builder =>
+    {
+    @if (AppState.PrivilegeObserver != null && AppState.PrivilegeObserver.ReconciliationAllowed)
+        {
+        <DxMenuItem Text="@AppState["reconciliation"]">
+            <Items>
+                @if (AppState.PrivilegeObserver.ReconciliationFilterAllowed)
+                    {
+                    <DxMenuItem Text="@AppState["reconciliation.filter"]">
+                        <Items>
+                            @if (AppState.PrivilegeObserver.CanCreatedReconciliationFilter)
+                                {
+                                <DxMenuItem @bind-Enabled="@ClosedItem" Click="(() => NavigateTo(Route.RECONCILIATION_FILTER_FORM))" CssClass="@CssClass" IconCssClass="bi bi-filter">
+                                    <TextTemplate>
+                                        <span @onclick:preventDefault
+                                              @oncontextmenu:preventDefault @oncontextmenu="((e) => OpenLing(e, Route.RECONCILIATION_FILTER_FORM))">
+                                            @AppState["New.Reconciliation.Filter"]
+                                        </span>
+                                    </TextTemplate>
+                                </DxMenuItem>
+                                }
+                            <DxMenuItem @bind-Enabled="@ClosedItem" Click="(() => NavigateTo(Route.RECONCILIATION_FILTER_BROWSER))" CssClass="@CssClass" IconCssClass="bi bi-filter-square">
+                                <TextTemplate>
+                                    <span @onclick:preventDefault
+                                          @oncontextmenu:preventDefault @oncontextmenu="((e) => OpenLing(e, Route.RECONCILIATION_FILTER_BROWSER))">
+                                        @AppState["List.Reconciliation.Filter"]
+                                    </span>
+                                </TextTemplate>
+                            </DxMenuItem>
+                        </Items>
+                    </DxMenuItem>
+                    }
+
+                @if (AppState.PrivilegeObserver.ReconciliationAutoRecoAllowed)
+                    {
+                    <DxMenuItem Text="@AppState["Automatic.Reconciliation"]">
+                        <Items>
+
+                            @if (AppState.PrivilegeObserver.CanCreatedReconciliationAutoReco)
+                                {
+                                <DxMenuItem @bind-Enabled="@ClosedItem" Click="(() => NavigateTo(Route.RECONCILIATION_AUTO_FORM))" CssClass="@CssClass" IconCssClass="bi bi-arrow-left-right">
+                                    <TextTemplate>
+                                        <span @onclick:preventDefault
+                                              @oncontextmenu:preventDefault @oncontextmenu="((e) => OpenLing(e, Route.RECONCILIATION_AUTO_FORM))">
+                                            @AppState["New.Automatic.Reconciliation"]
+                                        </span>
+                                    </TextTemplate>
+                                </DxMenuItem>
+                                }
+                            <DxMenuItem @bind-Enabled="@ClosedItem" Click="(() => NavigateTo(Route.RECONCILIATION_AUTO_BROWSER))" CssClass="@CssClass" IconCssClass="bi bi-file-text">
+                                <TextTemplate>
+                                    <span @onclick:preventDefault
+                                          @oncontextmenu:preventDefault @oncontextmenu="((e) => OpenLing(e, Route.RECONCILIATION_AUTO_BROWSER))">
+                                        @AppState["List.Automatic.Reconciliations"]
+                                    </span>
+                                </TextTemplate>
+                            </DxMenuItem>
+                            <DxMenuItem @bind-Enabled="@ClosedItem" Click="(() => NavigateTo(Route.RECONCILIATION_RUN_AUTO))" Visible="false" CssClass="@CssClass" IconCssClass="bi bi-file-play">
+                                <TextTemplate>
+                                    <span @onclick:preventDefault
+                                          @oncontextmenu:preventDefault @oncontextmenu="((e) => OpenLing(e, Route.RECONCILIATION_RUN_AUTO))">
+                                        @AppState["Run.Automatic.Reconciliations"]
+                                    </span>
+                                </TextTemplate>
+                            </DxMenuItem>
+
+                            @if (AppState.PrivilegeObserver.ReconciliationAutoRecoSchedulerAllowed)
+                                {
+                                <DxMenuItem CssClass="@CssClass" IconCssClass="bi bi-calendar-week" Text="@AppState["Scheduling"]">
+                                    <Items>
+                                        <DxMenuItem @bind-Enabled="@ClosedItem" Click="(() => NavigateTo(Route.RECONCILIATION_SCHEDULED_AUTO_BROWSER))" CssClass="@CssClass" IconCssClass="bi-calendar">
+                                            <TextTemplate>
+                                                <span @onclick:preventDefault
+                                                      @oncontextmenu:preventDefault @oncontextmenu="((e) => OpenLing(e, Route.RECONCILIATION_SCHEDULED_AUTO_BROWSER))">
+                                                    @AppState["Scheduled.Auto.Recos"]
+                                                </span>
+                                            </TextTemplate>
+                                        </DxMenuItem>
+
+                                        @if (AppState.PrivilegeObserver != null && AppState.PrivilegeObserver.ReconciliationAutoRecoSchedulerLogAllowed)
+                                            {
+                                            <DxMenuItem @bind-Enabled="@ClosedItem" Visible="false" Click="(() => NavigateTo(Route.RECONCILIATION_AUTO_RECO_LOG))" CssClass="@CssClass" IconCssClass="bi bi-file-play">
+                                                <TextTemplate>
+                                                    <span @onclick:preventDefault
+                                                          @oncontextmenu:preventDefault @oncontextmenu="((e) => OpenLing(e, Route.RECONCILIATION_AUTO_RECO_LOG))">
+                                                        @AppState["Current.Auto.Recos.Executions"]
+                                                    </span>
+                                                </TextTemplate>
+                                            </DxMenuItem>
+                                            }
+                                    </Items>
+                                </DxMenuItem>
+                                }
+                        </Items>
+                    </DxMenuItem>
+                    }
+            </Items>
+        </DxMenuItem>
+        }
+    };
+
+    public RenderFragment RenderBilling => __builder =>
+    {
+    @if (AppState.PrivilegeObserver != null && AppState.PrivilegeObserver.BillingAllowed)
+        {
+        <DxMenuItem Visible="true" Text="@AppState["billing"]">
+            <Items>
+                @if (AppState.PrivilegeObserver.BillingEventAllowed)
+                    {
+                    <DxMenuItem CssClass="@CssClass" IconCssClass="bi bi-box-seam" Text="@AppState["repositories"]">
+                        <Items>
+                            @if (AppState.PrivilegeObserver.BillingEventRepositoryAllowed)
+                                {
+                                <DxMenuItem @bind-Enabled="@ClosedItem" Click="(() => NavigateTo(Route.BILLING_EVENT_REPOSITORY))" CssClass="@CssClass" IconCssClass="bi-hdd">
+                                    <TextTemplate>
+                                        <span @onclick:preventDefault
+                                              @oncontextmenu:preventDefault @oncontextmenu="((e) => OpenLing(e, Route.BILLING_EVENT_REPOSITORY))">
+                                            @AppState["billing.event.repository"]
+                                        </span>
+                                    </TextTemplate>
+                                </DxMenuItem>
+                                }
+                            @if (AppState.PrivilegeObserver.ClientRepositoryAllowed)
+                                {
+                                <DxMenuItem @bind-Enabled="@ClosedItem" Click="(() => NavigateTo(Route.CLIENT_REPOSITORY))" CssClass="@CssClass" IconCssClass="bi-file-earmark-person">
+                                    <TextTemplate>
+                                        <span @onclick:preventDefault
+                                              @oncontextmenu:preventDefault @oncontextmenu="((e) => OpenLing(e, Route.CLIENT_REPOSITORY))">
+                                            @AppState["client.repository"]
+                                        </span>
+                                    </TextTemplate>
+                                </DxMenuItem>
+                                }
+                            @if (AppState.PrivilegeObserver.BillingJoinAllowed)
+                                {
+                                <DxMenuItem @bind-Enabled="@ClosedItem" Click="(() => NavigateTo(Route.BILLING_JOIN))" CssClass="@CssClass" IconCssClass="bi-intersect">
+                                    <TextTemplate>
+                                        <span @onclick:preventDefault
+                                              @oncontextmenu:preventDefault @oncontextmenu="((e) => OpenLing(e, Route.BILLING_JOIN))">
+                                            @AppState["billing.event.join.repository"]
+                                        </span>
+                                    </TextTemplate>
+                                </DxMenuItem>
+                                }
+
+                        </Items>
+                    </DxMenuItem>
+                    }
+
+                @if (AppState.PrivilegeObserver.BillingModelAllowed)
+                    {
+                    <DxMenuItem CssClass="@CssClass" IconCssClass="bi bi-columns-gap" Text="@AppState["billing.models"]">
+                        <Items>
+                            @if (AppState.PrivilegeObserver.BillingModelAllowed)
+                                {
+                                <DxMenuItem CssClass="@CssClass" IconCssClass="bi bi-grid-1x2" Text="@AppState["billing.model"]">
+                                    <Items>
+                                        @if (AppState.PrivilegeObserver.CanCreatedBillingModel)
+                                            {
+                                            <DxMenuItem @bind-Enabled="@ClosedItem" Click="(() => NavigateTo(Route.BILLING_MODEL_FORM))" CssClass="@CssClass" IconCssClass="bi bi-plus">
+                                                <TextTemplate>
+                                                    <span @onclick:preventDefault
+                                                          @oncontextmenu:preventDefault @oncontextmenu="((e) => OpenLing(e, Route.BILLING_MODEL_FORM))">
+                                                        @AppState["New.model"]
+                                                    </span>
+                                                </TextTemplate>
+                                            </DxMenuItem>
+                                            }
+                                        <DxMenuItem @bind-Enabled="@ClosedItem" Click="(() => NavigateTo(Route.BILLING_MODEL_BROWSER))" CssClass="@CssClass" IconCssClass="bi bi-list">
+                                            <TextTemplate>
+                                                <span @onclick:preventDefault
+                                                      @oncontextmenu:preventDefault @oncontextmenu="((e) => OpenLing(e, Route.BILLING_MODEL_BROWSER))">
+                                                    @AppState["List.model"]
+                                                </span>
+                                            </TextTemplate>
+                                        </DxMenuItem>
+                                        @if (AppState.PrivilegeObserver.BillingModelSchedulerAllowed)
+                                            {
+                                            <DxMenuItem @bind-Enabled="@ClosedItem" Click="(() => NavigateTo(Route.SCHEDULED_MODEL_BROWSER))" CssClass="@CssClass" IconCssClass="bi bi-calendar">
+                                                <TextTemplate>
+                                                    <span @onclick:preventDefault
+                                                          @oncontextmenu:preventDefault @oncontextmenu="((e) => OpenLing(e, Route.SCHEDULED_MODEL_BROWSER))">
+                                                        @AppState["billing.model.scheduler"]
+                                                    </span>
+                                                </TextTemplate>
+                                            </DxMenuItem>
+                                            }
+                                    </Items>
+                                </DxMenuItem>
+                                }
+                            @if (AppState.PrivilegeObserver.BillingTemplateAllowed)
+                                {
+                                <DxMenuItem CssClass="@CssClass" IconCssClass="bi bi-layout-text-window-reverse" Text="@AppState["billing.template"]">
+                                    <Items>
+                                        @if (AppState.PrivilegeObserver.CanCreatedBillingTemplate)
+                                            {
+                                            <DxMenuItem @bind-Enabled="@ClosedItem" Click="(() => NavigateTo(Route.BILLING_TEMPLATE))" CssClass="@CssClass" IconCssClass="bi bi-plus">
+                                                <TextTemplate>
+                                                    <span @onclick:preventDefault
+                                                          @oncontextmenu:preventDefault @oncontextmenu="((e) => OpenLing(e, Route.BILLING_TEMPLATE))">
+                                                        @AppState["New.template"]
+                                                    </span>
+                                                </TextTemplate>
+                                            </DxMenuItem>
+                                            }
+
+                                        <DxMenuItem @bind-Enabled="@ClosedItem" Click="(() => NavigateTo(Route.BILLING_TEMPLATE_LIST))" CssClass="@CssClass" IconCssClass="bi bi-list">
+                                            <TextTemplate>
+                                                <span @onclick:preventDefault
+                                                      @oncontextmenu:preventDefault @oncontextmenu="((e) => OpenLing(e, Route.BILLING_TEMPLATE_LIST))">
+                                                    @AppState["List.template"]
+                                                </span>
+                                            </TextTemplate>
+                                        </DxMenuItem>
+                                    </Items>
+                                </DxMenuItem>
+                                }
+
+                        </Items>
+                    </DxMenuItem>
+                    }
+                @if (AppState.PrivilegeObserver != null && AppState.PrivilegeObserver.BillingRunAllowed)
+                    {
+                    <DxMenuItem CssClass="@CssClass" IconCssClass="bi bi-play-btn" Text="@AppState["billing.run"]">
+                        <Items>
+                            @if (AppState.PrivilegeObserver != null && AppState.PrivilegeObserver.BillingRunOutcomeAllowed)
+                                {
+                                <DxMenuItem @bind-Enabled="@ClosedItem" Click="(() => NavigateTo(Route.BILLING_RUN_OUTCOME))" CssClass="@CssClass" IconCssClass="bi bi-clipboard-check">
+                                    <TextTemplate>
+                                        <span @onclick:preventDefault
+                                              @oncontextmenu:preventDefault @oncontextmenu="((e) => OpenLing(e, Route.BILLING_RUN_OUTCOME))">
+                                            @AppState["billing.run.outcome"]
+                                        </span>
+                                    </TextTemplate>
+                                </DxMenuItem>
+                                }
+                            @if (AppState.PrivilegeObserver != null && AppState.PrivilegeObserver.BillingRunInvoiceAllowed)
+                                {
+                                <DxMenuItem @bind-Enabled="@ClosedItem" Click="(() => NavigateTo(Route.LIST_INVOICE))" CssClass="@CssClass" IconCssClass="bi bi-journal-plus">
+                                    <TextTemplate>
+                                        <span @onclick:preventDefault
+                                              @oncontextmenu:preventDefault @oncontextmenu="((e) => OpenLing(e, Route.LIST_INVOICE))">
+                                            @AppState["billing.run.invoice"]
+                                        </span>
+                                    </TextTemplate>
+                                </DxMenuItem>
+                                }
+                            @if (AppState.PrivilegeObserver != null && AppState.PrivilegeObserver.BillingRunCreditNoteAllowed)
+                                {
+                                <DxMenuItem @bind-Enabled="@ClosedItem" Click="(() => NavigateTo(Route.LIST_CREDIT_NOTE))" CssClass="@CssClass" IconCssClass="bi bi-journal-minus">
+                                    <TextTemplate>
+                                        <span @onclick:preventDefault
+                                              @oncontextmenu:preventDefault @oncontextmenu="((e) => OpenLing(e, Route.LIST_CREDIT_NOTE))">
+                                            @AppState["billing.run.credit.note"]
+                                        </span>
+                                    </TextTemplate>
+                                </DxMenuItem>
+                                }
+                            @if (AppState.PrivilegeObserver != null && AppState.PrivilegeObserver.BillingRunStatusAllowed)
+                                {
+                                <DxMenuItem @bind-Enabled="@ClosedItem" Click="(() => NavigateTo(Route.CURRENT_BILLING_RUN_STATUS))" CssClass="@CssClass" IconCssClass="bi bi-record-circle">
+                                    <TextTemplate>
+                                        <span @onclick:preventDefault
+                                              @oncontextmenu:preventDefault @oncontextmenu="((e) => OpenLing(e, Route.CURRENT_BILLING_RUN_STATUS))">
+                                            @AppState["Current.billing.run.status"]
+                                        </span>
+                                    </TextTemplate>
+                                </DxMenuItem>
+                                }
+                        </Items>
+                    </DxMenuItem>
+                    }
+            </Items>
+        </DxMenuItem>
+        }
+    };
+
+    public RenderFragment RenderAccounting => __builder =>
+    {
+    @if (AppState.PrivilegeObserver != null && AppState.PrivilegeObserver.AccountingAllowed)
+        {
+        <DxMenuItem Visible="false" Text="@AppState["accounting"]">
+            <Items>
+                @if (AppState.PrivilegeObserver.AccountingPosingAllowed)
+                    {
+                    <DxMenuItem CssClass="@CssClass" IconCssClass="bi bi-pin" Text="@AppState["Posting.Title"]">
+                        <Items>
+                            @if (AppState.PrivilegeObserver.AccountingPosingEntryRepositoryAllowed)
+                                {
+                                <DxMenuItem @bind-Enabled="@ClosedItem" Click="(() => NavigateTo(Route.POSTING_REPO))" CssClass="@CssClass" IconCssClass="bi bi-file-text">
+                                    <TextTemplate>
+                                        <span @onclick:preventDefault
+                                              @oncontextmenu:preventDefault @oncontextmenu="((e) => OpenLing(e, Route.POSTING_REPO))">
+                                            @AppState["Posting.Repo"]
+                                        </span>
+                                    </TextTemplate>
+                                </DxMenuItem>
+                                }
+                            @if (AppState.PrivilegeObserver.AccountingPosingEditionAllowed && AppState.PrivilegeObserver.AccountingEditAllowed)
+                                {
+                                <DxMenuItem @bind-Enabled="@ClosedItem" Click="(() => NavigateTo(Route.POSTING_EDIT))" CssClass="@CssClass" IconCssClass="bi bi-pencil-square">
+                                    <TextTemplate>
+                                        <span @onclick:preventDefault
+                                              @oncontextmenu:preventDefault @oncontextmenu="((e) => OpenLing(e, Route.POSTING_EDIT))">
+                                            @AppState["Posting.Edit"]
+                                        </span>
+                                    </TextTemplate>
+                                </DxMenuItem>
+                                }
+                            <DxMenuItem @bind-Enabled="@ClosedItem" Click="(() => NavigateTo(Route.POSTING_LIST))" CssClass="@CssClass" IconCssClass="bi bi-list">
+                                <TextTemplate>
+                                    <span @onclick:preventDefault
+                                          @oncontextmenu:preventDefault @oncontextmenu="((e) => OpenLing(e, Route.POSTING_LIST))">
+                                        @AppState["Posting.List"]
+                                    </span>
+                                </TextTemplate>
+                            </DxMenuItem>
+                        </Items>
+                    </DxMenuItem>
+                    }
+                @if (AppState.PrivilegeObserver.AccountingBookingAllowed)
+                    {
+                    <DxMenuItem CssClass="@CssClass" IconCssClass="bi bi-file-earmark-check" Text="@AppState["Booking"]">
+                        <Items>
+                            @if (AppState.PrivilegeObserver.AccountingBookingModelAllowed)
+                                {
+                                <DxMenuItem CssClass="@CssClass" IconCssClass="bi bi-grid-1x2" Text="@AppState["Booking.Model"]">
+                                    <Items>
+                                        @if (AppState.PrivilegeObserver.CanCreatedAccountingBookingModel)
+                                            {
+                                            <DxMenuItem @bind-Enabled="@ClosedItem" Click="(() => NavigateTo(Route.EDIT_BOOKING_MODEL))" CssClass="@CssClass" IconCssClass="bi bi-plus" Text="@AppState["New.Booking.Model"]" />
+                                            }
+                                        <DxMenuItem @bind-Enabled="@ClosedItem" Click="(() => NavigateTo(Route.BROWSER_BOOKING_MODEL))" CssClass="@CssClass" IconCssClass="bi bi-list">
+                                            <TextTemplate>
+                                                <span @onclick:preventDefault
+                                                      @oncontextmenu:preventDefault @oncontextmenu="((e) => OpenLing(e, Route.BROWSER_BOOKING_MODEL))">
+                                                    @AppState["List.Booking.Model"]
+                                                </span>
+                                            </TextTemplate>
+                                        </DxMenuItem>
+                                        <DxMenuItem @bind-Enabled="@ClosedItem" Click="(() => NavigateTo(Route.BROWSER_SCHEDULED_BOOKING))" CssClass="@CssClass" IconCssClass="bi bi-calendar">
+                                            <TextTemplate>
+                                                <span @onclick:preventDefault
+                                                      @oncontextmenu:preventDefault @oncontextmenu="((e) => OpenLing(e, Route.BROWSER_SCHEDULED_BOOKING))">
+                                                    @AppState["Scheduled.booking"]
+                                                </span>
+                                            </TextTemplate>
+                                        </DxMenuItem>
+                                    </Items>
+                                </DxMenuItem>
+                                }
+                        </Items>
+                    </DxMenuItem>
+                    }
+                @if (AppState.PrivilegeObserver.AccountingBookingModelSchedulerLogAllowed)
+                    {
+                    <DxMenuItem CssClass="@CssClass" IconCssClass="bi bi-journal-check" Text="@AppState["Booking.Model.Log"]">
+                        <Items>
+                            @*@if (AppState.PrivilegeObserver.CancAccountingBookingModelSchedulerLogCreateAllowed && AppState.PrivilegeObserver.AccountingCreateAllowed)
+                                {
+                                    <DxMenuItem @bind-Enabled="@ClosedItem" Click="(() => NavigateTo(Route.EDIT_BOOKING_MODEL_LOG))" CssClass="@CssClass" IconCssClass="bi bi-plus" Text="@AppState["New.Booking.Log"]" />
+                                }*@
+                            <DxMenuItem @bind-Enabled="@ClosedItem" Click="(() => NavigateTo(Route.BROWSER_BOOKING_MODEL_LOG))" CssClass="@CssClass" IconCssClass="bi bi-list" Text="@AppState["List.Booking.Logs"]">
+                                <TextTemplate>
+                                    <span @onclick:preventDefault
+                                          @oncontextmenu:preventDefault @oncontextmenu="((e) => OpenLing(e, Route.BROWSER_BOOKING_MODEL_LOG))">
+                                        @AppState["List.Booking.Logs"]
+                                    </span>
+                                </TextTemplate>
+                            </DxMenuItem>
+                        </Items>
+                    </DxMenuItem>
+                    }
+            </Items>
+        </DxMenuItem>
+        }
+    };
+
+    public RenderFragment RenderScheduler => __builder =>
+    {
+    <DxMenuItem Text="@AppState["scheduling.planner"]">
+        <Items>
+            <DxMenuItem @bind-Enabled="@ClosedItem" CssClass="@CssClass" Click="(() => NavigateTo(Route.SCHEDULED_PLANNER))" IconCssClass="bi bi-plus" Text="@AppState["new.scheduler.planner"]">
+                <TextTemplate>
+                    <span @onclick:preventDefault
+                          @oncontextmenu:preventDefault @oncontextmenu="((e) => OpenLing(e, Route.SCHEDULED_PLANNER))">
+                        @AppState["new.scheduler.planner"]
+                    </span>
+                </TextTemplate>
+            </DxMenuItem>
+            <DxMenuItem @bind-Enabled="@ClosedItem" CssClass="@CssClass" Click="(() => NavigateTo(Route.SCHEDULED_PLANNER_BROWSER))" IconCssClass="bi bi-list" Text="@AppState["list.scheduler.planner"]">
+                <TextTemplate>
+                    <span @onclick:preventDefault
+                          @oncontextmenu:preventDefault @oncontextmenu="((e) => OpenLing(e, Route.SCHEDULED_PLANNER_BROWSER))">
+                        @AppState["list.scheduler.planner"]
+                    </span>
+                </TextTemplate>
+            </DxMenuItem>
+            <DxMenuItem @bind-Enabled="@ClosedItem" CssClass="@CssClass" Click="(() => NavigateTo(Route.SCHEDULED_PLANNER_LOGS))" IconCssClass="bi bi-journals" Text="@AppState["Logs"]">
+                <TextTemplate>
+                    <span @onclick:preventDefault
+                          @oncontextmenu:preventDefault @oncontextmenu="((e) => OpenLing(e, Route.SCHEDULED_PLANNER_LOGS))">
+                        @AppState["Logs"]
+                    </span>
+                </TextTemplate>
+            </DxMenuItem>
+            <DxMenuItem @bind-Enabled="@ClosedItem" CssClass="@CssClass" Click="(() => NavigateTo(Route.SCHEDULED_PLANNER_OPERATION))" IconCssClass="bi bi-calendar" Text="@AppState["scheduled.operations"]">
+                <TextTemplate>
+                    <span @onclick:preventDefault
+                          @oncontextmenu:preventDefault @oncontextmenu="((e) => OpenLing(e, Route.SCHEDULED_PLANNER_OPERATION))">
+                        @AppState["scheduled.operations"]
+                    </span>
+                </TextTemplate>
+            </DxMenuItem>
+        </Items>
+    </DxMenuItem>
+
+    };
+
+    public RenderFragment RenderDataManager => __builder =>
+    {
+    @if (AppState.PrivilegeObserver != null && AppState.PrivilegeObserver.DataManagementAllowed)
+        {
+        <DxMenuItem Text="@AppState["data.management"]" AdaptivePriority=2>
+            <Items>
+                @if (AppState.PrivilegeObserver != null && AppState.PrivilegeObserver.DataManagementArchiveAllowed)
+                    {
+                    <DxMenuItem @bind-Enabled="@ClosedItem" CssClass="@CssClass" Click="(() => NavigateTo(Route.ARCHIVE_BROWSER))" IconCssClass="bi bi-archive" Text="@AppState["List.Archives"]">
+                        <TextTemplate>
+                            <span @onclick:preventDefault
+                                  @oncontextmenu:preventDefault @oncontextmenu="((e) => OpenLing(e, Route.ARCHIVE_BROWSER))">
+                                @AppState["List.Archives"]
+                            </span>
+                        </TextTemplate>
+                    </DxMenuItem>
+                    }
+
+                @if (AppState.PrivilegeObserver != null && AppState.PrivilegeObserver.DataManagementArchiveLogAllowed)
+                    {
+                    <DxMenuItem @bind-Enabled="@ClosedItem" CssClass="@CssClass" Click="(() => NavigateTo(Route.BROWSER_ARCHIVE_LOG))" IconCssClass="bi bi-journals" Text="@AppState["List.Archive.Logs"]">
+                        <TextTemplate>
+                            <span @onclick:preventDefault
+                                  @oncontextmenu:preventDefault @oncontextmenu="((e) => OpenLing(e, Route.BROWSER_ARCHIVE_LOG))">
+                                @AppState["List.Archive.Logs"]
+                            </span>
+                        </TextTemplate>
+                    </DxMenuItem>
+                    }
+
+                @if (AppState.PrivilegeObserver != null && AppState.PrivilegeObserver.DataManagementArchiveConfigAllowed)
+                    {
+                    <DxMenuItem CssClass="@CssClass" IconCssClass="bi bi-gear" Text="@AppState["Archive.Configuration"]">
+                        <Items>
+                            @if (AppState.PrivilegeObserver.CanCreatedDataManagementArchiveConfig)
+                                {
+                                <DxMenuItem @bind-Enabled="@ClosedItem" Click="(() => NavigateTo(Route.EDIT_ARCHIVE_CONFIGURATION))" CssClass="@CssClass" IconCssClass="bi bi-plus" Text="@AppState["New.configuration"]">
+                                    <TextTemplate>
+                                        <span @onclick:preventDefault
+                                              @oncontextmenu:preventDefault @oncontextmenu="((e) => OpenLing(e, Route.EDIT_ARCHIVE_CONFIGURATION))">
+                                            @AppState["New.configuration"]
+                                        </span>
+                                    </TextTemplate>
+                                </DxMenuItem>
+                                }
+                            <DxMenuItem @bind-Enabled="@ClosedItem" Click="(() => NavigateTo(Route.ARCHIVE_CONFIGURATION_BROWSER))" CssClass="@CssClass" IconCssClass="bi bi-list" Text="@AppState["List.configurations"]">
+                                <TextTemplate>
+                                    <span @onclick:preventDefault
+                                          @oncontextmenu:preventDefault @oncontextmenu="((e) => OpenLing(e, Route.ARCHIVE_CONFIGURATION_BROWSER))">
+                                        @AppState["List.configurations"]
+                                    </span>
+                                </TextTemplate>
+                            </DxMenuItem>
+                        </Items>
+                    </DxMenuItem>
+                    }
+            </Items>
+        </DxMenuItem>
+        }
+    };
+
+    public RenderFragment RenderMessenger => __builder =>
+    {
+    @if (AppState.PrivilegeObserver != null && AppState.PrivilegeObserver.MessengerAllowed)
+        {
+        <DxMenuItem Text="@AppState["data.messenger"]" AdaptivePriority=2>
+            <Items>
+                @*@if (AppState.PrivilegeObserver != null && AppState.PrivilegeObserver.MessengerEmailAllowed)
+                            {
+                            <DxMenuItem @bind-Enabled="@ClosedItem" CssClass="@CssClass" Click="(() => NavigateTo(Route.BROWSER_EMAIL))" IconCssClass="bi bi-envelope" Text="@AppState["Email"]">
+                                <TextTemplate>
+                                    <span @onclick:preventDefault
+                                          @oncontextmenu:preventDefault @oncontextmenu="((e) => OpenLing(e, Route.BROWSER_EMAIL))">
+                                        @AppState["Email"]
+                                    </span>
+                                </TextTemplate>
+                            </DxMenuItem>
+                    }
+                                @if (AppState.PrivilegeObserver != null && AppState.PrivilegeObserver.MessengerSmsAllowed)
+                            {
+                            <DxMenuItem @bind-Enabled="@ClosedItem" CssClass="@CssClass" Click="(() => NavigateTo(Route.BROWSER_SMS))" IconCssClass="bi bi-chat-dots" Text="@AppState["SMS"]">
+                                <TextTemplate>
+                                    <span @onclick:preventDefault
+                                          @oncontextmenu:preventDefault @oncontextmenu="((e) => OpenLing(e, Route.BROWSER_SMS))">
+                                        @AppState["SMS"]
+                                    </span>
+                                </TextTemplate>
+                            </DxMenuItem>
+                    }*@
+
+                @if (AppState.PrivilegeObserver != null && AppState.PrivilegeObserver.MessengerLogAllowed)
+                    {
+                    <DxMenuItem @bind-Enabled="@ClosedItem" CssClass="@CssClass" Click="(() => NavigateTo(Route.BROWSER_MESSAGE_LOG))" IconCssClass="bi bi-journals" Text="@AppState["List.Message.Logs"]">
+                        <TextTemplate>
+                            <span @onclick:preventDefault
+                                  @oncontextmenu:preventDefault @oncontextmenu="((e) => OpenLing(e, Route.BROWSER_MESSAGE_LOG))">
+                                @AppState["List.Message.Logs"]
+                            </span>
+                        </TextTemplate>
+                    </DxMenuItem>
+                    }
+            </Items>
+        </DxMenuItem>
+        }
+    };
+
+    public RenderFragment RenderAdministration => __builder =>
+    {
+    @if (AppState.PrivilegeObserver != null && AppState.PrivilegeObserver.AdministrationAllowed)
+        {
+        <DxMenuItem Text="@AppState["administration"]" AdaptivePriority=2>
+            <Items>
+                @if (AppState.PrivilegeObserver.AdministrationClientAllowed)
+                    {
+                    <DxMenuItem CssClass="@CssClass" IconCssClass="bi bi-person-bounding-box" Text="@AppState["Client"]">
+                        <Items>
+                            @if (AppState.PrivilegeObserver.CanCreatedAdministrationClient)
+                                {
+                                <DxMenuItem @bind-Enabled="@UserConnected" CssClass="@CssClass" Click="(() => NavigateTo(Route.CLIENT_FORM))" IconCssClass="bi bi-plus">
+                                    <TextTemplate>
+                                        <span @onclick:preventDefault
+                                              @oncontextmenu:preventDefault @oncontextmenu="((e) => OpenLing(e, Route.CLIENT_FORM))">
+                                            @AppState["New.Costumer"]
+                                        </span>
+                                    </TextTemplate>
+                                </DxMenuItem>
+                                }
+                            <DxMenuItem @bind-Enabled="@UserConnected" CssClass="@CssClass" Click="(() => NavigateTo(Route.BROWSER_CLIENT))" IconCssClass="bi bi-list" Text="@AppState["List.Customer"]" />
+
+                        </Items>
+                    </DxMenuItem>
+                    }
+
+                @if (AppState.PrivilegeObserver.AdministrationUserAllowed)
+                    {
+                    <DxMenuItem CssClass="@CssClass" IconCssClass="bi bi-people" Text="@AppState["User"]">
+                        <Items>
+                            @if (AppState.PrivilegeObserver.CanCreatedAdministrationUser)
+                                {
+                                <DxMenuItem @bind-Enabled="@UserConnected" CssClass="@CssClass" Click="(() => NavigateTo(Route.USER_FORM))" IconCssClass="bi bi-plus">
+                                    <TextTemplate>
+                                        <span @onclick:preventDefault
+                                              @oncontextmenu:preventDefault @oncontextmenu="((e) => OpenLing(e, Route.USER_FORM))">
+                                            @AppState["New.User"]
+                                        </span>
+                                    </TextTemplate>
+                                </DxMenuItem>
+                                }
+                            @*@if (AppState.PrivilegeObserver.AdministrationUserViewAllowed)
+                                    {
+                                <DxMenuItem @bind-Enabled="@UserConnected" CssClass="@CssClass" Click="(() => NavigateTo(Route.BROWSER_USER))" IconCssClass="bi bi-list" Text="@AppState["List.User"]" />
+                                    }*@
+                            <DxMenuItem @bind-Enabled="@UserConnected" CssClass="@CssClass" Click="(() => NavigateTo(Route.BROWSER_USER))" IconCssClass="bi bi-list" Text="@AppState["List.User"]" />
+
+                        </Items>
+                    </DxMenuItem>
+                    }
+
+                @if (AppState.PrivilegeObserver.AdministrationProfileAllowed)
+                    {
+                    <DxMenuItem CssClass="@CssClass" IconCssClass="bi bi-person-lines-fill" Text="@AppState["Profil"]">
+                        <Items>
+                            @if (AppState.PrivilegeObserver.CanCreatedAdministrationProfile)
+                                {
+                                <DxMenuItem @bind-Enabled="@UserConnected" CssClass="@CssClass" Click="(() => NavigateTo(Route.PROFIL_EDIT))" IconCssClass="bi bi-plus">
+                                    <TextTemplate>
+                                        <span @onclick:preventDefault
+                                              @oncontextmenu:preventDefault @oncontextmenu="((e) => OpenLing(e, Route.PROFIL_EDIT))">
+                                            @AppState["Profil.New"]
+                                        </span>
+                                    </TextTemplate>
+                                </DxMenuItem>
+                                }
+                            <DxMenuItem @bind-Enabled="@UserConnected" Click="(() => NavigateTo(Route.PROFIL_LIST))" CssClass="@CssClass" IconCssClass="bi bi-list">
+                                <TextTemplate>
+                                    <span @onclick:preventDefault
+                                          @oncontextmenu:preventDefault @oncontextmenu="((e) => OpenLing(e, Route.PROFIL_LIST))">
+                                        @AppState["Profil.List"]
+                                    </span>
+                                </TextTemplate>
+                            </DxMenuItem>
+                        </Items>
+                    </DxMenuItem>
+
+                    <DxMenuItem @bind-Enabled="@UserConnected" CssClass="@CssClass" Click="(() => NavigateTo(Route.ADMIN_SCHEDULER_BROWSER))" IconCssClass="bi bi-calendar" Text="@AppState["Scheduler"]" />
+                    }
+            </Items>
+        </DxMenuItem>
+        }
+    };
+
+    public RenderFragment RenderSettings => __builder =>
+    {
+    @if (AppState.PrivilegeObserver != null && AppState.PrivilegeObserver.SettingsAllowed)
+        {
+        <DxMenuItem Text="@AppState["settings"]">
+            <Items>
+                @if (AppState.PrivilegeObserver.SettingsGroupAllowed)
+                    {
+                    <DxMenuItem @bind-Enabled="@ClosedItem" CssClass="@CssClass" IconCssClass="bi bi-gear-wide-connected" Text="@AppState["Groups"]" />
+                    }
+
+                @if (AppState.PrivilegeObserver.SettingsIncrementalNumberAllowed)
+                    {
+                    <DxMenuItem CssClass="@CssClass" IconCssClass="bi bi-sort-numeric-down" Text="@AppState["Incremental.Number"]">
+                        <Items>
+                            @if (AppState.PrivilegeObserver.CanCreatedSettingsIncrementalNumber)
+                                {
+                                <DxMenuItem @bind-Enabled="@ClosedItem" Click="(() => NavigateTo(Route.EDIT_INCREMENTAL_NUMBER))" CssClass="@CssClass" IconCssClass="bi bi-plus">
+                                    <TextTemplate>
+                                        <span @onclick:preventDefault
+                                              @oncontextmenu:preventDefault @oncontextmenu="((e) => OpenLing(e, Route.EDIT_INCREMENTAL_NUMBER))">
+                                            @AppState["New.Incremental.Number"]
+                                        </span>
+                                    </TextTemplate>
+                                </DxMenuItem>
+                                }
+                            <DxMenuItem @bind-Enabled="@ClosedItem" Click="(() => NavigateTo(Route.BROWSER_INCREMENTAL_NUMBER))" CssClass="@CssClass" IconCssClass="bi bi-list">
+                                <TextTemplate>
+                                    <span @onclick:preventDefault
+                                          @oncontextmenu:preventDefault @oncontextmenu="((e) => OpenLing(e, Route.BROWSER_INCREMENTAL_NUMBER))">
+                                        @AppState["List.Incremental.Numbers"]
+                                    </span>
+                                </TextTemplate>
+                            </DxMenuItem>
+                        </Items>
+                    </DxMenuItem>
+                    }
+                <DxMenuItem @bind-Enabled="@ClosedItem" Click="(() => NavigateTo(Route.SETTINGS_CONFIGURATION))" Visible="true" CssClass="@CssClass" IconCssClass="bi-gear">
+                    <TextTemplate>
+                        <span @onclick:preventDefault
+                              @oncontextmenu:preventDefault @oncontextmenu="((e) => OpenLing(e, Route.SETTINGS_CONFIGURATION))">
+                            @AppState["Configuration"]
+                        </span>
+                    </TextTemplate>
+                </DxMenuItem>
+            </Items>
+        </DxMenuItem>
+        }
+    };
+
+    private RenderFragment RenderFileManager => __builder =>
+    {
+        <DxMenuItem @bind-Enabled="@ClosedItem" Click="(() => NavigateTo(Route.FILE_MANAGER_BROWSER))" CssClass="@CssClass" IconCssClass="bi bi-journal-plus">
+            <TextTemplate>
+                <span @onclick:preventDefault
+                      @oncontextmenu:preventDefault @oncontextmenu="((e) => OpenLing(e, Route.FILE_MANAGER_BROWSER))">
+                    @AppState["file.manager"]
+                </span>
+            </TextTemplate>
+        </DxMenuItem>
+    };
+
+
+    public RenderFragment RenderOther => __builder =>
+    {
+
+    @buildDynamicMenus(DynamicMenusRenders)
+
+    };
+
+    public RenderFragment buildDynamicMenus(IEnumerable<MenuRender> renders) => __builder =>
+    {
+        if (renders != null)
+        {
+            foreach (var itemRender in renders)
+            {
+            @buildMenus(itemRender);
+            }
+        }
+    };
+
+    public RenderFragment buildMenus(MenuRender render) => __builder =>
+    {
+        if (render != null && render.Menu != null)
+        {
+            FormModelMenu menu = render.Menu;
+        <DxMenuItem Text="@menu.Caption" Visible="menu.Active">
+            <Items>
+                @{
+                        if (menu.AllowNewMenu)
+                        {
+                            var newFormLink = $"{Route.NEW_DYNAMIC_FORM}/{menu.FormId}";
+                            Action GotToNewForm = () => NavigateTo(newFormLink);
+                            Action<MouseEventArgs> clickOpenNewForm = (e) => OpenLing(e, newFormLink);
+                        <DxMenuItem Visible="menu.Active"
+                                    CssClass="@CssClass" IconCssClass="bi-file-plus" Click=GotToNewForm>
+                            <TextTemplate>
+                                <span @onclick:preventDefault @onclick=GotToNewForm
+                                      @oncontextmenu:preventDefault @oncontextmenu=clickOpenNewForm>
+                                    @menu.NewMenuCaption
+                                </span>
+                            </TextTemplate>
+                        </DxMenuItem>
+                        }
+
+                        if (menu.AllowListMenu)
+                        {
+                            var browserLink = $"{Route.List_DYNAMIC_BROWSER}/{menu.FormId}";
+                            Action GoToBrowserPage = () => NavigateTo(browserLink);
+                            Action<MouseEventArgs> clickOpenBrowser = (e) => OpenLing(e, browserLink);
+                        <DxMenuItem Click=GoToBrowserPage
+                                    Visible="menu.Active" CssClass="@CssClass" IconCssClass="bi-view-list">
+                            <TextTemplate>
+                                <span @onclick:preventDefault @onclick=GoToBrowserPage
+                                      @oncontextmenu:preventDefault @oncontextmenu=clickOpenBrowser>
+                                    @menu.ListMenuCaption
+                                </span>
+                            </TextTemplate>
+                        </DxMenuItem>
+                        }
+                        if (render.children != null)
+                        {
+                        @buildDynamicMenus(render.children)
+                        }
+
+                }
+            </Items>
+        </DxMenuItem>
+        }
+    };
+}

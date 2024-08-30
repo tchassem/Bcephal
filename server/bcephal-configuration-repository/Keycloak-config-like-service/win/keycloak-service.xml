@@ -1,0 +1,19 @@
+<service>
+	<!-- https://github.com/winsw/winsw/blob/v3/docs/installation.md -->
+  <id>Bcephal-keycloak-service-8</id>
+  <name>Bcephal-keycloak-service-8</name>
+  <description>This service runs Bcephal keycloak service  continuous integration system.</description>
+  <!--env name="BCEPHAL_HOME" value="%BASE%"/-->
+  <executable>bin\standalone.bat</executable>
+  <workingdirectory>%BASE%</workingdirectory>
+  <!-- For Debug uncomment next line -->
+  <arguments> -b 0.0.0.0 -c standalone.xml</arguments>
+  <log mode="roll-by-size-time">
+	  <sizeThreshold>10240</sizeThreshold>
+	  <pattern>yyyy-MM-dd</pattern>
+  	  <autoRollAtTime>00:00:00</autoRollAtTime>
+  </log>
+  <logpath>%BASE%\logs</logpath>
+  <delayedAutoStart>true</delayedAutoStart>
+  <onfailure action="restart" delay="20 sec"/>
+</service>

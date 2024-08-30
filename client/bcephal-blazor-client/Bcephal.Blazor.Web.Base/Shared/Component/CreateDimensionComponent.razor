@@ -1,0 +1,161 @@
+﻿@typeparam C
+
+<DxPopup @ref="DxPopupRef"
+         CloseOnEscape="false"
+         CloseOnOutsideClick="false"
+         ShowFooter="true"
+         ShowCloseButton="false"
+         HeaderCssClass="bc-headerpopup-style p-0"
+         @bind-Visible="@PopupVisible" ShowHeader="true" Height="auto">
+    <HeaderContentTemplate>
+        <label class="mt-auto mb-auto">@HeaderTitle</label>
+    </HeaderContentTemplate>
+    <BodyContentTemplate Context="PopupContext">
+        <div class="d-flex flex-column w-100 h-100">
+            <div class="d-flex flex-row mt-auto mb-auto h-100">
+                <DxGridLayout RowSpacing="10px">
+                    <Rows>
+                        <DxGridLayoutRow Areas="dimension" Visible="ShowDimensionSelection" />
+                        <DxGridLayoutRow Visible="DimensionType_.IsAttribute()" Areas="entity" />
+                        <DxGridLayoutRow Areas="parent" />
+                        <DxGridLayoutRow Areas="name" />
+                    </Rows>
+                    <Columns>
+                        <DxGridLayoutColumn Width="1fr" />
+                    </Columns>
+                    <Items>
+                        <DxGridLayoutItem Visible="ShowDimensionSelection" Area="dimension">
+                            <Template>
+                                @RenderDimensionSelection
+                            </Template>
+                        </DxGridLayoutItem>
+                        <DxGridLayoutItem Visible="DimensionType_.IsAttribute()" Area="entity">
+                            <Template>
+                                @RenderEntity
+                            </Template>
+                        </DxGridLayoutItem>
+                        <DxGridLayoutItem Area="parent">
+                            <Template>
+                                @RenderParent
+                            </Template>
+                        </DxGridLayoutItem>
+                        <DxGridLayoutItem Area="name">
+                            <Template>
+                                @RenderName
+                            </Template>
+                        </DxGridLayoutItem>
+                    </Items>
+                </DxGridLayout>
+            </div>
+        </div>
+    </BodyContentTemplate>
+    <FooterContentTemplate>
+        <div class="d-flex flex-column w-100">
+            <div class="d-flex flex-row mt-auto mb-auto ">
+                <DxButton CssClass="mr-1 ml-auto  wid-100" IconCssClass="fa fa-check pr-1" RenderStyle="ButtonRenderStyle.Primary"
+                          Text="@AppState["Ok"]" Click="OnClickBtn" />
+                <DxButton CssClass="ml-1 mr-auto wid-100" IconCssClass="fa fa-close pr-1" RenderStyle="ButtonRenderStyle.Danger"
+                          Text="@AppState["Cancel"]" Click=Close />
+            </div>
+        </div>
+    </FooterContentTemplate>
+</DxPopup>
+
+@code {
+
+
+    private RenderFragment RenderDimensionSelection => __builder =>
+      {
+    <DxStackLayout Orientation="Orientation.Horizontal">
+        <Items>
+            <DxStackLayoutItem Length="1fr">
+                <Template>
+                    <div class="d-flex h-100">
+                        <span class="w-100 text-right mr-1">@AppState["Type"]</span>
+                    </div>
+                </Template>
+            </DxStackLayoutItem>
+            <DxStackLayoutItem Length="1fr">
+                <Template>
+                    <div class="d-flex h-100">
+                        <DxComboBox  CssClass="w-100" NullText="" Data="@DimensionTypes" @bind-Value=Dimensiontype></DxComboBox>
+                    </div>
+                </Template>
+            </DxStackLayoutItem>
+            <DxStackLayoutItem Length="1fr" />
+        </Items>
+    </DxStackLayout>
+      };
+
+
+    private RenderFragment RenderEntity => __builder =>
+    {
+    <DxStackLayout Orientation="Orientation.Horizontal">
+        <Items>
+            <DxStackLayoutItem Length="1fr">
+                <Template>
+                    <div class="d-flex h-100">
+                        <span class="w-100 text-right mr-1">@AppState["ENTITY"]</span>
+                    </div>
+                </Template>
+            </DxStackLayoutItem>
+            <DxStackLayoutItem Length="1fr">
+                <Template>
+                    <div class="d-flex h-100">
+                        <DxComboBox FilteringMode="DataGridFilteringMode.Contains" CssClass="w-100" Data="@Entities" TData="C" TValue="C" @bind-Value=SelectedEntity></DxComboBox>
+                    </div>
+                </Template>
+            </DxStackLayoutItem>
+            <DxStackLayoutItem Length="1fr" />
+        </Items>
+    </DxStackLayout>
+    };
+
+
+    private RenderFragment RenderParent => __builder =>
+    {
+    <DxStackLayout Orientation="Orientation.Horizontal">
+        <Items>
+            <DxStackLayoutItem Length="1fr">
+                <Template>
+                    <div class="d-flex h-100">
+                        <span class="w-100 text-right mr-1">@AppState["parent"]</span>
+                    </div>
+                </Template>
+            </DxStackLayoutItem>
+            <DxStackLayoutItem Length="1fr">
+                <Template>
+                    <div class="d-flex h-100">
+                        <DxComboBox FilteringMode="DataGridFilteringMode.Contains"  CssClass="w-100" @bind-Data=Parents TData="C" TValue="C" @bind-Value=SelectedParent></DxComboBox>
+                    </div>
+                </Template>
+            </DxStackLayoutItem>
+            <DxStackLayoutItem Length="1fr" />
+        </Items>
+    </DxStackLayout>
+    };
+
+    private RenderFragment RenderName => __builder =>
+    {
+    <DxStackLayout Orientation="Orientation.Horizontal">
+        <Items>
+            <DxStackLayoutItem Length="1fr">
+                <Template>
+                    <div class="d-flex h-100">
+                        <span class="w-100 text-right mr-1">@AppState["Name"]</span>
+                    </div>
+                </Template>
+            </DxStackLayoutItem>
+            <DxStackLayoutItem Length="1fr">
+                <Template>
+                    <div class="d-flex h-100">
+                        <DxTextBox CssClass="w-100" @bind-Text=Name></DxTextBox>
+                    </div>
+                </Template>
+            </DxStackLayoutItem>
+            <DxStackLayoutItem Length="1fr" />
+        </Items>
+    </DxStackLayout>
+    };
+
+}

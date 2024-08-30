@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.20.0.final using JasperReports Library version 6.20.0-2bc7ab61c56f459e8176eb05c7705e145cd400ad  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="sub_vat_invoice" pageWidth="530" pageHeight="383" columnWidth="530" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" whenResourceMissingType="Key" uuid="68a43521-6dbb-4146-b101-99406e644134">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Data Adapter_facture"/>
+	<parameter name="totalAmount" class="java.math.BigDecimal"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="position" class="java.lang.Integer">
+		<fieldDescription><![CDATA[position]]></fieldDescription>
+	</field>
+	<field name="name" class="java.lang.String"/>
+	<field name="decimalValue" class="java.math.BigDecimal"/>
+	<detail>
+		<band height="13" splitType="Stretch">
+			<frame>
+				<reportElement x="0" y="0" width="530" height="13" uuid="842f5032-e610-4012-bfab-fadf91945761">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<bottomPen lineWidth="0.0" lineColor="#050404"/>
+				</box>
+				<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+					<reportElement stretchType="ElementGroupHeight" x="70" y="0" width="250" height="13" uuid="8eaaae44-567c-4930-b30a-49639f7752f6">
+						<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					</reportElement>
+					<box>
+						<pen lineWidth="0.0" lineStyle="Solid"/>
+					</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle" markup="none">
+						<font fontName="Verdana" size="7" isItalic="true"/>
+						<paragraph leftIndent="5"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{name} != null && str($F{name}.replaceAll(" ","_")) != null ? str($F{name}.replaceAll(" ","_")) : $F{name}]]></textFieldExpression>
+				</textField>
+				<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+					<reportElement stretchType="ElementGroupHeight" x="320" y="2" width="30" height="13" uuid="e56693de-6054-4803-a7cf-36a9dd4cd8cc">
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Verdana" size="8" isBold="true"/>
+					</textElement>
+				</textField>
+				<textField textAdjust="StretchHeight" pattern="##,##0.00" isBlankWhenNull="true">
+					<reportElement stretchType="ElementGroupHeight" x="351" y="2" width="90" height="13" uuid="1510f648-9be9-4e83-92f5-d018502bd2df">
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
+					</reportElement>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Verdana" size="8" isBold="true"/>
+						<paragraph rightIndent="10"/>
+					</textElement>
+				</textField>
+				<textField textAdjust="StretchHeight" pattern="#,##0.00" isBlankWhenNull="true">
+					<reportElement stretchType="ElementGroupHeight" x="440" y="2" width="90" height="13" uuid="a950b871-e7bb-46bd-9583-b348886c9192">
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+						<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Verdana" size="7"/>
+						<paragraph rightIndent="1"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{decimalValue}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</detail>
+</jasperReport>

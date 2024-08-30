@@ -1,0 +1,60 @@
+﻿
+
+input.form-control.form-control-sm.dxbs-form-control.dx-reset-readonly-style.text-truncate {
+
+    cursor: pointer;
+    font-size: 0.75rem;
+    line-height: 1.45rem;
+}
+
+.position-fixed {
+    position: fixed;
+}
+
+.form-control:focus {
+    box-shadow: 0 0 0 0.2rem #fafafa;
+}
+
+.culture {
+    border: none;
+    width: 70px;
+}
+
+
+div.dxbs-dropdown-edit.dxbs-combobox.culture > div.dxbs-input-group.input-group.input-group-sm.dx-listbox > div >
+input.form-control.form-control-sm.dxbs-form-control.dx-reset-readonly-style.text-truncate {
+    border: none !important;
+    background-color: #fff !important;
+    padding-left:30.2px !important;
+    padding-right: 0 !important;
+}
+
+div.dxbs-dropdown-edit.dxbs-combobox.culture > div.dxbs-input-group.input-group.input-group-sm.dx-listbox >
+div.form-control.form-control-sm.dxbs-btn-group.dxbs-input-group-append.input-group-append.dxbs-focus-hidden >
+button.btn.btn-sm.dx-btn.btn-secondary.dxbs-edit-btn.dropdown-toggle.dxbs-dropdown-toggle
+{
+    background-color: #fff !important;
+    border-left: none !important;
+}
+
+div.dxbs-dropdown-edit.dxbs-combobox.culture > div.dxbs-input-group.input-group.input-group-sm.dx-listbox >
+div.form-control.form-control-sm.dxbs-btn-group.dxbs-input-group-append.input-group-append.dxbs-focus-hidden >
+button.btn.btn-sm.dx-btn.btn-secondary.dxbs-edit-btn.dropdown-toggle.dxbs-dropdown-toggle::after
+{
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 4px solid #000;
+}
+
+
+div.dxbs-dropdown-edit.dxbs-combobox.culture >
+div.dxbs-input-group.input-group.input-group-sm.dx-listbox > div >
+input.form-control.form-control-sm.dxbs-form-control.dx-reset-readonly-style.d-flex.flex-row.text-truncate:focus {
+    box-shadow: none;
+}
+
+.mobilemenu div.dropdown-menu.dx-dropdown-menu.top-radius-0 {
+    overflow: hidden !important;
+    overflow-y: auto !important;
+    max-height: calc(100vh - 80px) !important;
+}

@@ -1,0 +1,334 @@
+﻿
+@if (GrilleColumnBinding != null)
+{
+    <DxLayoutBreakpoint DeviceSize="DeviceSize.Medium | DeviceSize.Small | DeviceSize.XSmall" @bind-IsActive="IsSmallScreen" />
+
+    <DxStackLayout CssClass="w-100 h-100" ItemSpacing="15px" Orientation="Orientation.Vertical">
+        <Items>
+            <DxStackLayoutItem CssClass="w-100 h-100">
+                <Template>
+                    <DxFormLayout ItemCaptionAlignment="ItemCaptionAlignment.InGroups" ItemSizeMode="DevExpress.Blazor.SizeMode.Small" CssClass="bc-dxform-header-3 bc-dxform-border-bottom-none">
+                        <DxFormLayoutGroup ColSpanLg="12" ColSpanSm="12" ColSpanMd="12" ColSpanXl="12" ColSpanXs="12" CaptionCssClass="ml-3" Caption="@AppState["Gridcolumn.column"]">
+                            <DxFormLayoutItem CssClass="p-0 h-100" ColSpanLg="8" ColSpanSm="8" ColSpanMd="8" ColSpanXl="8" ColSpanXs="8">
+                                <Template>
+                                    @RenderColumnContent()
+                                </Template>
+                            </DxFormLayoutItem>
+                        </DxFormLayoutGroup>
+                    </DxFormLayout>
+                </Template>
+            </DxStackLayoutItem>
+        </Items>
+    </DxStackLayout>
+
+}
+
+
+
+
+@code {
+
+    public RenderFragment RenderColumnContent()
+    {
+        RenderFragment RenderWidget = __builder =>
+        {
+        <DxFormLayout CssClass="h-100">
+            <DxFormLayoutGroup Decoration="FormLayoutGroupDecoration.None" ColSpanLg="12" ColSpanXl="12" ColSpanMd="12" ColSpanSm="12" ColSpanXs="12">
+                <DxFormLayoutItem CssClass="bc-height-50 p-0 m-0" Context="One" ColSpanLg="12" ColSpanXl="12" ColSpanMd="12" ColSpanSm="12" ColSpanXs="12">
+                    <Template>
+                        @RenderLine0
+                    </Template>
+                </DxFormLayoutItem>
+                <DxFormLayoutItem CssClass="bc-height-50 p-0 m-0" Context="One" ColSpanLg="12" ColSpanXl="12" ColSpanMd="12" ColSpanSm="12" ColSpanXs="12">
+                    <Template>
+                        @RenderLine1
+                    </Template>
+                </DxFormLayoutItem>
+                <DxFormLayoutItem CssClass="bc-height-50 p-0 m-0" Context="One" ColSpanLg="12" ColSpanXl="12" ColSpanMd="12" ColSpanSm="12" ColSpanXs="12">
+                    <Template>
+                        @RenderFixedStyle
+                    </Template>
+                </DxFormLayoutItem>
+                <DxFormLayoutItem CssClass="bc-height-50 p-0 m-0" Context="One" ColSpanLg="12" ColSpanXl="12" ColSpanMd="12" ColSpanSm="12" ColSpanXs="12">
+                    <Template>
+                        @RenderLine2
+                    </Template>
+                </DxFormLayoutItem>
+                <DxFormLayoutItem CssClass="bc-height-50 p-0 m-0" Context="One" ColSpanLg="12" ColSpanXl="12" ColSpanMd="12" ColSpanSm="12" ColSpanXs="12">
+                    <Template>
+                        @RenderLine3
+                    </Template>
+                </DxFormLayoutItem>
+                <DxFormLayoutItem CssClass="bc-height-50 p-0 m-0" Context="One" ColSpanLg="12" ColSpanXl="12" ColSpanMd="12" ColSpanSm="12" ColSpanXs="12">
+                    <Template>
+                        @RenderLine4
+                    </Template>
+                </DxFormLayoutItem>
+                <DxFormLayoutItem CssClass="bc-height-50 p-0 m-0" Context="One" ColSpanLg="12" ColSpanXl="12" ColSpanMd="12" ColSpanSm="12" ColSpanXs="12">
+                    <Template>
+                        @FormatRender
+                    </Template>
+                </DxFormLayoutItem>
+                <DxFormLayoutItem CssClass="bc-height-50 p-0 m-0" Context="One" ColSpanLg="12" ColSpanXl="12" ColSpanMd="12" ColSpanSm="12" ColSpanXs="12">
+                    <Template>
+                        @if (IsReport && GrilleColumnBinding.IsMeasure)
+                            {
+                            @FunctionRender
+                            }
+                    </Template>
+                </DxFormLayoutItem>
+            </DxFormLayoutGroup>
+        </DxFormLayout>
+        };
+        return RenderWidget;
+    }
+
+    RenderFragment RenderLine0 => __builder =>
+    {
+
+    <DxFormLayout>
+        <DxFormLayoutGroup Decoration="FormLayoutGroupDecoration.None" CaptionPosition="CaptionPosition.Vertical" CaptionCssClass="" ColSpanLg="12" ColSpanXl="12" ColSpanMd="12" ColSpanSm="12" ColSpanXs="12">
+            <DxFormLayoutItem CaptionCssClass="caption-dxform" BeginRow="true" ColSpanLg="6" ColSpanXl="6" ColSpanMd="6" ColSpanSm="6" ColSpanXs="6" Caption="@AppState["Gridcolumn.Dimension"]">
+                <Template>
+                    <DxTextBox  CssClass="mt-auto mb-auto" ReadOnly="true" @bind-Text=DimensionName></DxTextBox>
+                </Template>
+            </DxFormLayoutItem>
+            <DxFormLayoutItem ColSpanLg="6" ColSpanXl="6" ColSpanMd="6" ColSpanSm="6" ColSpanXs="6" Caption="Type" CaptionCssClass="text-white caption-dxform">
+                <Template>
+                    <DxTextBox ReadOnly="true" Text="@GrilleColumnBinding.TypeAsString"></DxTextBox>
+                </Template>
+            </DxFormLayoutItem>
+        </DxFormLayoutGroup>
+
+    </DxFormLayout>
+
+
+
+    };
+    RenderFragment RenderLine1 => __builder =>
+    {
+        <DxFormLayout>
+            <DxFormLayoutGroup Decoration="FormLayoutGroupDecoration.None" CaptionPosition="CaptionPosition.Vertical" CaptionCssClass="" ColSpanLg="12" ColSpanXl="12" ColSpanMd="12" ColSpanSm="12" ColSpanXs="12">
+                <DxFormLayoutItem CaptionCssClass="caption-dxform" BeginRow="true" ColSpanLg="6" ColSpanXl="6" ColSpanMd="6" ColSpanSm="6" ColSpanXs="6" Caption="@AppState["Gridcolumn.ColumnName"]">
+                    <Template>
+                        <DxTextBox ReadOnly=!Editable @bind-Text=Name></DxTextBox>
+                    </Template>
+                </DxFormLayoutItem>
+                <DxFormLayoutItem ColSpanLg="6" ColSpanXl="6" ColSpanMd="6" ColSpanSm="6" ColSpanXs="6" Caption="@AppState["column.size"]" CaptionCssClass="caption-dxform">
+                    <Template>
+                        <DxSpinEdit ReadOnly=!Editable @bind-Value=Width T="int?" MinValue="5"/>
+                    </Template>
+                </DxFormLayoutItem>
+            </DxFormLayoutGroup>
+        </DxFormLayout>
+    };
+
+    RenderFragment RenderFixedStyle => __builder =>
+    {
+        
+    <DxFormLayout>
+        <DxFormLayoutGroup Decoration="FormLayoutGroupDecoration.None" CaptionPosition="CaptionPosition.Vertical" CaptionCssClass="" ColSpanLg="12" ColSpanXl="12" ColSpanMd="12" ColSpanSm="12" ColSpanXs="12">
+            <DxFormLayoutItem CaptionCssClass="caption-dxform" BeginRow="true" ColSpanLg="6" ColSpanXl="6" ColSpanMd="6" ColSpanSm="6" ColSpanXs="6" Caption="@AppState["Gridcolumn.fixed.style"]">
+                <Template>
+                    <DxComboBox Enabled=Editable Data="GrilleColumnFixedStyle.None.GetAll(text=>AppState[text])"  @bind-Value="ColumnFixedStyle"> </DxComboBox>
+                </Template>
+            </DxFormLayoutItem>
+        </DxFormLayoutGroup>
+    </DxFormLayout>
+    };
+
+    RenderFragment RenderLine2 => __builder =>
+    {
+
+    <DxFormLayout>
+        <DxFormLayoutGroup Decoration="FormLayoutGroupDecoration.None" CaptionPosition="CaptionPosition.Vertical" CaptionCssClass="" ColSpanLg="12" ColSpanXl="12" ColSpanMd="12" ColSpanSm="12" ColSpanXs="12">
+            <DxFormLayoutItem CaptionCssClass="caption-dxform" BeginRow="true" ColSpanLg="6" ColSpanXl="6" ColSpanMd="6" ColSpanSm="6" ColSpanXs="6" Caption="@AppState["Gridcolumn.shape.color"]">
+                <Template>
+                    @*<input disabled="@(Editable ? "false": "true")" style="width:100%;" type="color" @bind=GrilleColumnBinding.Backgrounds>*@
+                    <input style="width:100%;" type="color" @bind=Backgrounds readonly="@(!Editable)" >
+                </Template>
+            </DxFormLayoutItem>
+        </DxFormLayoutGroup>
+    </DxFormLayout>
+    };
+
+    RenderFragment RenderLine3 => __builder =>
+    {
+    <DxFormLayout>
+        <DxFormLayoutGroup Decoration="FormLayoutGroupDecoration.None" CaptionPosition="CaptionPosition.Vertical" CaptionCssClass="" ColSpanLg="12" ColSpanXl="12" ColSpanMd="12" ColSpanSm="12" ColSpanXs="12">
+            <DxFormLayoutItem CaptionCssClass="caption-dxform" BeginRow="true" ColSpanLg="6" ColSpanXl="6" ColSpanMd="6" ColSpanSm="6" ColSpanXs="6" Caption="@AppState["Gridcolumn.text.color"]">
+                <Template>
+                    @*<input disabled="@(Editable ? "false": "true")" style="width:100%;" type="color" @bind=GrilleColumnBinding.Foregrounds>*@
+                    <input style="width:100%;" type="color" @bind=Foregrounds readonly="@(!Editable)">
+                </Template>
+            </DxFormLayoutItem>
+        </DxFormLayoutGroup>
+    </DxFormLayout>
+    };
+
+
+
+    RenderFragment RenderLine4 => __builder =>
+    {
+    <DxFormLayout>
+        <DxFormLayoutGroup Decoration="FormLayoutGroupDecoration.None" CaptionPosition="CaptionPosition.Horizontal" CaptionCssClass="" ColSpanLg="12" ColSpanXl="12" ColSpanMd="12" ColSpanSm="12" ColSpanXs="12">
+            <DxFormLayoutItem Caption="" CaptionCssClass="" ColSpanLg="6" ColSpanXl="6" ColSpanMd="6" ColSpanSm="6" ColSpanXs="6">
+                <Template>
+                    <DxCheckBox Enabled=Editable @bind-Checked=Editable_ Alignment="CheckBoxContentAlignment.Left" LabelPosition="LabelPosition.Right">
+                        @AppState["Gridcolumn.editable"]
+                    </DxCheckBox>
+                </Template>
+            </DxFormLayoutItem>
+            <DxFormLayoutItem Caption="" CaptionCssClass="" ColSpanLg="6" ColSpanXl="6" ColSpanMd="6" ColSpanSm="6" ColSpanXs="6">
+                <Template>
+                    <DxCheckBox Enabled=Editable @bind-Checked=Mandatory Alignment="CheckBoxContentAlignment.Left" LabelPosition="LabelPosition.Right">
+                        @AppState["Gridcolumn.mandatory"]
+                    </DxCheckBox>
+                </Template>
+            </DxFormLayoutItem>
+            <DxFormLayoutItem BeginRow="true" Caption="" CaptionCssClass="" ColSpanLg="6" ColSpanXl="6" ColSpanMd="6" ColSpanSm="6" ColSpanXs="6">
+                <Template>
+                    <DxCheckBox Enabled=Editable @bind-Checked=Show Alignment="CheckBoxContentAlignment.Left" LabelPosition="LabelPosition.Right">
+                        @AppState["Gridcolumn.show.column"]
+                    </DxCheckBox>
+                </Template>
+            </DxFormLayoutItem>
+            @if(IsInputGrid) { 
+            <DxFormLayoutItem Caption="" CaptionCssClass="" ColSpanLg="6" ColSpanXl="6" ColSpanMd="6" ColSpanSm="6" ColSpanXs="6">
+                <Template>
+                    <DxCheckBox Enabled=Editable @bind-Checked=GrilleColumnBinding.ShowValuesInDropList
+                                Alignment="CheckBoxContentAlignment.Left" LabelPosition="LabelPosition.Right">
+                        @AppState["Gridcolumn.show.existing.value"]
+                    </DxCheckBox>
+                </Template>
+            </DxFormLayoutItem>
+            }
+        </DxFormLayoutGroup>
+    </DxFormLayout>
+    };
+
+    RenderFragment FormatRender => __builder =>
+ {
+<DxFormLayout>
+    <DxFormLayoutGroup Decoration="FormLayoutGroupDecoration.None" CaptionPosition="CaptionPosition.Vertical" CaptionCssClass="" ColSpanLg="12" ColSpanXl="12" ColSpanMd="12" ColSpanSm="12" ColSpanXs="12">
+        @if (GrilleColumnBinding.IsMeasure)
+            {
+            <DxFormLayoutItem CaptionCssClass="caption-dxform" BeginRow="true" ColSpanLg="6" ColSpanXl="6" ColSpanMd="6" ColSpanSm="6" ColSpanXs="6" Caption="@AppState["Gridcolumn.NumberOfDecimal"]">
+                <Template>
+                    <DxSpinEdit ReadOnly=!Editable @bind-Value="NbrOfDecimal" MinValue="0" />
+                </Template>
+            </DxFormLayoutItem>
+            <DxFormLayoutItem CssClass="useseparator" ColSpanLg="6" ColSpanXl="6" ColSpanMd="6" ColSpanSm="6" ColSpanXs="6" Caption="UseSepartor" CaptionCssClass="text-white">
+                <Template>
+                    <div class="d-flex flex-column">
+                        <DxCheckBox Enabled=Editable CssClass="mt-auto mb-auto" @bind-Checked=UsedSeparator LabelPosition="LabelPosition.Right">
+                            @AppState["Gridcolumn.UseSeparator"]
+                        </DxCheckBox>
+                    </div>
+                </Template>
+            </DxFormLayoutItem>
+            }
+            else if (GrilleColumnBinding.IsPeriod)
+            {
+            <DxFormLayoutItem CaptionCssClass="caption-dxform" BeginRow="true" ColSpanLg="12" ColSpanXl="12" ColSpanMd="12" ColSpanSm="12" ColSpanXs="12" Caption="@AppState["Gridcolumn.format"]">
+                <Template>
+                    <DxStackLayout ItemSpacing="4px">
+                        <Items>
+                            <DxStackLayoutItem>
+                                <Template>
+                                    <DxTextBox ReadOnly=!Editable NullText="yyyy-MM-dd" @bind-Text=DefaultFormat BindValueMode="BindValueMode.OnInput" />
+                                </Template>
+                            </DxStackLayoutItem>
+                            <DxStackLayoutItem>
+                                <Template>
+                                    <DxButton Enabled=Editable RenderStyle="ButtonRenderStyle.Dark" CssClass="btn-info-bulle" IconCssClass="fa fa-question-circle fa-lg " RenderStyleMode="ButtonRenderStyleMode.Outline" @onclick="(()=> ShowFormatPopUp = true )" />
+                                    <BaseModalComponent Title="@AppState["Dateformatdescription"]" ApplyBackgroundShading="true" @bind-ShowModal=@ShowFormatPopUp>
+                                        <div>
+                                            <ul>
+                                                <li>
+                                                    <b>@AppState["the.year"]:</b>
+                                                    <ul>
+                                                        <li><b>yy:</b> @AppState["date.yy.explain"]</li>
+                                                        <li><b>yyyy:</b> @AppState["date.yyyy.explain"]</li>
+                                                    </ul>
+                                                </li>
+                                                <li>
+                                                    <b>@AppState["the.month"]:</b>
+                                                    <ul>
+                                                        <li><b>MM:</b> @AppState["date.mm.explain"]</li>
+                                                        <li><b>MMM:</b> @AppState["date.mmm.explain"]</li>
+                                                        <li><b>MMMM:</b> @AppState["date.mmmm.explain"]</li>
+                                                    </ul>
+                                                </li>
+                                                <li>
+                                                    <b>@AppState["the.day"]:</b>
+                                                    <ul>
+                                                        <li><b>dd:</b> @AppState["date.dd.explain"]</li>
+                                                        <li><b>ddd:</b> @AppState["date.ddd.explain"]</li>
+                                                        <li><b>dddd:</b> @AppState["date.dddd.explain"]</li>
+                                                    </ul>
+                                                </li>
+                                            </ul>
+                                            <p>
+                                                @{
+                                                        var explDate = DateTime.Now.Date;
+                                                }
+                                                <b><u>@AppState["example"]</u>:</b> @AppState["the.date"] @(explDate.ToShortDateString()) :
+                                                <br />
+                                                <br />
+                                                <table border="1" cellpadding="4">
+                                                    <tr>
+                                                        <th style="font-weight: 600;">Format</th>
+                                                        <th style="font-weight: 600;">Resultat</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>yyyy-MM-dd &nbsp;</td>
+                                                        <td>@explDate.ToString("yyyy-MM-dd")</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>MM-dd-yyyy &nbsp;</td>
+                                                        <td>@explDate.ToString("MM-dd-yyyy")</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>MMM-yyyy &nbsp;</td>
+                                                        <td>@explDate.ToString("MMM-yyyy")</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>dd-MMMM &nbsp;</td>
+                                                        <td>@explDate.ToString("dd-MMMM")</td>
+                                                    </tr>
+                                                    <tr>
+                                                        @{ var fmt = AppState["custom.full.date"]; }
+                                                        <td>@fmt &nbsp;</td>
+                                                        <td>@explDate.ToString(fmt)</td>
+                                                    </tr>
+                                                </table>
+                                            </p>
+                                        </div>
+                                    </BaseModalComponent>
+                                </Template>
+                            </DxStackLayoutItem>
+                        </Items>
+                    </DxStackLayout>
+                </Template>
+            </DxFormLayoutItem>
+            }
+
+    </DxFormLayoutGroup>
+</DxFormLayout>
+};
+
+   RenderFragment FunctionRender => __builder =>
+  {
+<DxFormLayout>
+    <DxFormLayoutGroup Decoration="FormLayoutGroupDecoration.None" CaptionPosition="CaptionPosition.Vertical" CaptionCssClass="" ColSpanLg="12" ColSpanXl="12" ColSpanMd="12" ColSpanSm="12" ColSpanXs="12">
+        <DxFormLayoutItem CaptionCssClass="caption-dxform" BeginRow="true" ColSpanLg="6" ColSpanXl="6" ColSpanMd="6" ColSpanSm="6" ColSpanXs="6" Caption="@AppState["Gridcolumn.function"]">
+            <Template>
+                <DxComboBox Enabled=Editable Data="@Functions" TData="string" TValue="string" @bind-Text=GrilleColumnBinding.DimensionFunction />
+            </Template>
+        </DxFormLayoutItem>
+    </DxFormLayoutGroup>
+</DxFormLayout>
+ };
+
+}

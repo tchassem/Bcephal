@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bcephal-initiation-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bcephal-initiation-service
+    
+  template:
+    metadata:
+      labels:
+        app: bcephal-initiation-service
+    spec:
+      volumes:
+      - name: bcephal-initiation-repository
+        hostPath:
+          path: /opt/bcephal-initiation-repository
+      containers:
+      - name: bcephal-initiation-service
+        image: localhost:5000/becphal-initiation-service-docker-image
+        volumeMounts:
+        - name: bcephal-initiation-repository
+          mountPath: /opt/bcephal-initiation-repository
+
+        ports:
+        - containerPort: 32008 
+        
+        
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: bcephal-initiation-service
+spec:
+  selector:
+    app: bcephal-initiation-service
+  type: NodePort
+  ports:  
+    - name: http
+      nodePort: 32008
+      port: 32008
+      targetPort: 32008
+      protocol: TCP
+   
+  
+  
+
+
+  
+

@@ -1,0 +1,71 @@
+﻿<DxLayoutBreakpoint DeviceSize="DeviceSize.Medium | DeviceSize.Small | DeviceSize.XSmall" @bind-IsActive="IsSmallScreen" />
+@FormModelFieldContent
+
+@code {
+
+    public RenderFragment FormModelFieldContent => __builder =>
+    {
+    if (formModelField.VisibleInEditor) {
+    <DxGridLayout CssClass="w-100 m-0 p-0 pt-2 pl-1" ColumnSpacing="0px">
+        <Rows>
+            @if (IsSmallScreen)
+            {
+                <DxGridLayoutRow Areas="R1Name" Height="auto" />
+                <DxGridLayoutRow Areas="R1NameValue" Height="auto" />
+            }
+            else
+            {
+                <DxGridLayoutRow Areas="R1Name R1NameValue " Height="auto" />
+            }
+        </Rows>
+        <Columns>
+            @if (IsSmallScreen)
+            {
+                <DxGridLayoutColumn Width="1fr" />
+            }
+            else
+            {
+                <DxGridLayoutColumn Width="1fr" />
+                <DxGridLayoutColumn Width="1.5fr" />
+            }
+        </Columns>
+        <Items>
+            <DxGridLayoutItem Area="R1Name">
+                <Template>
+                    @formModelField.Label
+                </Template>
+            </DxGridLayoutItem>
+            <DxGridLayoutItem Area="R1NameValue">
+                <Template>
+                    @{
+                            
+                        if (isSelect)
+                        {
+                            <DxComboBox CssClass="d" AllowUserInput="isSelectAndEdition" TData="object" TValue="object"
+                                    ReadOnly="!isInput"
+                                    Data="Data" @bind-Value="Value_" />
+                        }else
+                        if (isEdition || isInfo)
+                        {
+                            if (formModelField.IsPeriod)
+                            {
+                                <DxDateEdit T="DateTime?" @bind-Date="DateTimeValue_" DisplayFormat=@Format  />
+                            }
+                            else
+                            if (formModelField.IsMeasure)
+                            {
+                                <DxSpinEdit @bind-Value="decimalValue_" T="decimal?" />
+                            }
+                            else
+                            {
+                                <DxTextBox @bind-Text="StringValue_" BindValueMode="BindValueMode.OnLostFocus" DisplayFormat=@Format />
+                            }
+                        }
+                    }
+                </Template>
+            </DxGridLayoutItem>
+        </Items>
+    </DxGridLayout>
+        }
+    };
+}

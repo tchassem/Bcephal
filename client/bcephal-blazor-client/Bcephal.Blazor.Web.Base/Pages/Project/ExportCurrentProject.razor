@@ -1,0 +1,136 @@
+﻿@*@page "/export-cur-project"
+
+@inject ProjectService ProjectService
+@inject IToastService toastService
+@inject IJSRuntime JSRuntime
+@using Newtonsoft.Json
+@using System.IO
+
+
+<h1>Page d'export d'un projet</h1>
+
+<DxButton CssClass="mr-1 ml-auto wid-70" IconCssClass="fa fa-check mr-1"
+          RenderStyle="ButtonRenderStyle.Primary" Text="Export"
+          Click=RunExportProject />
+
+@code {
+
+    [CascadingParameter] public Error Error { get; set; }
+
+    [Inject]
+    AppState AppState { get; set; }
+    [Inject]
+    private WebSocketAddress WebSocketAddress { get; set; }
+    [Inject] IToastService ToastService { get; set; }
+
+    //System.IO.MemoryStream contentF;
+    FileStream contentF;
+    string fullFileName;
+
+    protected override void OnInitialized()
+    {
+        fullFileName = $"{AppState.ProjectName} {DateTime.Now.ToString("dd-MM-yyyy_HH-mm")}.bcp";
+    }
+
+    // Lorsque le serveur envoi des données, on les ajoute dans le stream
+    public void CallBackExport(object sender, object message)
+    {
+        byte[] contentBytes = (byte[])message;
+        if (contentBytes != null && contentBytes.Length > 0)
+        {
+            contentF.Write(contentBytes, 0, contentBytes.Length);
+        }
+    }
+
+    public async void RunExportProject()
+    {
+        try
+        {
+            AppState.ShowLoadingStatus();
+
+            await JSRuntime.InvokeVoidAsync("console.log", "Try to export the project");
+            SocketJS Socket = new SocketJS(WebSocketAddress, CallBackExport, JSRuntime, AppState, true);
+            bool valueClose = false;
+            bool valueError = false;
+            Socket.CloseHandler += async () =>
+            {
+                if (!valueClose && !valueError)
+                {
+                    AppState.HideLoadingStatus();
+                    // Lorsque le serveur a fini de transmettre des données et que la session n'a pas été cloturé avec des erreurs,
+                    // on peut donc récupérer le tout les bits recus et reconstituer le fichier intégralement et enfin on le sauvegarde
+                    try
+                    {
+                        if (contentF != null && contentF.Length > 0)
+                        {
+                            contentF.Seek(0, System.IO.SeekOrigin.Begin);
+                            // await JSRuntime.InvokeVoidAsync("console.log", "saveAsFileBytes : ", contentF.ToArray().Length);
+                            await JSRuntime.InvokeAsync<object>("saveAsFileBytes", fullFileName, Convert.ToBase64String(ReadBytes(contentF)));
+                            await contentF.DisposeAsync();
+                            toastService.ShowSuccess(AppState["Projects.SuccessfullyExported"]);
+                        }
+                        else
+                        {
+                            toastService.ShowError(AppState["Projects.ExportFileIssue"], AppState["Error"]);
+                        }
+                        valueClose = true;
+                    }
+                    catch (Exception ex)
+                    {
+                        ToastService.ShowError((string)ex.Message, AppState["Error"]);
+                    }
+                }
+            };
+
+            Socket.ErrorHandler += (errorMessage) =>
+            {
+                if (!valueError)
+                {
+                    AppState.HideLoadingStatus();
+                    ToastService.ShowError((string)errorMessage, AppState["Error"]);
+                    valueError = true;
+                }
+            };
+
+            Socket.SendHandler += () =>
+            {
+                Socket.FullyProgressbar.FullBase = false;
+                AppState.CanLoad = false;
+                SimpleArchive simpleArchive = new SimpleArchive()
+                {
+                    ProjectName = AppState.ProjectName,
+                    Repository = "",
+                    Comments = "",
+                    ArchiveMaxCount = 3000,
+                    Name = AppState.ProjectName,
+                    FileName = fullFileName,
+                    ProjectId = AppState.ProjectId.Value,
+                    ClientId = AppState.ClientId.Value,
+                    locale = UserService.DefaultLanguage
+                };
+
+                string data = ProjectService.Serialize(simpleArchive);
+                Socket.send(data);
+            };
+            var path = Path.GetTempFileName();
+            //Console.WriteLine(String.Format("TempFileName ==> {0} ", path));
+            contentF = new(path, FileMode.Create);
+
+            await ProjectService.ConnectSocketJS(Socket, "/backup-project");
+        }
+        catch (Exception ex)
+        {
+            Error.ProcessError(ex);
+        }
+    }
+
+    public byte[] ReadBytes(Stream inputStream)
+    {
+        using (MemoryStream ms = new MemoryStream())
+        {
+            inputStream.CopyTo(ms);
+            return ms.ToArray();
+        }
+    }
+
+}*@

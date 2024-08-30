@@ -1,0 +1,154 @@
+﻿@page "/edit-archive-config"
+@page "/edit-archive-config/{Id:long}"
+
+@inherits Form<Bcephal.Models.Archives.ArchiveConfig, ArchiveConfigBrowserData>
+
+@{ base.BuildRenderTree(__builder); }
+
+@code {
+    public override RenderFragment LeftContent => __builder =>
+        {
+        @if (EditorData != null && EditorData.Item != null)
+            {
+        <DxTabs CssClass="m-0 p-0 bc-tab-h-100" @bind-ActiveTabIndex="ActiveTabIndex" ScrollMode="TabsScrollMode.Auto">
+            <DxTabPage Text="@AppState["Data"]" CssClass="m-0 p-0 h-100">
+                <div style="height: calc(100% - var(--bc-tab-header-height));">
+                    @if (EditorData != null)
+                        {
+                       
+                        <SplitterPanel Panes="new List<RenderFragment>() { BackupGridContent,ReplacementGridContent }"
+                                       LeftSize="1" vertical="false" />
+
+                        }
+                </div>
+            </DxTabPage>
+            <DxTabPage Text="@AppState["Backup.Configuration"]" CssClass="m-0 p-0 h-100">
+                <div style="height: calc(100% - var(--bc-tab-header-height));">
+                    @if (BackupGrid != null)
+                        {
+                            try
+                            {
+                            <Bcephal.Blazor.Web.Sourcing.Shared.Grille.ConfigurationGrid @bind-EditorData=BackupGrid
+                                                                                         SelectAttributeCallback=addAttributColumnBackup
+                                                                                         SelectMesureCallback=addMeasureColumnBackup
+                                                                                         SelectPeriodeCallback=addPeriodColumnBackup
+                                                                                         Entities=Entities
+                                                                                         DisplayEditable="false"
+                                                                                         Filter=RefreshRightContent
+                                                                                         @ref=ConfigurationGrid
+                                                                                         @bind-BGroups="BGroups"
+                                                                                         SendTag="true"
+                                                                                         Editable_=Editable
+                                                                                         @bind-ActiveTabIndexFilter="ActiveTabIndexFilter" 
+                                                                                         DisplayVisibleInShortcut="false">
+                                @if (RightCustomContent != null)
+                                    {
+                                    @RightCustomContent
+                                    }
+
+                            </Bcephal.Blazor.Web.Sourcing.Shared.Grille.ConfigurationGrid>
+                            }
+                            catch (BcephalException e)
+                            {
+                                if (canDisplayError)
+                                {
+                                    canDisplayError = false;
+                                    Error.ProcessError(e);
+                                }
+                            }
+                        }
+                </div>
+            </DxTabPage>
+            <DxTabPage Text="@AppState["Replacement.Configuration"]" CssClass="m-0 p-0 h-100">
+                <div style="height: calc(100% - var(--bc-tab-header-height));">
+                    @if (ReplacementGrid != null)
+                        {
+                            try
+                            {
+                            <Bcephal.Blazor.Web.Sourcing.Shared.Grille.ConfigurationGrid @bind-EditorData=ReplacementGrid
+                                                                                         SelectAttributeCallback=addAttributColumnReplacement
+                                                                                         SelectMesureCallback=addMeasureColumnReplacement
+                                                                                         SelectPeriodeCallback=addPeriodColumnReplacement
+                                                                                         Entities=Entities
+                                                                                         Editable_=Editable
+                                                                                         DisplayEditable="false"
+                                                                                         Filter=RefreshRightContent
+                                                                                         @ref=ConfigurationGrid
+                                                                                         @bind-BGroups="BGroups"
+                                                                                         @bind-ActiveTabIndexFilter="ActiveTabIndexFilter" DisplayVisibleInShortcut="false">
+                                @if (RightCustomContent != null)
+                                    {
+                                    @RightCustomContent
+                                    }
+
+                            </Bcephal.Blazor.Web.Sourcing.Shared.Grille.ConfigurationGrid>
+                            }
+                            catch (BcephalException e)
+                            {
+                                if (canDisplayError)
+                                {
+                                    canDisplayError = false;
+                                    Error.ProcessError(e);
+                                }
+                            }
+                        }
+                </div>
+            </DxTabPage>
+            <DxTabPage Text="@AppState["Enrichment"]" CssClass="m-0 p-0 h-100">
+                <div class="overflow-auto" style="height: calc(100% - var(--bc-tab-header-height));">
+                    @if (EditorData != null)
+                        {
+                        <Bcephal.Blazor.Web.Archive.Shared.ArchiveConfigComponent MeasureItems="EditorData.Measures"
+                                                                                  PeriodsItems="EditorData.Periods" 
+                                                                                  Entities="Entities" 
+                                                                                  @bind-EditorData=EditorDataBinding 
+                                                                                  Editable=Editable
+                                                                                  />
+                        }
+                </div>
+            </DxTabPage>
+            <DxTabPage Text="@AppState["Scheduling"]" CssClass="m-0 p-0 h-100">
+                <div style="height: calc(100% - var(--bc-tab-header-height));">
+                    <SchedulerItemsInfos P="ArchiveConfig" @bind-EditorData=EditorDataBinding />
+                </div>
+            </DxTabPage>
+
+        </DxTabs>
+            }
+        };
+
+    public override RenderFragment RightContent => CurrentRightContent;
+
+    public virtual RenderFragment RightCustomContent => __builder =>
+    {
+
+        @if (@ActiveTabIndex == 1)
+        {
+                <Bcephal.Blazor.Web.Sourcing.Shared.Grille.InputGridInfos @bind-EditorData=BackupGrid Editable=Editable />
+        }
+
+        else if (@ActiveTabIndex == 2)
+        {
+                <Bcephal.Blazor.Web.Sourcing.Shared.Grille.InputGridInfos @bind-EditorData=ReplacementGrid Editable=Editable />
+        }
+        else { }
+
+    };
+
+    public virtual RenderFragment BackupGridContent => __builder =>
+    {
+        <Bcephal.Blazor.Web.Sourcing.Shared.Grille.InputGridComponentForm_ @bind-EditorData="BackupGrid"
+                                                                           GrilleService=GrilleService
+                                                                           Entities="@Entities"
+                                                                           @ref="InputGridComponentForm" />
+    };
+
+    public virtual RenderFragment ReplacementGridContent => __builder =>
+    {
+        <Bcephal.Blazor.Web.Sourcing.Shared.Grille.InputGridComponentForm_ @bind-EditorData="ReplacementGrid"
+                                                                           GrilleService=GrilleService
+                                                                           Entities="@Entities"
+                                                                           @ref="InputGridComponentForm" />
+    };
+
+}

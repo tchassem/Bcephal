@@ -1,0 +1,21 @@
+﻿<DxLayoutBreakpoint DeviceSize=DeviceSize_ @bind-IsActive="@IsXSmallScreen" />
+<DxStackLayout Orientation=@(IsXSmallScreen ? Orientation.Vertical : Orientation.Horizontal) CssClass="@(!string.IsNullOrWhiteSpace(CssClass) ? CssClass + " bc-box-sizing" : " bc-box-sizing")" ItemSpacing=@ItemSpacing>
+    <Items>
+        @if (Item1 != null)
+        {
+            <DxStackLayoutItem Length=@Item1Length>
+                <Template>
+                    @Item1                   
+                </Template>
+            </DxStackLayoutItem>
+        }
+        @if (Item2 != null)
+        {
+            <DxStackLayoutItem Length=@Item2Length>
+                <Template>
+                    @Item2
+                </Template>
+            </DxStackLayoutItem>
+        }
+        </Items>
+</DxStackLayout>

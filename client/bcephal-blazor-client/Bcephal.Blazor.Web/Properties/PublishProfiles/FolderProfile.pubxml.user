@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+https://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <_PublishTargetUrl>D:\PROJECTS\BCEPHAL_SERVICE\dev\server\bcephal-web-ui-service\src\main\resources</_PublishTargetUrl>
+  </PropertyGroup>
+  <ItemGroup>
+    <File Include="Pages/Billing/Models/Components/AppendicesTabComponent.razor">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Shared/Component/PeriodValueComponent.razor">
+      <publishTime>09/13/2021 12:51:06</publishTime>
+    </File>
+  </ItemGroup>
+</Project>

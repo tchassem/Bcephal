@@ -1,0 +1,203 @@
+﻿
+<DxLayoutBreakpoint DeviceSize="DeviceSize.Medium | DeviceSize.Small | DeviceSize.XSmall" @bind-IsActive="IsSmallScreen" />
+
+@if (!ColumnItemFieldKey.Equals("ColumnItemFieldKey"))
+{
+    @LeftContent
+}
+
+
+
+@code {
+
+    public RenderFragment LeftContent => __builder =>
+    {
+        if (DisplayDimensionView)
+        {//@key="@(new Guid().ToString("d"))"
+            <DxTabs CssClass="m-0 p-0 bc-tab-h-100" @bind-ActiveTabIndex=@ContentTabindex>
+                <DxTabPage Text="@AppState["Grid.edit.columns"]" CssClass="m-0 p-0 h-100">
+                    <div style="height: calc(100% - var(--bc-tab-header-height));">
+                        <div class="h-100">
+                            <ConfigurationGridContent @key="@($"{ColumnItemFieldKey}-{keyGen}")"  Editable_=Editable_ @bind-EditorData=EditorDataBinding 
+                                                      @bind-GrilleColumnPosition="GrilleColumnPosition"
+                                                      @ref=ConfigurationGridContentRef>
+                            </ConfigurationGridContent>
+                        </div>
+                    </div>
+                </DxTabPage>
+                <DxTabPage Text="@AppState["Dimensions"]" CssClass=" m-0 p-0 h-100">
+                    <div style="height: calc(100% - var(--bc-tab-header-height));">
+                        <div class="h-100">
+                            <GridDimensions_Configuration @key="@($"{ColumnItemFieldKey}-{keyGen}-10")"  Editable_=Editable_  @bind-EditorData=EditorDataBinding 
+                                                          @ref=GridDimensions_ConfigurationRef>
+                            </GridDimensions_Configuration>
+                        </div>
+                    </div>
+                </DxTabPage>
+            </DxTabs>
+        }
+        else
+        {// @key="@(new Guid().ToString("d"))"
+            <div class="h-100">
+                <ConfigurationGridContent @key="@($"{ColumnItemFieldKey}-{keyGen}")" Editable_=Editable_  @bind-EditorData=EditorDataBinding 
+                                          @bind-GrilleColumnPosition="GrilleColumnPosition"
+                                            @ref=ConfigurationGridContentRef>
+                </ConfigurationGridContent>
+            </div>
+        }
+    };
+
+    public RenderFragment RightContentSend => __builder =>
+    {// @key=PropertiesKey
+    <div class="d-flex flex-column h-100" style="display:block;box-sizing:border-box;" @key=PropertiesKey>
+        @GridItemInfosContent
+        <div class="" style="box-sizing: border-box;">
+            @ColumnItemFieldComponentContent
+        </div>
+    </div>
+    };
+
+    public RenderFragment ColumnItemFieldComponentContent => __builder =>
+    {
+    @if (EditorData != null)
+        {//@key=ColumnItemFieldKey
+        <ColumnItemFieldComponent  @key=ColumnItemFieldKey
+                                  @bind-EditorData=EditorData
+                                  SelectAttributeCallback="((item)=> addAttributColumn(EditorData.Item, item))"
+                                  SelectMesureCallback="((item)=> addMeasureColumn(EditorData.Item, item))"
+                                  SelectPeriodeCallback="((item)=> addPeriodColumn(EditorData.Item, item))"
+                                  Entities=Entities
+                                  Editable=Editable_
+                                  >
+        </ColumnItemFieldComponent>
+        }
+    };
+
+    public RenderFragment GridItemInfosContent => __builder =>
+    {
+    <div class="d-flex flex-grow-1 m-0 mb-2 p-0">
+        <GridItemInfos Editable=Editable_ @bind-EditorData=EditorDataBinding
+                       T="Bcephal.Models.Grids.Grille" DisplayGroup="DisplayGroup"
+                       DisplayVisibleInShortcut="DisplayVisibleInShortcut"
+                       @bind-BGroups="BGroups_">
+            <ChildContent>
+                <DxStackLayout style="overflow-x:hidden!important;" ItemSpacing="5px" Orientation="Orientation.Vertical">
+                    <Items>
+                        @if (DisplayEditable)
+                            {
+                            <DxStackLayoutItem Length="auto">
+                                <Template>
+                                    @DisplayEditableContent
+                                </Template>
+                            </DxStackLayoutItem>
+                            }
+                        @if (ChildContent != null)
+                            {
+                            <DxStackLayoutItem Length="auto">
+                                <Template>
+                                    @ChildContent(this)
+                                </Template>
+                            </DxStackLayoutItem>
+                            }
+                    </Items>
+                </DxStackLayout>
+            </ChildContent>
+        </GridItemInfos>
+    </div>
+    };
+
+    public RenderFragment RightContentSendTag => __builder =>
+    {
+    <DxTabs CssClass="bc-tab-h-100" @bind-ActiveTabIndex="ActiveTabIndexFilterBinding" ScrollMode="TabsScrollMode.Auto">
+        <DxTabPage Text="@AppState["Properties"]" CssClass="m-0 p-0">
+            <div style="height: calc(100% - var(--bc-tab-header-height)); box-sizing: border-box !important;">
+                <div class="h-100">
+                    @RightContentSend
+                </div>
+            </div>
+        </DxTabPage>
+        <DxTabPage Text="@AppState["Grid.admin.filter"]" CssClass="h-100">
+            <div style="height: calc(100% - var(--bc-tab-header-height)); box-sizing: border-box !important;">
+                <div class="h-100">
+                    @RightContentFilter
+                </div>
+            </div>
+        </DxTabPage>
+        @if (EditorDataBinding.Item.IsInput)
+            {
+            <DxTabPage Text="@AppState["Link"]" CssClass="m-0 p-0">
+                <div style="height: calc(100% - var(--bc-tab-header-height)); box-sizing: border-box !important;">
+                    <div class="h-100">
+                        <LinkComponent @bind-EditorData="EditorDataBinding" />
+                    </div>
+                </div>
+            </DxTabPage>
+            }
+    </DxTabs>
+    };
+
+    public RenderFragment RightContentFilter => __builder =>
+    {
+    @if (EditorData != null && EditorData.Item != null)
+        {//@key=FilterKey 
+        <FilterComponent @key=FilterKey 
+                         @bind-UniverseFilter="@AdminFilterBinding"
+                         Attributes="@Entities"
+                         Measures="@EditorData.Measures"
+                         Periods="EditorData.Periods"
+                         Filterstyle="@Filterstyle"
+                         CanRefreshGrid="CanRefreshGrid"
+                         FilterName=@FilterKey
+                         Editable=Editable_>
+        </FilterComponent>
+        }
+    };
+
+    RenderFragment DisplayEditableContent => __builder =>
+    {
+    <DxGridLayout CssClass="w-100 ml-2 h-auto">
+        <Rows>
+            <DxGridLayoutRow Areas="Name_" Height="auto" />
+        </Rows>
+        <Columns>
+            <DxGridLayoutColumn Width="100%" />
+        </Columns>
+        <Items>
+            <DxGridLayoutItem Area="Name_" CssClass="h-auto">
+                <Template>
+                    <DxGridLayout ColumnSpacing="0px">
+                        <Rows>
+                            @if (IsSmallScreen)
+                                {
+                                <DxGridLayoutRow Areas="NameValue " Height="auto" />
+                                }
+                                else
+                                {
+                                <DxGridLayoutRow Areas="Name NameValue " Height="auto" />
+                                }
+                        </Rows>
+                        <Columns>
+                            <DxGridLayoutColumn Width=@LabelWidth />
+                            <DxGridLayoutColumn Width=@TextWidth />
+                        </Columns>
+                        <Items>
+                            @if (!IsSmallScreen)
+                                {
+                                <DxGridLayoutItem Area="Name" />
+                                }
+                            <DxGridLayoutItem Area="NameValue">
+                                <Template>
+                                    <DxCheckBox Enabled=Editable_ @bind-Checked=Editable Alignment="CheckBoxContentAlignment.Left">
+                                        @AppState["Editable"]
+                                    </DxCheckBox>
+                                </Template>
+                            </DxGridLayoutItem>
+                        </Items>
+                    </DxGridLayout>
+                </Template>
+            </DxGridLayoutItem>
+        </Items>
+    </DxGridLayout>
+    };
+
+}

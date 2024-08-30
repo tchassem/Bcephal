@@ -1,0 +1,17 @@
+﻿
+@LeftContent
+
+@code {
+
+    public RenderFragment LeftContent => __builder =>
+    {
+        if (EditorDataBinding != null)
+        {
+                <InputNewGridComponent Editable=Editable @bind-EditorData=EditorDataBinding
+                                   Service=GetService()
+                                   DuplicateButtonVisible=DuplicateButtonVisible
+                                   @ref="InputNewGridComponent"
+                                   @attributes=attributes />
+        }
+    };
+}

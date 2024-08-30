@@ -1,0 +1,29 @@
+﻿
+<div class="d-flex flex-column mt-3 overflow-auto">
+    @if (EditorData != null && EditorData.Item != null && EditorData.Item.ConditionListChangeHandler != null && EditorData.Item.ConditionListChangeHandler.Items.Any())
+    {
+        @foreach (var condition in EditorData.Item.ConditionListChangeHandler.Items)
+        {
+            <ReconciliationConditionComponent Editable=Editable Condition=condition
+                                              IsNew="false"
+                                              ReconciliationModelColumns=ReconciliationModelColumns
+                                              OnClickBtnRemove=OnConditionDeleted
+                                              ConditionChanged=OnConditionChanged />
+        }
+
+    }
+
+    @if (!EditorData.Item.ConditionListChangeHandler.Items.Any(c => c.ColumnId1 == null || c.ColumnId2 == null))
+    {
+        <ReconciliationConditionComponent Editable=Editable Condition="@tempReco" IsNew="true"
+                                          ReconciliationModelColumns="@ReconciliationModelColumns" ConditionChanged="@OnConditionChanged">
+        </ReconciliationConditionComponent>
+    }
+</div>
+
+
+@code {
+
+   
+
+}

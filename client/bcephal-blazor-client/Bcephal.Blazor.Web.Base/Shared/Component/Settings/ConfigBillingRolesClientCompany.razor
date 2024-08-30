@@ -1,0 +1,202 @@
+﻿
+<div class="card p-0 m-0 h-100" style="height: calc((100vh - 228.6px)/2 )">
+    <div class="card-header p-0 ml-2 mr-2" style="height:41.2px; background-color:#fff;">
+        <DxTabs CssClass="custom-tab" @bind-ActiveTabIndex="ActiveTabIndex">
+            <DxTab Text="@AppState["billing.role.client"]"></DxTab>
+            <DxTab Text="@AppState["billing.role.client"]"></DxTab>
+        </DxTabs>
+    </div>
+
+    <div class="card-body p-0 ml-2 mr-2" style="height:calc(100% - 41.2px); margin-top: 5px;overflow-y:auto; ">
+        @switch (ActiveTabIndex)
+        {
+            case 0:
+                <DxFormLayout CssClass="w-100">
+
+                    <DxFormLayoutItem CssClass="w-100" Caption=@AppState["ClientId"] CaptionCssClass="caption-form" ColSpanLg="4" ColSpanMd="4" ColSpanSm="12">
+                        <Template>
+                            <div class="d-flex flex-row">
+                                <DxComboBox Data="@Attributes"
+                                            @bind-Value="ClientId"
+                                            CssClass="filter-combo wid-200">
+                                </DxComboBox>
+                                <i class="bi bi-file-x-fill" hidden="@(ClientId != null ? false : true)"
+                                   @onclick="@(() => { ClientId = null; UpdateDictonary.InvokeAsync("ClientId"); })"
+                                   style="margin-left: .5rem !important; font-size: 1.2rem; color: red; margin-top: auto; margin-bottom: auto;">
+                                </i>
+                                <label class="ml-2 mb-auto mt-auto"> (@AppState["ATTRIBUTE"]) </label>
+                            </div>
+                        </Template>
+                    </DxFormLayoutItem>
+
+                    <DxFormLayoutItem CssClass="w-100" Caption=@AppState["ClientName"] CaptionCssClass="caption-form" ColSpanLg="4" ColSpanMd="4" ColSpanSm="12">
+                        <Template>
+                            <div class="d-flex flex-row">
+                                <DxComboBox Data="@Attributes"
+                                            @bind-Value="ClientName"
+                                            CssClass="filter-combo wid-200">
+                                </DxComboBox>
+                                <i class="bi bi-file-x-fill" hidden="@(ClientName != null ? false : true)"
+                                   @onclick="@(() => { ClientName = null; UpdateDictonary.InvokeAsync("ClientName"); })"
+                                   style="margin-left: .5rem !important; font-size: 1.2rem; color: red; margin-top: auto; margin-bottom: auto;">
+                                </i>
+                                <label class="ml-2 mb-auto mt-auto"> (@AppState["ATTRIBUTE"]) </label>
+                            </div>
+                        </Template>
+                    </DxFormLayoutItem>
+
+                    <DxFormLayoutItem CssClass="w-100" Caption=@AppState["ClientContact"] CaptionCssClass="caption-form" ColSpanLg="4" ColSpanMd="4" ColSpanSm="12">
+                        <Template>
+                            <div class="d-flex flex-row">
+                                <DxComboBox Data="@Attributes"
+                                            @bind-Value="ClientContact"
+                                            CssClass="filter-combo wid-200">
+                                </DxComboBox>
+                                <i class="bi bi-file-x-fill" hidden="@(ClientContact != null ? false : true)"
+                                   @onclick="@(() => { ClientContact = null; UpdateDictonary.InvokeAsync("ClientContact"); })"
+                                   style="margin-left: .5rem !important; font-size: 1.2rem; color: red; margin-top: auto; margin-bottom: auto;">
+                                </i>
+                                <label class="ml-2 mb-auto mt-auto"> (@AppState["ATTRIBUTE"]) </label>
+                            </div>
+                        </Template>
+                    </DxFormLayoutItem>
+
+                    <DxFormLayoutItem CssClass="w-100" Caption=@AppState["DepartmentNumber"] CaptionCssClass="caption-form" ColSpanLg="4" ColSpanMd="4" ColSpanSm="12">
+                        <Template>
+                            <div class="d-flex flex-row">
+                                <DxComboBox Data="@Attributes"
+                                            @bind-Value="DepartmentNumber"
+                                            CssClass="filter-combo wid-200">
+                                </DxComboBox>
+                                <i class="bi bi-file-x-fill" hidden="@(DepartmentNumber != null ? false : true)"
+                                   @onclick="@(() => { DepartmentNumber = null; UpdateDictonary.InvokeAsync("DepartmentNumber"); })"
+                                   style="margin-left: .5rem !important; font-size: 1.2rem; color: red; margin-top: auto; margin-bottom: auto;">
+                                </i>
+                                <label class="ml-2 mb-auto mt-auto"> (@AppState["ATTRIBUTE"]) </label>
+                            </div>
+                        </Template>
+                    </DxFormLayoutItem>
+
+                    <DxFormLayoutItem CssClass="w-100" Caption=@AppState["DepartmentName"] CaptionCssClass="caption-form" ColSpanLg="4" ColSpanMd="4" ColSpanSm="12">
+                        <Template>
+                            <div class="d-flex flex-row">
+                                <DxComboBox Data="@Attributes"
+                                            @bind-Value="DepartmentName"
+                                            CssClass="filter-combo wid-200">
+                                </DxComboBox>
+                                <i class="bi bi-file-x-fill" hidden="@(DepartmentName != null ? false : true)"
+                                   @onclick="@(() => { DepartmentName = null; UpdateDictonary.InvokeAsync("DepartmentName"); })"
+                                   style="margin-left: .5rem !important; font-size: 1.2rem; color: red; margin-top: auto; margin-bottom: auto;">
+                                </i>
+                                <label class="ml-2 mb-auto mt-auto"> (@AppState["ATTRIBUTE"]) </label>
+                            </div>
+                        </Template>
+                    </DxFormLayoutItem>
+
+                </DxFormLayout>
+                break;
+            case 1:
+                <DxFormLayout CssClass="w-100">
+
+                    <DxFormLayoutItem CssClass="w-100" Caption=@AppState["BillingCompanyId"] CaptionCssClass="caption-form" ColSpanLg="4" ColSpanMd="4" ColSpanSm="12">
+                        <Template>
+                            <div class="d-flex flex-row">
+                                <DxComboBox Data="@Attributes"
+                                            @bind-Value="BillingCompanyId"
+                                            CssClass="filter-combo wid-200">
+                                </DxComboBox>
+                                <i class="bi bi-file-x-fill" hidden="@(BillingCompanyId != null ? false : true)"
+                                   @onclick="@(() => { BillingCompanyId = null; UpdateDictonary.InvokeAsync("BillingCompanyId"); })"
+                                   style="margin-left: .5rem !important; font-size: 1.2rem; color: red; margin-top: auto; margin-bottom: auto;">
+                                </i>
+                                <label class="ml-2 mb-auto mt-auto"> (@AppState["ATTRIBUTE"]) </label>
+                            </div>
+                        </Template>
+                    </DxFormLayoutItem>
+
+                    <DxFormLayoutItem CssClass="w-100" Caption=@AppState["BillingCompanyName"] CaptionCssClass="caption-form" ColSpanLg="4" ColSpanMd="4" ColSpanSm="12">
+                        <Template>
+                            <div class="d-flex flex-row">
+                                <DxComboBox Data="@Attributes"
+                                            @bind-Value="BillingCompanyName"
+                                            CssClass="filter-combo wid-200">
+                                </DxComboBox>
+                                <i class="bi bi-file-x-fill" hidden="@(BillingCompanyName != null ? false : true)"
+                                   @onclick="@(() => { BillingCompanyName = null; UpdateDictonary.InvokeAsync("BillingCompanyName"); })"
+                                   style="margin-left: .5rem !important; font-size: 1.2rem; color: red; margin-top: auto; margin-bottom: auto;">
+                                </i>
+                                <label class="ml-2 mb-auto mt-auto"> (@AppState["ATTRIBUTE"]) </label>
+                            </div>
+                        </Template>
+                    </DxFormLayoutItem>
+
+                </DxFormLayout>
+                break;
+        }
+    </div>
+</div>
+
+
+
+
+@code {
+    int ActiveTabIndex { get; set; } = 0;
+
+
+    [Inject]
+    private AppState AppState { get; set; }
+
+    [Parameter]
+    public string ClientId { get; set; }
+
+    [Parameter]
+    public EventCallback<string> ClientIdChanged { get; set; }
+
+    [Parameter]
+    public string ClientName { get; set; }
+
+    [Parameter]
+    public EventCallback<string> ClientNameChanged { get; set; }
+
+    [Parameter]
+    public string BillingCompanyId { get; set; }
+
+    [Parameter]
+    public EventCallback<string> BillingCompanyIdChanged { get; set; }
+
+    [Parameter]
+    public string BillingCompanyName { get; set; }
+
+    [Parameter]
+    public EventCallback<string> BillingCompanyNameChanged { get; set; }
+
+    [Parameter]
+    public string ClientContact { get; set; }
+
+    [Parameter]
+    public EventCallback<string> ClientContactChanged { get; set; }
+
+    [Parameter]
+    public string DepartmentNumber { get; set; }
+
+    [Parameter]
+    public EventCallback<string> DepartmentNumberChanged { get; set; }
+
+    [Parameter]
+    public string DepartmentName { get; set; }
+
+    [Parameter]
+    public EventCallback<string> DepartmentNameChanged { get; set; }
+
+
+    [Parameter]
+    public EventCallback<string> UpdateDictonary { get; set; }
+
+
+    [Parameter]
+    public ObservableCollection<string> Attributes { get; set; } // To change
+
+    [Parameter]
+    public EventCallback<ObservableCollection<string>> AttributesChanged { get; set; }
+
+}

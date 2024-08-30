@@ -1,0 +1,14 @@
+﻿@inherits ComponentBase
+
+<div class="ml-2 p-2 overflow-auto" style="height: var(--bc-dx-tabs-content-panel-height);">
+    @foreach (var routine in FileLoaderEditorData.Item.RoutineListChangeHandler.GetItems())
+    {
+        <FileLoaderRoutineItem  @bind-EditorData=FileLoaderEditorData RoutineExecutor_=routine Editable=Editable />                   
+     }
+    <div class="mt-2 p-0">
+        <div class="filter-elt d-flex flex-column py-1" style="width: 365px;">
+            <DxComboBox Enabled=Editable Data="@FileLoaderEditorData.Routines" TData="Nameable" Value="SelectedRoutine" TValue="Nameable" NullText="@AppState["select.routine"]"
+                        ValueChanged="@((t) => AddRoutine(t))"   />
+        </div>
+    </div>
+</div>

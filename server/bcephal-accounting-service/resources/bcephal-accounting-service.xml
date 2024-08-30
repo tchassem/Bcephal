@@ -1,0 +1,21 @@
+<service>
+	<!-- https://github.com/winsw/winsw/blob/v3/docs/installation.md -->
+  <id>Bcephal-accounting-service-8</id>
+  <name>Bcephal-accounting-service-8</name>
+  <description>This service runs Bcephal accounting service  continuous integration system.</description>
+  <!--env name="BCEPHAL_HOME" value="%BASE%"/-->
+  <executable>%JAVA_HOME%\bin\java</executable>
+  <workingdirectory>%BASE%</workingdirectory>
+  <!-- For Debug uncomment next line -->
+  <!--arguments>-agentlib:jdwp=transport=dt_socket,server=y,address=4104,suspend=n -Xms256m -Xmx512m -Dfile.encoding=UTF-8 -jar *.jar</arguments-->
+  <arguments>-Xms256m -Xmx512m -Dfile.encoding=UTF-8 -Dserver.port=8717  -jar bcephal-accounting-service-0.0.1.jar</arguments>
+  <log mode="roll-by-size-time">
+	  <sizeThreshold>1024</sizeThreshold>
+	  <pattern>yyyy-MM-dd</pattern>
+  	  <autoRollAtTime>00:00:00</autoRollAtTime>
+  </log>
+  <logpath>%BASE%\logs</logpath>
+  <delayedAutoStart>true</delayedAutoStart>
+  <onfailure action="restart" delay="20 sec"/>  
+  <depend>Bcephal-configuration-service-8</depend>
+</service>

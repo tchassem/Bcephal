@@ -1,0 +1,77 @@
+pipeline {
+    agent any
+/* */
+	 tools {
+	        jdk 'openjdk14'
+	        dockerTool 'CustomeDocker'
+	    } 
+	    
+    environment {
+	        DOCKER    = "${dockerTool1}/bin"
+	        JAVA_HOME = "${jdk}"
+	     // //  DOCKER_HOST = 'tcp://127.0.0.1:2375'
+	    }
+    stages {
+        stage('Compile') {
+            steps {			
+                gradlew('clean', 'classes')
+            }
+        }
+        stage('Unit Tests') {
+            steps {
+                gradlew('test')
+            }
+            post {
+                always {
+                    junit '**/build/test-results/test/TEST-*.xml'
+                }
+            }
+        } 
+              
+        stage('Long-running Verification') {
+            environment {
+                SONAR_LOGIN = credentials('SONAR_TOKEN')
+            }
+            parallel {
+                stage('Integration Tests') {
+                    steps {
+                        gradlew('integrationTest')
+                    }
+                    post {
+                        always {
+                            junit '**/build/test-results/integrationTest/TEST-*.xml'
+                        }
+                    }
+                }
+                stage('Code Analysis') {
+                    steps {
+                        gradlew('sonarqube')
+                    }
+                }
+            }
+        }        
+        stage('Assemble') {
+            steps {
+                gradlew('assemble')
+                stash includes: '**/build/libs/*.jar', name: 'app'
+            }
+        }
+        
+         stage('buildZip') {
+            steps {
+                gradlew('buildZip')
+                stash includes: '**/build/libs/*.jar', name: 'app'
+            }
+        }
+        
+    }
+    post {
+        failure {
+            mail to: 'jwambo@moriset.com', subject: 'B-Cephal Dashboard microservice build failed', body: 'B-Cephal Dashboard microservice build failed.\nPlease fix!'
+        }
+    }
+}
+
+def gradlew(String... args) {
+    bat "./gradlew.bat ${args.join(' ')} -s"
+}

@@ -1,0 +1,20 @@
+sourceSets {
+    integrationTest {
+        //java.srcDir file('src/integrationTest/java')
+        //resources.srcDir file('src/integrationTest/resources')        
+        compileClasspath += sourceSets.main.output + project.configurations.testCompileClasspath
+        runtimeClasspath += output + compileClasspath + configurations.testRuntimeClasspath
+    }
+}
+
+task integrationTest(type: Test) {
+    description = 'Runs the integration tests.'
+    group = 'verification'
+    testClassesDirs = sourceSets.integrationTest.output.classesDirs
+    classpath = sourceSets.integrationTest.runtimeClasspath
+    //outputs.upToDateWhen { false }
+    mustRunAfter test
+    useJUnitPlatform ()
+}
+
+check.dependsOn integrationTest

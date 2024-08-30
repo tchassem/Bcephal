@@ -1,0 +1,39 @@
+
+@inject PeriodicExecutor PeriodicExecutor
+
+<Bcephal.Blazor.Web.Base.Shared.Component.Error>
+    <Bcephal.Blazor.Web.Helper.StorageHelper>
+        <Bcephal.Blazor.Web.Routing.ConventionRouter>
+            @*<Router AppAssembly="@typeof(Program).Assembly">*@
+            @*<Navigating>
+                    <LayoutView Layout="@typeof(Bcephal.Blazor.Web.Base.Shared.MainLayout)">
+                        <div style="padding:20px;background-color:blue;color:white">
+                            <p>Loading the requested page&hellip;</p>
+                        </div>
+                    </LayoutView>
+                </Navigating>*@
+            <Found Context="routeData">
+                <RouteView RouteData="@routeData" DefaultLayout="@typeof(Bcephal.Blazor.Web.Base.Shared.MainLayout)" />
+            </Found>
+            <NotFound>
+                <LayoutView Layout="@typeof(Bcephal.Blazor.Web.Base.Shared.MainLayout)">
+                    <Bcephal.Blazor.Web.Base.Shared.NotFound />
+                </LayoutView>
+            </NotFound>
+            <AccessDenied>
+                <LayoutView Layout="@typeof(Bcephal.Blazor.Web.Base.Shared.MainLayout)">
+                    <Bcephal.Blazor.Web.Base.Shared.AccessDenied />
+                </LayoutView>
+            </AccessDenied>
+            @*</Router>*@
+        </Bcephal.Blazor.Web.Routing.ConventionRouter>
+    </Bcephal.Blazor.Web.Helper.StorageHelper>
+</Bcephal.Blazor.Web.Base.Shared.Component.Error>
+
+@code {
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        //PeriodicExecutor.StartExecuting(this.GetType().Name);
+    }
+}

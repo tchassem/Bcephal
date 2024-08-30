@@ -1,0 +1,25 @@
+﻿<div class="d-flex flex-row flex-nowrap justify-content-start overflow-auto mt-2">
+    <div class="common-elt">
+        <DxComboBox Enabled=Editable Data="@EditorData.Routines"
+                    TData="Nameable" TValue="Nameable"
+                    @bind-Value=RoutineName 
+                    TextFieldName="@nameof(Nameable.Name)" />
+    </div>
+    <div class="common-elt ml-1">
+        <DxComboBox Enabled=Editable Data=Models.Routines.RoutineExecutorType.GetAll()
+                    TData="Models.Routines.RoutineExecutorType"
+                    TValue="Models.Routines.RoutineExecutorType" 
+                    TextFieldName="label"
+                    @bind-Value="RoutineExecutorType" />
+    </div>
+    <div class="common-elt ml-1" style="width:40px;">
+        <DxButton Enabled=Editable IconCssClass="fa fa-remove"
+                  CssClass="mt-auto mb-auto"
+                  RenderStyleMode="ButtonRenderStyleMode.Text"
+                  RenderStyle="ButtonRenderStyle.Danger"
+                  Click="()=>RoutineDeleteHandler(RoutineExecutor_)">
+        </DxButton>
+    </div>
+
+</div>
+

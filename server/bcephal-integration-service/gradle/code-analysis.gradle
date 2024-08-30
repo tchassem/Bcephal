@@ -1,0 +1,8 @@
+sonarqube {
+    properties {
+        property 'sonar.host.url', 'http://localhost:9000'
+        property 'sonar.projectKey', 'bcephalConfig'
+        property 'sonar.login', System.getenv('SONAR_LOGIN')
+        //properties['sonar.tests'] += sourceSets.integrationTest.java.srcDirs
+    }
+}

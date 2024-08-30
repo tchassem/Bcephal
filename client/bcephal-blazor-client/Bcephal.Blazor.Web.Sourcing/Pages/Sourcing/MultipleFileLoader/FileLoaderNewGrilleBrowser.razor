@@ -1,0 +1,84 @@
+﻿
+@inherits AbstractNewGridComponent<Models.Loaders.FileLoaderColumn, Models.Loaders.FileLoaderColumn>
+
+@{ 
+    base.BuildRenderTree(__builder);
+}
+
+@code{
+
+    private Dictionary<int, List<Action>> RowEventAction = null;
+
+    protected override RenderFragment<Action> GetEditData(GridDataColumnCellDisplayTemplateContext context, AbstractNewGridDataItem GridDataItem) => state => __builder =>
+    {
+    FileLoaderColumn DataItem = (FileLoaderColumn)context.DataItem;
+    NewFormEditContext Contexts = GetContexts(DataItem);
+    if (GridDataItem.Position == 0)
+    {
+        RowEventAction = new Dictionary<int, List<Action>>();
+    }
+    RowEventAction.TryGetValue(context.VisibleIndex, out List<Action> state_);
+    if (state_ != null)
+    {
+        state_.Add(state);
+    }
+    else
+    {
+        RowEventAction.Add(context.VisibleIndex, new() { state });
+    }
+    if (DataItem != null && GridDataItem.Position == 3)
+    {
+        if (DimensionType.ATTRIBUTE.Equals(Contexts.DimensionType_))
+        {
+            <TreeViewFilter C="Bcephal.Models.Base.HierarchicalData"
+                            ItemsFilter=Entities
+                            SelectedItem="@Contexts.SelectedDimensionName"
+                            SelectFilterItemCallback="(value) => SelectedDimensionChanged2(value, Contexts, state)"
+                            KeyPressCallback="(async (e) => {  await Task.Yield(); await EnterHandleValidSubmit(e, DataItem); })"
+                            Contenteditable=Editable Editable=Editable/>
+            }
+            else if (DimensionType.MEASURE.Equals(Contexts.DimensionType_))
+            {
+                <TreeViewFilter C="Models.Dimensions.Measure"
+                                ItemsFilter=EditorDataFileLoader.Measures
+                                SelectedItem="@Contexts.SelectedDimensionName"
+                                SelectFilterItemCallback="(value) => SelectedDimensionChanged2(value, Contexts, state)" 
+                                KeyPressCallback="(async (e) => {  await Task.Yield(); await EnterHandleValidSubmit(e, DataItem);})"
+                                Contenteditable=Editable Editable=Editable/>
+            }
+            else
+            {
+                <TreeViewFilter C="Models.Dimensions.Period"
+                                ItemsFilter=EditorDataFileLoader.Periods
+                                SelectedItem="@Contexts.SelectedDimensionName"
+                                SelectFilterItemCallback="(value) => SelectedDimensionChanged2(value, Contexts, state)"
+                                KeyPressCallback="(async (e) => {  await Task.Yield();  await EnterHandleValidSubmit(e, DataItem); })"
+                                Contenteditable=Editable Editable=Editable/>
+            }
+        }
+        else
+        {
+            if (GridDataItem.Position == 1)
+            {
+    <DxComboBox Data="Contexts.Columns" @bind-Value="Contexts.Column" Enabled=Editable
+                @onkeyup="(async (e) => {  await Task.Yield(); await EnterHandleValidSubmit(e, DataItem);  })" />
+            }
+            else
+                     if (GridDataItem.Position == 2)
+            {
+    <DxComboBox Data="Contexts.DimensionTypes" Value=Contexts.DimensionType_ ValueChanged="(DimensionType DimensionType__)=>DimensionType_Changed(Contexts,DimensionType__, context.VisibleIndex)" Enabled=Editable
+                @onkeyup="(async (e) => {  await Task.Yield(); await EnterHandleValidSubmit(e, DataItem);  })" />
+            }
+            else
+                 if (GridDataItem.Position == 4)
+            {
+    <DxTextBox ReadOnly="true" CssClass="w-100" InputCssClass="w-100" InputId="param-name-id"
+               @bind-Text=@DataItem.FileColumn BindValueMode="BindValueMode.OnInput"
+               NullText="" Enabled=Editable
+               @onkeyup="(async (e) => {  await Task.Yield(); await EnterHandleValidSubmit(e, DataItem);  })" />
+            }
+        }
+    };
+
+    
+    }

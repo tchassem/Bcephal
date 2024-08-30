@@ -1,0 +1,90 @@
+﻿@using Bcephal.Models.Billing.Model
+
+@inject IJSRuntime JSRuntime
+
+<div class="row pt-2 text-center">
+    <div class="col-3">
+    </div>
+    <div class="col-3">
+        <DxTextBox @ref="textBoxC" Text="@Item.Value"
+                   NullText="@AppState["billing.model.form.cost.saisi"]"
+                   TextChanged="@OnTextChanged" CssClass="text-center">
+        </DxTextBox>
+    </div>
+    <div class="col">
+        <DxCheckBox Enabled="Editable" @bind-Checked=Item.ExcludeDriver
+                    CssClass="justify-content-center " Alignment="CheckBoxContentAlignment.Left">
+        </DxCheckBox>
+    </div>
+    <div class="col">
+        <DxCheckBox Enabled="Editable" @bind-Checked=Item.ExcludeUnitCost
+                    CssClass="justify-content-center " Alignment="CheckBoxContentAlignment.Left">
+        </DxCheckBox>
+    </div>
+    <div class="col-1">
+        @if (ShowDelete)
+        {
+            <DxButton IconCssClass="fa fa-close"
+                      Click="@Delete"
+                      Enabled="Editable"
+                      RenderStyleMode="ButtonRenderStyleMode.Contained"
+                      RenderStyle="ButtonRenderStyle.Danger">
+            </DxButton>
+        }
+    </div>
+</div>
+
+
+@code {
+    [Parameter]
+    public BillingModelDriverGroupItem Item { get; set; }
+    [Parameter]
+    public bool ShowDelete { get; set; }
+    [Parameter]
+    public bool IsNew { get; set; } = false;
+    [Parameter]
+    public EventCallback<BillingModelDriverGroupItem> OnItemChanged { get; set; }
+    [Parameter]
+    public EventCallback<MouseEventArgs> Delete { get; set; }
+
+    [Inject]
+    public AppState AppState { get; set; }
+    [Parameter]
+    public EditorData<BillingModel> EditorData { get; set; }
+
+    DxTextBox textBoxC;
+
+    protected override Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (IsNew && Item.Value == null )
+        {
+            Item.Value = "";
+            StateHasChanged();
+        }
+        return Task.CompletedTask;
+    }
+
+    public bool Editable
+    {
+        get
+        {
+            var first = AppState.PrivilegeObserver.CanCreatedBillingModel;
+            var second = AppState.PrivilegeObserver.CanEditBillingModel(EditorData.Item);
+            return first || second;
+        }
+    }
+
+    protected async Task OnTextChanged(string newValue)
+    {
+        if (!String.IsNullOrEmpty(newValue))
+        {
+            Item.Value = newValue;
+
+            await OnItemChanged.InvokeAsync(Item);
+
+            StateHasChanged();
+        }
+
+
+    }
+}

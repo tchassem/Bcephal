@@ -1,0 +1,61 @@
+﻿<DxPopup @ref="DxPopupRef"
+         CloseOnOutsideClick=@CloseOnOutsideClick
+         CloseOnEscape=@CloseOnEscape
+         ShowHeader="ShowHeader" ShowFooter="ShowFooter"
+         ShowCloseButton="false"
+         CssClass=@( "custom-popup" + " " + CssClass )
+         HeaderCssClass=@( "font-weight-bold" +" "+HeaderClass)
+         BodyCssClass=@BodyClass
+         FooterCssClass="bg-white w-100"
+         ApplyBackgroundShading=@ApplyBackgroundShading
+         @bind-Visible="ShowModal"
+         MaxHeight="100%" MaxWidth="100% !important" Width=@Width_ Height=@Height_>
+
+    <HeaderContentTemplate >
+        <div class="d-flex align-items-center justify-content-center h-100 w-100">
+            <span>@Title</span>
+        </div>
+    </HeaderContentTemplate>
+
+    <BodyContentTemplate>
+        @ChildContent
+        @if (!string.IsNullOrEmpty(Message))
+        {
+            @Message
+        }
+    </BodyContentTemplate>
+
+    <FooterContentTemplate>
+        <div class="d-flex flex-row align-items-center justify-content-center w-100 h-100">
+            @if (IsConfirmation)
+            {
+                <DxButton CssClass=@okclass 
+                          RenderStyle="ButtonRenderStyle.Primary"
+                          Text="@AppState["yes"]"
+                          Click=BtnOkClicked Visible="CanDisplayOK" />
+                <DxButton CssClass=@closeclass 
+                          RenderStyle="ButtonRenderStyle.Danger"
+                          Text="@AppState["no"]"
+                          Click=BtnCancelClicked Visible="CanDisplayClose" />
+            }
+            else
+            {
+                <DxButton CssClass=@okclass IconCssClass="oi oi-check pr-1"
+                          RenderStyle="ButtonRenderStyle.Primary"
+                          Text="@AppState["Ok"]"
+                          Click=BtnOkClicked Visible="CanDisplayOK" />
+                <DxButton CssClass=@closeclass IconCssClass="oi oi-delete pr-1"
+                          RenderStyle="ButtonRenderStyle.Danger"
+                          Text="@AppState["Close"]"
+                          Click=BtnCancelClicked Visible="CanDisplayClose" />
+
+            }
+        </div>
+    </FooterContentTemplate>
+
+</DxPopup>
+
+@code {
+   
+
+    }

@@ -1,0 +1,325 @@
+﻿
+@inject IJSRuntime JSRuntime
+
+@using System.Globalization;
+
+<DxGridLayout CssClass="w-100 " ColumnSpacing=@ItemSpacing RowSpacing="0px">
+    <Rows>
+        @if (SimplifiedView)
+        {
+            <DxGridLayoutRow Height="auto" Areas="contentArea" />
+        }
+        else
+        {
+            <DxGridLayoutRow Height="auto" Areas="operatorsArea contentArea" />
+        }
+    </Rows>
+    <Columns>
+        @if (!SimplifiedView)
+        {
+            <DxGridLayoutColumn Width="1fr" />
+        }
+        <DxGridLayoutColumn Width="3fr" />
+    </Columns>
+    <Items>
+        @if (!SimplifiedView)
+        {
+            <DxGridLayoutItem Area="operatorsArea">
+                <Template>
+                    <DxComboBox CssClass="d-flex flex-column h-100 justify-content-center" Data="@PeriodOperators"
+                                NullText="@AppState["select.operator"]"
+                                SelectedItemChanged="@PeriodOperatorSelectionChanged"
+                                @bind-Value=@SelectedDateOperator>
+                    </DxComboBox>
+                </Template>
+            </DxGridLayoutItem>
+        }
+        <DxGridLayoutItem Area="contentArea">
+            <Template>
+                <DxGridLayout ColumnSpacing=@ItemSpacing RowSpacing="0px">
+                    <Rows>
+                        @if (SimplifiedView)
+                        {
+                            <DxGridLayoutRow Areas="signArea numberArea granularityArea" />
+                        }
+                        else
+                        {
+                            <DxGridLayoutRow Areas="valueArea signArea numberArea granularityArea" />
+                        }
+                    </Rows>
+                    <Columns>
+                        @if (SimplifiedView)
+                        {
+                            <DxGridLayoutColumn Width="0.3fr" />
+                            <DxGridLayoutColumn Width="0.3fr" />
+                            <DxGridLayoutColumn Width="0.4fr" />
+                        }
+                        else
+                        {
+                            <DxGridLayoutColumn Width="0.31fr" />
+                            <DxGridLayoutColumn Width="0.2fr" />
+                            <DxGridLayoutColumn Width="0.2fr" />
+                            <DxGridLayoutColumn Width="0.3fr" />
+                        }
+                    </Columns>
+                    <Items>
+                        @if (!SimplifiedView)
+                        {
+                            <DxGridLayoutItem Area="valueArea">
+                                <Template>
+                                    <DxDateEdit CssClass="d-flex flex-column h-100 justify-content-center" @bind-Date="@Value"
+                                                ReadOnly="@(!IsSpecific)"
+                                                DisplayFormat="dd/MM/yyyy">
+                                    </DxDateEdit>
+                                </Template>
+                            </DxGridLayoutItem>
+                        }
+                        <DxGridLayoutItem Area="signArea">
+                            <Template>
+                                <DxComboBox CssClass="d-flex flex-column h-100 justify-content-center" Data="@FilterUtils.Signs"
+                                            @bind-Value="@Sign">
+                                </DxComboBox>
+                            </Template>
+                        </DxGridLayoutItem>
+                        <DxGridLayoutItem Area="numberArea">
+                            <Template>
+                                <DxSpinEdit CssClass="d-flex flex-column h-100 justify-content-center" @bind-Value="@Number"
+                                            ShowSpinButtons="false">
+                                </DxSpinEdit>
+                            </Template>
+                        </DxGridLayoutItem>
+                        <DxGridLayoutItem Area="granularityArea">
+                            <Template>
+                                <DxComboBox CssClass="d-flex flex-column h-100 justify-content-center" Data="@DateGranularities"
+                                            @bind-Value="@SelectedGranularity">
+                                </DxComboBox>
+                            </Template>
+                        </DxGridLayoutItem>
+
+                    </Items>
+                </DxGridLayout>
+
+            </Template>
+        </DxGridLayoutItem>
+    </Items>
+</DxGridLayout>
+
+
+@code {
+
+    #region Injected properties
+
+    [Inject]
+    public AppState AppState { get; set; }
+
+    [Parameter]
+    public PeriodValue FilterItem { get; set; }
+
+    [Parameter]
+    public EventCallback<PeriodValue> FilterItemChanged { get; set; }
+
+    [Parameter]
+    public bool CanUpdateFilter { get; set; } = false;
+
+    [Parameter]
+    public bool AddSpace { get; set; } = false;
+
+    [Parameter]
+    public bool SimplifiedView { get; set; } = false;
+    [Parameter] public string ItemSpacing { get; set; } = "2px";
+
+    #endregion
+
+
+    #region internal properties
+
+    private IEnumerable<PeriodOperator> Operators = new List<PeriodOperator>(){
+        PeriodOperator.TODAY,
+        PeriodOperator.BEGIN_WEEK,
+        PeriodOperator.END_WEEK,
+        PeriodOperator.BEGIN_MONTH,
+        PeriodOperator.END_MONTH,
+        PeriodOperator.BEGIN_YEAR,
+        PeriodOperator.END_YEAR,
+        PeriodOperator.SPECIFIC
+    };
+
+    IEnumerable<string> PeriodOperators;
+    IEnumerable<string> DateGranularities;
+
+    public string SelectedDateOperator
+    {
+        get
+        {
+            try
+            {
+                return FilterItem.DateOperator.GetText(text => AppState[text]);
+            }
+            catch
+            {
+                return null;
+            }
+        }
+        set
+        {
+            if (CanUpdateFilter)
+            {
+                FilterItem.DateOperator = PeriodOperator.BEGIN_MONTH.GetPeriodOperator(value, text => AppState[text]);
+                FilterItemChanged.InvokeAsync(FilterItem);
+                StateHasChanged_();
+            }
+        }
+    }
+
+    public bool IsSpecific => Operator == PeriodOperator.SPECIFIC;
+
+    #endregion
+
+    #region Properties binded to the form items
+
+    private PeriodOperator Operator
+    {
+        get { return FilterItem.DateOperator; }
+        set
+        {
+            FilterItem.DateOperator = value;
+            //JSRuntime.InvokeVoidAsync("console.log", "error => ", FilterItem);
+            FilterItemChanged.InvokeAsync(FilterItem);
+            StateHasChanged_();
+        }
+    }
+
+    private DateTime? Value
+    {
+        get { return FilterItem.DateValue; }
+        set
+        {
+            FilterItem.DateValue = value;
+            FilterItemChanged.InvokeAsync(FilterItem);
+            StateHasChanged_();
+        }
+    }
+    private string Sign
+    {
+        get { return FilterItem.DateSign; }
+        set
+        {
+            FilterItem.DateSign = value;
+            FilterItemChanged.InvokeAsync(FilterItem);
+            StateHasChanged_();
+        }
+    }
+    private int Number
+    {
+        get { return FilterItem.DateNumber; }
+        set
+        {
+            FilterItem.DateNumber = value;
+            FilterItemChanged.InvokeAsync(FilterItem);
+            StateHasChanged_();
+        }
+    }
+
+    private PeriodGranularity Granularity
+    {
+        get { return FilterItem.DateGranularity; }
+        set
+        {
+            FilterItem.DateGranularity = value;
+            FilterItemChanged.InvokeAsync(FilterItem);
+            //StateHasChanged_();
+        }
+    }
+
+    private string SelectedGranularity
+    {
+        get
+        {
+            try
+            {
+                return FilterItem.DateGranularity.GetText(text => AppState[text]);
+            }
+            catch
+            {
+                return null;
+            }
+        }
+        set
+        {
+            FilterItem.DateGranularity = PeriodGranularity.DAY.GetPeriodGranularity(value, text => AppState[text]);
+        }
+    }
+
+    #endregion
+
+    protected override void OnInitialized()
+    {
+        if (FilterItem == null)
+        {
+            FilterItem = new PeriodValue()
+            {
+                DateOperator = PeriodOperator.TODAY,
+                DateValue = DateTime.Today
+            };
+        }
+        else if (!FilterItem.DateValue.HasValue)
+        {
+            FilterItem.DateValue = DateTime.Today;
+        }
+
+        PeriodOperators = Operators.Select(v => AppState[v.ToString()].ToString());
+        DateGranularities = this.Granularity.GetAll().Select(v => AppState[v.ToString()].ToString());
+    }
+
+    public void StateHasChanged_()
+    {
+        StateHasChanged();
+        AppState.Update = true;
+    }
+
+    protected void PeriodOperatorSelectionChanged(string value)
+    {
+        FilterItem.DateOperator = PeriodOperator.BEGIN_MONTH.GetPeriodOperator(value, text => AppState[text]);
+
+        if (FilterItem.DateOperator == PeriodOperator.BEGIN_MONTH)
+        {
+            FilterItem.DateValue = new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1);
+        }
+        else if (FilterItem.DateOperator == PeriodOperator.END_MONTH)
+        {
+            FilterItem.DateValue = new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.DaysInMonth(DateTime.Today.Year, DateTime.Today.Month));
+        }
+        else if (FilterItem.DateOperator == PeriodOperator.BEGIN_WEEK)
+        {
+            var culture = CultureInfo.CurrentCulture;
+            // si le 1er jour c'est dimanche
+            var diff = culture.DateTimeFormat.FirstDayOfWeek == 0 ? DateTime.Today.DayOfWeek - culture.DateTimeFormat.FirstDayOfWeek - 1 : DateTime.Today.DayOfWeek - culture.DateTimeFormat.FirstDayOfWeek;
+            if (diff < 0)
+                diff += 7;
+            FilterItem.DateValue = DateTime.Today.AddDays(-diff).Date;
+        }
+        else if (FilterItem.DateOperator == PeriodOperator.BEGIN_YEAR)
+        {
+            FilterItem.DateValue = new DateTime(DateTime.Today.Year, 1, 1);
+        }
+        else if (FilterItem.DateOperator == PeriodOperator.END_WEEK)
+        {
+            var culture = CultureInfo.CurrentCulture;
+            var diff = culture.DateTimeFormat.FirstDayOfWeek == 0 ? DateTime.Today.DayOfWeek - culture.DateTimeFormat.FirstDayOfWeek - 1 : DateTime.Today.DayOfWeek - culture.DateTimeFormat.FirstDayOfWeek;
+            if (diff < 0)
+                diff += 7;
+
+            FilterItem.DateValue = DateTime.Today.AddDays(6 - diff);
+        }
+        else if (FilterItem.DateOperator == PeriodOperator.END_YEAR)
+        {
+            FilterItem.DateValue = new DateTime(DateTime.Today.Year, 12, 31);
+        }
+        else if (FilterItem.DateOperator == PeriodOperator.TODAY)
+        {
+            FilterItem.DateValue = DateTime.Today;
+        }
+
+        StateHasChanged_();
+    }
+}

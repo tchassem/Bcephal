@@ -1,0 +1,206 @@
+﻿@using Bcephal.Models.Dashboards
+@using Bcephal.Models.Dimensions
+@using Newtonsoft.Json
+
+@implements IAsyncDisposable
+
+@if (Attributes != null && EditorData.Measures != null && EditorData.Periods != null)
+{
+    <div style="height: calc(var(--grid-bc-two) - 4px);">
+        <SplitterPanel Panes="new List<RenderFragment>() { AvailableDimensions, SelectedDimensions }"
+                       LeftSize="1"
+                       RightSize="1" />
+    </div>
+}
+
+<DxContextMenu @ref="@ContextMenuRef">
+    <Items>
+        <DxContextMenuItem Click="@DeleteSelectedField" Text="@AppState["Delete"]" />
+    </Items>
+</DxContextMenu>
+
+
+@code {
+
+    #region Input Parameters
+
+    [Inject]
+    public IJSRuntime JSRuntime { get; set; }
+
+    [Inject]
+    public AppState AppState { get; set; }
+
+    [CascadingParameter]
+    public Error Error { get; set; }
+
+    [Parameter]
+    public ObservableCollection<HierarchicalData> Attributes { get; set; }
+    [Parameter]
+    public EditorData<DashboardReport> EditorData { get; set; }
+    [Parameter]
+    public Action<HierarchicalData> OnItemAdded { get; set; }
+    [Parameter]
+    public Action<DashboardReportField> OnFieldRemoved { get; set; }
+    [Parameter]
+    public Action AfterRenderHandler { get; set; }
+
+    #endregion
+
+
+    #region :: Properties section ::
+
+    HierarchicalData SelectedItemNode;
+    DxContextMenu ContextMenuRef;
+    DashboardReportField SelectedDim;
+    private RenderFormContent SelectedDimensionsRenderForm { get; set; }
+
+    string Id = Guid.NewGuid().ToString("d");
+
+    #endregion
+
+
+    #region :: Section reserved for methods ::
+
+    protected async override Task OnInitializedAsync()
+    {
+        dotNetReference = DotNetObjectReference.Create(this);
+        await JSRuntime.InvokeVoidAsync("drop_handler_Callback", Id, dotNetReference, "Drop");
+        await base.OnInitializedAsync();
+
+    }
+
+    protected override bool ShouldRender()
+    {
+        return false;
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        await JSRuntime.InvokeVoidAsync("drop_handler_Callback_delete", Id);
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+        if (firstRender)
+        {
+            AfterRenderHandler?.Invoke();
+        }
+    }
+
+    private void Field_RightClick(MouseEventArgs args, DashboardReportField item)
+    {
+        SelectedDim = item;
+        ContextMenuRef.ShowAsync(args);
+    }
+
+    private void DeleteSelectedField()
+    {
+        DeleteField(SelectedDim);
+    }
+
+    private async void DeleteField(DashboardReportField field)
+    {
+        OnFieldRemoved?.Invoke(field);
+        SelectedDim = null;
+        await SelectedDimensionsRenderForm.StateHasChanged_();
+    }
+
+    #endregion
+
+
+    #region :: RenderFragments widgets section ::
+
+    RenderFragment AvailableDimensions => __builder =>
+    {
+        <div class="card w-100 h-100 p-0" style=" min-width: 290px;">
+            <div class="card-header bc-header-2 border-0 d-flex flex-row p-0 bc-header-height bc-text-align ">
+                <span class="ml-auto mr-auto">
+                    @AppState["available.dimensions"]
+                </span>
+            </div>
+            <div class="card-body p-0" style="height:calc(100% - var(--bc-header-height));">
+                @* <TreeViewFilterComponent IsOpen="true"
+                                     ItemsFilter="@AvailableDatas"
+                                     SelectFilterItemCallback="((node) => SelectedItemNode = node )">
+                    </TreeViewFilterComponent> *@
+                <DimensionsDraggableComponent Attributes="Attributes.Cast<Dimension>()"
+                                              Measures=EditorData.Measures
+                                              Periods=EditorData.Periods
+                                              SelectDimensionHandler="((node) => SelectedItemNode = node )" />
+            </div>
+        </div>
+    };
+
+    RenderFragment SelectedDimensions => __builder =>
+    {
+        <RenderFormContent @ref="SelectedDimensionsRenderForm">
+            <div class="card w-100" style="height: 100% !important; min-width: 290px;">
+                <div class="card-header bc-header-2 border-0 d-flex flex-row p-0 bc-header-height bc-text-align ">
+                    <span class="ml-auto mr-auto">
+                        @AppState["selected.dimensions"]
+                    </span>
+                    <span class="ml-auto mr-1"><i class="m-2 fa fa-expand" style="cursor:pointer;" id="expand"></i></span>
+                </div>
+                @*<div  class="card-body ml-1 can-drop d-block p-0 overflowy-bc " @ondrop=OnDropItem dropzone="true" ondragover="event.preventDefault();">*@
+                <div class="card-body ml-1 can-drop d-block p-0 overflowy-bc " dropzone="true" ondrop="drop_handler(event, '@Id');" ondragover="event.preventDefault()">
+                    <ul class="liststylenone ml-1 p-0" dropzone="true">
+                        @foreach (var field_ in EditorData.Item.FieldListChangeHandler.GetItems())
+                         {
+                            <li class="w-100 mt-1 mb-2" style="cursor: pointer;" @oncontextmenu:preventDefault @oncontextmenu="(e) => Field_RightClick(e, field_)">
+                                <div class="d-flex align-items-center w-100">
+                                    <div style="width:calc(100% - 50px)">
+                                        @field_.Name
+                                    </div>
+                                    <div style="width:50px">
+                                        <span class="bi bi-trash" @onclick="(e) => DeleteField(field_)" />
+                                    </div>
+                                </div>
+                            </li>
+                         }
+                    </ul>
+                </div>
+            </div>
+        </RenderFormContent>
+    };
+
+    #endregion
+
+    DotNetObjectReference<DesignTabComponent_> dotNetReference;
+
+    //protected override void OnInitialized()
+    //{
+    //   // Item = GetItem();
+    //    base.OnInitialized();
+    //}
+
+    [JSInvokable("Drop")]
+    public async void Drop(string Current_)
+    {
+
+        if (Current_ != null)
+        {
+            Dimension Current__ = null;
+            DimensionType type = Models.Filters.DimensionType.ATTRIBUTE;
+            if (Current_.Contains("ATTRIBUTE"))
+            {
+                Current__ = JsonConvert.DeserializeObject<Models.Dimensions.Attribute>(Current_);
+            }
+            else if (Current_.Contains("MEASURE"))
+            {
+                Current__ = JsonConvert.DeserializeObject<Models.Dimensions.Measure>(Current_);
+                type = Models.Filters.DimensionType.MEASURE;
+            }
+            else
+            {
+                Current__ = JsonConvert.DeserializeObject<Models.Dimensions.Period>(Current_);
+                type = Models.Filters.DimensionType.PERIOD;
+            }
+
+            OnItemAdded?.Invoke(Current__);
+            await SelectedDimensionsRenderForm.StateHasChanged_();
+            // await JSRuntime.InvokeVoidAsync("TalkToPreventDefault");
+            // StateHasChanged();
+        }
+    }
+}

@@ -1,0 +1,38 @@
+﻿<DxFormLayout Data="@EditorData.Item" CssClass="h-100 w-100 overflow-auto">
+    <DxFormLayoutItem Caption="@AppState["reco.auto.script.execScript"]" CaptionCssClass="text-right" BeginRow="true" ColSpanMd="5">
+        <Template>
+            <DxCheckBox Enabled=Editable @bind-Checked="@(EditorData.Item.Scheduled)" Alignment="CheckBoxContentAlignment.Left" LabelPosition="LabelPosition.Right"></DxCheckBox>
+        </Template>
+    </DxFormLayoutItem>
+    <DxFormLayoutItem Caption="@AppState["reco.auto.script"]" CaptionCssClass="text-right" BeginRow="true" ColSpanMd="5">
+        <Template>
+            @*<div class="form-group">
+            @if (Editable)
+            {
+                <textarea  class="form-control" rows="3"></textarea>
+            }
+            else
+            {
+                <textarea  disabled class="form-control" rows="3"></textarea>
+            }
+        </div>*@
+            <DxMemo ResizeMode="MemoResizeMode.VerticalAndHorizontal" Rows="3" Enabled=Editable />
+        </Template>
+    </DxFormLayoutItem>
+</DxFormLayout>
+
+
+@code {
+    #region Injected properties
+
+    [Inject]
+    public AppState AppState { get; set; }
+    [Parameter]
+    public EditorData<AutoReco> EditorData { get; set; }
+
+    [Parameter]
+    public bool Editable { get; set; }
+
+    #endregion
+
+}

@@ -1,0 +1,32 @@
+﻿@typeparam T
+
+<div style="height:100%; overflow-y:auto; margin-bottom:25px !important">
+    @{ 
+        
+    }
+    <DxTreeView @ref="treeView" CssClass="cw-480 h-100" Data="DimensionDataSource" AllowSelectNodes="true" SelectionChanged="@SelectionChanged" @onpaste="@ClipboardPressed">
+
+        <DataMappings>
+            <DxTreeViewDataMapping Children="Descendents" Text="@AppState["Name"]" />
+        </DataMappings>
+
+        <NodeTextTemplate>
+            @{
+                string ElementReferenceRef = Guid.NewGuid().ToString("d");
+            }
+            @if (context.DataItem is Measure || context.DataItem is PeriodName || context.DataItem is Model)
+            {
+                <div id=@ElementReferenceRef onload="console.log('onload');" title="@(context.DataItem is Measure ? @AppState["right.click.edit.measure"] : (context.DataItem is PeriodName ? @AppState["right.click.edit.period"] :  @AppState["right.click.edit.object"]))" @oncontextmenu="((e) => OnContextMenu(e, (T)context.DataItem))" @oncontextmenu:preventDefault>@(((Nameable)context.DataItem).Name)</div>
+            }
+            else if (context.DataItem is Entity)
+            {
+                <div id=@ElementReferenceRef onload="console.log('onload');" title="@AppState["right.click.edit.object"]" class="m-e" @oncontextmenu="((e) => OnContextMenu(e, (T)context.DataItem))" @oncontextmenu:preventDefault>@(((Nameable)context.DataItem).Name)</div>
+            }
+            else
+            {
+                <div id=@ElementReferenceRef onload="console.log('onload');" title="@AppState["right.click.edit.object"]" class="m-a" @oncontextmenu="((e) => OnContextMenu(e, (T)context.DataItem))" @oncontextmenu:preventDefault>@(((Nameable)context.DataItem).Name)</div>
+            }
+        </NodeTextTemplate>
+
+    </DxTreeView>
+</div>

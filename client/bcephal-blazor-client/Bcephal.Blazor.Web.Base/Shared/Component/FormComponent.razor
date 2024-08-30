@@ -1,0 +1,93 @@
+﻿@typeparam B
+
+@if (CanShowTab)
+{
+
+    @ContentRender
+}
+
+
+
+
+@if (ClickIndex < Items.Count && Items.Any())
+{
+    <DxContextMenu @ref="@ContextMenu">
+        <Items>
+            <DxContextMenuItem Text="@AppState["Rename"]" IconCssClass="bi bi-pen" Click="ShowRenameComponent"></DxContextMenuItem>
+            <DxContextMenuItem Text="@AppState["Delete"]" IconCssClass="bi bi-x" @onclick="@(() =>RemoveTagAction(Items[ClickIndex]))"></DxContextMenuItem>
+        </Items>
+    </DxContextMenu>
+    <RenameComponent @bind-RenameVisible=RenameVisible
+                     B="B"
+                     IncomingName="@GroupName(Items[ClickIndex])"
+                     Item=Items[ClickIndex]
+                     RenameCallback="SetGroupName" />
+}
+
+
+@code {
+    public RenderFragment RenderWidgetTabPagePlus => __builder =>
+        {
+        <DxTabPage Click="AddTab">
+            <TabTemplate>
+                <div class="d-flex flex-row w-100 justify-content-center" style="height:30px;">
+                    <div class="m-0 p-0 h-auto btn-link d-flex flex-column" style="width: 20%; cursor: pointer;">
+                        <span class="bi bi-plus m-0 p-0 h-auto w-100 mt-auto mb-auto" />
+                    </div>
+                </div>
+            </TabTemplate>
+        </DxTabPage>
+        };
+
+
+    public RenderFragment ContentRender => __builder =>
+          {
+              init();
+              AppState.ShowLoadingStatus();
+        <DxTabs @ref="DxTabsRef" RenderMode="TabsRenderMode.AllTabs" CssClass="m-0 p-0 w-100" @bind-ActiveTabIndex=ActiveTabIndex_>
+            @{
+                    int offset_ = 0;
+            }
+            @while (offset_ < Items.Count())
+                {
+                    string keyTagPage = Guid.NewGuid().ToString("d");
+                @RenderTabPage(Items[offset_], offset_, keyTagPage);
+                    offset_++;
+                }
+            @RenderWidgetTabPagePlus
+        </DxTabs>
+        AppState.HideLoadingStatus();
+    };
+
+
+  protected RenderFragment RenderTabPage(B item, int index, string keyTagPage) => __builder =>
+   {
+       if (Items != null && Items.Count() > index)
+       {
+           if (string.IsNullOrWhiteSpace(GroupName(item)))
+           {
+               SetGroupName(item);
+           }
+    <DxTabPage CssClass="mr-1"
+               TabTemplate="TabTemplateRender(item, index)"
+               ChildContent="GroupContentTab(item, index)" />
+    }
+};
+
+
+protected RenderFragment TabTemplateRender(B item, int index) => __builder =>
+{
+  if (Items != null)
+  {
+<div class="d-flex flex-row w-100 justify-content-center" style="height:30px;">
+    <div class="m-0 p-0 h-auto d-flex flex-column" style="width:auto; @(index == ActiveIndex ? "border-bottom : 2px solid #dee2e6  !important;" : "")cursor:pointer;" @oncontextmenu="((e) => RenderContextMenu(e, index))" @oncontextmenu:preventDefault>
+        <DxButton CssClass="btn-tab-homepage mt-auto mb-auto" Text=@GroupName(item) style="display:inline-block" RenderStyle="ButtonRenderStyle.None" RenderStyleMode="ButtonRenderStyleMode.Contained" />
+    </div>
+    <div class="m-0 p-0 h-auto btn-link d-flex flex-column" style="width: auto; cursor: pointer;">
+        <span @onclick="(() => RemoveTagAction(item))" class="bi bi-x m-0 p-0 h-auto w-100 mt-auto mb-auto" />
+    </div>
+</div>
+ }
+};
+
+}

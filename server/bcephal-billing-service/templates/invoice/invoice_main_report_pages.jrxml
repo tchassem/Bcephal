@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.20.0.final using JasperReports Library version 6.20.0-2bc7ab61c56f459e8176eb05c7705e145cd400ad  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="1-GrossSettlementSDDHierarchyPages" pageWidth="595" pageHeight="842" sectionType="Part" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30" uuid="d2716064-8ae4-40cf-a575-33afba400e3a">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<property name="net.sf.jasperreports.print.create.bookmarks" value="true"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="this" class="com.moriset.bcephal.billing.domain.Invoice"/>
+	<field name="children" class="java.util.List"/>
+	<detail>
+		<part uuid="b5f367bd-7b9a-4404-9a46-47dac10b955a">
+			<p:subreportPart xmlns:p="http://jasperreports.sourceforge.net/jasperreports/parts" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/parts http://jasperreports.sourceforge.net/xsd/parts.xsd">
+				<subreportParameter name="REPORT_DATA_SOURCE">
+					<subreportParameterExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource(Arrays.asList($F{this}))]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="REPORT_RESOURCE_BUNDLE">
+					<subreportParameterExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="REPORT_LOCALE">
+					<subreportParameterExpression><![CDATA[$P{REPORT_LOCALE}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="SUBREPORT_DIR">
+					<subreportParameterExpression><![CDATA[$P{REPORT_PARAMETERS_MAP}.get( "SUBREPORT_DIR" )]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="createdBy">
+					<subreportParameterExpression><![CDATA[$P{REPORT_PARAMETERS_MAP}.get( "createdBy" )]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="IS_INVOICE">
+					<subreportParameterExpression><![CDATA[$P{REPORT_PARAMETERS_MAP}.get( "IS_INVOICE" )]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="IS_CREDIT_NOTE">
+					<subreportParameterExpression><![CDATA[$P{REPORT_PARAMETERS_MAP}.get( "IS_CREDIT_NOTE" )]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportExpression><![CDATA[($P{REPORT_PARAMETERS_MAP}.get("SUBREPORT_DIR" ) != null ? $P{REPORT_PARAMETERS_MAP}.get("SUBREPORT_DIR" ) : ".") + "/invoice_main_report.jasper"]]></subreportExpression>
+			</p:subreportPart>
+		</part>
+		<part uuid="5a4a1be4-bed7-4918-aede-cce227558880">
+			<p:subreportPart xmlns:p="http://jasperreports.sourceforge.net/jasperreports/parts" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/parts http://jasperreports.sourceforge.net/xsd/parts.xsd">
+				<subreportParameter name="REPORT_RESOURCE_BUNDLE">
+					<subreportParameterExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="REPORT_LOCALE">
+					<subreportParameterExpression><![CDATA[$P{REPORT_LOCALE}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="SUBREPORT_DIR">
+					<subreportParameterExpression><![CDATA[$P{REPORT_PARAMETERS_MAP}.get( "SUBREPORT_DIR" )]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="IS_INVOICE">
+					<subreportParameterExpression><![CDATA[$P{REPORT_PARAMETERS_MAP}.get( "IS_INVOICE" )]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="IS_CREDIT_NOTE">
+					<subreportParameterExpression><![CDATA[$P{REPORT_PARAMETERS_MAP}.get( "IS_CREDIT_NOTE" )]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="createdBy">
+					<subreportParameterExpression><![CDATA[$P{REPORT_PARAMETERS_MAP}.get( "createdBy" )]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="REPORT_DATA_SOURCE">
+					<subreportParameterExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{children})]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportExpression><![CDATA[($P{REPORT_PARAMETERS_MAP}.get("SUBREPORT_DIR" ) != null ? $P{REPORT_PARAMETERS_MAP}.get("SUBREPORT_DIR" ) : ".") + "/report.jasper"]]></subreportExpression>
+			</p:subreportPart>
+		</part>
+	</detail>
+</jasperReport>

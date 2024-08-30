@@ -1,0 +1,117 @@
+﻿@page "/edit-reporting-chart/"
+@page "/edit-reporting-chart/{Id:long}"
+
+@using Bcephal.Blazor.Web.Reporting.Pages.Reporting.Charts.components;
+@using Bcephal.Models.Dashboards;
+
+@inherits Form<DashboardReport, BrowserData>
+
+@{ base.BuildRenderTree(__builder); }
+
+
+@code{
+
+    #region RenderFragments widgets
+
+    public RenderFragment DesignTabRender => __builder =>
+    {
+        <DxTabPage Text=@AppState["Design"]>
+            <div style="height: var(--grid-bc-two); ">
+                <DesignTabComponent_ EditorData="EditorDataBinding" Attributes="@Entities"
+                                     OnItemAdded=OnHierarchicalDataAdded
+                                     OnFieldRemoved=OnFieldDeleted
+                                     AfterRenderHandler=ShowRightContent />
+            </div>
+        </DxTabPage>
+    };
+
+    public RenderFragment DataTabRender => __builder =>
+    {
+        <DxTabPage Text=@AppState["Data"]>
+            <div style="height: var(--grid-bc-two); ">
+                <DataTabComponent_  Chart="EditorDataBinding.Item" 
+                                    AfterRenderHandler=HideRightContent />
+            </div>
+        </DxTabPage>
+    };
+
+    public override RenderFragment LeftContent => __builder =>
+    {
+        @if (EditorData != null && EditorData.Item != null)
+        {
+            <DxTabs CssClass="bc-tab-h-100" @bind-ActiveTabIndex="ActiveTabIndex" ScrollMode="TabsScrollMode.Auto">
+                @if (!EditorData.Item.Published)
+                {
+                    @DesignTabRender
+                }
+                @DataTabRender
+            </DxTabs>
+        }
+    };
+
+    public override RenderFragment RightContent => CurrentRightContent;
+
+    public RenderFragment RightContent_ => __builder =>
+    {
+        <DxTabs CssClass="h-100" @bind-ActiveTabIndex="ActiveTabIndexFilter" ScrollMode="TabsScrollMode.Auto">
+            <DxTabPage Text="@AppState["Properties"]" CssClass="m-0 p-0 h-100">
+                @PropertiesTab
+            </DxTabPage>
+            <DxTabPage Text="@AppState["Grid.admin.filter"]" CssClass="h-100">
+                @AdminFilterTab
+            </DxTabPage>
+            <DxTabPage Text="@AppState["Grid.user.filter"]" CssClass="h-100">
+                @UserFilterTab
+            </DxTabPage>
+        </DxTabs>
+    };
+
+    public RenderFragment PropertiesTab => __builder =>
+    {
+        <div class="d-flex flex-column grid-bc-two-tab">
+            <DxLayoutBreakpoint DeviceSize="DeviceSize.Medium | DeviceSize.Small | DeviceSize.XSmall | DeviceSize.Large" @bind-IsActive="IsSmallScreen" />
+            <GridItemInfos Editable=Editable
+                            @bind-EditorData=EditorDataBinding
+                            T="Models.Dashboards.DashboardReport"
+                            DisplayGroup="true" DisplayVisibleInShortcut="true" />
+        </div>
+    };
+
+    // RenderFragment du tab du filtre d'administration
+    public RenderFragment AdminFilterTab => __builder =>
+    {
+        @if (EditorData != null && EditorData.Item != null)
+        {
+            <FilterComponent @key=AdminFilterKey @bind-UniverseFilter=AdminFilterBinding
+                             Attributes="@Entities"
+                             Measures="@EditorData.Measures"
+                             Periods="EditorData.Periods"
+                             Filterstyle="@Filterstyle"
+                             CanRefreshGrid="false"
+                             Editable=Editable
+                             FilterName=@AdminFilterKey>
+            </FilterComponent>
+        }
+    };
+
+    // RenderFragment du tab du filtre de l'utilisateur
+    public RenderFragment UserFilterTab => __builder =>
+    {
+        @if (EditorData != null && EditorData.Item != null)
+        {
+            <FilterComponent @key=UserFilterKey @bind-UniverseFilter=UserFilterBinding
+                                Attributes="@Entities"
+                                Measures="@EditorData.Measures"
+                                Periods="EditorData.Periods"
+                                Filterstyle="@Filterstyle"
+                                CanRefreshGrid="false"
+                                Editable=Editable
+                                FilterName=@UserFilterKey>
+            </FilterComponent>
+        }
+    };
+
+    #endregion
+
+
+}

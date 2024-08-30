@@ -1,0 +1,340 @@
+﻿
+<DxFormLayout CssClass="w-100">
+    <DxFormLayoutItem CssClass="w-100" ColSpanXl="6" ColSpanXs="6" ColSpanLg="6" ColSpanMd="6" ColSpanSm="6">
+        <Template>
+            <NavLink @onclick="@(() => CreateAutomatically())"
+                     class="nav-link pl-0 mt-1"
+                     href="settings/configuration">
+                <span class="@((Parameters == null || Parameters.Values.Count == 0 ) ? "create-auto-active" : "create-auto-inactive")" aria-hidden="true"> @AppState["CreateAutomatically"]</span>
+            </NavLink>
+        </Template>
+    </DxFormLayoutItem>
+    <DxFormLayoutItem CssClass="w-100" Caption=@AppState["RecoTypeBlock"] CaptionCssClass="caption-form" ColSpanLg="12" ColSpanMd="12" ColSpanSm="12">
+        <Template>
+            <div class="d-flex flex-row">
+                <DxComboBox Data="@Entities"
+                            @bind-Value="RecoTypeBlock"
+                            CssClass="filter-combo wid-200">
+                </DxComboBox>
+                <i class="bi bi-file-x-fill" hidden="@(RecoTypeBlock != null ? false : true)"
+                   @onclick="@(() => { RecoTypeBlock = null; Parameters.Remove("RecoTypeBlock"); })"
+                   style="margin-left: .5rem !important; font-size: 1.2rem; color: red; margin-top: auto; margin-bottom: auto;">
+                </i>
+                <label class="ml-2 mb-auto mt-auto"> (@AppState["ENTITY"]) </label>
+            </div>
+        </Template>
+    </DxFormLayoutItem>
+
+    <DxFormLayoutItem CssClass="w-100" Caption=@AppState["DebitCreditAttribute"] CaptionCssClass="caption-form" ColSpanLg="12" ColSpanMd="12" ColSpanSm="12">
+        <Template>
+            <div class="d-flex flex-row">
+                <DxComboBox Data="@Attributes"
+                            @bind-Value="DebitCreditAttribute"
+                            CssClass="filter-combo wid-200">
+                </DxComboBox>
+                <i class="bi bi-file-x-fill" hidden="@(DebitCreditAttribute != null ? false : true)"
+                   @onclick="@(() => { DebitCreditAttribute = null; Parameters.Remove("DebitCreditAttribute"); } )"
+                   style="margin-left: .5rem !important; font-size: 1.2rem; color: red; margin-top: auto; margin-bottom: auto;">
+                </i>
+                <label class="ml-2 mb-auto mt-auto"> (@AppState["ATTRIBUTE"]) </label>
+            </div>
+        </Template>
+    </DxFormLayoutItem>
+
+    <DxFormLayoutItem CssClass="w-100" Caption=@AppState["DebitValue"] CaptionCssClass="caption-form" ColSpanLg="12" ColSpanMd="12" ColSpanSm="12">
+        <Template>
+            <div class="d-flex flex-row">
+                <DxTextBox CssClass="wid-200" @bind-Text="@DebitValue"></DxTextBox>
+                <i class="bi bi-file-x-fill" hidden="@(DebitValue != null ? false : true)"
+                   @onclick="@(() => { DebitValue= "";TryRemoveToDic("DebitValue"); }  )"
+                   style="margin-left: .5rem !important; font-size: 1.2rem; color: red; margin-top: auto; margin-bottom: auto;">
+                </i>
+                <label class="ml-2 mb-auto mt-auto"> (@AppState["AttributeValue"]) </label>
+            </div>
+        </Template>
+    </DxFormLayoutItem>
+
+    <DxFormLayoutItem CssClass="w-100" Caption=@AppState["CreditValue"] CaptionCssClass="caption-form" ColSpanLg="12" ColSpanMd="12" ColSpanSm="12">
+        <Template>
+            <div class="d-flex flex-row">
+                <DxTextBox CssClass="wid-200" @bind-Text="@CreditValue"></DxTextBox>
+                <i class="bi bi-file-x-fill" hidden="@(CreditValue != null ? false : true)"
+                   @onclick="@(() => { CreditValue = null; TryRemoveToDic("CreditValue"); } )"
+                   style="margin-left: .5rem !important; font-size: 1.2rem; color: red; margin-top: auto; margin-bottom: auto;">
+                </i>
+                <label class="ml-2 mb-auto mt-auto"> (@AppState["AttributeValue"]) </label>
+            </div>
+        </Template>
+    </DxFormLayoutItem>
+
+    <DxFormLayoutItem CssClass="w-100" Caption=@AppState["UserAttribute"] CaptionCssClass="caption-form" ColSpanLg="12" ColSpanMd="12" ColSpanSm="12">
+        <Template>
+            <div class="d-flex flex-row">
+                <DxComboBox Data="@Attributes"
+                            @bind-Value="UserAttribute"
+                            CssClass="filter-combo wid-200">
+                </DxComboBox>
+                <i class="bi bi-file-x-fill" hidden="@(UserAttribute != null ? false : true)"
+                   @onclick="@(() => { UserAttribute = null; Parameters.Remove("UserAttribute"); } )"
+                   style="margin-left: .5rem !important; font-size: 1.2rem; color: red; margin-top: auto; margin-bottom: auto;">
+                </i>
+                <label class="ml-2 mb-auto mt-auto"> (@AppState["ATTRIBUTE"]) </label>
+            </div>
+        </Template>
+    </DxFormLayoutItem>
+
+    <DxFormLayoutItem CssClass="w-100" Caption=@AppState["AutoManualRecoAttribute"] CaptionCssClass="caption-form" ColSpanLg="12" ColSpanMd="12" ColSpanSm="12">
+        <Template>
+            <div class="d-flex flex-row">
+                <DxComboBox Data="@Attributes"
+                            @bind-Value="AutoManualRecoAttribute"
+                            CssClass="filter-combo wid-200">
+                </DxComboBox>
+                <i class="bi bi-file-x-fill" hidden="@(AutoManualRecoAttribute != null ? false : true)"
+                   @onclick="@(() => { AutoManualRecoAttribute = null; Parameters.Remove("AutoManualRecoAttribute"); } )"
+                   style="margin-left: .5rem !important; font-size: 1.2rem; color: red; margin-top: auto; margin-bottom: auto;">
+                </i>
+                <label class="ml-2 mb-auto mt-auto"> (@AppState["ATTRIBUTE"]) </label>
+            </div>
+        </Template>
+    </DxFormLayoutItem>
+
+    <DxFormLayoutItem CssClass="w-100" Caption=@AppState["AutoRecoValue"] CaptionCssClass="caption-form" ColSpanLg="12" ColSpanMd="12" ColSpanSm="12">
+        <Template>
+            <div class="d-flex flex-row">
+                <DxTextBox CssClass="wid-200" @bind-Text="@AutoRecoValue"></DxTextBox>
+                <i class="bi bi-file-x-fill" hidden="@(AutoRecoValue != null ? false : true)"
+                   @onclick="@(() => { AutoRecoValue = null; TryRemoveToDic("AutoRecoValue"); })"
+                   style="margin-left: .5rem !important; font-size: 1.2rem; color: red; margin-top: auto; margin-bottom: auto;">
+                </i>
+                <label class="ml-2 mb-auto mt-auto"> (@AppState["AttributeValue"]) </label>
+            </div>
+        </Template>
+    </DxFormLayoutItem>
+
+    <DxFormLayoutItem CssClass="w-100" Caption=@AppState["ManualRecoValue"] CaptionCssClass="caption-form" ColSpanLg="12" ColSpanMd="12" ColSpanSm="12">
+        <Template>
+            <div class="d-flex flex-row">
+                <DxTextBox CssClass="wid-200" @bind-Text="@ManualRecoValue"></DxTextBox>
+                <i class="bi bi-file-x-fill" hidden="@(ManualRecoValue != null ? false : true)"
+                   @onclick="@(() => { ManualRecoValue = null; TryRemoveToDic("ManualRecoValue"); })"
+                   style="margin-left: .5rem !important; font-size: 1.2rem; color: red; margin-top: auto; margin-bottom: auto;">
+                </i>
+                <label class="ml-2 mb-auto mt-auto"> (@AppState["AttributeValue"]) </label>
+            </div>
+        </Template>
+    </DxFormLayoutItem>
+
+</DxFormLayout>
+
+@code {
+    [Inject]
+    private AppState AppState { get; set; }
+
+    [Parameter]
+    public Dictionary<string, string> Parameters { get; set; }
+
+    [Parameter]
+    public EventCallback<Dictionary<string, string>> ParametersChanged { get; set; }
+
+    [Parameter]
+    public ObservableCollection<string> Attributes { get; set; } // To change
+
+    [Parameter]
+    public EventCallback<ObservableCollection<string>> AttributesChanged { get; set; }
+
+    [Parameter]
+    public ObservableCollection<string> Entities { get; set; } // To change
+
+    [Parameter]
+    public EventCallback<ObservableCollection<string>> EntitiesChanged { get; set; } // To change
+
+    public string Class { get; set; } = "active";
+
+
+    public string RecoTypeBlock
+    {
+        get
+        {
+            Parameters.TryGetValue("RecoTypeBlock", out string value);
+            return value;
+        }
+        set
+        {
+            Parameters.Remove("RecoTypeBlock");
+            Parameters.Add("RecoTypeBlock", value);
+            if (!String.IsNullOrEmpty(value))
+            {
+                AppState.Update = true;
+            }
+
+        }
+    }
+
+    public string DebitCreditAttribute
+    {
+        get
+        {
+            Parameters.TryGetValue("DebitCreditAttribute", out string value);
+            return value;
+        }
+        set
+        {
+            Parameters.Remove("DebitCreditAttribute");
+            Parameters.Add("DebitCreditAttribute", value);
+            if (!String.IsNullOrEmpty(value))
+            {
+                AppState.Update = true;
+            }
+
+        }
+    }
+
+    public string DebitValue
+    {
+        get
+        {
+            Parameters.TryGetValue("DebitValue", out string value);
+            return value;
+        }
+        set
+        {
+            Parameters.Remove("DebitValue");
+            Parameters.Add("DebitValue", value);
+            if (!String.IsNullOrEmpty(value))
+            {
+                AppState.Update = true;
+            }
+
+
+        }
+    }
+
+
+    public string CreditValue
+    {
+        get
+        {
+            Parameters.TryGetValue("CreditValue", out string value);
+            return value;
+        }
+        set
+        {
+            Parameters.Remove("CreditValue");
+            Parameters.Add("CreditValue", value);
+            if (!String.IsNullOrEmpty(value))
+            {
+                AppState.Update = true;
+            }
+
+        }
+    }
+
+    public string UserAttribute
+    {
+        get
+        {
+            Parameters.TryGetValue("UserAttribute", out string value);
+            return value;
+        }
+        set
+        {
+            Parameters.Remove("UserAttribute");
+            Parameters.Add("UserAttribute", value);
+            if (!String.IsNullOrEmpty(value))
+            {
+                AppState.Update = true;
+            }
+
+        }
+    }
+
+    public string AutoManualRecoAttribute
+    {
+        get
+        {
+            Parameters.TryGetValue("AutoManualRecoAttribute", out string value);
+            return value;
+        }
+        set
+        {
+            Parameters.Remove("AutoManualRecoAttribute");
+            Parameters.Add("AutoManualRecoAttribute", value);
+            if (!String.IsNullOrEmpty(value))
+            {
+                AppState.Update = true;
+            }
+
+        }
+    }
+
+    public string AutoRecoValue
+    {
+        get
+        {
+            Parameters.TryGetValue("AutoRecoValue", out string value);
+            return value;
+        }
+        set
+        {
+            Parameters.Remove("AutoRecoValue");
+            Parameters.Add("AutoRecoValue", value);
+            if (!String.IsNullOrEmpty(value))
+            {
+                AppState.Update = true;
+            }
+
+        }
+    }
+
+    public string ManualRecoValue
+    {
+        get
+        {
+            Parameters.TryGetValue("ManualRecoValue", out string value);
+            return value;
+        }
+        set
+        {
+            Parameters.Remove("ManualRecoValue");
+            Parameters.Add("ManualRecoValue", value);
+            if (!String.IsNullOrEmpty(value))
+            {
+                AppState.Update = true;
+            }
+
+        }
+    }
+
+    void CreateAutomatically()
+    {
+        if (Parameters.Values.Count == 0)
+        {
+
+            Parameters.Add("RecoTypeBlock", "Entity 2");
+            Parameters.Add("DebitCreditAttribute", "DC");
+            Parameters.Add("DebitValue", "D");
+            Parameters.Add("CreditValue", "C");
+            Parameters.Add("UserAttribute", "User");
+            Parameters.Add("AutoManualRecoAttribute", "M/A");
+            Parameters.Add("AutoRecoValue", "A");
+            Parameters.Add("ManualRecoValue", "M");
+
+            Class = "create-auto-inactive";
+            AppState.Update = true;
+            StateHasChanged();
+        }
+
+
+    }
+
+    public void TryRemoveToDic(string key)
+    {
+        if (Parameters != null && Parameters.ContainsKey(key))
+        {
+
+            Parameters.Remove(key);
+        }
+    }
+
+}

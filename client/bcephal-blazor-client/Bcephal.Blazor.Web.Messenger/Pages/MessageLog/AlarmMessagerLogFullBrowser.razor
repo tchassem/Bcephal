@@ -1,0 +1,18 @@
+﻿
+@page "/message-log-browser"
+
+@inherits Base.Shared.Browser
+@{
+    base.BuildRenderTree(__builder);
+}
+
+@code{
+    public override string Title { get { return AppState["List.Message.Logs"]; } }
+
+    public override string TitleIcon { get { return "bi bi-journals"; } }
+
+    protected override RenderFragment _BodyContent_ => __builder =>
+    {
+    <AlarmMessagerLogBrowser />
+    };
+}

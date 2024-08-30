@@ -1,0 +1,22 @@
+﻿@page "/billing-event-repository/"
+@page "/billing-event-repository/{Id:long}"
+
+
+@inherits Bcephal.Blazor.Web.Reporting.Pages.Reporting.Report.Grid.ReportingForm
+
+@{ base.BuildRenderTree(__builder);}
+
+
+@code{
+    protected RenderFragment Header => __builder =>
+    {
+    <div class=" mr-auto pl-0 ml-2">
+        <DxComboBox Data=DataFilter Value=getGrilleRowType()
+                    CssClass="mt-auto mb-auto" NullText="..."
+                    TData="string" TValue="string"
+                    SelectedItemChanged="((value) => setGrilleRowType(value))">
+        </DxComboBox>
+    </div>
+    };
+
+}

@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bcephal-admin-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bcephal-admin-service
+    
+  template:
+    metadata:
+      labels:
+        app: bcephal-admin-service
+    spec:
+      volumes:
+      - name: bcephal-admin-repository
+        hostPath:
+          path: /opt/bcephal-admin-repository
+      containers:
+      - name: bcephal-admin-service
+        image: localhost:5000/becphal-admin-service-docker-image
+        volumeMounts:
+        - name: bcephal-admin-repository
+          mountPath: /opt/bcephal-admin-repository
+
+        ports:
+        - containerPort: 32003 
+        
+        
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: bcephal-admin-service
+spec:
+  selector:
+    app: bcephal-admin-service
+  type: NodePort
+  ports:  
+    - name: http
+      nodePort: 32003
+      port: 32003
+      targetPort: 32003
+      protocol: TCP
+   
+  
+  
+
+
+  
+

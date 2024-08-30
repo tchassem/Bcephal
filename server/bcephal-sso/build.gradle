@@ -1,0 +1,62 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.3.1'
+	id 'io.spring.dependency-management' version '1.1.5'
+	id "org.sonarqube" version "5.0.0.4638"
+}
+
+group = 'com.moriset'
+version = '0.0.1'
+
+java {
+	sourceCompatibility = '21'
+}
+
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+	maven { url 'https://repo.spring.io/milestone' }
+}
+
+ext {
+	set('springCloudVersion', "2023.0.1")
+}
+
+bootJar {
+  enabled = false
+}
+
+jar {
+  enabled = true
+}
+
+ext {
+	set('tomcatVersion', "10.1.10")
+}
+
+dependencies {
+
+	implementation 'org.springframework.security:spring-security-oauth2-resource-server'
+	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+	implementation 'org.springframework.security:spring-security-oauth2-jose'
+	implementation "org.apache.tomcat:tomcat-catalina:$tomcatVersion"	
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+	
+	implementation("org.apache.tomcat:tomcat-catalina") {
+        version {
+           strictly '10.1.25'
+        }
+    }
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
+compileJava.dependsOn clean

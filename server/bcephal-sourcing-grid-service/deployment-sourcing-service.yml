@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bcephal-sourcing-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bcephal-sourcing-service
+    
+  template:
+    metadata:
+      labels:
+        app: bcephal-sourcing-service
+    spec:
+      volumes:
+      - name: bcephal-sourcing-repository
+        hostPath:
+          path: /opt/bcephal-sourcing-repository
+      containers:
+      - name: bcephal-sourcing-service
+        image: localhost:5000/becphal-sourcing-service-docker-image
+        volumeMounts:
+        - name: bcephal-sourcing-repository
+          mountPath: /opt/bcephal-sourcing-repository
+
+        ports:
+        - containerPort: 32014 
+        
+        
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: bcephal-sourcing-service
+spec:
+  selector:
+    app: bcephal-sourcing-service
+  type: NodePort
+  ports:  
+    - name: http
+      nodePort: 32014
+      port: 32014
+      targetPort: 32014
+      protocol: TCP
+   
+  
+  
+
+
+  
+

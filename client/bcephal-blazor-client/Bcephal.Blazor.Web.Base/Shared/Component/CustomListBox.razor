@@ -1,0 +1,35 @@
+﻿@typeparam TData
+@typeparam TValue
+
+@if (Data != null && values_ != null)
+{
+    <div class=@cssClass style="border-radius: unset;">
+        @if (!string.IsNullOrWhiteSpace(HeaderTitle))
+        { 
+            <div class="card-header d-flex flex-row bc-header-2 p-0 bc-header-height bc-text-align ">
+               <span class="text-center w-100">@HeaderTitle</span>
+            </div>
+        }
+    <div class="card-body p-0 w-100  d-block overflow-auto" style="height: calc(100% - var(--bc-header-height));">        
+        <DxListBox ReadOnly=!Editable Data="@Data"
+                   @bind-Values=values_
+                   SelectionMode="ListBoxSelectionMode.Single"
+                   SizeMode="SizeMode.Small"
+                   @oncontextmenu:preventDefault
+                   TData=TData
+                   TValue=TValue
+                   CssClass=@CssClass>
+            <ItemTemplate>
+                @if (context != null)
+                {
+                    <div class="w-100 h-100"  @oncontextmenu="(e) => showContextMenu_(e, context)" @oncontextmenu:preventDefault >@(context.GetType().GetProperty(FieldName).GetValue(context, null))</div>     
+                }
+            </ItemTemplate>
+        </DxListBox>
+    </div>
+    </div>
+    @if (ContextMenu != null)
+    {
+        @ContextMenu(null)
+    }
+}

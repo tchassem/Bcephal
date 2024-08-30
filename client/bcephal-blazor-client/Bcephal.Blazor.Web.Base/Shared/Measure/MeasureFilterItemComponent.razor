@@ -1,0 +1,80 @@
+@if (modelmeasure != null)
+{
+<div class="d-flex flex-row pt-1 w-auto" style="box-sizing: border-box; margin-top: -4px;">
+    @if (DisplayOpenBrackets)
+    {
+        <div class="common-elt " style="display:@display; min-width:60px; width:@( (6000 / 550.0).ToString("N", new CultureInfo("en-US")) + "%" );">
+            <DxComboBox Enabled=Editable Data="@FilterUtils.OpenBrackets"
+                        @bind-Value="@OpenBrackets"
+                        SizeMode="SizeMode.Small"
+                        CssClass="w-100" />
+        </div>
+    }
+
+    @if (DisplayFilterVerb_)
+    {
+        <div class="common-elt " style="display:@display2; min-width:70px; width:@( (7000 / 550.0).ToString("N", new CultureInfo("en-US")) + "%" );">
+            <DxComboBox Enabled=Editable Data="@FilterVerbs"
+                        @bind-Value="@FilterVerb_"
+                        SizeMode="SizeMode.Small"
+                        CssClass="w-100" />
+        </div>
+    }
+    @if (DisplayTreeViewFilter)
+    {
+        <div class="filter-elt" style="min-width: 200px; width: @((!removeButton) ? "100%" : (20000 / 550.0).ToString("N", new CultureInfo("en-US")) + "%" ); height: 26.5px;">
+            <TreeViewFilter Editable=Editable C="Bcephal.Models.Base.HierarchicalData"
+                            SelectFilterItemCallback="modelmeasureChanged"
+                            ItemsFilter="Measures_"
+                            SelectedItem=@modelmeasure.DimensionName>
+            </TreeViewFilter>
+        </div>
+    }
+
+    @if (DisplayOperator)
+    {
+        <div class="common-elt " style="display:@display2; min-width:60px; width:@( (5000 / 550.0).ToString("N", new CultureInfo("en-US")) + "%" );">
+            <DxComboBox Enabled=Editable Data="MeasureOperator.GetAll()"
+                        @bind-Value="@Operator"
+                        SizeMode="SizeMode.Small"
+                        CssClass="w-100" />
+        </div>
+    }
+
+    @if (DisplaySpinnerMeasure)
+    {
+        <div class="common-elt" style="display:@display2; min-width:60px; width:@( (6000 / 550.0).ToString("N", new CultureInfo("en-US")) + "%" );">
+            <DxSpinEdit ReadOnly=!Editable @bind-Value="@Value"
+                        MinValue="0"
+                        DisplayFormat="G"
+                        SizeMode="SizeMode.Small"
+                        CssClass="w-100"
+                        ShowSpinButtons="false">
+            </DxSpinEdit>
+
+        </div>
+    }
+
+    @if (DisplayCloseBrackets)
+    {
+        <div class="common-elt" style="display:@display; min-width:60px; width:@( (6000 / 550.0).ToString("N", new CultureInfo("en-US")) + "%" );">
+            <DxComboBox Enabled=Editable Data="FilterUtils.CloseBrackets"
+                        @bind-Value="@CloseBrackets"
+                        SizeMode="SizeMode.Small"
+                        CssClass="w-100" />
+        </div>
+    }
+    @if (DisplayDeleteButton)
+    {
+        <div class="del-button-container" style="display: @display2; min-width:50px; width:@( (5000 / 550.0).ToString("N", new CultureInfo("en-US")) + "%" );">
+            <DxButton Enabled=Editable IconCssClass="fa fa-remove"
+                      CssClass="mt-auto mb-auto"
+                      RenderStyleMode="ButtonRenderStyleMode.Text"
+                      RenderStyle="ButtonRenderStyle.Danger"
+                      Click="@(() => OnClickRemove.InvokeAsync(modelmeasure))">
+            </DxButton>
+        </div>
+    }
+</div>
+}
+

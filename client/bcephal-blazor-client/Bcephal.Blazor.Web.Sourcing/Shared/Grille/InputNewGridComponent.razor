@@ -1,0 +1,97 @@
+﻿
+@inherits AbstractNewGridComponent<Models.Grids.Grille, GridItem>
+
+@{
+    base.BuildRenderTree(__builder);
+}
+@using System.Threading;
+@code{
+    
+    protected RenderFragment<Action> GetCustomEditData(GridItem DataItem, AbstractNewGridDataItem GridDataItem) => state => __builder =>
+    {
+        InputNewGridDataItem inputGridDataItem = (InputNewGridDataItem)GridDataItem;
+        if (DataItem != null)
+        {
+            GrilleColumn column = inputGridDataItem.Column;
+            if (column.IsAttribute)
+            {
+                Func<CancellationToken, Task<IEnumerable<string>>> columnaction_ = (e) => GetAttributeValues(column);
+                <DxComboBox  DisplayFormat="@inputGridDataItem.ColumnFormat" AllowUserInput="true"
+                        FilteringMode="DataGridFilteringMode.StartsWith"
+                        TData="string"
+                        TValue="string"
+                        DataAsync="columnaction_"
+                        Text=@GetEditTextFieldName(EditedValues, GridDataItem)
+                        TextChanged="((string newCellValue) => EditGridCell(EditedValues, GridDataItem.Position, newCellValue))"
+                        ReadOnly="GridDataItem.CanEditColumn"
+                        @onkeyup="(async (e) => { await Task.Yield(); await EnterHandleValidSubmit(e, DataItem); })"
+                        />
+            }
+            else
+            if (column.IsMeasure)
+            {
+                Func<CancellationToken, Task<IEnumerable<decimal?>>> columnactionmesaures_ = (e) => GetMeasureValues(column);               
+                <DxComboBox DisplayFormat="@inputGridDataItem.ColumnFormat" AllowUserInput="true"
+                        FilteringMode="DataGridFilteringMode.StartsWith"
+                        TData="decimal?"
+                        TValue="decimal?"
+                        DataAsync="columnactionmesaures_"
+                        Value=@GetEditDecimalFieldName(EditedValues, GridDataItem)
+                        ValueChanged="((decimal? newCellValue) => EditGridCell(EditedValues, GridDataItem.Position, newCellValue))"
+                        ReadOnly="GridDataItem.CanEditColumn"
+                        @onkeyup="(async (e) => {  await Task.Yield(); await EnterHandleValidSubmit(e, DataItem); })"
+                        />
+            }
+            else
+            if (column.IsPeriod)
+            {
+                Func<CancellationToken, Task<IEnumerable<DateTime?>>> columnactionperiod_ = (e) => GetPeriodValues(column);                
+                <DxComboBox DisplayFormat="@inputGridDataItem.ColumnFormat" AllowUserInput="true"
+                            FilteringMode="DataGridFilteringMode.StartsWith"
+                            TData="DateTime?"
+                            TValue="DateTime?"
+                            DataAsync="columnactionperiod_"
+                            Value=@GetEditDateTimeFieldName(EditedValues, GridDataItem)
+                            ReadOnly="GridDataItem.CanEditColumn"
+                            ValueChanged="((DateTime? newCellValue) => EditGridCell(EditedValues, GridDataItem.Position, newCellValue))"
+                            @onkeyup="(async (e) => {  await Task.Yield(); await EnterHandleValidSubmit(e, DataItem); })"/>
+            }
+
+        }
+        else
+        {
+
+            GrilleColumn column = inputGridDataItem.Column;
+            if (column.IsAttribute)
+            {
+                Func<CancellationToken, Task<IEnumerable<string>>> columnaction = (e) => GetAttributeValues(column);
+
+                <DxComboBox DisplayFormat="@inputGridDataItem.ColumnFormat" AllowUserInput="true"
+                            FilteringMode="DataGridFilteringMode.StartsWith"
+                            DataAsync="columnaction" TData="string" TValue="string"
+                            Text=@GetEditTextFieldName(EditedValues, GridDataItem)
+                            ValueChanged="((string newCellValue) => EditGridCell(EditedValues, GridDataItem.Position, newCellValue))"
+                            @onkeyup="(async (e) => {  await Task.Yield(); await EnterHandleValidSubmit(e, DataItem); })"/>
+            }
+            else
+            if (column.IsMeasure)
+            {
+                Func<CancellationToken, Task<IEnumerable<decimal?>>> columnactionmesaures = (e) => GetMeasureValues(column);
+                <DxComboBox DisplayFormat="@inputGridDataItem.ColumnFormat" AllowUserInput="true"
+                            FilteringMode="DataGridFilteringMode.StartsWith" DataAsync="columnactionmesaures" TData="decimal?" TValue="decimal?"
+                            Value=@GetEditDecimalFieldName(EditedValues, GridDataItem)
+                            ValueChanged="((decimal? newCellValue) => EditGridCell(EditedValues, GridDataItem.Position, newCellValue))"
+                            @onkeyup="(async (e) => {  await Task.Yield();  await EnterHandleValidSubmit(e, DataItem); })"/>
+            }
+            else
+            {
+                Func<CancellationToken, Task<IEnumerable<DateTime?>>> columnactionperiod = (e) => GetPeriodValues(column);
+                <DxComboBox DisplayFormat="D" TData="DateTime?" AllowUserInput="true"
+                            FilteringMode="DataGridFilteringMode.StartsWith" DataAsync="columnactionperiod" TValue="DateTime?"
+                            Value=@GetEditDateTimeFieldName(EditedValues, GridDataItem)
+                            ValueChanged="((DateTime? newCellValue) => EditGridCell(EditedValues, GridDataItem.Position, newCellValue))"
+                            @onkeyup="(async (e) => {  await Task.Yield(); await EnterHandleValidSubmit(e, DataItem); })"/>
+            }
+        }
+    };
+}

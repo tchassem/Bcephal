@@ -1,0 +1,26 @@
+﻿
+@inherits Form<FormData, object[]>
+
+@{base.BuildRenderTree(__builder);}
+
+
+@code{
+
+
+    public override RenderFragment LeftContent => __builder =>
+    {
+        if (EditorDataBinding_ != null)
+        {
+            <DynamicFormComponent  FormModel="EditorDataBinding_.FormModel" 
+                                  AddOrUpdateHandler=AddOrUpdateFromData 
+                                  ValueHandler=GetData 
+                                  AddOrUpdateFormDataHandler=AddOrUpdateSubGridFromData
+                                  GetFormDataHandler=GetSubGridData
+                                  GetFormDatasHandler=GetSubGridDatas
+                                  DeleteFormDataHandler=DeleteSubGridFromData
+                                  />
+        }
+    };
+        public override RenderFragment RightContent => null;
+
+    }

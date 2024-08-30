@@ -1,0 +1,87 @@
+﻿
+@Body
+
+@code{
+    public RenderFragment Body => __builder =>
+    {
+        if (FormModel != null)
+        {
+            var subItems = FormModel.SubGridListChangeHandler.GetItems();
+            var activeItems = subItems.Where(it => it.Active);
+            if (activeItems != null && activeItems.Any())
+            {
+                <SplitterPanel LeftSize="1" vertical="false" heightCall="var(--grid-bc-oneheader)"
+                           Panes="new() { FromModelFielBody(FormModel), FromModelSubFielBody(subItems) }" />
+            }
+            else
+            {
+            @FromModelFielBody(FormModel);
+            }
+        }
+    };
+
+    public RenderFragment FromModelSubFielBody(IEnumerable<FormModel> SubFormModels) => __builder =>
+    {
+    
+        <DxTabs CssClass="m-0 p-0 bc-tab-h-100" style="width: 100%; border-top: solid 1px var(--bc-header-3);" 
+                @bind-ActiveTabIndex="ActiveTabIndex" RenderMode="TabsRenderMode.AllTabs" ScrollMode="TabsScrollMode.Auto">
+            @FromModelSubFielBodyContent(SubFormModels)
+        </DxTabs>
+    
+
+    };
+
+    public RenderFragment FromModelSubFielBodyContent(IEnumerable<FormModel> SubFormModels) => __builder =>
+    {
+        if (SubFormModels != null && SubFormModels.Any())
+        {
+            int index = 1;
+            foreach (var field in SubFormModels)
+            {
+                @FromModelSubFielBodyItem(field, FormModel.Id);
+                index++;
+            }
+        }
+    };
+
+    public RenderFragment FromModelSubFielBodyItem(FormModel SubFormModel, long? parentId) => __builder =>
+    {
+        if (SubFormModel != null && SubFormModel.Active)
+        {
+            var Name = SubFormModel.Name;
+            <DxTabPage Text=@Name CssClass="m-0 p-0 h-100">
+                <div style="height: calc(100% - var(--bc-tab-header-height));">
+                    <div class="h-100 overflow-auto">
+                        @if (SubFormModel.Id.HasValue)
+                            {
+                            @FromModelFielBody(SubFormModel, parentId)
+                            }
+                    </div>
+                </div>
+            </DxTabPage>
+        }
+    };
+
+    public RenderFragment FromModelFielBody(FormModel formModel, long? parentId = null) => __builder =>
+    {
+
+    if (!parentId.HasValue)
+    {
+            <FormModelFieldEdit Model=formModel
+                            AddOrUpdateHandler=AddOrUpdateFromData
+                            ValueHandler=GetData />
+        }
+        else
+        {
+            var editoData = new EditorData<FormModel>() { Item = formModel };
+            <SubFormModelGridBrowser 
+                    AddOrUpdateFormDataHandler =AddOrUpdateSubGridFromData
+                    GetFormDataHandler=GetSubGridData
+                    GetFormDatasHandler=GetSubGridDatas
+                    DeleteFormDataHandler=DeleteSubGridFromData
+                    EditorData=editoData
+                                 
+                                     />
+        }
+    };
+}

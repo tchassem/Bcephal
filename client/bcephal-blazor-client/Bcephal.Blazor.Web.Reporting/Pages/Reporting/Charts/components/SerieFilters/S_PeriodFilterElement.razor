@@ -1,0 +1,60 @@
+﻿
+<div class="d-flex flex-row mb-1">
+
+    <DxComboBox Data="@FilterUtils.OpenBrackets"
+                @bind-Value="@FilterItem.OpenBracket"
+                CssClass="min-w-82 wid-82 mr-1">
+    </DxComboBox>
+
+    <DxComboBox Data="FilterVerbs" NullText="" CssClass="min-w-82 wid-82 mr-1"
+                @bind-Value="@SelectedFilterVerb">
+    </DxComboBox>
+
+    <DxComboBox @key="@(Guid.NewGuid().ToString("d"))" CssClass="min-w-150 wid-150 mr-1" Data="Fields"
+                TData="DashboardReportField" TValue="DashboardReportField"
+                TextFieldName="@nameof(DashboardReportField.Name)"
+                @bind-Value=@FilterItem.Field
+                SelectedItemChanged=@(value => FilterItemChanged.InvokeAsync(FilterItem) )>
+    </DxComboBox>
+
+    <DxComboBox Data="@MeasureOperator.GetAll()"
+                @bind-Value="@FilterItem.Operator"
+                CssClass="min-w-64 wid-64 mr-1">
+    </DxComboBox>
+
+    <DxComboBox Data="PeriodOperators"
+                @bind-Value=@SelectedComparator
+                CssClass="min-w-120 wid-120 mr-1">
+    </DxComboBox>
+
+    <DxDateEdit @bind-Date="@DateValue" T="DateTime?"
+                ReadOnly="IsSpecific"
+                CssClass="min-w-120 wid-120 mr-1" />
+
+    <DxComboBox CssClass="min-w-60 wid-60 mr-1" Data="@FilterUtils.Signs"
+                @bind-Value="@FilterItem.Sign">
+    </DxComboBox>
+
+    <DxSpinEdit MinValue="0" CssClass="min-w-82 wid-82 mr-1" @bind-Value="@FilterItem.Number"
+                ShowSpinButtons="false">
+    </DxSpinEdit>
+
+    <DxComboBox CssClass="min-w-100 wid-100 mr-1" Data="PeriodGranularities"
+                @bind-Value=@SelectedGranularity>
+    </DxComboBox>
+
+    <DxComboBox Data="FilterUtils.CloseBrackets" CssClass="min-w-82 wid-82 mr-1"
+                @bind-Value="@FilterItem.CloseBracket">
+    </DxComboBox>
+
+    <DxButton IconCssClass="fa fa-remove"
+              CssClass="mt-auto mb-auto"
+              RenderStyleMode="ButtonRenderStyleMode.Text"
+              RenderStyle="ButtonRenderStyle.Danger"
+              Click="@(() => OnClickRemove.InvokeAsync(FilterItem))">
+    </DxButton>
+</div>
+
+@code {
+
+}

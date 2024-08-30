@@ -1,0 +1,52 @@
+﻿@page "/about/"
+<CardComponent CardCssClass="w-100 h-100 m-0 p-0" CanDisplayFooter="false" CanDisplayHeader="false">
+    @AboutRender
+</CardComponent>
+@code {
+
+    [Inject]
+    public AppState AppState { get; set; }
+
+    [Inject]
+    public AboutService AboutService { get; set; }
+
+    private async Task<string> BuildNumber()
+    {
+        string resp = "";
+        try
+        {
+            resp = await AboutService.GetBuidNumber();
+        }
+        catch (Exception ex)
+        {
+
+        }
+        return "Buid " + resp;
+     }
+
+    private RenderFragment AboutRender => __builder =>
+    {
+        <div class="w-100 h-100 d-flex align-items-center justify-content-center m-0 p-0"
+             style="background: no-repeat center/100% 100% url(assets/bcephal_loading_init_bakground.PNG); color: white; ">
+            <DxStackLayout  CssClass="w-100 h-100 p-4" Orientation="Orientation.Vertical">
+                <Items>
+                    <DxStackLayoutItem Length="1fr" CssClass="d-flex flex-column h-100 align-items-end justify-content-end">
+                        <Template>
+                            <div style="color: white !important; font-size: 17px !important;">BCEPHAL Version 8</div>
+                            <div  style="color: white !important; font-size: 17px !important;">Build</div>
+                            <div  style="color: white !important; font-size: 17px !important;">@AppState["allrightsreserved"]</div>
+                            <div style="color: white !important; font-size: 17px !important;">© 2022 Moriset & Co (Belgium)</div>
+                        </Template>
+                    </DxStackLayoutItem>
+                    <DxStackLayoutItem Length="1fr" CssClass="d-flex h-100 align-items-end">
+                        <Template>
+                            <span class="float-right" style="font-size: 17px !important;">
+                                <a target="_blank" style="color:white !important;" href="https://www.moriset.com">www.moriset.com</a>
+                            </span>
+                        </Template>
+                    </DxStackLayoutItem>
+                </Items>
+            </DxStackLayout>
+        </div>
+    };
+}

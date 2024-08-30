@@ -1,0 +1,128 @@
+﻿@page "/profil/edit"
+@page "/profil/edit/{Id:long}"
+
+@using Bcephal.Models.Clients
+@using  Bcephal.Blazor.Web.Administration.Pages.User
+
+@inherits Form<Bcephal.Models.Profiles.Profile, Bcephal.Models.Profiles.ProfileBrowserData>
+
+@{ base.BuildRenderTree(__builder); }
+
+@code {
+    public override RenderFragment LeftContent => __builder =>
+    {
+    @if (EditorData != null)
+        {
+        <DxTabs CssClass="bc-tab-h-100" @bind-ActiveTabIndex="ActiveTabIndex">
+
+            <DxTabPage Text="@AppState["Users"]" CssClass="m-0 p-0" Click="ChangeTab">
+                <div style="height: calc(100% - var(--bc-tab-header-height)); box-sizing: border-box !important;">
+                    <div class="h-100">
+                        <ProfileTabUsers @bind-EditorData=@EditorData />
+                    </div>
+                </div>
+            </DxTabPage>
+            <DxTabPage Text="@AppState["functionalities"]" CssClass="m-0 p-0" Click="ChangeTab">
+                <div style="height: calc(100% - var(--bc-tab-header-height)); box-sizing: border-box !important;">
+                    <div class="h-100">
+                        <ProfileTabRoles @bind-EditorData=@EditorData />
+                    </div>
+                </div>
+            </DxTabPage>
+
+        </DxTabs>
+        }
+    };
+
+    public override RenderFragment RightContent => __builder =>
+    {
+        if (EditorData != null)
+        {
+           
+
+        <div class="d-flex flex-column grid-bc-two h-100 overflow-y-auto" style="display:block;box-sizing:border-box;">
+            <div style="height:auto;padding-bottom:0;margin-bottom:10px;">
+                <GridItemInfos Editable=@Editable @bind-EditorData=@EditorDataBinding T="Bcephal.Models.Profiles.Profile"
+                               DisplayGroup="false" DisplayVisibleInShortcut="false">
+                    <ChildContent>
+                        <DxLayoutBreakpoint DeviceSize="DeviceSize.Medium | DeviceSize.Small | DeviceSize.XSmall" @bind-IsActive="IsSmallScreen" />
+                        <DxGridLayout CssClass="ml-2" ColumnSpacing="0px">
+                            <Rows>
+                                <DxGridLayoutRow Height="auto" />
+                            </Rows>
+                            <Items>
+                                <DxGridLayoutItem CssClass="mt-1 mb-1" Row="0" Column="0">
+                                    <Template>
+                                        <DxGridLayout ColumnSpacing="0px" RowSpacing="10px">
+                                            <Rows>
+                                                @if (IsSmallScreen)
+                                                    {
+                                                    <DxGridLayoutRow Areas="Name" Height="auto" />
+                                                    <DxGridLayoutRow Areas="NameType" Height="auto" />
+                                                    <DxGridLayoutRow Areas="DesriptionLabel" Height="auto" />
+                                                    <DxGridLayoutRow Areas="Desription" Height="auto" />
+                                                    <DxGridLayoutRow Areas="DashboardLabel" Height="auto" />
+                                                    <DxGridLayoutRow Areas="DashboardLink" Height="auto" />
+                                                    }
+                                                    else
+                                                    {
+                                                    <DxGridLayoutRow Areas="Name NameType" Height="auto" />
+                                                    <DxGridLayoutRow Areas="DesriptionLabel Desription " Height="auto" />
+                                                    <DxGridLayoutRow Areas="DashboardLabel DashboardLink " Height="auto" />
+                                                    }
+                                            </Rows>
+                                            <Columns>
+                                                @if (IsSmallScreen)
+                                                    {
+                                                    <DxGridLayoutColumn />
+                                                    }
+                                                    else
+                                                    {
+                                                    <DxGridLayoutColumn Width=@LabelWidth />
+                                                    <DxGridLayoutColumn Width=@TextWidth />
+                                                    }
+                                            </Columns>
+                                            <Items>
+                                                <DxGridLayoutItem Area="Name">
+                                                    <Template>
+                                                        <span style="text-align: right; padding-right: 5px !important; width: 100%; float:right; margin-bottom:3px;">@AppState["Type"]</span>
+                                                    </Template>
+                                                </DxGridLayoutItem>
+                                                <DxGridLayoutItem Area="NameType" CssClass="w-100">
+                                                    <Template>
+                                                        <DxComboBox ReadOnly=!Editable TData="UserType" TValue="UserType" TextFieldName="label" Data="@UserTypeItems" @bind-Value="@ProfileType" style="width: 80%; margin-bottom:3px;" />
+                                                    </Template>
+                                                </DxGridLayoutItem>
+                                                <DxGridLayoutItem Area="DesriptionLabel" CssClass="w-100" />
+                                                <DxGridLayoutItem Area="Desription" CssClass="w-100">
+                                                    <Template>
+                                                        <textarea readonly=@(!Editable) class="form-control" rows="3" style="width:80%" placeholder="@AppState["Description"]"
+                                                                  @bind-value=@Description @bind-value:event="oninput" />
+                                                    </Template>
+                                                </DxGridLayoutItem>
+                                                <DxGridLayoutItem Area="DashboardLabel" CssClass="w-100" />
+                                                <DxGridLayoutItem Area="DashboardLink" CssClass="w-100">
+                                                    <Template>
+                                                        @if (EditorData.Item.IsPersistent)
+                                                            {
+                                                            <DxButton Enabled=Editable RenderStyle="ButtonRenderStyle.Link" CssClass="mr-1"
+                                                                      Text="@AppState["dashboards"]" @onclick="() => { showProfileDashboardModal = true; }" />
+                                                            }
+                                                    </Template>
+                                                </DxGridLayoutItem>
+                                            </Items>
+                                        </DxGridLayout>
+                                    </Template>
+                                </DxGridLayoutItem>
+                            </Items>
+                        </DxGridLayout>
+                    </ChildContent>
+                </GridItemInfos>
+            </div>
+        </div>
+
+        <ProfileDashboardForm ProfId=@EditorData.Item.Id Title="@AppState["dashboards"]" @bind-ShowModal="@showProfileDashboardModal" @bind-ProfileDashboardEditorData="@ProfileDashboardEditorData" CssClass="" />
+        }
+
+    };
+}

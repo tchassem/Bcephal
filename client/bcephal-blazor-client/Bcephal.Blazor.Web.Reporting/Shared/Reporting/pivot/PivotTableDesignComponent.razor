@@ -1,0 +1,74 @@
+﻿
+@BodyRenderFragment
+<DxContextMenu   ItemClick="OnItemClick" @ref="@ContextMenuRef">
+    <Items>
+        <DxContextMenuItem Visible=Editable  Text="@AppState["Delete"]" />
+    </Items>
+</DxContextMenu>
+@code {
+
+
+    private RenderFragment BodyRenderFragment => __builder =>
+    {
+    <SplitterPanel LeftSize="1" Panes="new() {DrapRender(), DropRender()}" />
+
+    };
+
+    private RenderFragment DropRender() => __builder =>
+    {
+    <div class="card h-100">
+        <div class="card-header d-flex align-items-center p-0 bc-header-2 " style="height: var(--bc-header-height);">
+            <div class="d-flex w-100">
+                <span class="d-flex ml-2">
+                    @AppState["selected.dimensions"]
+                </span>
+            </div>
+        </div>
+        <div class="card-body ml-1 can-drop d-block p-0 overflowy-bc " ondrop="drop_handler(event, '@Id');" dropzone="@(Editable ? "true" : "false")" ondragover="event.preventDefault();">
+            <ul class="liststylenone ml-1 p-0" dropzone="@(Editable ? "true" : "false")">
+                @{
+                        var Items = EditorData.Item.FieldListChangeHandler.GetItems();
+                        var leng = Items.Count();
+                        int offset = 0;
+                        while (offset < leng)
+                        {
+                            var item_ = Items.ElementAt(offset);
+                        <li @oncontextmenu:preventDefault @oncontextmenu="(e) => DeleteItem(e,item_)" class="w-100 mt-1 mb-2" style="cursor: pointer;">
+                            <div class="d-flex align-items-center w-100">
+                                <div style="width:calc(100% - 50px)">
+                                    @item_.Name
+                                </div>
+                                <div style="width:50px">
+                                    <span class="bi bi-trash" @onclick="(e) => DeleteField(item_)" />
+                                </div>
+                            </div>
+                        </li>
+                            offset++;
+                        }
+                }
+            </ul>
+        </div>
+    </div>
+    };
+    private RenderFragment DrapRender() => __builder =>
+    {
+        <div class="card w-100 h-100 p-0" >
+            <div class="card-header bc-header-2 border-0 d-flex flex-row p-0 bc-header-height bc-text-align ">
+                <span class="ml-auto mr-auto">
+                    @AppState["available.dimensions"]
+                </span>
+            </div>
+            <div class="card-body p-0" style="height:calc(100% - var(--bc-header-height));">
+                @* <TreeViewFilterComponent IsOpen="true"
+                                     ItemsFilter="@AvailableDatas"
+                                     SelectFilterItemCallback="((node) => SelectedItemNode = node )">
+                    </TreeViewFilterComponent> *@
+                <DimensionsDraggableComponent Editable=Editable   Attributes=Attributes
+                                              Measures=EditorData.Measures
+                                              Periods=EditorData.Periods
+                                              SelectDimensionHandler=HandleDragStart />
+            </div>
+        </div>
+    };
+
+}

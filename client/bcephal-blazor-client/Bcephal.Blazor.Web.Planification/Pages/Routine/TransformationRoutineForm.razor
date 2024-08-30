@@ -1,0 +1,125 @@
+﻿@page "/edit-transformation-routine/"
+@page "/edit-transformation-routine/{Id:long}"
+
+@inherits Form<Bcephal.Models.Routines.TransformationRoutine, BrowserData>
+
+@{ base.BuildRenderTree(__builder); }
+
+
+@code {
+
+    #region RenderFragments
+
+public override RenderFragment LeftContent => __builder =>
+{
+@if (EditorData != null && EditorData.Item != null)
+ {
+    // Cette div sert à afficher le scroll afin de gérer le min-width du div enfant
+    // Ceci sert à garder la taille des ligne de données avec des largeurs acceptables dans le but de concerver le rendu de la vue
+    <div class="h-100 overflow-auto">
+        <div class="p-2 h-100 overflow-auto" style="min-width: 1000px;">
+
+            @foreach (var item in TransformationRoutine.ItemListChangeHandler.Items)
+            {
+                @*if (ChangedItem == item)
+                    {
+                       <RoutineItemComponent @key="@(Guid.NewGuid().ToString("d"))" TRoutineItem=@item TRoutineItemChanged=OnTRoutineItemChanged
+                                             Attributes=@Entities
+                                             Measures=@measures
+                                             Periods=@periods
+                                             ItemCssClass="mb-3"
+                                             Grilles_=@grilles
+                                             TRoutineItemDeleted=OnRoutineItemDeleted />
+                    }
+                    else
+                    {
+                       <RoutineItemComponent TRoutineItem=@item TRoutineItemChanged=OnTRoutineItemChanged
+                                             Attributes=@Entities
+                                             Measures=@measures
+                                             Periods=@periods
+                                             ItemCssClass="mb-3"
+                                             Grilles_=@grilles
+                                             TRoutineItemDeleted=OnRoutineItemDeleted />
+                    }*@
+
+                <RoutineItemComponent @key="@(Guid.NewGuid().ToString("d"))" TRoutineItem=@item TRoutineItemChanged=OnTRoutineItemChanged
+                                      Attributes=@Entities
+                                      Measures=@measures
+                                      Periods=@periods
+                                      ItemCssClass="mb-3"
+                                      Grilles_=@grilles
+                                      TRoutineItemDeleted=OnRoutineItemDeleted />
+            }
+
+            <RoutineItemComponent @key="@(Guid.NewGuid().ToString("d"))" TRoutineItem=@(new TransformationRoutineItem() { Type = DimensionType.BILLING_EVENT, ApplyOnlyIfEmpty = true })
+                                  TRoutineItemChanged=OnTRoutineItemChanged />
+        </div>
+    </div>
+ }
+};
+
+public override RenderFragment RightContent => __builder =>
+{
+@if (EditorData != null && EditorData.Item != null)
+    {
+
+    <div class="d-flex flex-column grid-bc-two" style="display:block;box-sizing:border-box;">
+        <div style="height:auto;padding-bottom:0;margin-bottom:10px;">
+            <GridItemInfos Editable=Editable @bind-EditorData=@EditorDataBinding T="TransformationRoutine"
+                           DisplayGroup="true" DisplayVisibleInShortcut="true">
+                <ChildContent>
+                    <DxLayoutBreakpoint DeviceSize="DeviceSize.Medium | DeviceSize.Small | DeviceSize.XSmall" @bind-IsActive="isSmallScreen" />
+                    <DxGridLayout CssClass="ml-2" ColumnSpacing="0px">
+                        <Rows>
+                            <DxGridLayoutRow Height="auto" />
+                        </Rows>
+                        <Items>
+                            <DxGridLayoutItem CssClass="mt-1 mb-1" Row="0" Column="0">
+                                <Template>
+                                    <DxGridLayout ColumnSpacing="0px" RowSpacing="10px">
+                                        <Rows>
+                                            @if (isSmallScreen)
+                                            {
+                                                <DxGridLayoutRow Areas="ActivLabel" Height="auto" />
+                                                <DxGridLayoutRow Areas="ActivInput" Height="auto" />
+                                            }
+                                            else
+                                            {
+                                                <DxGridLayoutRow Areas="ActivLabel ActivInput" Height="auto" />
+                                            }
+                                        </Rows>
+                                        <Columns>
+                                            @if (isSmallScreen)
+                                            {
+                                                <DxGridLayoutColumn />
+                                            }
+                                            else
+                                            {
+                                                <DxGridLayoutColumn Width=@LabelWidth />
+                                                <DxGridLayoutColumn Width=@TextWidth />
+                                            }
+                                        </Columns>
+                                        <Items>
+                                            <DxGridLayoutItem Area="ActivLabel" CssClass="w-100" />
+                                            <DxGridLayoutItem Area="ActivInput" CssClass="w-100">
+                                                <Template>
+                                                    <DxCheckBox Enabled=Editable Checked="true" LabelWrapMode="LabelWrapMode.NoWrap">
+                                                        @AppState["Active"]
+                                                    </DxCheckBox>
+                                                </Template>
+                                            </DxGridLayoutItem>
+                                        </Items>
+                                    </DxGridLayout>
+                                </Template>
+                            </DxGridLayoutItem>
+                        </Items>
+                    </DxGridLayout>
+                </ChildContent>
+            </GridItemInfos>
+        </div>
+    </div>
+    }
+};
+
+#endregion
+}

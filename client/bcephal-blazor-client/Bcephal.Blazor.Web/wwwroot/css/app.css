@@ -1,0 +1,649 @@
+﻿body {
+    background-color: white;
+    max-width: 100%;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    margin-top: 0;
+    min-height: 100%;
+    --bc-header-1: #8497b0;
+    --bc-header-2: #adb9ca;
+    --bc-header-3: #d6dce5;
+    --bc-background-header: #fff;
+    --bc-footer-background: rgba(0,0,0,0.2);
+    --bc-home-header-height: 50px;
+    --bc-home-footer-height: 25px;
+    --bc-home-toolbar-height: 30px;
+    --bc-header-height: 32.2px;
+    --bc-tab-header-height: 41.2px;
+    --bc-grid-body: calc(var(--bc-home-header-height) + var(--bc-home-footer-height) + var(--bc-home-toolbar-height) + var(--bc-header-height) + var(--bc-tab-header-height));
+    --bc-grid-body-tabtwo: calc(var(--bc-grid-body) + var(--bc-tab-header-height));
+    --bc-content-tabtwo-height: calc(100vh - var(--bc-grid-body-tabtwo));
+    --bc-dx-tabs-content-panel-height: calc(100vh - var(--bc-grid-body));
+    --grid-bc-two: calc(100vh - var(--bc-grid-body));
+    --grid-bc-two-tab: calc(100vh - var(--bc-grid-body) - 10px);
+    --grid-bc-propcontent: calc(100vh - var(--bc-grid-body) - var(--bc-tab-header-height));
+    --grid-bc-filtercontent: calc(100vh - var(--bc-grid-body));
+    --grid-bc-oneheader: calc(100vh - var(--bc-grid-body) + var(--bc-tab-header-height));
+    --bc-dx-tabs-content-panel-height-native: calc(100vh - var(--bc-grid-body) - var(--bc-tab-header-height));
+    --bc-dx-tabs-content-panel-height-30: calc(var(--bc-dx-tabs-content-panel-height-native) - ((var(--bc-dx-tabs-content-panel-height-native) * 25) / 100));
+    --bc-dx-tabs-content-panel-height-21: calc(var(--bc-dx-tabs-content-panel-height-native) - ((var(--bc-dx-tabs-content-panel-height-native) * 21) / 100));
+    --color-level-3: #949698 !important;
+    --bc-listbox-selected-color: #C4DFB8;
+    --bc-listbox-selected-refresh-color: #C6DCF9;
+    --bc-h100-tab: calc(var(--grid-bc-two) + var(--bc-tab-header-height));
+    --bc-body-core: calc(100vh - var(--bc-grid-body) - var(--bc-tab-header-height));
+    --bc-home-dashboard: calc(100vh - var(--bc-home-header-height) - var(--bc-home-footer-height));
+    --bc-home-dashboard-h100-tab: calc(var(--bc-home-dashboard) - var(--bc-tab-header-height));
+    --grid-bc-pivot-form: calc(100vh - var(--bc-grid-body) - var(--bc-header-height) - 10px);
+}
+.right-file-loader1 {
+    height: calc(((var(--grid-bc-propcontent) - var(--bc-header-height)) * 25) / 100 );
+}
+.right-file-loader2 {
+    height: calc(((var(--grid-bc-propcontent) - var(--bc-header-height)) * 65) / 100 );
+}
+
+.bc-dx-tabs-content-panel-height-30 {
+    height: var(--bc-dx-tabs-content-panel-height-30);
+}
+
+.bc-content-tabtwo-height {
+    height: var(--bc-content-tabtwo-height);
+}
+.bc-home-header-height {
+    height: var(--bc-home-header-height);
+}
+
+.bc-home-footer-height {
+    height: var(--bc-home-footer-height);
+}
+
+.bc-home-toolbar-height {
+    height: var(--bc-home-toolbar-height);
+}
+
+.bc-header-height {
+    height: var(--bc-header-height);
+}
+
+.grid-bc-oneheader {
+    height: var(--grid-bc-oneheader);
+}
+
+.grid-bc-propcontent {
+    height: var(--grid-bc-propcontent);
+}
+
+.grid-bc-pivot-form {
+    height: var(--grid-bc-pivot-form);
+}
+
+.bc-h100-tab {
+    height: var(--bc-h100-tab);
+}
+.bc-home-dashboard-h100-tab {
+    height: var(--bc-home-dashboard-h100-tab);
+    box-sizing: border-box;
+}
+.bc-body-core {
+    height: var(--bc-body-core);
+}
+.bc-home-dashboard {
+    height: var(--bc-home-dashboard);
+    box-sizing: border-box;
+}
+.bc-text-align {
+    display: flex;
+    align-items: center;
+}
+
+.bc-header-1 {
+    background-color: var(--bc-header-1);
+    color: #fff !important;
+}
+
+.bc-header-2 {
+    background-color: var(--bc-header-2);
+    color: #fff !important;
+}
+
+.bc-header-3 {
+    background-color: var(--bc-header-3);
+    color: #949698 !important;
+}
+
+.bc-footer-background {
+    background-color: var(--bc-footer-background);
+}
+
+.bc-background-header {
+    background-color: var(--bc-background-header);
+    color: #000;
+}
+
+div.bc-dxform-header-2 > div.row > div > div.card > div.card-header {
+    padding: 0 !important;
+    background-color: var(--bc-header-2);
+    color: #fff !important;
+    margin: 0 !important;
+    height: 32.2px;
+    display: flex;
+    align-items: center;
+}
+
+div.bc-dxform-header-2 {
+    margin: 0 !important;
+}
+
+div.bc-dxform-header-2 > div.row {
+    height: 100% !important;
+    width: 100% ;
+}
+
+div.bc-dxform-header-2 > div.row > div.dxbs-fl-group > div.card {
+    height: 100% !important;
+    width: 100%;
+}
+
+div.bc-dxform-header-3 > div.row > div > div.card > div.card-header {
+    padding: 0 !important;
+    background-color: var(--bc-header-3);
+    color: var(--color-level-3) !important;
+    margin: 0 !important;
+    height: 32.2px;
+    display: flex;
+    align-items: center;
+}
+
+div.bc-dxform-header-3 {
+    margin: 0 !important;
+}
+
+div.bc-dxform-header-3 > div.row {
+    height: 100% !important;
+    width: 100% ;
+}
+
+div.bc-dxform-header-3 > div.row > div.dxbs-fl-group > div.card {
+    height: 100% !important;
+    width: 100%;
+}
+
+.bc-dxform-header {
+    width: 100%;
+    padding: 0 !important;
+    margin: 0 0 0 .25rem !important;
+}
+
+.bc-dxform-height {
+    height: var(--bc-dxform-height);
+    box-sizing: border-box;
+}
+
+.nav-tabs .nav-link.active, .nav-tabs .nav-link.active:hover, .nav-tabs .nav-link.active:focus {
+    border-bottom: 0.2px solid #dee2e6 !important;
+    margin-bottom:0 !important;
+}
+
+.nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {
+    border-bottom: 0.2px solid #dee2e6 !important;
+    margin-bottom: 0 !important;
+}
+
+
+.bc-header-33 {
+    border: none !important;
+}
+
+.bc-header-33 > ul > li > a.list-group-item.py-1.px-3.list-group-item-action.dxbs-clickable.active.bg-primary.text-white.active {
+    background-color : var(--bc-listbox-selected-color) !important;
+    color: var(--color-level-3) !important;
+}
+
+.btn:focus, btn-sm:focus, dx-btn:focus {
+    box-shadow: 0.5px 0.5px 0.5px 0.5px #fff;
+}
+
+.project-select-item {
+    background-color: #8497b0;
+    color: #fff !important;
+    display: flex;
+    align-items: center;
+}
+
+.project-select-border{
+    border-radius: 2px ;
+}
+
+.homePage-tag-header {
+   width:auto;
+}
+
+/*.btn-tab-homepage:hover {
+    color: #888;
+}*/
+
+.btn-tab-homepage {
+    color: #4f81bd;
+}
+
+.dx-menu-title{
+    padding-top : 0 !important;
+    padding-bottom : 0 !important;
+}
+
+.user-menuitem {
+    padding:0;
+    height: 26.5px;
+    border:none;
+    margin-top:auto;
+    margin-bottom:auto;
+    margin-left: auto;
+}
+
+.tooltip-wrapper-bc {
+    position: relative;
+    display: inline-block;
+    cursor: help;
+}
+
+.ResourcesLoading {
+    width: 100vw;
+    height: 100vh;
+    background-image: url(bcephal_loading_init_bakground.PNG);
+}
+
+.abstractgrid {
+    height: 100% !important;
+    display: block !important;
+    overflow: auto !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+div.fileloader > div.abstractgrid >
+div.custom-grid.dxbs-gridview > div.card {
+    border-left: none !important;
+    border-right: none !important;
+}
+
+.dxbs-gridview > .card > .card-header, .dxbs-gridview > .card-header, .dxbs-gridview > .card > .card-body, .dxbs-gridview > .card-body, .dxbs-gridview > .card > .card-footer, .dxbs-gridview > .card-footer {
+    padding: 0 !important;
+}
+
+.bc-height-35{
+    height: 35px;
+}
+.bc-height-50 {
+    height: 10% !important;
+}
+
+.caption-dxform{
+    font-weight : inherit !important;
+}
+
+.dxbs-fl .dxbs-fl-gd {
+    margin-bottom: 0 !important;
+}
+
+.dxbs-fl .dxbs-fl-gd, .dxbs-fl .dxbs-fl-gt {
+    margin-top: 0 !important;
+}
+
+.bc-dxform-border-bottom-none{
+    width: 100%;
+    height: 100%;
+    padding: 0 !important;
+}
+.bc-dxform-border-bottom-none .row .dxbs-fl-group.dxbs-fl-gd.col-xl-12.col-lg-12.col-md-12.col-sm-12.col-12{
+    padding : 0 !important;
+}
+
+.bc-dxform-border-bottom-none .row .dxbs-fl-group.dxbs-fl-gd.col-xl-12.col-lg-12.col-md-12.col-sm-12.col-12 .card {
+    border: none !important;
+}
+
+.dxbs-fl-group.col-xl-12.col-lg-12.col-md-12.col-sm-12.col-12 {
+    padding : 0 1rem 0 0 !important;
+}
+
+.col-xl-6.col-lg-6.col-md-6.col-sm-6.col-6.useseparator .form-group {
+    margin-top: .2rem !important;
+}
+
+dxbl-popup-dialog.modal-dialog.dxbs-popup.dxbs-popup-adaptivity.DeletePopup > div.modal-content.dxbs-modal-content {
+    height: 175px !important;
+}
+
+dxbl-popup-dialog.modal-dialog.dxbs-popup.dxbs-popup-adaptivity.create-dimension > div.modal-content.dxbs-modal-content {
+    height: 400px !important;
+}
+
+.bc-h-5 {
+    height: 5%;
+}
+
+.bc-h-10 {
+    height: 10%;
+}
+
+.bc-h-15
+{
+    height: 15%;
+}
+
+.bc-h-20 {
+    height: 20%;
+}
+
+.bc-w-15 {
+    width: 15%;
+}
+
+.bc-w-20 {
+    width: 20%;
+}
+
+.bc-h-30 {
+    height: 30%;
+}
+
+.bc-h-40 {
+    height: 40%;
+}
+
+.bc-h-45 {
+    height: 45%;
+}
+
+.bc-h-55 {
+    height: 55%;
+}
+
+.bc-h-60 {
+    height: 60%;
+}
+
+.bc-h-70 {
+    height: 70%;
+}
+
+.bc-h-75 {
+    height: 75%;
+}
+
+.bc-h-80 {
+    height: 80%;
+}
+
+.bc-h-90 {
+    height: 90%;
+}
+.bc-h-95 {
+    height: 95%;
+}
+.bc-height-35 {
+    height: 35px;
+}
+
+.bc-w-85{
+    width:85% !important;
+}
+
+.bc-w-80{
+    width:80% !important;
+}
+
+.bc-w-75{
+    width:75% !important;
+}
+
+.bc-w-60{
+    width:60% !important;
+}
+
+.bc-mw-60{
+    min-width:60% !important;
+}
+
+.bc-pad-1 {
+    padding: 1% !important;
+}
+
+/*** Ajouté à cause d'un bug de hauteur des combobox ds DevExpress 21.2.4 ***/
+.input-group-sm > .form-control:not(textarea), .input-group-sm > .custom-select {
+    height: inherit !important;
+}
+
+.dxbs-checkbox.valid.modified .custom-control-input ~ .custom-control-label::before {
+    border-color: #4f81bd !important;
+    background-color: #4f81bd !important;
+}
+
+.bc-headerpopup-style {
+    height: var(--bc-header-height) !important;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.bc-body-treeview {
+    min-height: 160px !important;
+    max-height: 160px !important;
+    border-bottom: none !important;
+}
+
+.bc-footer-treeview {
+    min-height: 40px !important;
+    max-height: 40px !important;
+}
+
+.bc-grid-col-edit-label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-left: 12px !important;
+}
+
+.white-space-nowrap {
+    white-space: nowrap !important;
+}
+
+.bc-grid-col-edit-field {
+    margin-left: 12px !important;
+}
+
+
+.bc-tab-h-100 {
+    height: 100% !important;
+}
+
+.bc-tab-h-100 + .dx-tabs-content-panel {
+    height: 100% !important;
+}
+
+.bc-pivote-h-100 {
+}
+
+.bc-pivote-h-100  .table {
+    height: 100% !important;
+}
+
+.bc-pivote-h-100 .table tbody tr th, .bc-pivote-h-100 .table tbody tr td {
+    height: auto !important;
+}
+
+.min-w-1100 {
+    min-width: 1100px;
+}
+
+.min-w-600 {
+    min-width: 600px !important;
+}
+
+.min-w-300 {
+    min-width: 300px !important;
+}
+
+.min-w-250 {
+    min-width: 250px !important;
+}
+
+.min-w-200 {
+    min-width: 200px !important;
+}
+
+.min-w-160 {
+    min-width: 160px !important;
+}
+
+.min-w-150 {
+    min-width: 150px !important;
+}
+
+.min-w-120 {
+    min-width: 120px !important;
+}
+
+.min-w-100 {
+    min-width: 100px !important;
+}
+
+.min-w-82 {
+    min-width: 82px !important;
+}
+
+.min-w-64 {
+    min-width: 64px !important;
+}
+
+.min-w-60 {
+    min-width: 60px !important;
+}
+
+.min-w-50 {
+    min-width: 50px !important;
+}
+
+.min-w-40 {
+    min-width: 40px !important;
+}
+.min-w-30 {
+    min-width: 30px !important;
+}
+
+.bc-w-20 {
+    /*border: 1px solid green !important;*/
+    width: 20% !important;
+}
+
+.bc-45 {
+    /*border: 1px solid green !important;*/
+    width: 45% !important;
+}
+.bc-45 .dxbs-menu-item-tmpl{
+    width: 100% !important;
+}   
+.tab-page {
+    min-width: 150px !important;
+    text-align: center !important;
+}
+.bc-btn-pointer{
+    cursor : pointer !important;
+}
+
+.m-e {
+    /*color:#ffa400;*/
+    color: #994500;
+}
+.m-a {
+    /*color: #0026ff;*/
+    color: #1A1AA8;
+}
+
+.bc-textarea {
+    outline: none;
+    border: none;
+    resize: none;
+}
+[contenteditable] {
+    outline: 0px solid transparent;
+}
+.bc-box-sizing {
+    box-sizing: border-box;
+}
+
+.fontsizedropdown.dxbs-toolbar-dropdown {
+    min-width: 5rem !important;
+    max-width: 5rem !important;
+}
+
+.h-90 {
+    height: 90% !important;
+}
+
+.h-95 {
+    height: 95% !important;
+}
+
+
+.text-combo-style .dxbs-listbox {
+    font-size: 10px !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 500 !important;
+}
+
+.bi.bi-pause {
+    transform: rotate(90deg) !important;
+}
+
+
+.browser-toolbar-filter {
+    width: 100% !important;
+}
+
+.browser-toolbar-filter .btn-group.dxbs-toolbar-group.block-g.dxbs-tb-begin-group {
+    width: 100% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+.browser-toolbar-item-filter {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+.browser-toolbar-item-filter > span {
+    width: 100% !important;
+}
+
+.bc-dc {
+    display: contents;
+}
+
+.fs-sm {
+    font-size: 0.8125rem !important;
+}
+
+.customlistbox-min-height{
+    min-height: 50px !important;
+    overflow:auto !important;
+}
+
+.min-h-100{
+    min-height: 100px !important;
+}
+
+.min-h-50{
+    min-height: 50px !important;
+}
+
+.created-dimension{
+    min-height: 22% !important;
+    max-height : 65% !important;
+}
+

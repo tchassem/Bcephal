@@ -1,0 +1,52 @@
+﻿<CardComponent CanDisplayHeader="true" Header=HeaderRender CardCssClass="card" HeaderCssClass="bc-header-2 card-header pt-1">
+    @Bodyrender
+</CardComponent>
+
+@code{
+
+    private RenderFragment Bodyrender => __builder =>
+     {
+    @if (EditorData != null)
+        {
+        <CardComponent  CanDisplayHeader="true" HeaderCssClass="mt-1 mb-2 w-25" >
+            <Header>
+                <DxStackLayout style="height:100%" Orientation="IsSmallScreen ? Orientation.Vertical : Orientation.Horizontal" ItemSpacing="5px">
+                    <Items>
+                        <DxStackLayoutItem CssClass="px-1" Length="1fr">
+                            <Template>
+                                <DxComboBox Data=GetEditorData().Grids TData="SmartGrille" TValue="SmartGrille" TextFieldName="Name"
+                                            NullText="@AppState["SelectGrid"]" @bind-Value="Item" />
+                            </Template>
+                        </DxStackLayoutItem>
+                    </Items>
+                </DxStackLayout>
+            </Header>
+            <ChildContent>
+                <CustomListBox Editable=Editable Data=@Items
+                               HeaderTitle=""
+                               @bind-Values=SelectedValues
+                               showContextMenu="showContextMenu"
+                               TData="JoinGrid"
+                               TValue="JoinGrid"
+                               FieldName="@nameof(JoinGrid.Name)" 
+                               CssClass="h-100 border-0"/>
+                <DxContextMenu CssClass="DxContextMenuCss" @ref="@ContextMenu" ItemClick="OnItemClick">
+                    <Items>
+                        <DxContextMenuItem IconCssClass="ml-1 bi-align-top" Text="@AppState["Move.start"]" />
+                        <DxContextMenuItem IconCssClass="ml-1 bi-arrow-up" Text="@AppState["Move.up.upper"]" />
+                        <DxContextMenuItem IconCssClass="ml-1 bi-arrow-up-short" Text="@AppState["Move.up"]" />
+                        <DxContextMenuItem IconCssClass="ml-1 bi-arrow-down-short" Text="@AppState["Move.down"]" />
+                        <DxContextMenuItem IconCssClass="ml-1 bi-arrow-down" Text="@AppState["Move.down.upper"]" />
+                        <DxContextMenuItem IconCssClass="ml-1 bi-align-bottom" Text="@AppState["Move.end"]" />
+                        <DxContextMenuItem IconCssClass="ml-1 bi-x" Text="@AppState["Delete"]" />
+                    </Items>
+                </DxContextMenu>
+            </ChildContent>            
+        </CardComponent>
+        }
+    };
+   private RenderFragment HeaderRender => __builder =>
+   { 
+       <span>@AppState["join.grid.title"]</span>
+   };
+}

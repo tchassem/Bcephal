@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bcephal-reporting-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bcephal-reporting-service
+    
+  template:
+    metadata:
+      labels:
+        app: bcephal-reporting-service
+    spec:
+      volumes:
+      - name: bcephal-reporting-repository
+        hostPath:
+          path: /opt/bcephal-reporting-repository
+      containers:
+      - name: bcephal-reporting-service
+        image: localhost:5000/becphal-reporting-service-docker-image
+        volumeMounts:
+        - name: bcephal-reporting-repository
+          mountPath: /opt/bcephal-reporting-repository
+
+        ports:
+        - containerPort: 32011 
+        
+        
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: bcephal-reporting-service
+spec:
+  selector:
+    app: bcephal-reporting-service
+  type: NodePort
+  ports:  
+    - name: http
+      nodePort: 32011
+      port: 32011
+      targetPort: 32011
+      protocol: TCP
+   
+  
+  
+
+
+  
+

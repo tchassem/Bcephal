@@ -1,0 +1,288 @@
+﻿@typeparam T
+ 
+<DxLayoutBreakpoint DeviceSize="DeviceSize.Medium | DeviceSize.Small | DeviceSize.XSmall" @bind-IsActive="IsSmallScreen" />
+<DxStackLayout style="overflow-x:hidden!important;" ItemSpacing="5px" Orientation="Orientation.Vertical">
+    <Items>
+        <DxStackLayoutItem CssClass="mt-2" Length="auto">
+            <Template>
+                <DxGridLayout CssClass="ml-2" ColumnSpacing="0px">
+                    <Rows>
+                        <DxGridLayoutRow Height="auto" />
+                        @if (DisplayGroup)
+                        {
+
+                            <DxGridLayoutRow Height="auto" />
+                        }
+                        @if (DisplayVisibleInShortcut)
+                        {
+                            <DxGridLayoutRow Height="auto" />
+                        }
+                    </Rows>
+                    <Columns>
+                        <DxGridLayoutColumn />
+                    </Columns>
+                    <Items>
+                        <DxGridLayoutItem CssClass="mt-1 mb-1" Row="0" Column="0">
+                            <Template>
+                                <DxGridLayout ColumnSpacing="0px">
+                                    <Rows>
+                                        @if (IsSmallScreen)
+                                        {
+                                            <DxGridLayoutRow Areas="Name" Height="auto" />
+                                            <DxGridLayoutRow Areas="NameValue" Height="auto" />
+                                        }
+                                        else
+                                        {
+                                            <DxGridLayoutRow Areas="Name NameValue " Height="auto" />
+                                        }
+                                    </Rows>
+                                    <Columns>
+                                        @if (IsSmallScreen)
+                                        {
+                                            <DxGridLayoutColumn />
+                                        }
+                                        else
+                                        {
+                                            <DxGridLayoutColumn Width=@LabelWidth />
+                                            <DxGridLayoutColumn Width=@TextWidth />
+                                        }
+
+                                    </Columns>
+                                    <Items>
+                                        <DxGridLayoutItem CssClass="@(IsSmallScreen ? "" : labelLg)" Area="Name">
+                                            <Template>
+                                                @AppState["Name"]
+                                            </Template>
+                                        </DxGridLayoutItem>
+                                        <DxGridLayoutItem Area="NameValue" CssClass="w-100">
+                                            <Template>                                              
+                                                <DxTextBox ReadOnly=!Editable InputCssClass="widpercent-80" @bind-Text="@Name" BindValueMode="BindValueMode.OnInput"></DxTextBox>
+                                            </Template>
+                                        </DxGridLayoutItem>
+                                    </Items>
+                                </DxGridLayout>
+                            </Template>
+
+                        </DxGridLayoutItem>
+
+                        @if (DisplayGroup)
+                        {
+                            @DisplayGroupContent()
+                        }
+
+                        @if (DisplayVisibleInShortcut)
+                        {
+                            @DisplayVisibleInShortcutContent()
+                        }
+                    </Items>
+                </DxGridLayout>
+            </Template>
+
+        </DxStackLayoutItem>
+        @if (ChildContent != null)
+        {
+            <DxStackLayoutItem Length="auto">
+                <Template>
+                    @if (ChildContent != null)
+                    {
+                        @ChildContent(this)
+                    }
+                </Template>
+            </DxStackLayoutItem>
+        }
+    </Items>
+</DxStackLayout>
+
+
+
+
+
+@if (popup && newBgroup != null)
+{
+    <DxPopup CloseOnOutsideClick="false"
+             CloseOnEscape="false" ShowFooter="true"
+             CssClass="custom-popup"
+             HeaderCssClass="font-weight-light"
+             HeaderText="@AppState["Group.add.title"]"
+             @bind-Visible=popup>
+        <Content>
+            @{
+                IDictionary<string, object> Attrib = new Dictionary<string, object>()
+                                {
+                                        {"required" ,"true"},
+                                    };
+            }
+
+            <DxFormLayout CssClass="d-flex flex-column">
+                <DxFormLayoutItem CssClass="w-100 pl-0" Caption="@AppState["Group"]" CaptionCssClass="font-weight-normal" ColSpanMd=12 ColSpanLg=12 ColSpanSm=12>
+
+                    <Template Context="two">
+                        <DxTextBox CssClass="bc-texbox wid-200" @bind-Text=newBgroupName BindValueMode="BindValueMode.OnInput" NullText="..."
+                                   @attributes="Attrib">
+                        </DxTextBox>
+                    </Template>
+
+                </DxFormLayoutItem>
+            </DxFormLayout>
+
+        </Content>
+        <FooterContentTemplate>
+            <div class="d-flex flex-column w-100 h-auto">
+                <div class="flex-fill mr-auto ml-auto mt-auto mb-auto">
+                    <span class="text-center" style="color:red;">@ProjectService.ErrorMessage</span>
+                </div>
+                <div class="d-flex flex-row">
+
+                    <DxButton CssClass="mr-1 ml-auto popup-button" IconCssClass="oi oi-hard-drive pr-1" RenderStyle="ButtonRenderStyle.Primary"
+                              @bind-Enabled=EnablePopup @bind-Text=LoadingText @onclick="(() => addGroup(newBgroup))" />
+                    <DxButton CssClass="mr-auto ml-1 popup-button" IconCssClass="oi oi-delete pr-1" RenderStyle="ButtonRenderStyle.Danger" Text="@AppState["Close"]"
+                              @onclick="(() => { popup = false;})" />
+                </div>
+            </div>
+
+        </FooterContentTemplate>
+    </DxPopup>
+}
+
+
+
+@code{
+
+    string labelLg = Constant.LABELLG;
+    string labelSm = Constant.LABELSM;
+
+    RenderFragment AddRow()
+    {
+        RenderFragment RenderWidget = __builder =>
+        {
+        <DxGridLayoutRow />
+        };
+        return RenderWidget;
+    }
+
+    RenderFragment DisplayGroupContent()
+    {
+        RenderFragment RenderWidget = __builder =>
+        {
+        <DxGridLayoutItem CssClass="mt-1 mb-1" Row="1" Column="0">
+            <Template>
+                <DxGridLayout>
+                    <Rows>
+                        @if (IsSmallScreen)
+                            {
+                            <DxGridLayoutRow Areas="Group" />
+                            <DxGridLayoutRow Areas="GroupValue" />
+                            }
+                            else
+                            {
+                            <DxGridLayoutRow Areas="Group GroupValue" />
+                            }
+
+                    </Rows>
+                    <Columns>
+                        @if (IsSmallScreen)
+                            {
+                            <DxGridLayoutColumn />
+                            }
+                            else
+                            {
+                            <DxGridLayoutColumn Width=@LabelWidth />
+                            <DxGridLayoutColumn Width=@TextWidth />
+                            }
+
+                    </Columns>
+                    <Items>
+                        <DxGridLayoutItem CssClass="@(IsSmallScreen ? "" : labelLg)" Area="Group">
+                            <Template>
+                                @AppState["Group"]
+                            </Template>
+
+                        </DxGridLayoutItem>
+
+                        <DxGridLayoutItem Area="GroupValue">
+                            <Template>
+                                <DxGridLayout RowSpacing="0px" ColumnSpacing="5px">
+                                    <Rows>
+                                        <DxGridLayoutRow />
+                                    </Rows>
+                                    <Columns>
+                                        <DxGridLayoutColumn Width="80%" />
+                                        <DxGridLayoutColumn Width="20%" />
+                                    </Columns>
+                                    <Items>
+                                        <DxGridLayoutItem Row="0" Column="0">
+                                            <Template>
+                                                <DxComboBox Enabled=Editable CssClass="w-100" DataAsync="BGroups_"    TData="BrowserData"
+                                                            TValue="BrowserData" @bind-Value="group"></DxComboBox>
+                                            </Template>
+                                        </DxGridLayoutItem>
+                                        <DxGridLayoutItem Row="0" Column="1">
+                                            <Template>
+                                                <DxButton Enabled=Editable SizeMode="DevExpress.Blazor.SizeMode.Small" IconCssClass="fa fa-plus" Click="(() => { showPopup(); })"> </DxButton>
+                                            </Template>
+                                        </DxGridLayoutItem>
+                                    </Items>
+                                </DxGridLayout>
+                            </Template>
+                        </DxGridLayoutItem>
+                    </Items>
+                </DxGridLayout>
+            </Template>
+        </DxGridLayoutItem>
+        };
+        return RenderWidget;
+    }
+
+
+    RenderFragment DisplayVisibleInShortcutContent()
+    {
+        RenderFragment RenderWidget = __builder =>
+        {
+        <DxGridLayoutItem CssClass="mt-1 mb-1" Row="2" Column="0">
+            <Template>
+                <DxGridLayout>
+                    <Rows>
+                        @if (IsSmallScreen)
+                            {
+                            <DxGridLayoutRow Areas="VisibleInShorcutValue" />
+                            }
+                            else
+                            {
+                            <DxGridLayoutRow Areas="VisibleInShorcut VisibleInShorcutValue" />
+                            }
+
+                    </Rows>
+                    <Columns>
+                        @if (IsSmallScreen)
+                            {
+                            <DxGridLayoutColumn />
+                            }
+                            else
+                            {
+                            <DxGridLayoutColumn Width=@LabelWidth />
+                            <DxGridLayoutColumn Width=@TextWidth />
+                            }
+
+                    </Columns>
+                    <Items>
+                        @if (!IsSmallScreen)
+                            {
+                            <DxGridLayoutItem Area="VisibleInShorcut" />
+                            }
+                        <DxGridLayoutItem Area="VisibleInShorcutValue">
+                            <Template>
+                                <DxCheckBox Enabled=Editable  @bind-Checked="@VisibleInShortcut"
+                                            Alignment="CheckBoxContentAlignment.Left">
+                                    @AppState["VisibleInShortcut"]
+                                </DxCheckBox>
+                            </Template>
+                        </DxGridLayoutItem>
+                    </Items>
+                </DxGridLayout>
+            </Template>
+        </DxGridLayoutItem>
+        };
+        return RenderWidget;
+    }
+
+}

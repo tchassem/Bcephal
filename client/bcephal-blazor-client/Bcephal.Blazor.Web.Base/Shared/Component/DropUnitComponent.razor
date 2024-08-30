@@ -1,0 +1,195 @@
+﻿
+<div class="card flex-grow-1" style="margin:2px 2px 2px 2px; width:@Width; display:block; overflow:auto;">
+    <div class="card-header p-0 d-inline-flex" style="height:20px;width:100%;">
+        <span class="ml-auto mt-auto mb-auto" style="margin-right:5px;" @onclick="() => Properties = true"><i class="bi bi-pencil-square mt-auto mb-auto"></i></span>
+    </div>
+
+    <div id="@Index" class="card-body ml-1 can-drop d-block p-0 overflowy-bc" style="width:100%;" dropzone="true" @ondrop="@((DragEventArgs e ) => drop(e))" @ondragover="@(() => TalkToPreventDefault())">
+        <ul class="liststylenone ml-1 p-0" dropzone="true">
+            @{
+                var leng = DragElements.Count();
+                int ofset = 0;
+
+                @while (ofset < leng)
+                {
+                    <li>@DragElements.ElementAt(ofset)</li>
+                    ofset++;
+                }
+
+            }
+        </ul>
+
+    </div>
+</div>
+
+<DxPopup ShowCloseButton="false" HeaderText="@AppState["Properties"]" @bind-Visible="@Properties">
+    <Content>
+        <DxFormLayout>
+            <DxFormLayoutItem CssClass="ml-auto" BeginRow="true" ColSpanLg="12" ColSpanSm="12" ColSpanXl="12" ColSpanXs="12" ColSpanMd="12">
+                <Template>
+                    <div class="d-flex flex-row">
+                        <DxCheckBox CssClass="flex-grow-2" Checked="@ShowBox"></DxCheckBox>
+                        <label class="flex-grow-1 ml-1">@AppState["ShowBox"]</label>
+                    </div>
+                </Template>
+            </DxFormLayoutItem>
+            <DxFormLayoutItem BeginRow="true" ColSpanLg="12" ColSpanSm="12" ColSpanXl="12" ColSpanXs="12" ColSpanMd="12">
+                <Template>
+                    <div class="d-flex flex-row">
+                        <label class="flex-grow-2 ">@AppState["Title"]</label>
+                        <DxTextBox CssClass="flex-grow-1 ml-1" @bind-Text="@Title"></DxTextBox>
+                    </div>
+
+                </Template>
+            </DxFormLayoutItem>
+            <DxFormLayoutItem BeginRow="true" ColSpanLg="12" ColSpanMd="12" ColSpanSm="12" ColSpanXl="12" ColSpanXs="12">
+                <Template>
+                    <div class="d-flex flex-row">
+                        <DxCheckBox CssClass="flex-grow-2" Checked="@ShowTitleBar"></DxCheckBox>
+                        <label class="flex-grow-1 ml-1">@AppState["ShowTitleBar"]</label>
+                    </div>
+                </Template>
+            </DxFormLayoutItem>
+            <DxFormLayoutItem BeginRow="true" ColSpanLg="12" ColSpanMd="12" ColSpanSm="12" ColSpanXl="12" ColSpanXs="12">
+                <Template>
+                    <div class="d-flex flex-row">
+                        <label class="flex-grow-2">@AppState["Background"]</label>
+                        <DxTextBox CssClass="flex-grow-1 ml-1" @bind-Text="@Title"></DxTextBox>
+                    </div>
+
+                </Template>
+            </DxFormLayoutItem>
+            <DxFormLayoutItem BeginRow="true" ColSpanLg="12" ColSpanMd="12" ColSpanSm="12" ColSpanXl="12" ColSpanXs="12">
+                <Template>
+                    <div class="d-flex flex-row">
+                        <label class="flex-grow-2">@AppState["Foreground"]</label>
+                        <DxTextBox CssClass="flex-grow-1 ml-1" @bind-Text="@Title"></DxTextBox>
+                    </div>
+                </Template>
+            </DxFormLayoutItem>
+
+            <DxFormLayoutItem BeginRow="true" ColSpanLg="12" ColSpanMd="12">
+                <Template>
+                    <div class="d-flex flex-row">
+                        <label class="flex-grow-2">@AppState["Width"]</label>
+                        <DxSpinEdit Value="@width" ValueChanged="@((int newValue) => OnValueChanged(newValue))" CssClass="flex-grow-2 ml-1" MinValue="50" MaxValue="100"></DxSpinEdit>
+                        <label class="flex-grow-2 ml-1">%</label>
+                    </div>
+                </Template>
+            </DxFormLayoutItem>
+
+            <DxFormLayoutItem BeginRow="true" ColSpanLg="12" ColSpanMd="12">
+                <Template>
+                    <div class="d-block p-1">
+                        <DxButton CssClass="ml-auto mr-auto" RenderStyle="ButtonRenderStyle.Primary"
+                                  Text="@AppState["Ok"]" @onclick="@(() => Update())" />
+                        <DxButton CssClass="mr-auto ml-auto" RenderStyle="ButtonRenderStyle.Primary"
+                                  Text="@AppState["Cancel"]" @onclick="() => Properties = false" />
+                    </div>
+
+                </Template>
+            </DxFormLayoutItem>
+
+
+        </DxFormLayout>
+
+
+    </Content>
+
+</DxPopup>
+
+@code {
+
+    [Inject]
+    private AppState AppState { get; set; }
+
+    int width = 0;
+
+    string Ddwidth_;
+
+    bool Properties { get; set; }
+
+    bool ShowBox { get; set; }
+
+    bool ShowTitleBar { get; set; }
+
+    string Title { get; set; }
+
+
+    [Parameter]
+    public string Width { get; set; }
+
+    [Parameter]
+    public EventCallback<string> WidthChanged { get; set; }
+
+    [Parameter]
+    public string DdWidth { get; set; }
+
+    [Parameter]
+    public EventCallback<string> DdWidthChanged { get; set; }
+
+
+    [Parameter]
+    public int Index { get; set; }
+
+    [Parameter]
+    public EventCallback<int> IndexChanged { get; set; }
+
+    [Parameter]
+
+    public int IdDropContainer { get; set; }
+
+    [Parameter]
+    public string SelectItemNode { get; set; }
+
+    [Inject] IJSRuntime JSRuntime { get; set; }
+
+    [Parameter]
+    public EventCallback<string> SelectItemNodeChanged { get; set; }
+
+
+    public List<string> DragElements { get; set; } = new List<string>();
+
+
+    public async void TalkToPreventDefault()
+    {
+
+
+        await JSRuntime.InvokeVoidAsync("TalkToPreventDefault");
+
+    }
+
+    public async void drop(DragEventArgs e)
+    {
+
+        if (!string.IsNullOrEmpty(SelectItemNode) && !DragElements.Contains(SelectItemNode))
+
+        {
+            DragElements.Add(SelectItemNode);
+
+        }
+
+        await InvokeAsync(StateHasChanged);
+    }
+
+
+    public void Update()
+    {
+        Properties = false;
+
+    }
+
+
+    void OnValueChanged(int newValue)
+    {
+        Console.WriteLine("newValue ::" + newValue);
+
+        Width = newValue.ToString() + "%";
+
+        DdWidth = Width;
+        WidthChanged.InvokeAsync(DdWidth);
+        DdWidthChanged.InvokeAsync(DdWidth);
+        StateHasChanged();
+
+    }
+}

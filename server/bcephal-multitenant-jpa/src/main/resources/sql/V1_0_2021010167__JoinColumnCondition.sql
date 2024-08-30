@@ -1,0 +1,27 @@
+CREATE TABLE IF NOT EXISTS BCP_JOIN_COLUMN_CONDITION_ITEM(
+	id BIGINT not null,
+	propertiesId BIGINT,
+	dimensionType VARCHAR(25),
+	position INTEGER,
+	thenField BIGINT,
+	PRIMARY KEY (id)
+);
+CREATE SEQUENCE IF NOT EXISTS join_column_condition_seq START WITH 1 INCREMENT BY 1;
+
+CREATE TABLE IF NOT EXISTS BCP_JOIN_COLUMN_CONDITION_ITEM_OPERAND(
+	id BIGINT not null,
+	itemId BIGINT,
+	position INTEGER,
+	openingBracket VARCHAR(25),
+	closingBracket VARCHAR(25),	
+	dimensionType VARCHAR(25),
+	verb VARCHAR(25),
+	comparator VARCHAR(25),	
+	field1 BIGINT,
+	field2 BIGINT,	
+	PRIMARY KEY (id)
+);
+CREATE SEQUENCE IF NOT EXISTS join_column_condition_operand_seq START WITH 1 INCREMENT BY 1;
+
+
+ALTER TABLE BCP_SCHEDULER_PLANNER_ITEM ADD COLUMN IF NOT EXISTS repository TEXT;

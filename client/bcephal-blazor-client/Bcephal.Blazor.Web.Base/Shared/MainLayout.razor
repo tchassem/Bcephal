@@ -1,0 +1,88 @@
+﻿@inherits LayoutComponentBase
+
+<RenderFormContent @ref="RenderFormContentRefToasts">
+    <BlazoredToasts Position="ToastPosition.TopCenter"
+                    Timeout="3"
+                    IconType="IconType.FontAwesome"
+                    SuccessClass="success-toast-override"
+                    SuccessIcon="fa fa-check"
+                    ErrorIcon="fa fa-bug" />
+</RenderFormContent>
+    
+
+    <DxGridLayout CssClass="vh-100 vw-100" @key="@RenderFormContentRefKey">
+        <Rows>
+            <DxGridLayoutRow Areas="header" Height="var(--bc-home-header-height)" />
+            <DxGridLayoutRow Areas="MainContent" />
+            <DxGridLayoutRow Areas="footer" Height="var(--bc-home-footer-height)" />
+        </Rows>
+        <Columns>
+            <DxGridLayoutColumn Width="100%" />
+        </Columns>
+        <Items>
+            <DxGridLayoutItem CssClass="bc-home-header-height" Area="header">
+                <Template>
+                    <div class="d-flex flex-column bc-home-header-height bc-background-header" style="width:100vw !important;box-sizing:border-box !important;">
+                        @try
+                        {
+                        <CustomNavMenuFinal ClosedItem="@_AppState.IsOpenProject" />
+                        }
+                        catch (Exception e)
+                        {
+                            Error.ProcessError(e);
+                        }                        
+                    </div>
+                </Template>
+            </DxGridLayoutItem>
+            <DxGridLayoutItem Area="MainContent" CssClass="h-100">
+                <Template>
+                    <RenderFormContent @ref="RenderFormContentRefBody">
+                        <DxGridLayout>
+                            <Rows>
+                                <DxGridLayoutRow Visible="@((!String.IsNullOrEmpty(_AppState.ProjectName) || _AppState.IsProjectBrowser || _AppState.IsOtherFreeView) && !_AppState.CanRenderDashboard)" Areas="ToolBar " Height="var(--bc-home-toolbar-height)" />
+                                <DxGridLayoutRow Areas="content" />
+                            </Rows>
+                            <Columns>
+                                <DxGridLayoutColumn />
+                            </Columns>
+                            <Items>
+                                <DxGridLayoutItem Visible="@((!String.IsNullOrEmpty(_AppState.ProjectName) || _AppState.IsProjectBrowser || _AppState.IsOtherFreeView) && !_AppState.CanRenderDashboard)" Area="ToolBar" CssClass="mt-auto mb-auto bc-home-toolbar-height">
+                                    <Template>
+                                        @try
+                                        {
+                                            <Bcephal.Blazor.Web.Base.Shared.ToolBar />
+                                        }
+                                        catch (Exception e)
+                                        {
+                                            Error.ProcessError(e);
+                                        }
+                                    </Template>
+                                </DxGridLayoutItem>
+                                <DxGridLayoutItem Area="content">
+                                    <Template>
+                                        <div class="m-0 p-0 @(!_AppState.IsOtherFreeView && _AppState.CanRenderDashboard ? "bc-home-dashboard" : "content-bc")">
+                                            @try
+                                            {
+                                                @Body
+                                            }
+                                            catch(Exception e)
+                                            {
+                                                Error.ProcessError(e);
+                                            }
+                                        </div>
+                                    </Template>
+                                </DxGridLayoutItem>
+                            </Items>
+                        </DxGridLayout>
+                    </RenderFormContent>
+                </Template>
+            </DxGridLayoutItem>
+            <DxGridLayoutItem Area="footer">
+                <Template>
+                    <div class="bc-footer-background w-100 h-100 bc-box-sizing">
+                        <Footer />
+                    </div>
+                </Template>
+            </DxGridLayoutItem>
+        </Items>
+    </DxGridLayout>

@@ -1,0 +1,430 @@
+﻿
+<DxGridLayout CssClass="w-100" ColumnSpacing="2px" RowSpacing="2px">
+    <Rows>
+        <DxGridLayoutRow />
+
+    </Rows>
+
+    <Columns>
+        <DxGridLayoutColumn />
+    </Columns>
+
+    <Items>
+        <DxGridLayoutItem>
+            <Template>
+                <DxStackLayout Orientation="Orientation.Vertical" CssClass="h-100">
+                    <Items>
+                        <DxStackLayoutItem Length="40px">
+                            <Template>
+                                <NavLink @onclick="@(() => CreateAutomatically())"
+                                         class="nav-link pl-0 mt-1"
+                                         href="settings/configuration">
+                                    <span class="@((RolesParameters == null || RolesParameters.Values.Count == 0 ) ? "create-auto-active" : "create-auto-inactive")" aria-hidden="true"> @AppState["CreateAutomatically"]</span>
+                                </NavLink>
+                            </Template>
+                        </DxStackLayoutItem>
+
+                        <DxStackLayoutItem CssClass="overflow-y-auto d-block">
+                            <Template>
+                                <ConfigBillingRolesAdresseForm @bind-City="City"
+                                                               @bind-Country="Country"
+                                                               @bind-DefaultLanguage="DefaultLanguage"
+                                                               @bind-Email="Email"
+                                                               @bind-LegalForm="LegalForm"
+                                                               @bind-Phone="Phone"
+                                                               @bind-PostalCode="PostalCode"
+                                                               @bind-StreetNumberBox="StreetNumberBox"
+                                                               @bind-VatNumber="VatNumber"
+                                                               @bind-Attributes="Attributes"
+                                                               UpdateDictonary="@UpdateParameter">
+                                </ConfigBillingRolesAdresseForm>
+                            </Template>
+                        </DxStackLayoutItem>
+                        <DxStackLayoutItem>
+                            <Template>
+                                <ConfigBillingRolesClientCompany @bind-ClientId="ClientId"
+                                                                 @bind-ClientName="ClientName"
+                                                                 @bind-ClientContact="ClientContact"
+                                                                 @bind-DepartmentName="DepartmentName"
+                                                                 @bind-DepartmentNumber="DepartmentNumber"
+                                                                 @bind-BillingCompanyId="BillingCompanyId"
+                                                                 @bind-BillingCompanyName="BillingCompanyName"
+                                                                 @bind-Attributes="Attributes"
+                                                                 UpdateDictonary="@UpdateParameter">
+                                </ConfigBillingRolesClientCompany>
+
+                            </Template>
+                        </DxStackLayoutItem>
+                    </Items>
+                </DxStackLayout>
+            </Template>
+        </DxGridLayoutItem>
+    </Items>
+
+</DxGridLayout>
+
+
+@code {
+    int ActiveTabIndex { get; set; } = 0;
+
+    [Inject]
+    private AppState AppState { get; set; }
+
+    [Parameter]
+    public Dictionary<string, string> RolesParameters { get; set; }
+
+    [Parameter]
+    public EventCallback<Dictionary<string, string>> RolesParametersChanged { get; set; }
+
+    [Parameter]
+    public ObservableCollection<string> Attributes { get; set; } // To change
+
+    [Parameter]
+    public EventCallback<ObservableCollection<string>> AttributesChanged { get; set; }
+
+
+    public string DefaultLanguage
+    {
+        get
+        {
+            RolesParameters.TryGetValue("DefaultLanguage", out string value);
+            return value;
+        }
+        set
+        {
+            RolesParameters.Remove("DefaultLanguage");
+            RolesParameters.Add("DefaultLanguage", value);
+            if (!String.IsNullOrEmpty(value))
+            {
+                AppState.Update = true;
+            }
+        }
+    }
+
+
+    public string LegalForm
+    {
+        get
+        {
+            RolesParameters.TryGetValue("LegalForm", out string value);
+            return value;
+        }
+        set
+        {
+            RolesParameters.Remove("LegalForm");
+            RolesParameters.Add("LegalForm", value);
+            if (!String.IsNullOrEmpty(value))
+            {
+                AppState.Update = true;
+            }
+        }
+    }
+
+
+    public string Phone
+    {
+        get
+        {
+            RolesParameters.TryGetValue("Phone", out string value);
+            return value;
+        }
+        set
+        {
+            RolesParameters.Remove("Phone");
+            RolesParameters.Add("Phone", value);
+            if (!String.IsNullOrEmpty(value))
+            {
+                AppState.Update = true;
+            }
+        }
+    }
+
+
+    public string Email
+    {
+        get
+        {
+            RolesParameters.TryGetValue("Email", out string value);
+            return value;
+        }
+        set
+        {
+            RolesParameters.Remove("Email");
+            RolesParameters.Add("Email", value);
+            if (!String.IsNullOrEmpty(value))
+            {
+                AppState.Update = true;
+            }
+        }
+    }
+
+
+    public string StreetNumberBox
+    {
+        get
+        {
+            RolesParameters.TryGetValue("StreetNumberBox", out string value);
+            return value;
+        }
+        set
+        {
+            RolesParameters.Remove("StreetNumberBox");
+            RolesParameters.Add("StreetNumberBox", value);
+            if (!String.IsNullOrEmpty(value))
+            {
+                AppState.Update = true;
+            }
+        }
+    }
+
+
+    public string PostalCode
+    {
+        get
+        {
+            RolesParameters.TryGetValue("PostalCode", out string value);
+            return value;
+        }
+        set
+        {
+            RolesParameters.Remove("PostalCode");
+            RolesParameters.Add("PostalCode", value);
+            if (!String.IsNullOrEmpty(value))
+            {
+                AppState.Update = true;
+            }
+        }
+    }
+
+
+    public string City
+    {
+        get
+        {
+            RolesParameters.TryGetValue("City", out string value);
+            return value;
+        }
+        set
+        {
+            RolesParameters.Remove("City");
+            RolesParameters.Add("City", value);
+            if (!String.IsNullOrEmpty(value))
+            {
+                AppState.Update = true;
+            }
+        }
+    }
+
+    public string Country
+    {
+        get
+        {
+            RolesParameters.TryGetValue("Country", out string value);
+            return value;
+        }
+        set
+        {
+            RolesParameters.Remove("Country");
+            RolesParameters.Add("Country", value);
+            if (!String.IsNullOrEmpty(value))
+            {
+                AppState.Update = true;
+            }
+        }
+    }
+
+
+    public string VatNumber
+    {
+        get
+        {
+            RolesParameters.TryGetValue("VatNumber", out string value);
+            return value;
+        }
+        set
+        {
+            RolesParameters.Remove("VatNumber");
+            RolesParameters.Add("VatNumber", value);
+            if (!String.IsNullOrEmpty(value))
+            {
+                AppState.Update = true;
+            }
+        }
+    }
+
+
+    public string ClientId
+    {
+        get
+        {
+            RolesParameters.TryGetValue("ClientId", out string value);
+            return value;
+        }
+        set
+        {
+            RolesParameters.Remove("ClientId");
+            RolesParameters.Add("ClientId", value);
+            if (!String.IsNullOrEmpty(value))
+            {
+                AppState.Update = true;
+            }
+        }
+    }
+
+
+    public string ClientName
+    {
+        get
+        {
+            RolesParameters.TryGetValue("ClientName", out string value);
+            return value;
+        }
+        set
+        {
+            RolesParameters.Remove("ClientName");
+            RolesParameters.Add("ClientName", value);
+            if (!String.IsNullOrEmpty(value))
+            {
+                AppState.Update = true;
+            }
+        }
+    }
+
+
+    public string BillingCompanyId
+    {
+        get
+        {
+            RolesParameters.TryGetValue("BillingCompanyId", out string value);
+            return value;
+        }
+        set
+        {
+            RolesParameters.Remove("BillingCompanyId");
+            RolesParameters.Add("BillingCompanyId", value);
+            if (!String.IsNullOrEmpty(value))
+            {
+                AppState.Update = true;
+            }
+        }
+    }
+
+
+    public string BillingCompanyName
+    {
+        get
+        {
+            RolesParameters.TryGetValue("BillingCompanyName", out string value);
+            return value;
+        }
+        set
+        {
+            RolesParameters.Remove("BillingCompanyName");
+            RolesParameters.Add("BillingCompanyName", value);
+            if (!String.IsNullOrEmpty(value))
+            {
+                AppState.Update = true;
+            }
+        }
+    }
+
+
+    public string ClientContact
+    {
+        get
+        {
+            RolesParameters.TryGetValue("ClientContact", out string value);
+            return value;
+        }
+        set
+        {
+            RolesParameters.Remove("ClientContact");
+            RolesParameters.Add("ClientContact", value);
+            if (!String.IsNullOrEmpty(value))
+            {
+                AppState.Update = true;
+            }
+        }
+    }
+
+
+    public string DepartmentNumber
+    {
+        get
+        {
+            RolesParameters.TryGetValue("DepartmentNumber", out string value);
+            return value;
+        }
+        set
+        {
+            RolesParameters.Remove("DepartmentNumber");
+            RolesParameters.Add("DepartmentNumber", value);
+            if (!String.IsNullOrEmpty(value))
+            {
+                AppState.Update = true;
+            }
+        }
+    }
+
+
+    public string DepartmentName
+    {
+        get
+        {
+            RolesParameters.TryGetValue("DepartmentName", out string value);
+            return value;
+        }
+        set
+        {
+            RolesParameters.Remove("DepartmentName");
+            RolesParameters.Add("DepartmentName", value);
+            if (!String.IsNullOrEmpty(value))
+            {
+                AppState.Update = true;
+            }
+        }
+    }
+
+
+    void CreateAutomatically()
+    {
+        if (RolesParameters.Values.Count == 0)
+        {
+
+            RolesParameters.Add("LegalForm", "Legal form");
+            RolesParameters.Add("Phone", "Phone");
+            RolesParameters.Add("Email", "Email");
+            RolesParameters.Add("StreetNumberBox", "Street, number and box");
+            RolesParameters.Add("PostalCode", "Postal code");
+            RolesParameters.Add("City", "City");
+            RolesParameters.Add("Country", "Country");
+            RolesParameters.Add("VatNumber", "Vat number");
+            RolesParameters.Add("DefaultLanguage", "Language");
+            RolesParameters.Add("ClientId", "Client ID");
+            RolesParameters.Add("ClientName", "Client name");
+            RolesParameters.Add("ClientContact", "Client contact");
+            RolesParameters.Add("DepartmentNumber", "Department number");
+            RolesParameters.Add("DepartmentName", "Department name");
+            RolesParameters.Add("BillingCompanyId", "Billing company ID");
+            RolesParameters.Add("BillingCompanyName", "Billing company name");
+            AppState.Update = true;
+
+
+
+        }
+
+
+    }
+
+
+    public void UpdateParameter(string key)
+    {
+        RolesParameters.Remove(key);
+
+    }
+
+
+
+
+
+}

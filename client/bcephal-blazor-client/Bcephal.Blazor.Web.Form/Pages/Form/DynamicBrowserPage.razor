@@ -1,0 +1,13 @@
+﻿@page "/dynamic-browser/{Id:long}"
+
+@body
+
+@code{
+    public RenderFragment body => __builder =>
+    {
+        if (Id.HasValue)
+        {
+            <DynamicBrowser Id="Id" @key=Key />
+        }
+    };
+}

@@ -1,0 +1,127 @@
+﻿<RecoConfigurationComponentItemSplitter SimplePanel=GetSimplePanel Panel=GetPanel />
+
+@code {
+
+    List<RenderFragment> GetSimplePanel => new()
+    {
+            RenderReconciliation,
+            RenderNeutralization,
+            RenderPartialReconciliation,
+            RenderFreeze
+    };
+
+    List<RenderFragment> GetPanel => new()
+    {
+            SplitterPanel1,
+            SplitterPanel2
+    };
+
+    RenderFragment SplitterPanel1 => __builder =>
+    {
+        <SplitterPanel Panes=GetPanelRow1 LeftSize="1" />
+    };
+    RenderFragment SplitterPanel2 => __builder =>
+    {
+        <SplitterPanel Panes=GetPanelRow2 LeftSize="1" />
+    };
+    List<RenderFragment> GetPanelRow1 => new()
+    {
+            RenderReconciliation,
+            RenderNeutralization,
+    };
+
+    List<RenderFragment> GetPanelRow2 => new()
+    {
+            RenderPartialReconciliation,
+            RenderFreeze
+    };
+
+    public RenderFragment RenderReconciliation => __builder =>
+    {
+    <RenderFragmentHeader Title="@AppState["reconciliation"]">
+        <RenderReconciliationContent Editable=Editable @bind-EditorData=EditorDataBinding
+                                     GetMeasure_="GetMeasure"
+                                     GetNameable="GetNameable"
+                                     GetAttribute_="GetAttribute"
+                                     GetAttributTypeRender="attributTypeRender"
+                                     Item1Length=@Item1Length Item2Length=@Item2Length
+                                     ItemSpacing=@ItemSpacing
+                                     />
+    </RenderFragmentHeader>
+    };
+
+    public RenderFragment RenderNeutralization => __builder =>
+    {
+    <RenderFragmentHeader Title="@AppState["Neutralization"]">
+        <RenderNeutralizationContent Editable=Editable
+                                     @bind-EditorData=EditorDataBinding
+                                     GetNameable="GetNameable"
+                                     GetAttribute_="GetAttribute"
+                                     GetAttributTypeRender="attributTypeRender"
+                                     Item1Length=@Item1Length Item2Length=@Item2Length
+                                     ItemSpacing=@ItemSpacing
+                                     />
+    </RenderFragmentHeader>
+    };
+
+    public RenderFragment RenderPartialReconciliation => __builder =>
+    {
+    <RenderFragmentHeader Title="@AppState["PartialReconciliation"]">
+        <RenderPartialReconciliationContent Editable=Editable  @bind-EditorData=EditorDataBinding
+                                            GetMeasure_="GetMeasure"
+                                            GetNameable="GetNameable"
+                                            GetAttribute_="GetAttribute"
+                                            GetAttributTypeRender="attributTypeRender"
+                                            Item1Length=@Item1Length Item2Length=@Item2Length
+                                            ItemSpacing=@ItemSpacing
+                                            />
+    </RenderFragmentHeader>
+    };
+
+    public RenderFragment RenderFreeze => __builder =>
+    {
+    <RenderFragmentHeader Title="@AppState["Freeze"]">
+        <RenderFreezeContent Editable=Editable
+                             @bind-EditorData=EditorDataBinding 
+                             Item1Length=@Item1Length 
+                             Item2Length=@Item2Length 
+                             GetNameable="GetNameable"
+                             FreezeAttributeRender=FreezeAttributeRender
+                             ItemSpacing=@ItemSpacing
+                             />
+    </RenderFragmentHeader>
+    };
+
+    public RenderFragment attributTypeRender(Action<Bcephal.Models.Base.HierarchicalData> callback, string attributeName) => __builder =>
+    {
+
+        @if (EditorData != null)
+            {
+       
+            <TreeViewFilter Editable=Editable C="Bcephal.Models.Base.HierarchicalData"
+                            ItemsFilter="Entities"
+                            SelectFilterItemCallback=callback
+                            SelectedItem=@attributeName>
+            </TreeViewFilter>
+            }
+    };
+
+    private RenderFragment RenderSequence(Nameable sequenceId) => __builder =>
+   {
+        <DxComboBox Editable=Editable Data="GetEditorData.Sequences" CssClass="h-100 d-flex flex-column justify-content-center"
+            TData="Nameable" TValue="Nameable" @bind-Value=sequenceId />
+   };
+
+    public RenderFragment FreezeAttributeRender() => __builder =>
+    {
+        @if (EditorData != null)
+        {
+            <TreeViewFilter C="Bcephal.Models.Base.HierarchicalData"
+                            Editable=Editable
+                            ItemsFilter="Entities"
+                            SelectFilterItemCallback="FreezeAttributeChanged"
+                            SelectedItem=@FreezeAttributeName>
+            </TreeViewFilter>
+           }
+     };
+}

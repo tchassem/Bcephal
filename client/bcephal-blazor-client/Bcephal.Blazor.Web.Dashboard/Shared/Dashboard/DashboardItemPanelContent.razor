@@ -1,0 +1,391 @@
+﻿
+<RenderFormContent @ref="RenderFormContentRef">
+    <div class="card  p-0 m-0" style="height: @Height_; width:@Width_; ">
+        <div class="card-header d-flex align-items-center w-100 p-0" style="height: var(--bc-header-height); background-color:@BackgroundTitle !important;color:@ForegroundTitle !important;">
+            <div class="d-flex h-100 align-items-center justify-content-center ml-1" style="width: 80% !important;">
+                <span class="ml-auto mr-auto bc-title-ellipsis" data-toggle="tooltip" data-placement="top" title="@Title">@Title</span>
+            </div>
+            @{
+                var item = GetItem();
+                <div class="d-flex h-100 align-items-center justify-content-center" style="width: 20% !important;">
+                    <div class="d-flex w-50 h-100 ml-1 align-items-center justify-content-center">
+                        <i hidden="@(IsReadOnlyData  ? true : !Editable)" style="cursor:pointer" class="mt-1 fa fa-pencil-square-o" data-toggle="tooltip" data-placement="top" title="@AppState["Edit"]" @onclick="() => UpdateProperties()"></i>
+                    </div>
+                    <div class="d-flex w-50 mr-1  h-100 align-items-center justify-content-center">
+                        <i hidden="@( IsReadOnlyData ? true : !Editable)" style="cursor:pointer" class="fa fa-remove" data-toggle="tooltip" data-placement="top" title="@AppState["Reset"]" @onclick=RemoveItem></i>
+                    </div>
+                </div>
+            }
+        </div>
+
+        @*<div class="card-body  can-drop d-block w-100 p-0 m-0 overflowy-bc"
+            style="background-color:@Background;color:@Foreground;height: calc(100% - var(--bc-header-height)); width:100%;"
+            dropzone="true" @ondrop="@((DragEventArgs e ) => drop(e))" ondragover="event.preventDefault()">*@
+        <div class="card-body  can-drop d-block w-100 p-0 m-0 overflowy-bc"
+             style="background-color:@Background;color:@Foreground;height: calc(100% - var(--bc-header-height)); width:100%;"
+             dropzone="true" ondrop="drop_handler(event, '@Id');" ondragover="event.preventDefault()">
+            @{
+                var item_ = GetItem();
+                <div class="d-flex w-100 h-100 align-items-center justify-content-center">
+                    @if (item_ != null && item_.DashboardItemType != null)
+                    {
+                        <ul class="liststylenone p-0" dropzone="true">
+                            @if (item_.DashboardItemType.Equals(Bcephal.Models.Dashboards.DashboardItemType.DASHBOARD_HOME_PAGE) && !string.IsNullOrWhiteSpace(item_.Description))
+                            {
+                                <li draggable="false">@((MarkupString)item_.Description)</li>
+                            }
+                            else if (!string.IsNullOrWhiteSpace(item_.ItemName) && !item_.DashboardItemType.IsEmptyType())
+                            {
+                                <li draggable="false">@item_.ItemName</li>
+                            }
+
+                        </ul>
+                    }
+                </div>
+            }
+        </div>
+    </div>
+</RenderFormContent>
+
+<RenderFormContent @ref="RenderFormContentBaseModalRef">
+    @if (Properties)
+    {
+        <BaseModalComponent Width="40%" Height="60%" BodyClass="h-50" Title=@AppState["Properties"]
+                            @bind-ShowModal=Properties
+                            OkHandler=Update>
+            <div class="common-tab">
+                @RenderConfig()
+            </div>
+        </BaseModalComponent>
+    }
+</RenderFormContent>
+
+@code {
+    string width1 = "0.1fr";
+    string width2 = "1fr";
+    string width3 = "0.5fr";
+    string width4 = "1.5fr";
+    string width5 = "0.05fr";
+    string width6 = "0.55fr";
+    string lengthstack = "0.15fr";
+
+    private RenderFragment RenderConfig() => __builder =>
+    {
+        var iteme = GetItem();
+    @if (iteme != null)
+        {
+        @if (iteme.DashboardItemType != null && iteme.DashboardItemType.IsHomePage() || iteme.DashboardItemType.IsDashboardHomePage())
+            {
+            <DxTabs>
+                <DxTabPage Text=@AppState["generic"] CssClass="m-0 p-0">
+                    <div class="h-100 pt-1">
+                        @RenderGeneric
+                    </div>
+                </DxTabPage>
+                <DxTabPage Text=@AppState["specific"] CssClass="m-0 p-0">
+                    <div class="h-100 pt-1">
+                        @{
+                                var item4 = GetItem();
+                            @RenderSpecific(item4)
+                        }
+                    </div>
+                </DxTabPage>
+            </DxTabs>
+            }
+            else if (iteme.DashboardItemType != null )
+            {
+            <div class="pb-1" style="height: calc(100% - var(--bc-tab-header-height))">
+                @{
+                    @RenderGeneric
+                }
+            </div>
+            }
+        }
+       
+    };
+    private RenderFragment RenderSpecific(Models.Dashboards.DashboardItem item) => __builder =>
+    {
+    <DxTabs>
+        <DxTabPage Text=@AppState["TextEditor"] CssClass="m-0 p-0">
+            <div class="h-100 pt-1">
+                @{
+                    @if (item != null && item.DashboardItemType.IsDashboardHomePage())
+                        {
+                        <DashboardHomePage_ GetItemHandler=GetItemHandler ItemHandler=ItemHandler CanShowHeader="false" Editable=Editable />
+                        }
+                        else if (item != null && item.Id.HasValue && item.DashboardItemType.IsHomePage())
+                        {
+                        <DashboardComponetShortCut GetItemHandler=GetItemHandler ItemHandler=ItemHandler IsToolbarVisible="true" Editable=Editable />
+                        }
+                }
+            </div>
+        </DxTabPage>
+    </DxTabs>
+    };
+
+    private RenderFragment RenderGeneric => __builder =>
+    {
+        var Item3 = GetItem();
+
+    <DxStackLayout CssClass="p-1 overflow-auto h-100" Orientation="Orientation.Vertical" ItemSpacing="8px">
+        <Items>
+            <DxStackLayoutItem Length="@lengthstack">
+                <Template>
+                    <DxStackLayout CssClass="h-100" Orientation="Orientation.Horizontal" ItemSpacing="5px">
+                        <Items>
+                            <DxStackLayoutItem Length="@width1" />
+                            <DxStackLayoutItem Length="@width4">
+                                <Template>
+                                    <DxStackLayout CssClass="w-100 h-100" Orientation="Orientation.Horizontal" ItemSpacing="5px">
+                                        <Items>
+                                            <DxStackLayoutItem Length="1fr">
+                                                <Template>
+                                                    <div class="d-flex flex-row h-100 align-items-center">
+                                                        <DxCheckBox @bind-Checked=ShowBox></DxCheckBox>
+                                                        <div class=" d-flex flex-column">
+                                                            <label class="mt-auto mb-auto ml-1">@AppState["ShowBox"]</label>
+                                                        </div>
+                                                    </div>
+                                                </Template>
+                                            </DxStackLayoutItem>
+                                            <DxStackLayoutItem Visible="@(ShowBox && Item3 !=null)" Length="1fr">
+                                                <Template>
+                                                    <div class="d-flex flex-row h-100 align-items-center">
+                                                        <DxCheckBox Enabled=Editable @bind-Checked=ShowBorder></DxCheckBox>
+                                                        <div class="h-100 d-flex flex-column">
+                                                            <label class="ml-1 mt-auto mb-auto">@AppState["ShowBorder"]</label>
+                                                        </div>
+                                                    </div>
+                                                </Template>
+                                            </DxStackLayoutItem>
+                                        </Items>
+                                    </DxStackLayout>
+                                </Template>
+                            </DxStackLayoutItem>
+                        </Items>
+                    </DxStackLayout>
+                </Template>
+            </DxStackLayoutItem>
+            <DxStackLayoutItem Length="@lengthstack" Visible="@(ShowBox && Item3 !=null)">
+                <Template>
+                    <DxStackLayout CssClass="h-100" Orientation="Orientation.Horizontal" ItemSpacing="5px">
+                        <Items>
+                            <DxStackLayoutItem Length="@width1" />
+                            <DxStackLayoutItem Length="@width2">
+                                <Template>
+                                    <div class="d-flex flex-row h-100 align-items-center">
+                                        <DxCheckBox Enabled=Editable @bind-Checked=ShowTitleBar></DxCheckBox>
+                                        <div class="h-100 d-flex flex-column">
+                                            <label class="ml-1 mt-auto mb-auto">@AppState["ShowTitleBar"]</label>
+                                        </div>
+                                    </div>
+                                </Template>
+                            </DxStackLayoutItem>
+                            <DxStackLayoutItem Length="@width3" />
+                        </Items>
+                    </DxStackLayout>
+                </Template>
+            </DxStackLayoutItem>
+            <DxStackLayoutItem Length="@lengthstack" Visible="@(ShowBox && Item3 !=null)">
+                <Template>
+                    <DxStackLayout CssClass="h-100" Orientation="Orientation.Horizontal" ItemSpacing="5px">
+                        <Items>
+                            <DxStackLayoutItem Length="@width1">
+                                <Template>
+                                    <div class="d-flex h-100  w-100 align-items-center">
+                                        <div class="d-flex flex-column h-100 ml-auto">
+                                            <label class="mt-auto mb-auto">@AppState["Title"]</label>
+                                        </div>
+                                    </div>
+                                </Template>
+                            </DxStackLayoutItem>
+                            <DxStackLayoutItem Length="@width2">
+                                <Template>
+                                    <DxTextBox Enabled=Editable CssClass="w-50 d-flex align-items-center justify-content-start h-100" @bind-Text=Title></DxTextBox>
+                                </Template>
+                            </DxStackLayoutItem>
+                            <DxStackLayoutItem Length="@width3" />
+                        </Items>
+                    </DxStackLayout>
+                </Template>
+            </DxStackLayoutItem>
+            <DxStackLayoutItem Length="@lengthstack" Visible="@(ShowBox && Item3 !=null)">
+                <Template>
+                    <DxStackLayout CssClass="h-100" Orientation="Orientation.Horizontal" ItemSpacing="5px">
+                        <Items>
+                            <DxStackLayoutItem Length="@width1" />
+                            <DxStackLayoutItem Length="@width4">
+                                <Template>
+                                    <DxStackLayout CssClass="w-100 h-100" Orientation="Orientation.Horizontal">
+                                        <Items>
+                                            <DxStackLayoutItem Length="@width5">
+                                                <Template>
+                                                    <div class="d-flex align-items-center justify-content-center w-100 h-100">
+                                                        <input readonly=@(!Editable) style="height:40% !important" class="mr-auto" type="color" @onchange=UpdateBackgroundTitle value=@BackgroundTitle>
+                                                    </div>
+                                                </Template>
+                                            </DxStackLayoutItem>
+                                            <DxStackLayoutItem Length="@width6">
+                                                <Template>
+                                                    <div class="d-flex align-items-center justify-content-start w-100 h-100 ml-1">
+                                                        <label class="mt-auto mb-auto">@AppState["BackgroundTitle"]</label>
+                                                    </div>
+                                                </Template>
+                                            </DxStackLayoutItem>
+                                        </Items>
+                                    </DxStackLayout>
+                                </Template>
+                            </DxStackLayoutItem>
+                        </Items>
+                    </DxStackLayout>
+                </Template>
+            </DxStackLayoutItem>
+            <DxStackLayoutItem Length="@lengthstack" Visible="@(ShowBox && Item3 !=null)">
+                <Template>
+                    <DxStackLayout CssClass="h-100" Orientation="Orientation.Horizontal" ItemSpacing="5px">
+                        <Items>
+                            <DxStackLayoutItem Length="@width1" />
+                            <DxStackLayoutItem Length="@width4">
+                                <Template>
+                                    <DxStackLayout CssClass="w-100 h-100" Orientation="Orientation.Horizontal">
+                                        <Items>
+                                            <DxStackLayoutItem Length="@width5">
+                                                <Template>
+                                                    <div class="d-flex align-items-center justify-content-center w-100 h-100">
+                                                        <input readonly="@(!Editable)" style="height:40% !important" class="mr-auto" type="color" @onchange=UpdateForegroundTitle value=@ForegroundTitle>
+                                                    </div>
+                                                </Template>
+                                            </DxStackLayoutItem>
+                                            <DxStackLayoutItem Length="@width6">
+                                                <Template>
+                                                    <div class="d-flex align-items-center justify-content-start w-100 h-100 ml-1">
+                                                        <label class="mt-auto mb-auto">@AppState["ForegroundTitle"]</label>
+                                                    </div>
+                                                </Template>
+                                            </DxStackLayoutItem>
+                                        </Items>
+                                    </DxStackLayout>
+                                </Template>
+                            </DxStackLayoutItem>
+                        </Items>
+                    </DxStackLayout>
+                </Template>
+            </DxStackLayoutItem>
+            <DxStackLayoutItem Length="@lengthstack" Visible="@(Item3 != null && Item3.DashboardItemType.IsChart() && ShowBox)">
+                <Template>
+                    <DxStackLayout CssClass="h-100" Orientation="Orientation.Horizontal" ItemSpacing="5px">
+                        <Items>
+                            <DxStackLayoutItem Length="@width1" />
+                            <DxStackLayoutItem Length="@width4">
+                                <Template>
+                                    <DxStackLayout CssClass="w-100 h-100" Orientation="Orientation.Horizontal">
+                                        <Items>
+                                            <DxStackLayoutItem Length="@width5">
+                                                <Template>
+                                                    <div class="d-flex align-items-center justify-content-center w-100 h-100">
+                                                        <input readonly="@(!Editable)" style="height:40% !important" class="mr-auto" type="color" @onchange=UpdateBackgroundBox value=@Background>
+                                                    </div>
+                                                </Template>
+                                            </DxStackLayoutItem>
+                                            <DxStackLayoutItem Length="@width6">
+                                                <Template>
+                                                    <div class="d-flex align-items-center justify-content-start w-100 h-100 ml-1">
+                                                        <label class="mt-auto mb-auto">@AppState["BackgroundBox"]</label>
+                                                    </div>
+                                                </Template>
+                                            </DxStackLayoutItem>
+                                        </Items>
+                                    </DxStackLayout>
+                                </Template>
+                            </DxStackLayoutItem>
+
+                        </Items>
+                    </DxStackLayout>
+                </Template>
+            </DxStackLayoutItem>
+            <DxStackLayoutItem Length="@lengthstack" Visible="@(Item3 != null && Item3.DashboardItemType.IsChart() && ShowBox)">
+                <Template>
+                    <DxStackLayout CssClass="h-100" Orientation="Orientation.Horizontal" ItemSpacing="5px">
+                        <Items>
+                            <DxStackLayoutItem Length="@width1" />
+                            <DxStackLayoutItem Length="@width4">
+                                <Template>
+                                    <DxStackLayout CssClass="w-100 h-100" Orientation="Orientation.Horizontal">
+                                        <Items>
+                                            <DxStackLayoutItem Length="@width5">
+                                                <Template>
+                                                    <div class="d-flex align-items-center justify-content-center w-100 h-100">
+                                                        <input readonly="@(!Editable)" style="height:40% !important" class="mr-auto" type="color" @onchange=UpdateForegroundBox value=@Foreground>
+                                                    </div>
+                                                </Template>
+                                            </DxStackLayoutItem>
+                                            <DxStackLayoutItem Length="@width6">
+                                                <Template>
+                                                    <div class="d-flex align-items-center justify-content-start w-100 h-100 ml-1">
+                                                        <label class="mt-auto mb-auto">@AppState["ForegroundBox"]</label>
+                                                    </div>
+                                                </Template>
+                                            </DxStackLayoutItem>
+                                        </Items>
+                                    </DxStackLayout>
+                                </Template>
+                            </DxStackLayoutItem>
+                        </Items>
+                    </DxStackLayout>
+                </Template>
+            </DxStackLayoutItem>
+            @*<DxStackLayoutItem Visible="@ShowBox">
+                    <Template>
+                        <DxStackLayout CssClass="h-100" Orientation="Orientation.Horizontal" ItemSpacing="5px">
+                            <Items>
+                                <DxStackLayoutItem Length="@width1">
+                                    <Template>
+                                        <div class="d-flex h-100  w-100 align-items-center">
+                                            <div class="d-flex flex-column h-100 ml-auto">
+                                                <label class="mt-auto mb-auto">@AppState["Width"]</label>
+                                            </div>
+                                        </div>
+                                    </Template>
+                                </DxStackLayoutItem>
+                                <DxStackLayoutItem Length="@width2">
+                                    <Template>
+                                        <div class="d-flex flex-row h-100 align-items-center">
+                                            <DxSpinEdit @bind-Value=Width  MinValue="50" MaxValue="100"></DxSpinEdit>
+                                            <div class="d-flex flex-column h-100 "><label class="mt-auto mb-auto ml-1">%</label></div>
+                                        </div>
+                                    </Template>
+                                </DxStackLayoutItem>
+                            </Items>
+                        </DxStackLayout>
+                    </Template>
+                </DxStackLayoutItem>
+                <DxStackLayoutItem Visible="@ShowBox">
+                    <Template>
+                        <DxStackLayout CssClass="h-100" Orientation="Orientation.Horizontal" ItemSpacing="5px">
+                            <Items>
+                                <DxStackLayoutItem Length="@width1">
+                                    <Template>
+                                        <div class="d-flex h-100  w-100 align-items-center">
+                                            <div class="d-flex flex-column h-100 ml-auto">
+                                                <label class="mt-auto mb-auto">@AppState["Height"]</label>
+                                            </div>
+                                        </div>
+                                    </Template>
+                                </DxStackLayoutItem>
+                                <DxStackLayoutItem Length="@width2">
+                                    <Template>
+                                        <div class="d-flex flex-row h-100 align-items-center">
+                                            <DxSpinEdit @bind-Value=Height MinValue="50" MaxValue="100"></DxSpinEdit>
+                                            <div class="d-flex flex-column h-100 "><label class="mt-auto mb-auto ml-1">%</label></div>
+                                        </div>
+                                    </Template>
+                                </DxStackLayoutItem>
+                            </Items>
+                        </DxStackLayout>
+                    </Template>
+                </DxStackLayoutItem>*@
+        </Items>
+    </DxStackLayout>
+    };
+
+}

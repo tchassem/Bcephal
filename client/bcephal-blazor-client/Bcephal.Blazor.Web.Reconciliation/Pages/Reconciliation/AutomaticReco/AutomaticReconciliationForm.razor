@@ -1,0 +1,148 @@
+﻿@page "/reconciliation/auto-reco"
+@page "/reconciliation/auto-reco/{Id:long}"
+
+@using Bcephal.Blazor.Web.Reconciliation.Pages.Reconciliation.AutomaticReco.Components;
+
+@inherits Form<AutoReco, RecoBrowserData>
+
+@{ base.BuildRenderTree(__builder); }
+
+
+@code {
+
+    #region Injected properties
+
+    #endregion
+
+    #region Input Parameters
+
+    [Parameter]
+    public long? AutoRecoId { get; set; }
+
+    #endregion
+
+    #region Internal properties and attributes
+
+
+    private bool UsingPane { get; set; } = true;
+
+    #endregion
+
+    #region RenderFragments
+
+    public override RenderFragment LeftContent
+    {
+        get
+        {
+            return __builder =>
+            {
+            @if (EditorData != null)
+                {
+                <DxTabs CssClass="">
+                    <DxTabPage Text="@AppState["reco.auto.filter"]">
+                        <div style="height: var(--grid-bc-two); ">
+                            <AutoRecoFilterComponent Editable=Editable EditorData="EditorData"></AutoRecoFilterComponent>
+                        </div>
+                    </DxTabPage>
+                    <DxTabPage Text="@AppState["Scheduling"]">
+                        <div style="height: var(--grid-bc-two); " class="mt-2">
+                            <SchedulerItemsInfos Editable=Editable P="AutoReco" @bind-EditorData=EditorDataBinding />
+                        </div>
+                    </DxTabPage>
+                    <DxTabPage Text="@AppState["routines"]">
+                        <div style="height: var(--grid-bc-two); ">
+                            <AutoRecoRoutineComponent Editable=Editable EditorData="EditorData"></AutoRecoRoutineComponent>
+                        </div>
+                    </DxTabPage>
+                    <DxTabPage Text="@AppState["reco.auto.script"]">
+                        <div style="height: var(--grid-bc-two); ">
+                            <ScriptComponent Editable=Editable EditorData="EditorData"></ScriptComponent>
+                        </div>
+                    </DxTabPage>
+                </DxTabs>
+                }
+            };
+        }
+    }
+
+    public override RenderFragment RightContent => __builder =>
+    {
+    @if (EditorData != null && EditorData.Item != null)
+        {
+        <div class="d-flex flex-column grid-bc-two" style="display:block;box-sizing:border-box;">
+            <div style="height:auto;padding-bottom:0;margin-bottom:10px;">
+                @RightContentTags
+            </div>
+        </div>
+        }
+    };
+
+    public RenderFragment RightContentTags => __builder =>
+    {
+    <DxTabs CssClass="bc-tab-h-100" @bind-ActiveTabIndex="ActiveTabIndexFilterBinding" ScrollMode="TabsScrollMode.Auto">
+        <DxTabPage Text="@AppState["Properties"]" CssClass="m-0 p-0">
+            <div style="height: calc(100% - var(--bc-tab-header-height)); box-sizing: border-box !important;">
+                <div class="h-100">
+                    @TabPropertiesContent
+                </div>
+            </div>
+        </DxTabPage>
+        <DxTabPage Text="@AppState["filter.left"]" CssClass="h-100">
+            <div style="height: calc(100% - var(--bc-tab-header-height)); box-sizing: border-box !important;">
+                <div class="h-100">
+                    @TabLeftFilterContent
+                </div>
+            </div>
+        </DxTabPage>
+        <DxTabPage Text="@AppState["filter.right"]" CssClass="m-0 p-0">
+            <div style="height: calc(100% - var(--bc-tab-header-height)); box-sizing: border-box !important;">
+                <div class="h-100">
+                    @TabRightFilterContent
+                </div>
+            </div>
+        </DxTabPage>
+    </DxTabs>
+    };
+
+    public RenderFragment TabPropertiesContent => __builder =>
+    {
+        @if (EditorData != null && EditorData.Item != null)
+        {
+            <GridItemInfos Editable=Editable @bind-EditorData=@EditorDataBinding T="AutoReco" DisplayGroup="true" DisplayVisibleInShortcut="true" />
+        }
+    };
+    public RenderFragment TabLeftFilterContent => __builder =>
+    {
+        @if (EditorData != null && EditorData.Item != null)
+        {
+            <FilterComponent @key=FilterKeyLeft
+                             @bind-UniverseFilter="@LeftFilterBinding"
+                             Attributes="@Entities"
+                             Measures="@EditorData.Measures"
+                             Periods="EditorData.Periods"
+                             Filterstyle="@Filterstyle"
+                             CanRefreshGrid="CanRefreshGrid"
+                             FilterName=@FilterKeyLeft
+                             Editable=Editable>
+            </FilterComponent>
+        }
+    };
+    public RenderFragment TabRightFilterContent => __builder =>
+    {
+        @if (EditorData != null && EditorData.Item != null)
+        {
+            <FilterComponent @key=FilterKeyRight
+                             @bind-UniverseFilter="@RightFilterBinding"
+                             Attributes="@Entities"
+                             Measures="@EditorData.Measures"
+                             Periods="EditorData.Periods"
+                             Filterstyle="@Filterstyle"
+                             CanRefreshGrid="CanRefreshGrid"
+                             FilterName=@FilterKeyRight
+                             Editable=Editable>
+            </FilterComponent>
+        }
+    };
+
+    #endregion
+}

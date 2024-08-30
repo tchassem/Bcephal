@@ -1,0 +1,42 @@
+﻿<DxGridLayout CssClass=@("w-100 h-100 bc-box-sizing " + CardCssClass)>
+    <Rows>
+        <DxGridLayoutRow Areas="cardheader" Height=@HeaderLength Visible="(Header != null && CanDisplayHeader)" />
+        <DxGridLayoutRow Areas="cardMainContent" />
+        <DxGridLayoutRow Areas="cardfooter" Height=@FooterLength Visible="(Header != null && CanDisplayHeader)" />
+    </Rows>
+    <Columns>
+        <DxGridLayoutColumn Width="100%" />
+    </Columns>
+    <Items>
+        @if (Header != null && CanDisplayHeader)
+        {
+            <DxGridLayoutItem Area="cardheader" CssClass=@("w-100 bc-header-height bc-box-sizing " + HeaderCssClass)>
+                <Template>
+                    <RenderFormContent @ref=RenderFormContentHeader>
+                        @Header
+                    </RenderFormContent>
+                </Template>
+            </DxGridLayoutItem>
+        }
+        <DxGridLayoutItem Area="cardMainContent" CssClass="w-100 h-100 bc-box-sizing">
+            <Template>
+                @if (ChildContent != null)
+                {
+                    <RenderFormContent @ref=RenderFormContentBody>
+                        @ChildContent
+                    </RenderFormContent>
+                }
+            </Template>
+        </DxGridLayoutItem>
+        @if (Footer != null && CanDisplayFooter)
+        {
+            <DxGridLayoutItem Area="cardfooter" CssClass=@("w-100 h-100 bc-box-sizing" + FooterCssClass)>
+                <Template>
+                    <RenderFormContent @ref=RenderFormContentFooter>
+                        @Footer
+                    </RenderFormContent>
+                </Template>
+            </DxGridLayoutItem>
+        }
+    </Items>
+</DxGridLayout>

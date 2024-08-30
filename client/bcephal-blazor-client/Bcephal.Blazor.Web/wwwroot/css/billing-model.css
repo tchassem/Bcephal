@@ -1,0 +1,52 @@
+﻿.model-form-card-body {
+    padding-top: 0.64rem;
+    padding-right: 0.64rem;
+    padding-bottom: 1.4rem;
+    padding-left: 0.64rem;
+}
+
+.model-form-card-header, .model-form-card-header-dark {
+    padding-top: 0.5rem;
+    padding-right: 0.64rem;
+    padding-bottom: 0.10rem;
+    padding-left: 1rem;
+}
+
+.model-form-card-header-dark {
+    background-color: #808080;
+    color: #fff;
+    height: 40px;
+    font-size: 17px;
+}
+
+.model-form-sub-card-header-dark {
+    padding-top: 0.2rem;
+    padding-right: 0.64rem;
+    padding-bottom: 0.2rem;
+    padding-left: 1rem;
+    background-color: #adacac;
+    color: #fff;
+    font-size: 14px;
+}
+
+.model-form-no-padding {
+    padding: 0.0rem !important;
+}
+
+.model-form-h-95 {
+    height: 95% !important;
+}
+
+.model-list-light {
+    border: 1px solid #1312120f;
+}
+
+
+
+/*
+div.dxbs-popup.modal-dialog.dxbs-popup-fixed-width.import-pro-popup >
+div.modal-content > div.modal-body > div.dxbs-fl.form-horizontal > div.row > div.dxbs-fl-gd.col-md-12 >
+div.card{
+    height:22vh;
+    overflow-y:auto;
+}*/

@@ -1,0 +1,38 @@
+﻿<CardComponent @ref="CardComponentRef" CanDisplayHeader="(EditorData != null)" CardCssClass="card w-100 h-100" HeaderCssClass="bc-header-2 card-header pt-1">
+    <Header>
+        <span> @AppState["condition.title"]</span>
+    </Header>
+    <ChildContent>
+        <div class="h-100 overflow-auto">
+            <div class="p-1 h-100 overflow-auto min-w-1100">
+            @if (EditorData != null && Entities != null)
+            {
+                if (EditorData.Item != null && EditorData.Item.ConditionListChangeHandler != null)
+                {
+                    foreach (var Item in EditorData.Item.ConditionListChangeHandler.GetItems())
+                    {
+                        @RenderCondition(Item, true)
+                    }
+                }
+                @RenderCondition(new(), false)                
+            }
+            </div>
+        </div>
+    </ChildContent>
+ </CardComponent>
+
+        @code{
+
+            private RenderFragment RenderCondition(JoinCondition joinCondition, bool added) => __builder =>
+            {
+            <JoinConditionItemComponent @key="@(Guid.NewGuid().ToString("d"))" JoinCondition="@joinCondition"
+                                        Editable="@Editable"
+                                        JoinEditorData=JoinEditorData
+                                        IsAdded=added
+                                        AddConditionCallback="AddCondition"
+                                        UpdateConditionCallback="UpdateCondition"
+                                        DelConditionCallback="RemoveCondition"
+                                        Entities=Entities
+                                        ModelsAttributes=ModelsAttributes />
+            };
+        }

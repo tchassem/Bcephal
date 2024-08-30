@@ -1,0 +1,26 @@
+
+CREATE TABLE IF NOT EXISTS BCP_DYNAMIC_PERIOD_FILTER_ITEM (
+	id BIGINT not null,
+	filter BIGINT,
+	startPeriodFilter BIGINT,
+	endPeriodFilter BIGINT,
+	PRIMARY KEY (id)
+);
+CREATE SEQUENCE dync_period_filter_item_seq START WITH 1 INCREMENT BY 1;
+
+CREATE TABLE IF NOT EXISTS BCP_DYNAMIC_PERIOD_FILTER (
+	id BIGINT not null,
+	PRIMARY KEY (id)
+);
+CREATE SEQUENCE dynamic_period_filter_seq START WITH 1 INCREMENT BY 1;
+
+CREATE TABLE IF NOT EXISTS BCP_UNIVERSE_DYNAMIC_FILTER (
+	id BIGINT not null,
+	attributeFilter BIGINT,
+	periodFilter BIGINT,
+	usingDynamicFilter BOOLEAN DEFAULT TRUE,
+	cronExpressionDynamicFilter  VARCHAR(100),
+	PRIMARY KEY (id)
+);
+CREATE SEQUENCE universe_dynanic_filter_seq START WITH 1 INCREMENT BY 1;
+

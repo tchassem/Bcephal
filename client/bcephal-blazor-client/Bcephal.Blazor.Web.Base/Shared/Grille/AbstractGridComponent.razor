@@ -1,0 +1,782 @@
+﻿@typeparam P
+@typeparam C
+
+@namespace Bcephal.Blazor.Web.Base.Shared.AbstractComponent
+
+
+@using Bcephal.Blazor.Web.Base.Shared.Component;
+
+
+<div class="abstractgrid" style="width:100%;">
+    @{
+        bool canAdd = ColumnsDatas == null;
+        if (canAdd)
+        {
+            ColumnsDatas = new List<AbstractGridDataItem>();
+        }
+    }
+    @if (EditFormTemplate == null)
+    {
+        <DxDataGrid @key="KeyName" CustomData=LoadCustomData T=C
+                    EditMode=@CurrentEditMode
+                    ShowFilterRow="@ShowFilterRow"
+                    @ref="DxDataGridRef"
+                    RowRemoving=OnRowRemoving_
+                    RowUpdating=OnRowUpdating_
+                    RowInserting=OnRowInserting_
+                    KeyFieldName="@(KeyFieldName() == null ? "Id" : KeyFieldName())"
+                    CssClass="@GridCssClass()"
+                    DataRowCssClass="grid-row"
+                    ColumnResizeMode=ColumnResizeMode
+                    SelectionMode=SelectionMode
+                    SelectAllMode="DataGridSelectAllMode.AllPages"
+                    AllowSort="true"
+                    ShowPager=ShowPager 
+                    PagerPageSizeSelectorVisible=PageSizeSelector
+                    PagerAllowedPageSizes=@PageSize
+                    PagerAllDataRowsItemVisible=ShowsAll_
+                    VerticalScrollBarMode=@ScrollBarMode.Auto
+                    HorizontalScrollBarMode="ScrollBarMode.Auto"
+                    PagerNavigationMode=@PagerNavigationMode.Auto
+                    PagerSwitchToInputBoxButtonCount=PagerSwitchToInputBoxButtonCount
+                    PageSize=page_PageSize
+                    DataNavigationMode="@DataGridNavigationMode.Paging"
+                    @bind-PageIndex=page_CurrentPage
+                    @attributes=attributes
+                    PopupEditFormHeaderText="@AppState[getPopupEditFormHeaderTextLabel()]"
+                    OptimizedMultipleSelectionChanged="OnSelectionChanged"
+                    SingleSelectedDataRowChanged="OnSingleSelectionChanged"
+                    HtmlRowDecoration="@OnHtmlRowDecoration"
+                    HtmlDataCellDecoration="@OnHtmlDataCellDecoration"
+                    RowEditStartAsync="OnRowEditStarting"
+                    RowClick="@OnRowDbClick"
+                    HeaderTemplate="addHeaderRender"
+                    @oncontextmenu:preventDefault>
+            <Columns>
+                <DxDataGridSelectionColumn ShowInColumnChooser=ShowInColumnChooser @ref="DxDataGridSelectionColumnRef"
+                                           Width="@ColumnChoserWidth"
+                                           Visible=ShowSelectionColumnVisible></DxDataGridSelectionColumn>
+                @{
+                    if (displayItem && ShowsCommandColumn)
+                    {
+                        <DxDataGridCommandColumn Width="@getCommandColumnWidth()" Visible=displayItem
+                                                 NewButtonVisible=NewButtonVisible
+                                                 EditButtonVisible=EditButtonVisible
+                                                 DeleteButtonVisible=DeleteButtonVisible>
+
+                            <CellTemplate>
+                                <DxButton Visible=EditButtonVisible CssClass="m-0 p-0" RenderStyle="ButtonRenderStyle.Link" Click="(() => DxDataGridRef.StartRowEdit((C)context))" IconCssClass="bi bi-pencil-square" IconPosition="ButtonIconPosition.BeforeText" />
+
+                                <DxButton Visible=DeleteButtonVisible CssClass="m-0 p-0" RenderStyle="ButtonRenderStyle.Link" Click="(() => OnRowRemoving_((C)context))" IconCssClass="bi bi-trash" IconPosition="ButtonIconPosition.BeforeText" />
+
+                            </CellTemplate>
+                        </DxDataGridCommandColumn>
+                    }
+                }
+                @for (int Position = 0; Position < ItemsCount; Position++)
+                {
+                    if (canAdd || Position >= ColumnsDatas.Count)
+                    {
+                        ColumnsDatas.Add(GetGridDataItem(Position));
+                    }
+                    var GridDataItem = ColumnsDatas[Position];
+                    var columnFormat = GridDataItem.ColumnFormat;
+                    var pos = Position;
+                    @if (GridDataItem.ColumnType.Equals(typeof(decimal)))
+                    {
+                        if (string.IsNullOrWhiteSpace(GridDataItem.ColumnFormat))
+                        {
+                            columnFormat = "F2";
+                        }
+                        <DxDataGridSpinEditColumn AllowSort="true" AllowFilter=AllowFilter AllowGroup="true"
+                                                  Width="@GridDataItem.ColumnWidth"
+                                                  Field="@GridDataItem.ColumnName"
+                                                  Caption="@GridDataItem.CaptionName"
+                                                  FixedStyle=GridDataItem.GridFixedStyle
+                                                  Visible="@GridDataItem.Visible">
+
+                            <EditTemplate>
+                                <DxSpinEdit DisplayFormat="@columnFormat" T="decimal?"
+                                            Value="@GetEditDecimalFieldName((CellEditContext)context, GridDataItem)"
+                                            ReadOnly="GridDataItem.CanEditColumn"
+                                            ValueChanged="@((decimal? newCellValue) => EditGridCell((CellEditContext)context, GridDataItem.ColumnName, newCellValue))">
+                                </DxSpinEdit>
+                            </EditTemplate>
+                            <DisplayTemplate>
+                                @{
+                                    @FormatDoubleCellValue(GridDataItem.ColumnFormat, @GetFieldValue((C)context, pos));
+                                }
+                            </DisplayTemplate>
+                        </DxDataGridSpinEditColumn>
+                                    }
+                                    else
+                    @if (GridDataItem.ColumnType.Equals(typeof(DateTime?)))
+                    {
+                        if (string.IsNullOrWhiteSpace(columnFormat))
+                        {
+                            columnFormat = "dd/MM/yyyy";
+                        }
+                        <DxDataGridDateEditColumn AllowSort="true" AllowFilter=AllowFilter AllowGroup="true"
+                                                  Width="@GridDataItem.ColumnWidth"
+                                                  Field="@GridDataItem.ColumnName"
+                                                  Caption="@GridDataItem.CaptionName"
+                                                  FixedStyle=GridDataItem.GridFixedStyle
+                                                  DisplayFormat="D" EditorFormat="d"
+                                                  Visible="@GridDataItem.Visible">
+                            <DisplayTemplate>
+                                @{
+                                    @FormatDateCellValue(columnFormat, @GetFieldValue((C)context, pos));
+                                }
+                            </DisplayTemplate>
+                            <EditTemplate>
+                                <DxDateEdit Date="GetEditDateTimeFieldName((CellEditContext)context, GridDataItem)"
+                                            T="DateTime?"
+                                            DisplayFormat="@columnFormat"
+                                            ReadOnly="GridDataItem.CanEditColumn"
+                                            DateChanged="@((DateTime? newCellValue) => EditGridCell((CellEditContext)context, GridDataItem.ColumnName, newCellValue))">
+                                </DxDateEdit>
+                            </EditTemplate>
+                        </DxDataGridDateEditColumn>
+                                    }
+                                    else
+                    @if (GridDataItem.ColumnType.Equals(typeof(bool)))
+                    {
+                        <DxDataGridCheckBoxColumn TextAlignment="DataGridTextAlign.Justify" AllowSort="true" AllowFilter=AllowFilter
+                                                  AllowGroup="true"
+                                                  Width="@GridDataItem.ColumnWidth"
+                                                  Field="@GridDataItem.ColumnName"
+                                                  Caption="@GridDataItem.CaptionName"
+                                                  FixedStyle=GridDataItem.GridFixedStyle
+                                                  Visible="@GridDataItem.Visible">
+                            <DisplayTemplate>
+                                @{
+                                    var val = GetFieldValue((C)context, pos);
+                                    bool.TryParse(val.ToString(), out bool valu);
+                                    IDictionary<string, object> attribut = new Dictionary<string, object>()
+                                        { { "readonly","readonly" }, };
+                                }
+                                <div class="d-flex flex-row justify-content-center ">
+                                    <DxCheckBox Checked="@valu" CheckType="CheckType.Checkbox" @attributes="attribut" CheckedChanged="((bool ele) => CheckedChanged((C)context, pos, ele))">
+                                    </DxCheckBox>
+                                </div>
+                            </DisplayTemplate>
+                            <EditTemplate>
+                                <DxCheckBox Checked="@GetEditTextFieldName((CellEditContext)context, GridDataItem)"
+                                            Enabled="!GridDataItem.CanEditColumn"
+                                            CheckedChanged="@((string newCellValue) => EditGridCell((CellEditContext)context, GridDataItem.ColumnName, newCellValue))">
+                                </DxCheckBox>
+                            </EditTemplate>
+                        </DxDataGridCheckBoxColumn>
+                                    }
+                                    else
+                                    {
+                        <DxDataGridColumn AllowSort="true" AllowFilter=AllowFilter AllowGroup="true"
+                                          Width="@GridDataItem.ColumnWidth"
+                                          Field="@GridDataItem.ColumnName"
+                                          Caption="@GridDataItem.CaptionName"
+                                          FixedStyle=GridDataItem.GridFixedStyle
+                                          Visible="@GridDataItem.Visible">
+                            <DisplayTemplate>
+                                @if (!IsNavLink || pos > 0)
+                                {
+                                    @GetFieldValue((C)context, pos);
+                                }
+                                else
+                                {
+                                    var value = KeyFieldValue((C)context);
+                                    var link = GetOpenTabLink(value);
+                                    <NavLink href="@link">
+                                        <span class="btn-link" style="cursor: pointer;"
+                                              @onclick:preventDefault @onclick="@(() => NavigateTo(value))"
+                                              @oncontextmenu:preventDefault @oncontextmenu="@((e) => OpenLing(e, (C)context, link, value != null ? value.ToString() : null))">
+                                            @{
+                                                @GetFieldValue((C)context, pos);
+                                            }
+                                        </span>
+                                    </NavLink>
+                                                }
+                            </DisplayTemplate>
+                            <EditTemplate>
+                                <DxTextBox Text="@GetEditTextFieldName((CellEditContext)context, GridDataItem)"
+                                           ReadOnly="GridDataItem.CanEditColumn"
+                                           TextChanged="@((string newCellValue) => EditGridCell((CellEditContext)context, GridDataItem.ColumnName, newCellValue))">
+                                </DxTextBox>
+                            </EditTemplate>
+
+                        </DxDataGridColumn>
+                                                }
+                                                }
+
+            </Columns>
+            <TotalSummary>
+                @if (ShowPagerCountItem)
+                {
+                    <DxDataGridSummaryItem ShowInColumn=@AppState["TotalItem"]
+                                           SummaryType=SummaryItemType.Sum
+                                           GroupSummaryPosition="GroupSummaryPosition.GroupFooter" />
+                }
+            </TotalSummary>
+        </DxDataGrid>
+                                                }
+                                                else
+                                                {
+        <DxDataGrid @key="KeyName"
+                    CustomData=LoadCustomData T=C
+                    EditMode=@CurrentEditMode
+                    ShowFilterRow="@ShowFilterRow"
+                    @ref="DxDataGridRef"
+                    RowRemoving=OnRowRemoving_
+                    RowUpdating=OnRowUpdating_
+                    RowInserting=OnRowInserting_
+                    KeyFieldName="@(KeyFieldName() == null ? "Id" : KeyFieldName())"
+                    CssClass="@GridCssClass()"
+                    DataRowCssClass="grid-row"
+                    ColumnResizeMode=ColumnResizeMode
+                    SelectionMode=SelectionMode
+                    SelectAllMode="DataGridSelectAllMode.AllPages"
+                    AllowSort="true"
+                    ShowPager=ShowPager
+                    PagerPageSizeSelectorVisible=PageSizeSelector
+                    PagerAllowedPageSizes=@PageSize
+                    PagerAllDataRowsItemVisible=ShowsAll_
+                    VerticalScrollBarMode=@ScrollBarMode.Auto
+                    HorizontalScrollBarMode="ScrollBarMode.Auto"
+                    PagerNavigationMode=@PagerNavigationMode.Auto
+                    PagerSwitchToInputBoxButtonCount=PagerSwitchToInputBoxButtonCount
+                    PageSize=page_PageSize
+                    DataNavigationMode="@DataGridNavigationMode.Paging"
+                    @bind-PageIndex=page_CurrentPage
+                    @attributes=attributes
+                    PopupEditFormHeaderText="@AppState[getPopupEditFormHeaderTextLabel()]"
+                    OptimizedMultipleSelectionChanged="OnSelectionChanged"
+                    SingleSelectedDataRowChanged="OnSingleSelectionChanged"
+                    HtmlRowDecoration="@OnHtmlRowDecoration"
+                    HtmlDataCellDecoration="@OnHtmlDataCellDecoration"
+                    RowEditStartAsync="OnRowEditStarting"
+                    RowInsertStart="OnRowInsertStarting"
+                    HeaderTemplate="addHeaderRender"
+                    @oncontextmenu:preventDefault>
+            <Columns>
+                <DxDataGridSelectionColumn ShowInColumnChooser=ShowInColumnChooser @ref="DxDataGridSelectionColumnRef"
+                                           Width="@ColumnChoserWidth"
+                                           Visible=ShowSelectionColumnVisible />
+
+                @for (int Position = 0; Position < ItemsCount; Position++)
+                {
+                    if (canAdd || Position >= ColumnsDatas.Count)
+                    {
+                        ColumnsDatas.Add(GetGridDataItem(Position));
+                    }
+                    var GridDataItem = ColumnsDatas[Position];
+                    var columnFormat = GridDataItem.ColumnFormat;
+                    var pos = Position;
+                    @if (GridDataItem.ColumnType.Equals(typeof(decimal)))
+                    {
+                        if (string.IsNullOrWhiteSpace(columnFormat))
+                        {
+                            columnFormat = "F2";
+                        }
+                        <DxDataGridSpinEditColumn AllowSort="true" AllowFilter=AllowFilter AllowGroup="true"
+                                                  Width="@GridDataItem.ColumnWidth"
+                                                  Field="@GridDataItem.ColumnName"
+                                                  Caption="@GridDataItem.CaptionName"
+                                                  FixedStyle=GridDataItem.GridFixedStyle
+                                                  Visible="@GridDataItem.Visible">
+                            <DisplayTemplate>
+                                @{
+                                    C currentObj = (C)context;
+                                    if (currentObj != null && currentObj.IsInEditMode)
+                                    {
+                                        var editor = GetEditData((C)context, GridDataItem);
+                                        if (editor == null)
+                                        {
+                                            <DxSpinEdit DisplayFormat="@columnFormat" T="decimal?"
+                                                        Value="@GetEditDecimalFieldName((C)context, GridDataItem)"
+                                                        ReadOnly="GridDataItem.CanEditColumn"
+                                                        ValueChanged="@((decimal? newCellValue) => EditGridCell((C)context, GridDataItem.ColumnName, newCellValue))"
+                                                        @onkeyup="@(async (e) => await EnterHandleValidSubmit(e, (C)context))">
+                                            </DxSpinEdit>
+                                        }
+                                        else
+                                        {
+                                            @editor;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        @FormatDoubleCellValue(columnFormat, @GetFieldValue((C)context, pos));
+                                    }
+                                }
+                            </DisplayTemplate>
+                        </DxDataGridSpinEditColumn>
+                                    }
+                                    else
+                    @if (GridDataItem.ColumnType.Equals(typeof(DateTime?)))
+                    {
+                        if (string.IsNullOrWhiteSpace(columnFormat))
+                        {
+                            columnFormat = "dd/MM/yyyy";
+                        }
+                        <DxDataGridDateEditColumn AllowSort="true" AllowFilter=AllowFilter AllowGroup="true"
+                                                  DisplayFormat="D" EditorFormat="d"
+                                                  Width="@GridDataItem.ColumnWidth"
+                                                  Field="@GridDataItem.ColumnName"
+                                                  Caption="@GridDataItem.CaptionName"
+                                                  FixedStyle=GridDataItem.GridFixedStyle
+                                                  Visible="@GridDataItem.Visible">
+                            <DisplayTemplate>
+                                @{
+                                    C currentObj = (C)context;
+                                    if (currentObj != null && currentObj.IsInEditMode)
+                                    {
+                                        var editor = GetEditData((C)context, GridDataItem);
+                                        if (editor == null)
+                                        {
+                                            <DxDateEdit Date="GetEditDateTimeFieldName((C)context, GridDataItem)"
+                                                        T="DateTime?" DisplayFormat="@columnFormat"
+                                                        ReadOnly="GridDataItem.CanEditColumn"
+                                                        DateChanged="@((DateTime? newCellValue) => EditGridCell((C)context, GridDataItem.ColumnName, newCellValue))"
+                                                        @onkeyup="@(async (e) => await EnterHandleValidSubmit(e, (C)context))">
+                                            </DxDateEdit>
+                                        }
+                                        else
+                                        {
+                                            @editor;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        @FormatDateCellValue(columnFormat, @GetFieldValue((C)context, pos));
+                                    }
+                                }
+                            </DisplayTemplate>
+                        </DxDataGridDateEditColumn>
+                                    }
+                                    else
+                    @if (GridDataItem.ColumnType.Equals(typeof(bool)))
+                    {
+                        <DxDataGridCheckBoxColumn TextAlignment="DataGridTextAlign.Justify" AllowSort="true"
+                                                  AllowFilter=AllowFilter AllowGroup="true"
+                                                  Width="@GridDataItem.ColumnWidth"
+                                                  Field="@GridDataItem.ColumnName"
+                                                  Caption="@GridDataItem.CaptionName"
+                                                  FixedStyle=GridDataItem.GridFixedStyle
+                                                  Visible="@GridDataItem.Visible">
+                            <DisplayTemplate>
+                                @{
+
+                                    C currentObj = (C)context;
+                                    if (currentObj != null && currentObj.IsInEditMode)
+                                    {
+                                        var editor = GetEditData((C)context, GridDataItem);
+                                        if (editor == null)
+                                        {
+                                            <DxCheckBox Checked="@GetEditTextFieldName((C)context, GridDataItem)"
+                                                        Enabled="!GridDataItem.CanEditColumn"
+                                                        CheckedChanged="@((string newCellValue) => EditGridCell((C)context, GridDataItem.ColumnName, newCellValue))"
+                                                        @onkeyup="@(async (e) => await EnterHandleValidSubmit(e, (C)context))">
+                                            </DxCheckBox>
+                                        }
+                                        else
+                                        {
+                                            @editor;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        var val = GetFieldValue((C)context, pos);
+                                        bool.TryParse(val.ToString(), out bool valu);
+                                        IDictionary<string, object> attribut = new Dictionary<string, object>()
+                                            {{ "readonly","readonly" },};
+                                        <div class="d-flex flex-row justify-content-center ">
+                                            <DxCheckBox Checked="@valu" CheckType="CheckType.Checkbox" @attributes="attribut" CheckedChanged="((bool ele) => CheckedChanged((C)context, pos, ele))">
+                                            </DxCheckBox>
+                                        </div>
+                                    }
+                                }
+                            </DisplayTemplate>
+                        </DxDataGridCheckBoxColumn>
+                                    }
+                                    else
+                                    {
+                        <DxDataGridColumn AllowSort="true" AllowFilter=AllowFilter AllowGroup="true"
+                                          Width="@GridDataItem.ColumnWidth"
+                                          Field="@GridDataItem.ColumnName"
+                                          Caption="@GridDataItem.CaptionName"
+                                          FixedStyle=GridDataItem.GridFixedStyle
+                                          Visible="@GridDataItem.Visible">
+                            <DisplayTemplate>
+                                @{
+                                    C currentObj = (C)context;
+                                    if (currentObj != null && currentObj.IsInEditMode)
+                                    {
+                                        var editor = GetEditData((C)context, GridDataItem);
+                                        if (editor == null)
+                                        {
+                                            <DxTextBox Text="@GetEditTextFieldName((C)context, GridDataItem)"
+                                                       ReadOnly="GridDataItem.CanEditColumn"
+                                                       TextChanged="@((string newCellValue) => EditGridCell((C)context, GridDataItem.ColumnName, newCellValue))"
+                                                       @onkeyup="@(async (e) => await EnterHandleValidSubmit(e, (C)context))">
+                                            </DxTextBox>
+                                        }
+                                        else
+                                        {
+                                            @editor;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if (!IsNavLink || pos > 0)
+                                        {
+                                            @GetFieldValue((C)context, pos);
+                                        }
+                                        else
+                                        {
+                                            var value = KeyFieldValue((C)context);
+                                            var link = GetOpenTabLink(value);
+                                            <NavLink href="@link">
+                                                <span class="btn-link" style="cursor: pointer;"
+                                                      @onclick:preventDefault @onclick="@(() => NavigateTo(value))"
+                                                      @oncontextmenu:preventDefault @oncontextmenu="@((e) => OpenLing(e, (C)context, link, value != null ? value.ToString() : null))">
+                                                    @{
+                                                        @GetFieldValue((C)context, pos);
+                                                    }
+                                                </span>
+                                            </NavLink>
+                                                            }
+                                                        }
+                                }
+                            </DisplayTemplate>
+                        </DxDataGridColumn>
+                                                        }
+                                                        }
+            </Columns>
+            <EditFormTemplate>
+                @if (EditFormTemplate != null)
+                {
+                    @EditFormTemplate
+                }
+            </EditFormTemplate>
+            <TotalSummary>
+                @if (ShowPagerCountItem)
+                {
+                    <DxDataGridSummaryItem ShowInColumn=@AppState["TotalItem"]
+                                           SummaryType=SummaryItemType.Sum
+                                           GroupSummaryPosition="GroupSummaryPosition.GroupFooter" />
+                }
+            </TotalSummary>
+        </DxDataGrid>
+                                                        }
+
+    <DxContextMenu ItemClick="OnItemClick" @ref="@ContextMenuRef">
+        <Items>
+            @if (displayItem)
+            {
+                if (NewButtonVisible)
+                {
+                    <DxContextMenuItem Enabled="@NewButtonVisible" Text="@AppState["New"]" />
+                }
+                if (DuplicateButtonVisible)
+                {
+                    <DxContextMenuItem Enabled="@DuplicateButtonVisible" Text="@AppState["Duplicate"]" />
+                }
+                if (EditButtonVisible)
+                {
+                    <DxContextMenuItem Enabled="@EditButtonVisible" Text="@AppState["Edit"]" />
+                }
+                if (DeleteButtonVisible)
+                {
+                    <DxContextMenuItem Enabled="@DeleteButtonVisible" Text="@AppState["Delete"]" />
+                    if (DeleteAllButtonVisible)
+                    {
+                        <DxContextMenuItem Enabled="@DeleteAllButtonVisible" Text="@AppState["DeleteAll"]" />
+                    }
+                }
+            }
+            @if (CustomContextMenuRender != null)
+            {
+                @CustomContextMenuRender
+            }
+        </Items>
+    </DxContextMenu>
+
+    <DxContextMenu ItemClick="OnItemClickOpenLinkOnNewTab" @ref="@ContextMenuOpenLinkRef">
+        <Items>
+            <DxContextMenuItem Text="@AppState["Open"]" />
+            <DxContextMenuItem Text="@AppState["OpenOnNewTab"]" />
+        </Items>
+    </DxContextMenu>
+</div>
+
+
+@code{
+    RenderFragment addHeaderRender => __builder =>
+    {@if (CustomHeaderRender != null)
+{
+    <DxToolbar AdaptivityAutoHideRootItems="false" AdaptivityMinRootItemCount="2" CssClass="m-0 w-100 mw-100 p-0 bc-font-inherit bcf-grid-toolbar w-100 " ItemRenderStyleMode="ToolbarRenderStyleMode.Contained" ItemSizeMode="SizeMode.Small">
+        <Items>
+            <DxToolbarItem CssClass="p-0 m-0 w-100 ">
+                <Template>
+                    @CustomHeaderRender
+                </Template>
+            </DxToolbarItem>
+        </Items>
+    </DxToolbar>
+}
+};
+
+    protected virtual RenderFragment DefaultEditFormTemplate => __builder =>
+    {
+
+    int index = 0;
+    string row = "e0 ";
+    while (index < ItemsCount)
+    {
+        row += " R" + index;
+        index++;
+    }
+    <div class="overflow-auto p-0 m-0">
+        <EditForm Model="CustomCellEditContext_" Context="EditFormContext" OnValidSubmit="HandleValidSubmit">
+            @*<DataAnnotationsValidator />*@
+            <DxFormLayout CssClass="d-flex flex-column w-100 p-0 m-0">
+
+                <DxFormLayoutItem CssClass="w-100 p-0 m-0" Context="FormLayoutContext" CaptionCssClass="font-weight-normal"
+                                  Caption="" ColSpanXs="12" ColSpanXl="12" ColSpanSm="12" ColSpanLg="12" ColSpanMd="12">
+                    <Template>
+                        <DxGridLayout CssClass="w-100 p-0 m-0" ColumnSpacing="0px" RowSpacing="10px">
+                            <Rows>
+                                <DxGridLayoutRow Areas="@row" Height="auto" />
+                            </Rows>
+                            <Columns>
+                                <DxGridLayoutColumn Width="21px" />
+                                @{
+                                    int offseth = 0;
+                                    while (offseth < ItemsCount)
+                                    {
+                                        var GridDataItem = ColumnsDatas[offseth];
+                                        if (GridDataItem != null)
+                                        {
+                                            <DxGridLayoutColumn Width="@GridDataItem.ColumnWidth" />
+                                            offseth++;
+                                        }
+                                    }
+                                }
+                            </Columns>
+                            <Items>
+                                <DxGridLayoutItem Area="e0">
+                                    <Template>
+
+                                    </Template>
+                                </DxGridLayoutItem>
+                                @{
+                                    int Positionh = 0;
+                                    while (Positionh < ItemsCount)
+                                    {
+                                        var GridDataItem = ColumnsDatas[Positionh];
+                                        GridDataItem.EditAction = CustomCellEditContext_.EditGridCell;
+                                        CustomCellEditContext_.Items.Add(GridDataItem);
+                                        var columnFormat = GridDataItem.ColumnFormat;
+                                        var itemR = "R" + Positionh;
+
+                                        <DxGridLayoutItem CssClass="bc-grid-col-edit-label" Area="@itemR">
+                                            <Template>
+                                                @GridDataItem.CaptionName
+                                            </Template>
+                                        </DxGridLayoutItem>
+                                        Positionh++;
+                                    }
+                                }
+                            </Items>
+                        </DxGridLayout>
+                        <DxGridLayout CssClass="w-100 p-0 m-0" ColumnSpacing="0px" RowSpacing="10px">
+                            <Rows>
+                                <DxGridLayoutRow Areas="@row" Height="auto" />
+                            </Rows>
+                            <Columns>
+                                <DxGridLayoutColumn Width="21px" />
+                                @{
+                                    int offset = 0;
+                                    while (offset < ItemsCount)
+                                    {
+                                        var GridDataItem = ColumnsDatas[offset];
+                                        if (GridDataItem != null)
+                                        {
+                                            <DxGridLayoutColumn Width="@GridDataItem.ColumnWidth" />
+                                            offset++;
+                                        }
+                                    }
+                                }
+                            </Columns>
+                            <Items>
+                                <DxGridLayoutItem Area="e0">
+                                    <Template>
+
+                                    </Template>
+                                </DxGridLayoutItem>
+                                @{
+                                    int Position = 0;
+                                    while (Position < ItemsCount)
+                                    {
+                                        var GridDataItem = ColumnsDatas[Position];
+                                        GridDataItem.EditAction = CustomCellEditContext_.EditGridCell;
+                                        CustomCellEditContext_.Items.Add(GridDataItem);
+                                        var columnFormat = GridDataItem.ColumnFormat;
+                                        var itemR = "R" + Position;
+
+                                        <DxGridLayoutItem CssClass="bc-grid-col-edit-field" Area="@itemR">
+                                            <Template>
+                                                @if (GridDataItem.ColumnType.Equals(typeof(decimal)))
+                                                {
+                                                    GridDataItem.ValueDecimal = CustomCellEditContext_.GetEditDecimalFieldName(GridDataItem);
+                                                    var editor = GetEditData(null, GridDataItem);
+                                                    if (editor == null)
+                                                    {
+                                                        <DxSpinEdit T="decimal?" @bind-Value=GridDataItem.ValueDecimal />
+                                                    }
+                                                    else
+                                                    {
+                                                        @editor;
+                                                    }
+                                                }
+                                                else
+                                                @if (GridDataItem.ColumnType.Equals(typeof(DateTime?)))
+                                                {
+                                                    GridDataItem.ValueDate = CustomCellEditContext_.GetEditDateTimeFieldName(GridDataItem);
+                                                    var editor = GetEditData(null, GridDataItem);
+                                                    if (editor == null)
+                                                    {
+                                                        <DxDateEdit @bind-Date=GridDataItem.ValueDate T="DateTime?" DisplayFormat="D" />
+                                                    }
+                                                    else
+                                                    {
+                                                        @editor;
+                                                    }
+                                                }
+                                                else
+                                                @if (GridDataItem.ColumnType.Equals(typeof(bool)))
+                                                {
+                                                    GridDataItem.ValueString = CustomCellEditContext_.GetEditTextFieldName(GridDataItem);
+                                                    var editor = GetEditData(null, GridDataItem);
+                                                    if (editor == null)
+                                                    {
+                                                        <DxCheckBox @bind-Checked=GridDataItem.ValueString />
+                                                    }
+                                                    else
+                                                    {
+                                                        @editor;
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    GridDataItem.ValueString = CustomCellEditContext_.GetEditTextFieldName(GridDataItem);
+                                                    var editor = GetEditData(null, GridDataItem);
+                                                    if (editor == null)
+                                                    {
+                                                        <DxTextBox @bind-Text=GridDataItem.ValueString />
+                                                    }
+                                                    else
+                                                    {
+                                                        @editor;
+                                                    }
+                                                }
+                                            </Template>
+                                        </DxGridLayoutItem>
+                                        Position++;
+                                    }
+                                }
+                            </Items>
+                        </DxGridLayout>
+                    </Template>
+                </DxFormLayoutItem>
+
+
+                @*<DxFormLayoutItem ColSpanMd="12" Context="FormLayoutContext">
+                        <ValidationSummary />
+                    </DxFormLayoutItem>*@
+                <DxFormLayoutItem ColSpanMd="12" Context="FormLayoutContext">
+                    <div class="text-right">
+                        <DxButton RenderStyle="ButtonRenderStyle.Primary" SubmitFormOnClick="true" Text="@AppState["Update"]" />
+                        <DxButton RenderStyle="ButtonRenderStyle.Link" Click="OnCancelButtonClick" Text="@AppState["Cancel"]" />
+                    </div>
+                </DxFormLayoutItem>
+            </DxFormLayout>
+        </EditForm>
+    </div>
+
+     
+    };
+
+private RenderFragment BuildChecBoxTotalPage =>__builder => {
+if (AllowToDisplayCustomPager)
+{
+<div @ref="CheckBoxTotalPageControl" class="m-0 p-0" id="@CheckBoxTotalPageId">
+    <DxGridLayout CssClass="m-0 p-0 d-flex pt-auto mt-auto w-100 h-100 align-items-center">
+        <Rows>
+            <DxGridLayoutRow Areas="lbl all row" Height="auto"/>
+        </Rows>
+        <Columns>
+            @if (AllowRowCounting_ && loadResult != null)
+            {
+
+                <DxGridLayoutColumn Width="1.0fr" />
+            }
+           
+                <DxGridLayoutColumn Width="auto" />
+                <DxGridLayoutColumn Width="auto" />
+            
+            </Columns>
+        <Items>
+            @if (AllowRowCounting_ && loadResult != null)
+            {
+                <DxGridLayoutItem Area="lbl" CssClass="d-flex flex-column align-items-center justify-content-center p-1">
+                    <Template>
+                        <div class="d-flex align-items-center" style="min-width:20px !important;">
+                            <span class="mx-auto text-truncate">
+                                @AppState["total.rows.count"]: @loadResult.totalCount
+                            </span>
+                        </div>
+                    </Template>
+                </DxGridLayoutItem>
+            }
+                <DxGridLayoutItem Area="all" CssClass="d-flex flex-column align-items-center justify-content-center p-1">
+                    <Template>
+                        <div class="d-flex pl-1 align-items-center">
+                            <span class="ml-auto mt-auto mr-auto">
+                                <DxCheckBox @bind-Checked=AllowAllRow_ T="bool" data-toggle="tooltip" title=@AppState["show.all.row"] />
+                            </span>
+                        </div>
+                    </Template>
+                </DxGridLayoutItem>
+                <DxGridLayoutItem Area="row" CssClass="d-flex flex-column align-items-center justify-content-center p-1">
+                    <Template>
+                        <div class="d-flex pl-1 align-items-center">
+                            <span class="ml-auto mt-auto mr-auto">
+                                <DxCheckBox @bind-Checked=AllowRowCounting_ T="bool" data-toggle="tooltip" title=@AppState["allow.row.counting"] />
+                            </span>
+                        </div>
+                    </Template>
+                </DxGridLayoutItem>
+        </Items>
+    </DxGridLayout>
+   
+</div>
+    }
+};
+}
+
+<BaseModalComponent Title="@DeletionTitle"
+                    @bind-ShowModal=DeleteConfirmationPopup
+                    OkHandler="DeleteAction"
+                    CancelHandler="CancelDeletion"
+                    IsConfirmation=@IsConfirmation>
+    <div class="d-flex">
+        <i class="bi-question-circle text-primary align-self-start mr-4" style="font-size: 1.5rem;"></i>
+
+        <div class="align-self-center">
+            <p class="p-0 m-0">@DeleteMessage</p>
+        </div>
+    </div>    
+</BaseModalComponent>
+<RenderFormContent @ref="RenderFormContentRef">
+    @BuildChecBoxTotalPage
+</RenderFormContent>

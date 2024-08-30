@@ -1,0 +1,83 @@
+﻿@namespace Bcephal.Blazor.Web.Dashboard.Shared.Dashboard
+
+
+<div class="h-100 w-100">
+    @if (EditorData != null)
+    {
+        @RenderWidgetTabPage(EditorData)
+    }
+</div>
+
+
+@code {
+
+    
+
+    public RenderFragment RenderWidgetTabPage(EditorData<Models.Dashboards.Dashboard> EditorData_)
+    {
+        RenderFragment RenderWidgetB = __builder =>
+        {
+            <div class="d-flex flex-column" style="height: var(--grid-bc-two);">
+                <DxGridLayout CssClass="h-100" >
+                    <Rows>
+                        <DxGridLayoutRow Areas="a1" Height="8%" />
+                        <DxGridLayoutRow Areas="a2" Height="91%" />
+                    </Rows>
+                    <Columns>
+                        <DxGridLayoutColumn Width="1fr" />
+                    </Columns>
+                    <Items>
+                        <DxGridLayoutItem CssClass="m-1  p-1 " Area="a1">
+                            <Template>
+                                <DxFormLayout ItemSizeMode="DevExpress.Blazor.SizeMode.Small">
+                                    <DxFormLayoutItem CssClass="bc-formlayout-item ml-1" ColSpanMd="12"
+                                                      ColSpanLg="12" ColSpanSm="12">
+                                        <Template>
+                                            <div class="d-flex flex-row pr-1 pl-1">
+                                                <div class="d-inline-flex">
+                                                    <label class="mt-auto mb-auto">@AppState["Layout"]</label>
+                                                    <DxComboBox Enabled=Editable CssClass="ml-1 mt-auto mr-auto"
+                                                                Data=DashboardLayouts
+                                                                TextFieldName="@nameof(Bcephal.Models.Dashboards.DashboardLayout.Label)"
+                                                                @bind-Value="SelectedLayout">
+                                                    </DxComboBox>
+                                                </div>
+                                            </div>
+                                        </Template>
+                                    </DxFormLayoutItem>
+                                </DxFormLayout>
+                            </Template>
+                        </DxGridLayoutItem>
+                        <DxGridLayoutItem  Area="a2">
+                            <Template>
+                                <div class="h-100 w-100"  @onclick:preventDefault>
+                                    @if (EditorData != null)
+                                        {
+                                        <DashboardConfigDesign_ Editable=Editable @bind-EditorData=EditorDataBinding ></DashboardConfigDesign_>
+                                        }
+
+                                </div>
+                            </Template>
+                        </DxGridLayoutItem>
+                    </Items>
+                </DxGridLayout>
+            </div>
+        };
+        return RenderWidgetB;
+    }
+
+
+    public RenderFragment RenderWidgetTabPagePlus()
+    {
+        RenderFragment RenderWidgetB = __builder =>
+        {
+        <DxTabPage Text="" TabIconCssClass="bi bi-plus">
+        </DxTabPage>
+        };
+        return RenderWidgetB;
+    }
+
+
+
+
+}

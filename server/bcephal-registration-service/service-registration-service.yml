@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: bcephal-registration-service
+spec:
+  selector:
+    app: bcephal-registration-service
+  type: LoadBalancer  
+  ports:
+  - port: 8000
+    targetPort: 3000
+    protocol: TCP

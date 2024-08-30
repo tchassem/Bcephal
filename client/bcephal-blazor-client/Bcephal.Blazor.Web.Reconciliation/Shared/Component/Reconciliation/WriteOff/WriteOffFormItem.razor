@@ -1,0 +1,148 @@
+
+
+@if (Item != null)
+{
+
+    <DxGridLayout RowSpacing="7px" CssClass="mt-2" style="min-height:50px; max-height:100px;">
+        <Rows>
+            <DxGridLayoutRow Height="1fr" />
+        </Rows>
+
+        <Columns>
+            <DxGridLayoutColumn />
+            <DxGridLayoutColumn />
+            <DxGridLayoutColumn />
+            <DxGridLayoutColumn />
+        </Columns>
+        <Items>
+            <DxGridLayoutItem Row="0" Column="0">
+                <Template>
+                    <div class="d-block w-100">
+                        <DxStackLayout CssClass="w-100" Orientation="Orientation.Horizontal" ItemSpacing="5px">
+                            <Items>
+                                <DxStackLayoutItem Length="1fr">
+                                    <Template>
+                                        <DxComboBox CssClass="mr-1" Data="@Values" Value="@Value" ValueChanged="@((string val) => OnValueChanged(val))"></DxComboBox>
+                                    </Template>
+                                </DxStackLayoutItem>
+                                <DxStackLayoutItem Length="1.5fr">
+                                    <Template>
+                                        <div class="d-flex flex-row w-100">
+                                            <div style="display:@(Item.DimensionType.IsAttribute() ? "block" : "none");width:80%; margin-right:2%;">
+                                                <TreeViewFilter  Editable=Editable ItemsFilter="Models"
+                                                                C="Models.Base.HierarchicalData"
+                                                                SelectFilterItemCallback="FilterChanged"
+                                                                SelectedItem=@DimensionName>
+                                                </TreeViewFilter>
+                                            </div>
+                                            <div style="display:@(Item.DimensionType.IsPeriod() ? "block" : "none");width:80%; margin-right:2%;">
+                                                <TreeViewFilter Editable=Editable ItemsFilter="Periods"
+                                                                C="Models.Base.HierarchicalData"
+                                                                SelectFilterItemCallback="FilterChanged"
+                                                                SelectedItem=@DimensionName>
+                                                </TreeViewFilter>
+                                            </div>
+                                            <div class="d-flex flex-row" style="width:16%; margin-left:2%;">
+                                                @if (RemoveButton || RemoveButton_ || !String.IsNullOrEmpty(DimensionName))
+                                                {
+                                                    <div class="d-flex flex-row mr-1 mt-auto mb-auto">
+                                                        <DxButton Enabled=Editable IconCssClass="fa fa-remove"
+                                                                  RenderStyleMode="ButtonRenderStyleMode.Text"
+                                                                  RenderStyle="ButtonRenderStyle.Danger"
+                                                                  Click="@(() => CallBackRemove.InvokeAsync(Item))">
+                                                        </DxButton>
+                                                    </div>
+                                                }
+                                            </div>
+                                        </div>
+                                    </Template>
+                                </DxStackLayoutItem>
+                            </Items>
+                        </DxStackLayout>
+                    </div>
+                </Template>
+            </DxGridLayoutItem>
+
+            <DxGridLayoutItem Visible="@(!String.IsNullOrEmpty(DimensionName))" Row="0" Column="1">
+                <Template>
+                    <div class="d-flex flex-column">
+                        <div class="d-flex flex-row" style="margin-top: .125rem !important;">
+                            <DxCheckBox Enabled=Editable CssClass="ml-auto mr-auto" @bind-Checked="Item.Mandatory"></DxCheckBox>
+                        </div>
+                    </div>
+                </Template>
+            </DxGridLayoutItem>
+
+            <DxGridLayoutItem Visible="@(!String.IsNullOrEmpty(DimensionName))" Row="0" Column="2">
+                <Template>
+                    <div style="display:@(Item.DimensionType.IsPeriod() ? "block" : "none")">
+                        <DxComboBox Enabled=Editable CssClass="ml-auto mr-auto w-50" Data=WriteOffValueTypesPeriods Value="@ValueType" TextFieldName="label" ValueChanged="@((Bcephal.Models.Reconciliation.WriteOffFieldValueType val) => ValueTypeCallBack(val))"></DxComboBox>
+                    </div>
+
+                    <div style="display:@(Item.DimensionType.IsAttribute() ? "block" : "none")">
+                        <DxComboBox Enabled=Editable CssClass="ml-auto mr-auto w-50" Data=WriteOffValueTypesAttributes Value="@ValueType" TextFieldName="label" ValueChanged="@((Bcephal.Models.Reconciliation.WriteOffFieldValueType val) => ValueTypeCallBack(val))"></DxComboBox>
+                    </div>
+                </Template>
+            </DxGridLayoutItem>
+
+            <DxGridLayoutItem Visible="@(Item.DimensionType.IsAttribute())" Row="0" Column="3">
+                <Template>
+                    @if (ValueType != null)
+                    {
+                        <div style="display:@(ValueType.Equals(Bcephal.Models.Reconciliation.WriteOffFieldValueType.FREE) ? "block" : "none")">
+                            @*<Tooltip Text="AllowUserToEditNewValue">test</Tooltip>*@
+                            @RenderAllowNewValue(Item)
+                        </div>
+
+                        <div style="display:@(ValueType.Equals(Bcephal.Models.Reconciliation.WriteOffFieldValueType.LIST_OF_VALUES) ? "block" : "none");height:100%;">
+                            <div class="d-block h-100 overflow-y-auto pl-1">
+                                @{
+
+                                    int offset = 0;
+
+                                    @while (offset < RendersWriteOffItem.Count)
+                                    {
+                                        @RendersWriteOffItem[offset]
+                                        offset++;
+                                    }
+                                }
+                            </div>
+                        </div>
+                    }
+
+
+                </Template>
+            </DxGridLayoutItem>
+        </Items>
+    </DxGridLayout>
+}
+
+
+
+@code
+{
+
+    public RenderFragment RenderWriteOffFieldValue(Bcephal.Models.Reconciliation.WriteOffFieldValue item_, bool addButton) =>
+   __builder =>
+       {
+    <WriteOffFieldValueComponent Editable=Editable Item=item_
+                                 CallBackAddorUpdate="AddFilterWriteOffFieldValue"
+                                 CallBackRemove="RemoveFilterWriteOffFieldValue"
+                                 AddRenderNext="AddRenderNextWriteOffFieldValue"
+                                 RemoveButton="addButton"
+                                 AttributeId="Item.DimensionId"
+                                 @key="item_.Key"
+                                 @bind-SelectedItemList="SelectedItemList">
+    </WriteOffFieldValueComponent>
+    };
+
+
+ public RenderFragment RenderAllowNewValue(Bcephal.Models.Reconciliation.WriteOffField item_) =>
+__builder =>
+   {
+    <DxCheckBox Enabled=Editable CssClass="ml-auto mr-auto" @bind-Checked="item_.AllowNewValue"></DxCheckBox>
+   };
+
+
+
+}

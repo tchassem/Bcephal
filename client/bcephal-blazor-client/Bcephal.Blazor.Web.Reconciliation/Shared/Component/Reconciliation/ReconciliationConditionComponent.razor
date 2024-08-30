@@ -1,0 +1,135 @@
+﻿
+@inject IJSRuntime JSRuntime
+@inject AppState AppState
+
+<div class="d-flex flex-row mb-2 w-auto" style="box-sizing:border-box;">
+
+    <DxComboBox Enabled=Editable Data="FilterVerbs" NullText="" CssClass="min-w-64 wid-64 mr-1"
+                @bind-Value="@SelectedFilterVerb">
+    </DxComboBox>
+    <DxComboBox Enabled=Editable Data="@FilterUtils.OpenBrackets"
+                @bind-Value="@OpeningBracket"
+                CssClass="min-w-64 wid-64 mr-1">
+    </DxComboBox>
+    <DxComboBox Enabled=Editable Data="@modelSides" NullText="@AppState["SelectSide"]" CssClass="min-w-120 wid-120 mr-1"
+                TValue="ReconciliationModelSide" TData="ReconciliationModelSide"
+                TextFieldName="@nameof(ReconciliationModelSide.label)"
+                @bind-Value="@ModelSide1">
+    </DxComboBox>
+    <DxComboBox Enabled=Editable CssClass=" d-inline-block min-w-200 wid-200 mr-1" Data="FirstDimensionGroup"
+                TValue="GrilleColumn" TData="GrilleColumn" Value="@Column1"
+                NullText="@AppState["selectElement"]" ValueChanged="@Column1ValueChanged">
+    </DxComboBox>
+    @if (Column1 != null)
+    {
+        <DxComboBox Enabled=Editable Data="@(IsTypeAttribute ? AttributeOperators : MeasureOperators)"
+                    TData="string" TValue="string"
+                    NullText="@AppState["SelectOperator"]"
+                    Value=@(IsTypeAttribute ? SelectedAttributeOp : Condition.Operator)
+                    CssClass="min-w-120 wid-120 mr-1"
+                    ValueChanged="@OperatorValueChanged">
+        </DxComboBox>
+        <DxComboBox Enabled=Editable Data="@modelSides" NullText="@AppState["SelectSide"]"
+                    CssClass="min-w-150 wid-150 mr-1"
+                    TextFieldName="@nameof(ReconciliationModelSide.label)"
+                    @bind-Value="@ModelSide2">
+        </DxComboBox>
+        <div class="d-flex flex-row min-w-200 wid-200 mr-1">
+            <DxComboBox Enabled=Editable Data="SecondDimensionGroup" CssClass="w-100"
+                        TValue="GrilleColumn" TData="GrilleColumn"
+                        Value="@Column2"
+                        NullText="@AppState["selectElement"]" ValueChanged="@Column2ValueChanged">
+            </DxComboBox>
+            @if (IsTypePeriod)
+            {
+                <DxButton Enabled=Editable RenderStyle="ButtonRenderStyle.Link" CssClass="ml-1"
+                          Title="@AppState["Edit.Period"]"
+                          IconCssClass="fa fa-pencil-square-o fa-lg"
+                          @onclick="() => { showConfigModal = true; }" />
+            }
+        </div>
+        <DxComboBox Enabled=Editable Data="FilterUtils.CloseBrackets" CssClass="min-w-64 wid-64 mr-1"
+                    @bind-Value="@ClosingBracket" >
+        </DxComboBox>
+        <DxCheckBox Enabled=Editable @bind-Checked="@Condition.EcludeNullAndEmptyValue" CssClass="d-flex align-items-center mr-1"
+                    LabelWrapMode="LabelWrapMode.NoWrap">
+            @AppState["ExcludeNullValue"]
+        </DxCheckBox>
+        <DxButton Enabled=Editable IconCssClass="fa fa-remove" RenderStyleMode="ButtonRenderStyleMode.Text"
+                  RenderStyle="ButtonRenderStyle.Danger" CssClass=""
+                  Click="@(() => Delete(Condition))">
+        </DxButton>
+    }
+</div>
+
+@if (IsTypePeriod)
+{
+    <BaseModalComponent Title=@AppState["Edit.Period"] @bind-ShowModal=@showConfigModal
+                        ApplyBackgroundShading="true" BodyClass="p-2" OkHandler=@PeriodModalOkHandler>
+        <div style="height: 26vh; width: 25vw; ">
+            <DxStackLayout ItemSpacing="8px" Orientation=Orientation.Vertical>
+                <Items>
+                    <DxStackLayoutItem Length="auto">
+                        <Template>
+                            <div class="p-2" style="border: 1px solid #dbdbdb; ">
+                                <EditForm  Model="Condition">
+                                    <InputRadioGroup Name="PeriodCondition"  @bind-Value=@Condition.PeriodCondition>
+                                        @foreach (var pc in AutoRecoPeriodCondition.GetMethods())
+                                            {
+                                            <label style="padding-bottom: 1.2px !important;">
+                                                <InputRadio  Name="PeriodCondition" SelectedValue="@pc.label" Value="@pc.code" />
+                                                @AppState[pc.code]
+                                            </label>
+                                            @if (pc != AutoRecoPeriodCondition.GetMethods().Last())
+                                                {
+                                                <br />
+                                                }
+                                            }
+                                    </InputRadioGroup>
+                                </EditForm>
+                            </div>
+                        </Template>
+                    </DxStackLayoutItem>
+                    <DxStackLayoutItem Length="auto">
+                        <Template>
+                            <DxStackLayout Orientation=@Orientation.Horizontal ItemSpacing="8px">
+                                <Items>
+                                    <DxStackLayoutItem Length="0.3fr">
+                                        <Template>
+                                            <DxComboBox Enabled=Editable Data="@dateSigns" @bind-Value="@Condition.DateSign"
+                                                        SizeMode="SizeMode.Small">
+                                            </DxComboBox>
+                                        </Template>
+                                    </DxStackLayoutItem>
+                                    <DxStackLayoutItem Length="0.3fr">
+                                        <Template>
+                                            <DxSpinEdit Enabled=Editable MinValue="0" @bind-Value="@Condition.DateNumber">
+                                            </DxSpinEdit>
+                                        </Template>
+                                    </DxStackLayoutItem>
+                                    <DxStackLayoutItem Length="0.4fr">
+                                        <Template>
+                                            <DxComboBox Enabled=Editable Data="periodGranularities"
+                                                        @bind-Value=@SelectedGranularity>
+                                            </DxComboBox>
+                                        </Template>
+                                    </DxStackLayoutItem>
+                                </Items>
+                            </DxStackLayout>
+                        </Template>
+                    </DxStackLayoutItem>
+                </Items>
+            </DxStackLayout>
+        </div>
+    </BaseModalComponent>
+
+}
+@code {
+    #region :: RenderFragments section ::
+
+    RenderFragment RenderSide(ReconciliationModelSide ModelSide) => __builder =>
+    {
+    };
+
+    #endregion
+}

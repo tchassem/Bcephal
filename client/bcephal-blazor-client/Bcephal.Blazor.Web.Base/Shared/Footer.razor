@@ -1,0 +1,39 @@
+﻿@implements IAsyncDisposable
+<DxStackLayout Orientation=Orientation.Horizontal CssClass="w-100 h-100 m-0 p-0 bc-box-sizing " ItemSpacing="10px">
+    <Items>
+        <DxStackLayoutItem Length="1fr" CssClass="w-100 h-100">
+            <Template>
+                <div class="d-flex flex-row import-project-grid-column-1 w-auto">
+                    <span class="mr-auto ml-auto">© Moriset <a class="text-dark" href="#"> 2021</a></span>
+                </div>
+            </Template>
+        </DxStackLayoutItem>
+        <DxStackLayoutItem Length="1fr" Visible="(templates.Count > 0)" CssClass="w-100 h-100">
+            <Template>
+                <DxStackLayout Orientation=Orientation.Horizontal CssClass="w-100 h-100 m-0 p-0 d-flex flex-column align-items-center justify-content-center bc-box-sizing " ItemSpacing="10px">
+                    <Items>
+                        @{ int offset = 0;}
+                        @while (offset < templates.Count)
+                        {
+                            @templates.ElementAt(offset).Value;
+                            offset++;
+                        }
+                    </Items>
+                </DxStackLayout>
+            </Template>
+        </DxStackLayoutItem>
+    </Items>
+</DxStackLayout>
+    @code {
+        RenderFragment RenderProgressBar(SocketJS webSocket) => __builder =>
+            {
+            <DxStackLayoutItem Length="1fr" CssClass="bc-box-sizing w-100 h-100 m-0 p-0">
+                <Template>
+                    <div class="bc-box-sizing w-100 h-100 m-0 p-0 pr-1">
+                        <FullyProgressbar @ref="webSocket.FullyProgressbar" @key="webSocket.Id" StopTaskProgress="(()=>Stop(webSocket))" />
+                    </div>
+                </Template>
+            </DxStackLayoutItem>
+
+            };
+    }

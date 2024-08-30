@@ -1,0 +1,259 @@
+﻿.common-elt {
+    display: block;
+    margin-left: 5px;
+    margin-right: 5px;
+    box-sizing: border-box;
+}
+
+.height-50 {
+    height: 22px;
+}
+
+
+.wid-45{
+    width: 45px;
+}
+.wid-50 {
+    width: 50px;
+}
+
+.wid-55 {
+    width: 55px;
+}
+
+.wid-70 {
+    width: 70px;
+}
+
+.wid-60 {
+    width: 60px;
+}
+
+.wid-100 {
+    width: 100px;
+}
+
+.minmax-wid {
+    min-width: 100px;
+    max-width: 300px
+}
+
+.wid-150 {
+    width: 150px;
+}
+
+.wid-64 {
+    width: 64px;
+}
+
+.wid-82 {
+    width: 82px;
+}
+
+.wid-120 {
+    width: 120px;
+}
+
+.wid-200 {
+    width: 200px;
+}
+
+.wid-250 {
+    width: 250px;
+}
+
+.wid-300 {
+    width: 300px;
+}
+
+.wid-350 {
+    width: 350px;
+}
+
+
+
+div.dxbs-textbox.text-filter-input div {
+
+    box-sizing: border-box;
+}
+
+
+.filter-elt {
+    margin-left: 5px;
+    margin-right: 5px;
+    box-sizing: border-box;
+}
+
+.period-filter {
+    padding-top: 5px;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+
+.configfilter {
+    height: 100%;
+    overflow: auto;
+}
+
+.treeview {
+    /*display: block;*/
+    overflow: auto;
+    height: 200px;
+}
+
+
+.treefilter-container {
+    height: auto;
+    box-sizing: border-box;
+}
+
+.open-treefilter {
+    width: 100%;
+    height: 50px;
+    display: block;
+    box-sizing: border-box;
+}
+
+.btn-treeview-event {
+    display: flex;
+    color: #495057;
+    margin-right: 0;
+    font-size: 0.75rem !important;
+    line-height: 1.45rem !important;
+    background-color: white !important;
+    border: 0.5px solid #ced4da !important;
+    box-sizing: border-box;
+}
+
+    .btn-treeview-event:focus {
+       /* border-color: #4f81bd !important;*/
+        box-shadow: none !important;
+    }
+
+.select-treeview {
+    width: 120px;
+}
+
+.body-collapse {
+    position:absolute;
+    bottom: 0;
+}
+
+div.treefilter-container >
+btn.btn-sm.dx-btn.btn-primary.btn-treeview-event >
+span >
+span.fa.fa-chevron-down {
+    margin-left: auto !important;
+    margin-right: 1px;
+}
+
+div.treefilter-container >
+btn.btn-sm.dx-btn.btn-primary.btn-treeview-event:hover {
+    color: #000;
+    font-size: 12px !important;
+    background-color: white !important;
+}
+
+/*div.treefilter-container >
+btn.btn-sm.dx-btn.btn-primary.btn-treeview-eventspan >
+span.fa.fa-chevron-down :hover {
+    color: #000;
+    background-color: white !important;
+}*/
+
+/*div.treeview-gutters.dxbs-menu >
+div.dx-menu-bar.horizontal >
+ul.nav.flex-nowrap.item-alignment-start >
+li.nav-item.dropdown.dx-menu-item >
+div.dropdown-menu.dx-dropdown-menu.show.border-inherit {
+    z-index: 90000 !important;
+    position: relative;
+}*/
+.hv
+{
+    height:26.5px !important;
+}
+
+.filter-height {
+    height: calc(100% - 62.4px);
+}
+
+.filter-width {
+    width: calc(1/4 * 100vw - 5px);
+}
+
+.overflow-y-hidden {
+    overflow-y: hidden;
+}
+
+.bc-filter-header {
+    height: 25px;
+    background-color: #4f81bd;
+    color: #fff !important;
+}
+
+.bc-grid-header {
+    background-color: #4f81bd;
+    color: #fff !important;
+}
+
+
+.form-bc-properties {
+    display: flex;
+    flex-direction: row;
+}
+
+div.form-bc-properties > div.row > div > div.card > div.card-header {
+    height: 25px;
+    padding: 0 !important;
+    background-color: #4f81bd;
+    color: #fff !important;
+    margin: 0 !important;
+}
+
+div.form-bc-properties {
+    margin: 0 !important;
+}
+
+div.form-bc-properties > div.row {
+    height: 100% !important;
+}
+
+
+div.form-bc-properties > div.row > div.dxbs-fl-group > div.card {
+    height: 100% !important;
+    width:100%;
+}
+
+.form-bc-properties-header {
+    height: 25px;
+    width:100%;
+    padding: 0 !important;
+    margin: 0 0 0 .25rem !important;
+}
+
+.form-bc-properties-height {
+    height: calc(100vh - 115px) !important;
+    box-sizing: border-box;
+}
+
+.bc-h-20{
+    height:20%;
+
+}
+.bc-h-80 {
+    height: 80%;
+}
+
+.bc-w-90{
+    width: 90%;
+}
+
+.bc-w-10 {
+    width: 10%;
+}
+
+
+

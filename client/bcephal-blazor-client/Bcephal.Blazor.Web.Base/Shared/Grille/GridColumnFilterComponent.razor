@@ -1,0 +1,174 @@
+﻿@namespace Bcephal.Blazor.Web.Base.Shared.AbstractComponent
+
+@if (ColumnFilter != null)
+{
+<DxStackLayout Orientation="Orientation.Horizontal" CssClass="w-100 h-100 bc-box-sizing d-flex align-items-center">
+    <Items>
+        <RenderFormContent @ref=RenderFormContentFilter>
+            @if (!ColumnType.Equals(typeof(bool)))
+            {
+                <DxStackLayoutItem Length="0.8fr" CssClass="w-100 h-100 bc-box-sizing d-flex align-items-center">
+                    <Template>
+                        @if (ColumnType.Equals(typeof(decimal)))
+                        {
+                            <DxToolbar CssClass="browser-toolbar-filter" ItemSizeMode="SizeMode.Small" DropDownDisplayMode="DropDownDisplayMode.DropDown"
+                                       ItemRenderStyleMode="ToolbarRenderStyleMode.Contained"
+                                       AdaptivityAutoCollapseItemsToIcons="false">
+                                <Items>
+                                    <DxToolbarItem AdaptivePriority="0" CssClass="w-100" DropDownCssClass="min-w-40" IconCssClass=@DefaultIcon BeginGroup="true">
+                                        <Items>
+                                            @{
+                                                var offset = 0;
+                                                while (offset < MeasureOperatorCollection.Count)
+                                                {
+                                                    var item = MeasureOperatorCollection.ElementAt(offset);
+                                                    var title = GetOperatorTitle(item);
+                                                    var sign = MeasureOperator.GetSymbol_(item);
+                                                    <DxToolbarItem @key=item IconCssClass=@sign CssClass="browser-toolbar-item-filter" Click=ItemClick Tooltip=@title Name=@item />
+                                                    offset++;
+                                                }
+                                            }
+                                        </Items>
+                                    </DxToolbarItem>
+                                </Items>
+                            </DxToolbar>
+                        }
+                        else
+                        @if (ColumnType.Equals(typeof(DateTime?)))
+                        {
+                            <DxToolbar CssClass="browser-toolbar-filter" ItemSizeMode="SizeMode.Small"
+                                       DropDownDisplayMode="DropDownDisplayMode.DropDown"
+                                       ItemRenderStyleMode="ToolbarRenderStyleMode.Contained"
+                                       AdaptivityAutoCollapseItemsToIcons="false">
+                                <Items>
+                                    <DxToolbarItem AdaptivePriority="0" CssClass="w-100" DropDownCssClass="min-w-40" IconCssClass=@DefaultIcon BeginGroup="true">
+                                        <Items>
+                                            @{
+                                                var offset = 0;
+                                                while (offset < MeasureOperatorCollection.Count)
+                                                {
+                                                    var item = MeasureOperatorCollection.ElementAt(offset);
+                                                    var title = GetOperatorTitle(item);
+                                                    var sign = MeasureOperator.GetSymbol_(item);
+                                                    <DxToolbarItem CssClass="browser-toolbar-item-filter" @key=item IconCssClass=@sign Click=ItemClick Tooltip=@title Name=@item />
+                                                    offset++;
+                                                }
+                                            }
+                                        </Items>
+                                    </DxToolbarItem>
+                                </Items>
+                            </DxToolbar>
+                        }
+                        else
+                  if (ColumnType.Equals(typeof(string)))
+                        {
+
+                            <DxToolbar CssClass="browser-toolbar-filter" ItemSizeMode="SizeMode.Small"
+                                       DropDownDisplayMode="DropDownDisplayMode.DropDown"
+                                       ItemRenderStyleMode="ToolbarRenderStyleMode.Contained"
+                                       AdaptivityAutoCollapseItemsToIcons="false">
+                                <Items>
+                                    <DxToolbarItem AdaptivePriority="0" CssClass="w-100" DropDownCssClass="min-w-40" IconCssClass=@DefaultIcon BeginGroup="true">
+                                        <Items>
+                                            @{
+                                                var offset = 0;
+                                                while (offset < AttributeOperatorCollection_.Count)
+                                                {
+                                                    AttributeOperator? item = null;
+                                                    item = item.GetAttributeOperator(AttributeOperatorCollection_.ElementAt(offset), label => AppState[label]);
+                                                    var sign = item.GetSymbol_();
+                                                    var itemName = item.GetText(text => AppState[text]);
+                                                    <DxToolbarItem CssClass="browser-toolbar-item-filter"
+                                                                   @key=itemName IconCssClass=@sign
+                                                                   Click=ItemClick
+                                                                   Tooltip=@itemName
+                                                                   Name=@itemName />
+                                                    offset++;
+                                                }
+                                            }
+                                        </Items>
+                                    </DxToolbarItem>
+                                </Items>
+                            </DxToolbar>
+                        }
+                        else
+                        {
+                            <DxToolbar CssClass="browser-toolbar-filter" ItemSizeMode="SizeMode.Small"
+                                       DropDownDisplayMode="DropDownDisplayMode.DropDown"
+                                       ItemRenderStyleMode="ToolbarRenderStyleMode.Contained"
+                                       AdaptivityAutoCollapseItemsToIcons="false">
+                                <Items>
+                                    <DxToolbarItem AdaptivePriority="0" CssClass="w-100" DropDownCssClass="min-w-40" IconCssClass=@DefaultIcon BeginGroup="true">
+                                        <Items>
+                                            @{
+                                                var offset = 0;
+                                                var Obs = AttributeOperator.CONTAINS.GetFilter(label => AppState[label]);
+                                                while (offset < Obs.Count)
+                                                {
+                                                    AttributeOperator? item = null;
+                                                    item = item.GetAttributeOperator(Obs.ElementAt(offset), label => AppState[label]);
+                                                    var sign = item.GetSymbol_();
+                                                    var itemName = item.GetText(text => AppState[text]);
+                                                    <DxToolbarItem CssClass="browser-toolbar-item-filter"
+                                                                   @key=itemName IconCssClass=@sign
+                                                                   Click=ItemClick
+                                                                   Tooltip=@itemName
+                                                                   Name=@itemName />
+                                                    offset++;
+                                                }
+                                            }
+                                        </Items>
+                                    </DxToolbarItem>
+                                </Items>
+                            </DxToolbar>
+                        }
+                    </Template>
+                </DxStackLayoutItem>
+            }
+            <DxStackLayoutItem Length="3fr" CssClass="w-100 h-100 ml-1 bc-box-sizing d-flex align-items-center">
+                <Template>
+                    @if (ColumnType.Equals(typeof(decimal)))
+                    {
+                        <DxSpinEdit T="decimal?" @bind-Value=@ValueDecimal CssClass="mt-0 mb-0 pt-0 pb-0 w-100"
+                                    DisplayFormat=@ColumnFormat
+                                    ClearButtonDisplayMode="DataEditorClearButtonDisplayMode.Auto"
+                                    @onkeyup="@(async (e) => await EnterAction_(e))">
+                        </DxSpinEdit>
+                    }
+                    else
+                    @if (ColumnType.Equals(typeof(DateTime?)))
+                    {
+                        <DxDateEdit T="DateTime?" @bind-Date=@ValueDateTime CssClass="mt-0 mb-0 pt-0 pb-0 w-100"
+                                    DisplayFormat=@ColumnFormat
+                                    Format=@ColumnFormat
+                                    ClearButtonDisplayMode="DataEditorClearButtonDisplayMode.Auto"
+                                    @onkeyup="@(async (e) => await EnterAction_(e))" />
+                    }
+                    else
+                    @if (ColumnType.Equals(typeof(bool)))
+                    {
+                        <DxComboBox DropDownCssClass="text-combo-style"
+                                    SizeMode="SizeMode.Small"
+                                    DropDownWidthMode="DropDownWidthMode.EditorWidth"
+                                    Value="Value"
+                                    TData="string"
+                                    TValue="string"
+                                    Data=@(new List<string>() {"True","False"})
+                                    ValueChanged="(string v) => Value = v"
+                                    DisplayFormat=@ColumnFormat CssClass="mt-0 mb-0 pt-0 pb-0 w-100"
+                                    ClearButtonDisplayMode="DataEditorClearButtonDisplayMode.Auto"
+                                    @onkeyup="@(async (e) => await EnterAction_(e))" />
+                    }
+                    else
+                    {
+                        <DxTextBox @bind-Text=@Value CssClass="mt-0 mb-0 pt-0 pb-0 w-100"
+                                   DisplayFormat=@ColumnFormat
+                                   ClearButtonDisplayMode="DataEditorClearButtonDisplayMode.Auto"
+                                   @onkeyup="@(async (e) => await EnterAction_(e))" />
+                    }
+                </Template>
+            </DxStackLayoutItem>
+        </RenderFormContent>
+    </Items>
+</DxStackLayout>
+}

@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bcephal-registration-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bcephal-registration-service
+    
+  template:
+    metadata:
+      labels:
+        app: bcephal-registration-service
+    spec:
+      volumes:
+      - name: bcephal-registration-repository
+        hostPath:
+          path: /opt/bcephal-registration-repository
+      containers:
+      - name: bcephal-registration-service
+        image: localhost:5000/becphal-registration-service-docker-image
+        volumeMounts:
+        - name: bcephal-registration-repository
+          mountPath: /opt/bcephal-registration-repository
+
+        ports:
+        - containerPort: 8761
+         
+        
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: bcephal-registration-service
+spec:
+  selector:
+    app: bcephal-registration-service
+  type: NodePort
+  ports:
+     - name: http 
+       nodePort: 32550
+       port: 8761
+       targetPort: 8761
+       protocol: TCP
+ 
+  
+
+
+  
+

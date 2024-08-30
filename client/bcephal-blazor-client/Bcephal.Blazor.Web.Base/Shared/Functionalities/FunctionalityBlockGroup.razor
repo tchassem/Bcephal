@@ -1,0 +1,64 @@
+﻿@implements IDisposable
+
+<DxLayoutBreakpoint DeviceSize="DeviceSize.XSmall" @bind-IsActive="@isXSmallScreen" />
+<DxGridLayout ColumnSpacing="10px" CssClass="pt-3">
+    <Rows>
+
+        <DxGridLayoutRow Height="100%" Areas="functionalities" />
+
+
+    </Rows>
+    <Columns>
+        <DxGridLayoutColumn />
+    </Columns>
+    <Items>
+        <DxGridLayoutItem CssClass="h-100" Area="functionalities">
+            <Template>
+                <div class=" d-flex flex-row h-100">
+                    <DxStackLayout Orientation="Orientation.Vertical">
+                        <Items>
+                            <DxStackLayoutItem>
+                                <Template>
+                                    <div class="d-flex flex-row flex-wrap h-100 overflow-auto" style="background-color:#fff; ">
+                                        @{
+                                            int offset = 0;
+
+                                            ObservableCollection<Models.Functionalities.FunctionalityBlock> cols = CurrentItem.BlockListChangeHandler.GetItems();
+                                            int tail = cols.Count;
+                                            @if (cols == null)
+                                            {
+                                                <div class="dot-carousel mr-auto ml-auto"></div>
+                                            }
+                                            else
+                                            {
+                                                @while (offset < tail)
+                                                {
+                                                    @RenderBlock(cols[offset])
+                                                    offset++;
+                                                }
+                                            }
+                                        }
+                                    </div>
+                                </Template>
+                            </DxStackLayoutItem>
+                        </Items>
+                    </DxStackLayout>
+                </div>
+            </Template>
+        </DxGridLayoutItem>
+
+    </Items>
+</DxGridLayout>
+
+
+@code {
+
+    public RenderFragment RenderBlock(Models.Functionalities.FunctionalityBlock item_) =>
+    __builder =>
+       {
+    <BlockFunctionality DeleteFunctionalityBlock=DeleteFunctionalityBlock Block=item_ UpdateFunctionalityBlock=UpdateFunctionalityBlock />
+    };
+
+
+
+}

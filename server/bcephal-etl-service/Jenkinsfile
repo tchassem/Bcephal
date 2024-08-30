@@ -1,0 +1,180 @@
+pipeline {
+    agent any
+	tools {
+	     jdk 'JAVA_HOME'
+	    gradle 'GRADLE_HOME'
+		 dockerTool 'CustomeDocker'
+	} 
+	   
+	environment {
+	   DOCKER    = "${dockerTool1}/bin"
+	    JAVA_HOME = "${jdk}"
+		
+		
+	}
+    
+    stages {
+        stage('Clone'){
+             steps {
+			 dir('bcephal-etl'){
+				 checkout([$class: 'GitSCM', branches: [[name: '*/master']],
+					doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'CloneOption', depth: 1, noTags: true, reference: '', shallow: true, timeout: 120]], 
+					submoduleCfg: [],userRemoteConfigs: [[credentialsId: 'e212babc-0713-415a-9848-da7292bb3718', url:
+					 'http://saas1402fu.saas-secure.com/git/bcephal-etl.git']]])
+					 }
+				 sh ('ls')
+				 
+				 dir('bcephal-base'){
+					 checkout([$class: 'GitSCM', branches: [[name: '*/master']],
+					doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'CloneOption', depth: 1, noTags: true, reference: '', shallow: true, timeout: 120]], 
+					submoduleCfg: [],userRemoteConfigs: [[credentialsId: 'e212babc-0713-415a-9848-da7292bb3718', url:
+					 'http://saas1402fu.saas-secure.com/git/bcephal-base.git']]])
+				 }
+				 sh ('ls')
+				 
+				 dir('bcephal-multitenant-jpa'){
+					 checkout([$class: 'GitSCM', branches: [[name: '*/master']],
+					doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'CloneOption', depth: 1, noTags: true, reference: '', shallow: true, timeout: 120]], 
+					submoduleCfg: [],userRemoteConfigs: [[credentialsId: 'e212babc-0713-415a-9848-da7292bb3718', url:
+					 'http://saas1402fu.saas-secure.com/git/bcephal-multitenant-jpa.git']]])
+					 }
+				 sh ('ls')
+				 dir('bcephal-utils'){
+					 checkout([$class: 'GitSCM', branches: [[name: '*/master']],
+					doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'CloneOption', depth: 1, noTags: true, reference: '', shallow: true, timeout: 120]], 
+					submoduleCfg: [],userRemoteConfigs: [[credentialsId: 'e212babc-0713-415a-9848-da7292bb3718', url:
+					 'http://saas1402fu.saas-secure.com/git/bcephal-utils.git']]])
+				 }
+				 sh ('ls')
+				 
+				 dir('bcephal-sso'){
+					  checkout([$class: 'GitSCM', branches: [[name: '*/master']],
+					doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'CloneOption', depth: 1, noTags: true, reference: '', shallow: true, timeout: 120]], 
+					submoduleCfg: [],userRemoteConfigs: [[credentialsId: 'e212babc-0713-415a-9848-da7292bb3718', url:
+					 'http://saas1402fu.saas-secure.com/git/bcephal-sso.git']]])
+				 }
+				 
+				 dir('bcephal-etl-service'){
+					checkout([$class: 'GitSCM', branches: [[name: '*/master']],
+					doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'CloneOption', depth: 1, noTags: true, reference: '', shallow: true, timeout: 120]], 
+					submoduleCfg: [],userRemoteConfigs: [[credentialsId: 'e212babc-0713-415a-9848-da7292bb3718', url:
+					 'http://saas1402fu.saas-secure.com/git/bcephal-etl-service.git']]])
+				 }
+			 }
+        }
+        stage('Build') {
+		
+            steps {	
+			    dir('bcephal-etl-service'){
+            	sh 'chmod +x gradlew'                
+                gradlew('clean', 'assemble')
+				sh 'ls build/libs/'
+				}
+            }
+        }
+		stage('Unit Tests') {
+					steps {
+					  script{
+						 try {
+							 dir('bcephal-etl-service'){
+								
+							  sh 'chmod +x gradle' 
+							  sh './gradlew test '
+							 
+						  }
+						}catch(exc) {
+						 def summary = junit  skipPublishingChecks: true, testResults: '**/TEST-*.xml' 
+							   sh "echo ${summary.totalCount}"
+							   sh " echo ${summary.failCount}"
+							   sh "echo ${summary.skipCount} " 
+							   sh "echo ${summary.passCount} " 
+							   def percentage = summary.passCount*100/summary.totalCount
+							   sh "echo ${percentage}"
+					     if ( ${percentage} < 98){
+						    currentBuild.result = 'FAILURE'
+					     }
+						 currentBuild.result = 'SUCCESS'
+						}
+					 }
+					}
+				} 
+        //stage('SonarQube analysis') {
+            //steps {	
+            	//withSonarQubeEnv('SonarQube') {
+                  //  gradlew('sonarqube')
+               // }
+            //}
+        //}       
+        
+       
+		//stage('Assemble') {
+         //   steps {
+         //       gradlew('assemble')
+          //      stash includes: '**/build/libs/*.jar', name: 'app'
+          //  }
+        //}
+		// stage('Docker build image') {
+           // steps {
+               //dockerCmd "build -t becphal-etl-service-docker-image:${env.BUILD_NUMBER} ."
+            //   dockerCmd "save -o=becphal-etl-service-docker-image-${env.BUILD_NUMBER}.tar becphal-etl-service-docker-image:${env.BUILD_NUMBER}"
+          //}
+        //}
+		//stage('Docker tag image latest') {
+          //steps {
+           //dockerCmd "tag becphal-etl-service-docker-image:${env.BUILD_NUMBER}  becphal-etl-service-docker-image:latest "
+               
+           //}
+      // }
+	    //stage('Docker tag ') {
+          //steps {
+           //dockerCmd "tag becphal-etl-service-docker-image localhost:5000/becphal-etl-service-docker-image "
+               
+           //}
+         //}
+	   // stage('Docker push image latest') {
+          // steps {
+             // dockerCmd "push localhost:5000/becphal-etl-service-docker-image"
+               
+           // }
+       // }
+		//stage('Docker run image') {
+         //  steps {
+			
+          //   dockerCmd "run  -tid -p 8002:8080  -v /opt/bcephal-etl-repository:/opt/bcephal-etl-repository -v /opt/bcephal-data:/opt/bcephal-data --env HOST_ADDRESS=${IP_HOST_ADDRESS} --name  becphal-billing-service  becphal-billing-service-docker-image"
+          // sh 'docker ps'  
+          //}
+       // }
+		//stage('Deploy app'){
+			//steps{
+			
+					//script{
+						//kubernetesDeploy(configs:"deployment-etl-service.yml ", kubeconfigId:"kubeconfiguration")
+						
+					
+					//}
+				
+			//}
+		//}
+	}
+    post {
+				always {
+				 dir('/var/lib/jenkins/workspace/bcephal-etl-service/bcephal-etl-service/build/test-results/test/'){
+					 junit  skipPublishingChecks: true, testResults: '**/TEST-*.xml'
+					  sh 'ls'
+				 }		 
+			   }
+			 failure {
+				mail to: 'jwambo@moriset.com', subject: 'B-Cephal Configuration microservice build failed', body: 'B-Cephal Configuration microservice build failed.\nPlease fix!'
+			}
+		}
+}
+
+def gradlew(String... args) {
+    sh "./gradlew ${args.join(' ')} -s"
+}
+
+def dockerCmd(args) {
+    sh "echo ${tool 'CustomeDocker'}"
+    sh "echo ${env.DOCKER_HOST}"
+    sh "${tool 'CustomeDocker'}/bin/docker ${args}"
+}

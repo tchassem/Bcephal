@@ -1,0 +1,267 @@
+﻿@page "/posting/edit"
+@page "/posting/edit/{Id:long}"
+
+@using Bcephal.Models.Accounting
+@using System
+
+@inherits Form<Posting, PostingBrowserData>
+
+@{
+    SpanRender = _ =>
+    {
+        if (PostingEntryDataSource != null)
+        {
+
+        }
+    };
+}
+@{ base.BuildRenderTree(__builder); }
+
+
+@code {
+
+  
+
+    private RenderFragment HeaderFormContent__ => __builder =>
+    {
+    @if (PostingEntryDataSource != null && posting != null && EditorDataBinding != null)
+    {
+      
+        <DxLayoutBreakpoint DeviceSize="DeviceSize.XSmall | DeviceSize.Small | DeviceSize.Medium" @bind-IsActive="@IsSmallScreen" />
+        <DxStackLayout Orientation=Orientation.Vertical CssClass="d-flex m-0 p-1 w-100 h-100 align-items-center bc-box-sizing" ItemSpacing=@ItemSpacing>
+            <Items>
+                <DxStackLayoutItem Length="auto" CssClass="d-flex flex-column align-items-start justify-content-center p-1">
+                    <Template>
+                        <DxStackLayout Orientation=@(IsSmallScreen ? Orientation.Vertical : Orientation.Horizontal) CssClass="d-flex m-0 p-0 w-100 h-100 align-items-center bc-box-sizing" >
+                            <Items>
+                                <DxStackLayoutItem Length=@labelSm CssClass="d-flex flex-column align-items-start justify-content-center p-1">
+                                    <Template>
+                                        <div class="d-flex w-100">
+                                            <span class="ml-auto mr-1">@AppState["Posting.Id"]</span>
+                                        </div>
+                                    </Template>
+                                </DxStackLayoutItem>
+                                <DxStackLayoutItem Length=@labelLg CssClass="d-flex flex-column align-items-start justify-content-center p-1">
+                                    <Template>
+                                        <div class="d-flex pl-1 pr-1 align-items-start">
+                                            <DxTextBox ReadOnly="true" @bind-Text=@PId />
+                                        </div>
+                                    </Template>
+                                </DxStackLayoutItem>
+                            </Items>
+                        </DxStackLayout>
+                    </Template>
+                </DxStackLayoutItem>
+                <DxStackLayoutItem Length="auto" CssClass="d-flex flex-column align-items-start justify-content-center p-1">
+                    <Template>
+                        <DxStackLayout Orientation=@(IsSmallScreen ? Orientation.Vertical : Orientation.Horizontal) CssClass="d-flex m-0 p-0 w-100 h-100 align-items-center bc-box-sizing" >
+                            <Items>
+                                <DxStackLayoutItem Length=@labelSm CssClass="d-flex flex-column align-items-start justify-content-center p-1">
+                                    <Template>
+                                        <div class="d-flex w-100">
+                                            <span class="ml-auto mr-1">@AppState["Posting.Status"]</span>
+                                        </div>
+                                    </Template>
+                                </DxStackLayoutItem>
+                                <DxStackLayoutItem Length=@labelLg CssClass="d-flex flex-column align-items-start justify-content-center p-1">
+                                    <Template>
+                                        <div class="d-flex pl-1 pr-1 align-items-start">
+                                            <DxComboBox ReadOnly="true" Data="PostingStatus.GetAll()" @bind-Value="@PStatus" />
+                                        </div>
+                                    </Template>
+                                </DxStackLayoutItem>
+                            </Items>
+                        </DxStackLayout>
+                    </Template>
+                </DxStackLayoutItem>
+                <DxStackLayoutItem Length="auto" CssClass="d-flex flex-column align-items-start justify-content-center p-1">
+                    <Template>
+                        <DxStackLayout Orientation=@(IsSmallScreen ? Orientation.Vertical : Orientation.Horizontal) CssClass="d-flex m-0 p-0 w-100 h-100 align-items-center bc-box-sizing" >
+                            <Items>
+                                <DxStackLayoutItem Length=@labelSm CssClass="d-flex flex-column align-items-start justify-content-center p-1">
+                                    <Template>
+                                        <div class="d-flex w-100">
+                                            <span class="ml-auto mr-1">@AppState["Posting.ValueDate"]</span>
+                                        </div>
+                                    </Template>
+                                </DxStackLayoutItem>
+                                <DxStackLayoutItem Length=@labelLg CssClass="d-flex flex-column align-items-start justify-content-center p-1">
+                                    <Template>
+                                        <div class="d-flex pl-1 pr-1 align-items-start">
+                                            <DxDateEdit ReadOnly="@IsValidated" @bind-Date="@ValueDate" Mask="yyyy-MM-dd" ClearButtonDisplayMode="DataEditorClearButtonDisplayMode.Auto">
+                                                <DxDateTimeMaskProperties CaretMode="MaskCaretMode.Advancing" />
+                                            </DxDateEdit>
+                                        </div>
+                                    </Template>
+                                </DxStackLayoutItem>
+                            </Items>
+                        </DxStackLayout>
+                    </Template>
+                </DxStackLayoutItem>
+                <DxStackLayoutItem Length="auto" CssClass="d-flex flex-column align-items-start justify-content-center p-1">
+                    <Template>
+                        <DxStackLayout Orientation=@(IsSmallScreen ? Orientation.Vertical : Orientation.Horizontal) CssClass="d-flex m-0 p-0 w-100 h-100 align-items-center bc-box-sizing" >
+                            <Items>
+                                <DxStackLayoutItem Length=@labelSm  CssClass="d-flex flex-column align-items-start justify-content-center p-1">
+                                    <Template>
+                                        <div class="d-flex w-100">
+                                            <span class="ml-auto mr-1">@AppState["Posting.EntryDate"]</span>
+                                        </div>
+                                    </Template>
+                                </DxStackLayoutItem>
+                                <DxStackLayoutItem Length=@labelLg CssClass="d-flex flex-column align-items-start justify-content-center p-1">
+                                    <Template>
+                                        <div class="d-flex pl-1 pr-1 align-items-start">
+                                            <DxDateEdit ReadOnly="true" @bind-Date="@EntryDate" Mask="yyyy-MM-dd" ClearButtonDisplayMode="DataEditorClearButtonDisplayMode.Auto">
+                                                <DxDateTimeMaskProperties CaretMode="MaskCaretMode.Advancing" />
+                                            </DxDateEdit>
+                                        </div>
+                                    </Template>
+                                </DxStackLayoutItem>
+                            </Items>
+                        </DxStackLayout>
+                    </Template>
+                </DxStackLayoutItem>
+                <DxStackLayoutItem Length="auto" CssClass="d-flex flex-column align-items-start justify-content-center p-1">
+                    <Template>
+                        <DxStackLayout Orientation=@(IsSmallScreen ? Orientation.Vertical : Orientation.Horizontal) CssClass="d-flex m-0 p-0 w-100 h-100 align-items-center bc-box-sizing" >
+                            <Items>
+                                <DxStackLayoutItem Length=@labelSm  CssClass="d-flex flex-column align-items-start justify-content-center p-1">
+                                    <Template>
+                                        <div class="d-flex w-100">
+                                            <span class="ml-auto mr-1">@AppState["Description"]</span>
+                                        </div>
+                                    </Template>
+                                </DxStackLayoutItem>
+                                <DxStackLayoutItem Length=@labelLg CssClass="d-flex flex-column align-items-start justify-content-center p-1">
+                                    <Template>
+                                        <div class="d-flex w-25 align-items-start">
+                                            <textarea disabled="@IsValidated" class="form-control" rows="2" placeholder="@AppState["Description"]"
+                                                      @bind-value=@Description @bind-value:event="oninput" />
+                                        </div>
+                                    </Template>
+                                </DxStackLayoutItem>
+                            </Items>
+                        </DxStackLayout>
+                    </Template>
+                </DxStackLayoutItem>
+            </Items>
+        </DxStackLayout>
+        }
+    };
+
+    private RenderFragment BodyFormContent__ => __builder =>
+    {
+    @if (PostingEntryDataSource != null && posting != null && EditorDataBinding != null)
+        {
+        <DxStackLayout Orientation=Orientation.Vertical CssClass="d-flex m-0 p-0 w-100 h-100 align-items-center bc-box-sizing" ItemSpacing=@ItemSpacing>
+            <Items>
+                <DxStackLayoutItem Length="0.95fr" CssClass="d-flex flex-column align-items-start justify-content-center p-1">
+                    <Template>
+                        <PostingEntryGrid @bind-EditorData="EditorDataBinding" Accounts="@Accounts" CompileAmountEventCallback="AmountCompile"/>
+                    </Template>
+                </DxStackLayoutItem>
+                
+                <DxStackLayoutItem Length="0.05fr" CssClass="d-flex flex-column align-items-start justify-content-center p-1">
+                    <Template>
+                        @FooterFormContent__
+                    </Template>
+                </DxStackLayoutItem>
+
+            </Items>
+        </DxStackLayout>
+        }
+    };
+
+    private RenderFragment FooterFormContent__ => __builder =>
+    {
+        <DxGridLayout>
+            <Rows>
+                @if (IsSmallScreen)
+                {
+                    <DxGridLayoutRow Areas="cred1 cred2" Height="auto"/>
+                    <DxGridLayoutRow Areas="deb1 deb2" Height="auto"/>
+                    <DxGridLayoutRow Areas="bal1 bal2" Height="auto"/>
+                }
+                else
+                {
+                    <DxGridLayoutRow Areas="cred1 cred2 deb1 deb2 bal1 bal2" Height="auto"/>
+                }
+            </Rows>
+            <Columns>
+                <DxGridLayoutColumn Width="auto" />
+                <DxGridLayoutColumn Width="100px" />
+                <DxGridLayoutColumn Width="auto" />
+                <DxGridLayoutColumn Width="100px" />
+                <DxGridLayoutColumn Width="auto" />
+                <DxGridLayoutColumn Width="100px" />
+                <DxGridLayoutColumn />
+            </Columns>
+            <Items>
+                <DxGridLayoutItem Area="cred1">
+                    <Template>
+                        <div class="gridlayout-left-side-bar gridlayout-item ml-1">
+                            @AppState["credit"]:
+                        </div>
+                    </Template>
+                </DxGridLayoutItem>
+                <DxGridLayoutItem Area="cred2">
+                    <Template>
+                        <div class="gridlayout-content gridlayout-item ml-1">
+                            @SumCreditAmount
+                        </div>
+                    </Template>
+                </DxGridLayoutItem>
+                <DxGridLayoutItem Area="deb1">
+                    <Template>
+                        <div class="gridlayout-left-side-bar gridlayout-item ml-2">
+                            @AppState["debit"]:
+                        </div>
+                    </Template>
+                </DxGridLayoutItem>
+                <DxGridLayoutItem Area="deb2">
+                    <Template>
+                        <div class="gridlayout-content gridlayout-item ml-1">
+                            @SumDebitAmount
+                        </div>
+                    </Template>
+                </DxGridLayoutItem>
+                <DxGridLayoutItem Area="bal1">
+                    <Template>
+                        <div class="gridlayout-left-side-bar gridlayout-item ml-2">
+                            @AppState["balance"]:
+                        </div>
+                    </Template>
+                </DxGridLayoutItem>
+                <DxGridLayoutItem Area="bal2">
+                    <Template>
+                        <div class="gridlayout-content gridlayout-item ml-1">
+                            @BalanceAmount
+                        </div>
+                    </Template>
+                </DxGridLayoutItem>
+                <DxGridLayoutItem Row="0" Column="6">
+                    <Template>
+                        <div class="gridlayout-footer gridlayout-item"></div>
+                    </Template>
+                </DxGridLayoutItem>
+            </Items>
+        </DxGridLayout>
+    };
+
+    public override RenderFragment LeftContent => __builder =>
+    {
+        var panel = new List<RenderFragment>()
+        {
+            HeaderFormContent__,
+            BodyFormContent__,
+          
+        };
+        <SplitterPanel LeftSize="1" RightSize="2"  vertical="false" Panes=panel />
+    };
+
+    public override RenderFragment RightContent => __builder =>
+    {
+
+    };
+}

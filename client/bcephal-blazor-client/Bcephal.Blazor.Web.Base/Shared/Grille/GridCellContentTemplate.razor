@@ -1,0 +1,112 @@
+﻿@typeparam C
+
+<RenderFormContent @ref="RenderFormContentRef">
+    @{
+        C currentObj = (C)ContextData.DataItem;
+       if(IsInEditMode)
+        {
+            var editor = GetEditData(ContextData, GridDataItem);
+            if (editor == null)
+            {
+                if (GridDataItem.ColumnType.Equals(typeof(DateTime?)) && GridDataItem.Visible)
+                {
+                    <DxDateEdit Date="GetEditDateTimeFieldName(EditedValues(), GridDataItem)"
+                                T="DateTime?" DisplayFormat="@columnFormat"
+                                ReadOnly="GridDataItem.CanEditColumn"
+                                DateChanged="((DateTime? newCellValue) => EditGridCell(EditedValues(), GridDataItem.Position, newCellValue))"
+                                @onkeyup="(async (e) => { await Task.Yield(); await EnterHandleValidSubmit(e, currentObj); })">
+                    </DxDateEdit>
+                }
+                else
+                if (GridDataItem.ColumnType.Equals(typeof(decimal)) && GridDataItem.Visible)
+                {
+                    <DxSpinEdit DisplayFormat="@columnFormat" T="decimal?"
+                                Value="GetEditDecimalFieldName(EditedValues(), GridDataItem)"
+                                ReadOnly="GridDataItem.CanEditColumn"
+                                ValueChanged="((decimal? newCellValue) => EditGridCell(EditedValues(), GridDataItem.Position, newCellValue))"
+                                @onkeyup="(async (e) => { await Task.Yield(); await EnterHandleValidSubmit(e, currentObj); })">
+                    </DxSpinEdit>
+                }
+                else
+                if (GridDataItem.ColumnType.Equals(typeof(bool)) && GridDataItem.Visible)
+                {
+                    <DxCheckBox Checked="GetEditTextFieldName(EditedValues(), GridDataItem)"
+                                Enabled="!GridDataItem.CanEditColumn"
+                                CheckedChanged="((string newCellValue) => EditGridCell(EditedValues(), GridDataItem.Position, newCellValue))"
+                                @onkeyup="(async (e) =>  { await Task.Yield(); await EnterHandleValidSubmit(e, currentObj); })">
+                    </DxCheckBox>
+                }
+                else
+                if (GridDataItem.Visible)
+                {
+                    <DxTextBox Text="@GetEditTextFieldName(EditedValues(), GridDataItem)"
+                               ReadOnly="GridDataItem.CanEditColumn"
+                               TextChanged="((string newCellValue) => EditGridCell(EditedValues(), GridDataItem.Position, newCellValue))"
+                               @onkeyup="(async (e) => { await Task.Yield(); await EnterHandleValidSubmit(e, currentObj); })">
+                    </DxTextBox>
+                }
+            }
+            else
+            {
+                @editor(StateHasChanged)
+            }
+        }
+        else
+        {
+            var style = "overflow:hidden;text-overflow:ellipsis; white-space:nowrap;width:100%;";
+<div class="w-100 h-100" style=@style>
+    @{
+        if (GridDataItem.ColumnType.Equals(typeof(DateTime?)) && GridDataItem.Visible)
+        {
+            @FormatDateCellValue(columnFormat, GetFieldValue(currentObj, position))
+        }
+        else
+        if (GridDataItem.ColumnType.Equals(typeof(decimal)) && GridDataItem.Visible)
+        {
+            @FormatDoubleCellValue(GridDataItem.ColumnFormat, GetFieldValue(currentObj, position))
+        }
+        else
+        if (GridDataItem.ColumnType.Equals(typeof(bool)) && GridDataItem.Visible)
+        {
+            var val = GetFieldValue(currentObj, position);
+            bool.TryParse(val.ToString(), out bool valu);
+            IDictionary<string, object> attribut = new Dictionary<string, object>() { { "readonly", "readonly" }, };
+            <div class="d-flex flex-row justify-content-center ">
+                <DxCheckBox Checked="@valu" CheckType="CheckType.Checkbox" @attributes="attribut" CheckedChanged="((bool ele) => CheckedChanged(currentObj, position, ele))">
+                </DxCheckBox>
+            </div>
+        }
+        else
+        if (GridDataItem.Visible)
+        {
+            if ((IsNavLink && position == 0) || (position > 0 && GridDataItem.IsNavLink))
+            {
+                var value = KeyFieldValue(currentObj);
+                var link = GetOpenTabLink(value, position);
+                <NavLink href="@link">
+                    <span class="btn-link" style="cursor: pointer;"
+                          @onclick:preventDefault @onclick="(() => NavigateTo(value, position))"
+                          @oncontextmenu:preventDefault @oncontextmenu="((e) => OpenLing(e, currentObj, link, value != null ? value.ToString() : null))">
+                        @GetFieldValue(currentObj, position)
+                    </span>
+                </NavLink>
+            }
+            else
+            {
+                var dat = GetFieldValue(currentObj, position);
+                if (dat is MarkupString)
+                {
+                    @((MarkupString)dat)
+                }
+                else
+                {
+                    @dat
+                }
+            }
+        }
+    }
+</div>
+        }   
+    }
+</RenderFormContent>
+

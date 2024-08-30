@@ -1,0 +1,170 @@
+﻿@using DevExtreme.AspNet.Data;
+
+@ItemRender
+@OpenDialogRender(PopupRef, AppState["EditLink"], DxPopupVisible)
+
+@code{
+    private RenderFragment ItemRender => __builder =>
+    {
+    <DxGridLayout RowSpacing="10px" CssClass="w-100 m-0 p-0">
+        <Rows>
+            <DxGridLayoutRow Areas="a1 a2 a3" />
+        </Rows>
+        <Columns>
+            <DxGridLayoutColumn Width="80%" />
+            <DxGridLayoutColumn Width="10%" />
+            <DxGridLayoutColumn Width="10%" />
+        </Columns>
+        <Items>
+            <DxGridLayoutItem Area="a1" CssClass="m-0 p-0 pl-1 pt-1">
+                <Template>
+                    <DxTextBox  @bind-Text="Link.Name" ReadOnly="true" />
+                </Template>
+            </DxGridLayoutItem>
+            <DxGridLayoutItem Area="a2" CssClass="m-0 p-0 pt-1">
+                <Template>
+                    <div class="d-flex flex-row ml-1 h-100" style="display: block; min-width: 50px; ">
+                        <DxButton Enabled=Editable IconCssClass="bi bi-pencil-square"
+                                  CssClass="mt-auto mb-auto"
+                                  RenderStyleMode="ButtonRenderStyleMode.Text"
+                                  RenderStyle="ButtonRenderStyle.None"
+                                  Click="(() => {  ClickButton(); })">
+                        </DxButton>
+                    </div>
+                </Template>
+            </DxGridLayoutItem>
+            <DxGridLayoutItem Area="a3" CssClass="m-0 p-0 pt-1">
+                <Template>
+                    <div class="d-flex flex-row ml-1 h-100" style="min-width: 50px; ">
+                        <DxButton Enabled=Editable IconCssClass="fa fa-remove" Visible="CanDisplay"
+                                  CssClass="mt-auto mb-auto"
+                                  RenderStyleMode="ButtonRenderStyleMode.Text"
+                                  RenderStyle="ButtonRenderStyle.Danger"
+                                  Click="(() => { DeleteOrForgetLink(); })">
+                        </DxButton>
+                    </div>
+                </Template>
+            </DxGridLayoutItem>
+        </Items>
+    </DxGridLayout>
+
+    };
+
+    public RenderFragment OpenDialogRender2(DxPopup PopupRef, string title, bool actionVisible) => __builder =>
+    {
+    <BaseModalComponent Title="@title"
+                        @bind-ShowModal=actionVisible
+                        OkHandler="(() => Ok())"
+                        CancelHandler="(() => Cancel())">
+        @DialogContentRenderPanesBody
+    </BaseModalComponent>
+    };
+
+    protected RenderFragment OpenDialogRender(DxPopup PopupRef, string title, bool actionVisible) => __builder =>
+    {
+    <DxPopup @ref=PopupRef MaxWidth="70%" MinWidth="70%"
+             HeaderText=@title
+             CloseOnEscape="true"
+             CloseOnOutsideClick="true"
+             ShowFooter="true"
+             ShowCloseButton="false"
+             HeaderCssClass="font-weight-light"
+             Scrollable="true"
+             ApplyBackgroundShading="true"
+             EnableAdaptivity="false"
+             VerticalAlignment="VerticalAlignment.Top"
+             @bind-Visible=actionVisible>
+        <BodyTemplate Context="PopupContext">
+            @if (actionVisible)
+                {
+                @DialogContentRenderPanesBody
+                }
+        </BodyTemplate>
+        <FooterContentTemplate>
+            <div class="d-flex flex-column w-100 h-auto">
+                <div class="flex-fill mr-auto ml-auto mt-auto mb-auto">
+                    <span class="text-center" style="color:red;"></span>
+                </div>
+                <div class="d-flex flex-row">
+                    <DxButton IconCssClass="oi oi-hard-drive pr-1"
+                              CssClass="mr-1 ml-auto  wid-100"
+                              RenderStyle="ButtonRenderStyle.Primary"
+                              Text=@AppState["Ok"]
+                              @onclick="(() => Ok())" />
+                    <DxButton CssClass="ml-1 mr-auto wid-100"
+                              IconCssClass="oi oi-delete pr-1"
+                              RenderStyle="ButtonRenderStyle.Danger" Text="@AppState["Cancel"]"
+                              @onclick="(() => Cancel())" />
+                </div>
+            </div>
+        </FooterContentTemplate>
+    </DxPopup>
+    };
+    private RenderFragment DialogContentRenderPanes => __builder =>
+    {
+    <div class="w-100">
+        <SplitterPanel Panes="new List<RenderFragment> {DialogContentRenderPanesLeftColumns, DialogContentRenderPanes2 }"
+                       LeftSize="1" />
+    </div>
+    };
+    private RenderFragment DialogContentRenderPanes2 => __builder =>
+    {
+    <SplitterPanel Panes="new List<RenderFragment> {DialogContentRenderPanesRight1,DialogContentRenderPanesRight2 }"
+                   LeftSize="1" vertical="false" />
+    };
+    private RenderFragment DialogContentRenderPanesBody => __builder =>
+    {
+    <div class="d-flex flex-column m-0 p-0 h-100 w-100">
+        <div class="m-0 p-0 w-100" style="height:40px">
+            <div class="d-flex flex-row m-0 p-0 pt-2 pl-2 w-100 justify-content-center">
+                <div class="m-0 p-0 pl-1">@AppState["LinkName"]</div>
+                <div class="m-0 p-0 pl-1 w-25 " style="min-width:250px;"><DxTextBox CssClass="h-100" @bind-Text=Link.Name /></div>
+            </div>
+        </div>
+        <div class="m-0 p-0 w-100" style="height: calc(100% - 40px); width: calc(100% - 2px)">
+            @DialogContentRenderPanes
+        </div>
+    </div>
+    };
+
+    private RenderFragment DialogContentRenderPanesLeftColumns => __builder =>
+{
+<div class="card w-100 m-0 p-0" style="height: calc(100vh - var(--bc-grid-body));overflow-y: auto;overflow-x: hidden; ">
+    <div class="card-header bc-header-3 w-100">
+        @AppState["Grid.edit.columns"]
+    </div>
+    <div class="card-body w-100">
+        <DxListBox CssClass="h-100" Data="GrilleColumns"
+                   Values=CurrentGrilleColumns
+                   TData="Models.Grids.GrilleColumn"
+                   TValue="Models.Grids.GrilleColumn"
+                   SelectedItemsChanged="SelectedItemsChanged" />
+    </div>
+</div>
+};
+    private RenderFragment DialogContentRenderPanesRight1 => __builder =>
+    {
+    <LinkedAttribute AddLinkedAttribute=AddLinkedAttribute
+                     UpdateLinkedAttribute=UpdateLinkedAttribute
+                     RemoveLinkedAttribute=DeleteOrForgetLinkedAttribute
+                     LinkedAttributes=LinkedAttributesKeys
+                     Title="@AppState["PrimaryAttribute"]"
+                     SelectedHandler=SetAction
+                     ContainHandler="CanAddLinkAttribute"
+                     Iskey="true"
+                     @bind-SelectedValue="SelectedValue" />
+    };
+
+    private RenderFragment DialogContentRenderPanesRight2 => __builder =>
+    {
+    <LinkedAttribute AddLinkedAttribute=AddLinkedAttribute
+                     UpdateLinkedAttribute=UpdateLinkedAttribute
+                     RemoveLinkedAttribute=DeleteOrForgetLinkedAttribute
+                     LinkedAttributes=LinkedAttributesValues
+                     Title="@AppState["LinkedAttribute"]"
+                     SelectedHandler=SetAction
+                     ContainHandler="CanAddLinkAttribute"
+                     @bind-SelectedValue="SelectedValue" />
+    };
+
+}

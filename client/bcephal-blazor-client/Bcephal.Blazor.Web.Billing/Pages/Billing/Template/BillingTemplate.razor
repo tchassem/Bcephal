@@ -1,0 +1,157 @@
+@page "/billing-template"
+@page "/billing-template/{BillingTemplateId:long}"
+
+@inherits Form<BillTemplate, BillingTemplateBrowserData>
+
+@{ base.BuildRenderTree(__builder); }
+
+
+@code {
+    
+    #region RenderFragments
+
+    public override RenderFragment LeftContent
+    {
+        get
+        {
+            return __builder =>
+            {
+                @if (EditorData != null)
+                 {
+                    <div class="mt-2 p-2">
+                        <DxGridLayout CssClass="w-100 h-auto mb-2 mt-2" ColumnSpacing="4px" RowSpacing="4px">
+                            <Rows>
+                                <DxGridLayoutRow Height="auto" />
+                                <DxGridLayoutRow Height="auto" />
+                                <DxGridLayoutRow Height="auto" />
+                                <DxGridLayoutRow Height="auto" />
+                            </Rows>
+                            <Columns>
+                                <DxGridLayoutColumn Width="100px" />
+                                <DxGridLayoutColumn Width="150px" />
+                                <DxGridLayoutColumn Width="150px" />
+                                <DxGridLayoutColumn Width="300px" />
+                            </Columns>
+                            <Items>
+                                <DxGridLayoutItem CssClass="text-right" Row="0" Column="0">
+                                    <Template>
+                                        @AppState["billing.template"]
+                                    </Template>
+                                </DxGridLayoutItem>
+                                <DxGridLayoutItem Row="0" Column="1" ColumnSpan="3">
+                                    <Template>
+                                        <CustomInputFile NameZipFile="FileName" IsFile="false" ToZip="true" IsTemplate="true" LoadedFilesChanged_=UpdateFileNames />
+                                    </Template>
+                                </DxGridLayoutItem>
+                                <DxGridLayoutItem CssClass="text-right" Row="1" Column="0">
+                                    <Template>
+                                        @AppState["billing.template.mainfile"]
+                                    </Template>
+                                </DxGridLayoutItem>
+                                <DxGridLayoutItem Row="1" Column="1" ColumnSpan="2">
+                                    <Template>
+                                        <DxComboBox ReadOnly=!Editable Data="@FileNames" ListRenderMode="ListRenderMode.Virtual"
+                                                    FilteringMode="DataGridFilteringMode.Contains" @bind-Value="@MainFile" CssClass="w-100" />
+                                    </Template>
+                                </DxGridLayoutItem>
+                                <DxGridLayoutItem Row="1" Column="3">
+                                    <Template>
+                                        <DxTextBox CssClass="w-100" ReadOnly=!Editable @bind-Text="@MainFile" BindValueMode="BindValueMode.OnInput" />
+                                    </Template>
+                                </DxGridLayoutItem>
+                                <DxGridLayoutItem Row="2" Column="1" ColumnSpan="3">
+                                    <Template>
+                                        <textarea readonly=@(!Editable) class="form-control w-100" rows="6" placeholder="@AppState["Description"]"
+                                                  @bind-value=@Description @bind-value:event="oninput" />
+                                    </Template>
+                                </DxGridLayoutItem>
+                                <DxGridLayoutItem CssClass="text-right" Row="3" Column="1" ColumnSpan="2" Visible="false">
+                                    <Template>
+                                        <DxCheckBox Enabled="Editable" @bind-Checked="@(SystemTemplate)" Alignment="CheckBoxContentAlignment.Left" LabelPosition="LabelPosition.Right">@(AppState["system.template"] + " ?")</DxCheckBox>
+                                    </Template>
+                                </DxGridLayoutItem>
+                            </Items>
+                        </DxGridLayout>
+
+                    </div>
+                 }
+            };
+        }
+    }
+
+    public override RenderFragment RightContent => __builder =>
+    {
+    <div class="d-flex flex-column grid-bc-two" style="display:block;box-sizing:border-box;">
+        <div style="height:auto;padding-bottom:0;margin-bottom:10px;">
+            <GridItemInfos Editable=Editable @bind-EditorData=@EditorDataBinding EditorDataHandler="EditorDataHandler" 
+                           T="BillTemplate" DisplayGroup="true" DisplayVisibleInShortcut="true">
+                <ChildContent>
+                    <DxLayoutBreakpoint DeviceSize="DeviceSize.Medium | DeviceSize.Small | DeviceSize.XSmall" @bind-IsActive="IsSmallScreen" />
+                    <DxGridLayout CssClass="ml-2" ColumnSpacing="0px">
+                        <Rows>
+                            <DxGridLayoutRow Height="auto" />
+                        </Rows>
+                        <Items>
+                            <DxGridLayoutItem CssClass="mt-1 mb-1" Row="0" Column="0">
+                                <Template>
+                                    <DxGridLayout ColumnSpacing="0px" RowSpacing="10px">
+                                        <Rows>
+                                            @if (IsSmallScreen)
+                                                {
+                                                <DxGridLayoutRow Areas="Code" Height="auto" />
+                                                <DxGridLayoutRow Areas="CodeWidget" Height="auto" />
+                                                <DxGridLayoutRow Areas="Repo" Height="auto" />
+                                                <DxGridLayoutRow Areas="RepoWidget" Height="auto" />
+                                                }
+                                                else
+                                                {
+                                                <DxGridLayoutRow Areas="Code CodeWidget" Height="auto" />
+                                                <DxGridLayoutRow Areas="Repo RepoWidget " Height="auto" />
+                                                }
+                                        </Rows>
+                                        <Columns>
+                                            @if (IsSmallScreen)
+                                            {
+                                                <DxGridLayoutColumn />
+                                            }
+                                            else
+                                            {
+                                                <DxGridLayoutColumn Width=@LabelWidth />
+                                                <DxGridLayoutColumn Width=@TextWidth />
+                                            }
+                                        </Columns>
+                                        <Items>
+                                            <DxGridLayoutItem Area="Code">
+                                                <Template>
+                                                    <span style="text-align: right; padding-right: 5px !important; width: 100%; float:right; margin-bottom:3px;">@AppState["code"]</span>
+                                                </Template>
+                                            </DxGridLayoutItem>
+                                            <DxGridLayoutItem Area="CodeWidget" CssClass="w-80">
+                                                <Template>
+                                                    <DxTextBox CssClass="w-100" ReadOnly=true @bind-Text="@Code" />
+                                                </Template>
+                                            </DxGridLayoutItem>
+                                            <DxGridLayoutItem Area="Repo">
+                                                <Template>
+                                                    <span style="text-align: right; padding-right: 5px !important; width: 100%; float:right; margin-bottom:3px;">@AppState["repository"]</span>
+                                                </Template>
+                                            </DxGridLayoutItem>
+                                            <DxGridLayoutItem Area="RepoWidget" CssClass="w-80">
+                                                <Template>
+                                                    <DxTextBox CssClass="w-100" ReadOnly=true @bind-Text="@Repository" />
+                                                </Template>
+                                            </DxGridLayoutItem>
+                                        </Items>
+                                    </DxGridLayout>
+                                </Template>
+                            </DxGridLayoutItem>
+                        </Items>
+                    </DxGridLayout>
+                </ChildContent>
+            </GridItemInfos>
+        </div>
+    </div>
+    };
+
+    #endregion
+}

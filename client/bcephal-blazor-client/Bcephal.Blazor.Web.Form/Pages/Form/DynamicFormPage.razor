@@ -1,0 +1,15 @@
+﻿@page "/dynamic-form/{FormModelId:long}"
+@page "/dynamic-form/{FormModelId:long}/{Id:long}"
+
+@body
+
+@code{
+    public RenderFragment body => __builder =>
+    {
+        if (FormModelId.HasValue)
+        {
+            Console.WriteLine("Call FromModel Page Key : " + Key);
+        <DynamicForm Id=Id @key=Key FormModelId=FormModelId ViewMode=@SubKey />
+        }
+    };
+}

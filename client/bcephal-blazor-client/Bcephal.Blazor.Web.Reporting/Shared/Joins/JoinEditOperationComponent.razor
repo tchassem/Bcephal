@@ -1,0 +1,27 @@
+﻿
+<BaseModalComponent Title=@AppState["edit.operation"] 
+                    @bind-ShowModal=@ShowModal
+                    ApplyBackgroundShading="true"
+                    BodyClass="p-0 h-50" 
+                    OkHandler=OkHandler 
+                    CancelHandler=CloseHandler
+                    Height="60% !important"
+                    Width="50% !important">
+                    @if (Item != null && Item.Properties != null)
+                    {
+                        var offset = 0;
+                        var items = Item.Properties.CalculateItemListChangeHandler.Items;
+                        @while (offset < items.Count)
+                        {
+                            <CalculateItemComponent @key="@(Guid.NewGuid().ToString("d"))" Item=items[offset] @bind-EditorData=EditorData @bind-JoinColumn=Item IsNew=false />
+                            offset++;
+                        }
+                    }
+                    <CalculateItemComponent @key="@(Guid.NewGuid().ToString("d"))" @bind-EditorData=EditorData @bind-JoinColumn=Item IsNew=true />
+</BaseModalComponent>
+
+
+@code {
+
+
+}

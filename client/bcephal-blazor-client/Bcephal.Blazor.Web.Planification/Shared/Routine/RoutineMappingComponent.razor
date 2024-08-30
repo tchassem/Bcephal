@@ -1,0 +1,299 @@
+﻿@using Bcephal.Blazor.Web.Base.Services;
+@using Bcephal.Blazor.Web.Sourcing.Services;
+
+<DxButton RenderStyle="ButtonRenderStyle.Link"
+          Text=@(" " + AppState["Edit.mapping"])
+          Title="@AppState["Edit.mapping"]"
+          IconCssClass="fa fa-plus-circle mr-1"
+          Click=@(() => ShowMappingModal = true )
+          IconPosition="ButtonIconPosition.BeforeText" />
+
+<BaseModalComponent Title=@AppState["Edit.mapping"] @bind-ShowModal=@ShowMappingModal
+                    ApplyBackgroundShading="true"
+                    BodyClass="p-0 h-50" OkHandler=@ModalOkHandler Height="60% !important" Width="48% !important">
+    @*<div class="h-100" style=" width: 100%; border: 1px solid red;">*@
+    <div class="h-100 p-1 ">
+        <DxLayoutBreakpoint DeviceSize="DeviceSize.XSmall | DeviceSize.Small | DeviceSize.Medium " @bind-IsActive="@isXSmallScreen" />
+        <DxGridLayout>
+            <Rows>
+                <DxGridLayoutRow />
+            </Rows>
+            <Columns>
+                <DxGridLayoutColumn Width="*" />
+                <DxGridLayoutColumn Width="*" />
+            </Columns>
+            <Items>
+                <DxGridLayoutItem Row="0" Column="0" CssClass="m-1">
+                    <Template>
+                        <div class="card w-100 h-100">
+                            <div class="card-header bc-header-3 border-0 d-flex flex-row p-0 bc-text-align">
+                                <span class="ml-auto mr-auto">
+                                    @AppState["map.card.un.title"]
+                                </span>
+                            </div>
+                            <div class="card-body model-form-card-body overflow-y-auto">
+                                <DxStackLayout CssClass="h-100" ItemSpacing="8px" Orientation=Orientation.Vertical>
+                                    <Items>
+                                        <DxStackLayoutItem Length="auto">
+                                            <Template>
+                                                <DxStackLayout Orientation=@(isXSmallScreen ? Orientation.Vertical : Orientation.Horizontal) ItemSpacing="@GetSpacing(!isXSmallScreen)">
+                                                    <Items>
+                                                        <DxStackLayoutItem CssClass="text-right" Length="@(isXSmallScreen ? "1fr": formCaptionWidth)">
+                                                            <Template>
+                                                                <span style="margin-right: 2px;">@AppState["Mapp.grid"]</span>
+                                                            </Template>
+                                                        </DxStackLayoutItem>
+                                                        <DxStackLayoutItem Length="@(isXSmallScreen ? "1fr": formInputWidth)">
+                                                            <Template>
+                                                                <DxComboBox Data=@Grilles
+                                                                            TData="GrilleBrowserData"
+                                                                            TValue="GrilleBrowserData"
+                                                                            @bind-Value=@SelectedGrille >
+                                                                </DxComboBox>
+                                                            </Template>
+                                                        </DxStackLayoutItem>
+                                                    </Items>
+                                                </DxStackLayout>
+                                            </Template>
+                                        </DxStackLayoutItem>
+                                        <DxStackLayoutItem Visible=@(SelectedGrille != null) Length="auto">
+                                            <Template>
+                                                <DxStackLayout Orientation=@(isXSmallScreen ? Orientation.Vertical : Orientation.Horizontal) ItemSpacing="@GetSpacing(!isXSmallScreen)">
+                                                    <Items>
+                                                        <DxStackLayoutItem CssClass="text-right" Length="@(isXSmallScreen ? "1fr": formCaptionWidth)">
+                                                            <Template>
+                                                                <span style="margin-right: 2px;">@AppState["Val.col"]</span>
+                                                            </Template>
+                                                        </DxStackLayoutItem>
+                                                        <DxStackLayoutItem Length="@(isXSmallScreen ? "1fr": formInputWidth)">
+                                                            <Template>
+                                                                <DxComboBox Data=@AuthorizedColumns
+                                                                            TData="GrilleColumn"
+                                                                            TValue="GrilleColumn"
+                                                                            @bind-Value=@SelectedColumn>
+                                                                </DxComboBox>
+                                                            </Template>
+                                                        </DxStackLayoutItem>
+                                                    </Items>
+                                                </DxStackLayout>
+                                            </Template>
+                                        </DxStackLayoutItem>
+                                    </Items>
+                                </DxStackLayout>
+                            </div>
+                        </div>
+                    </Template>
+                </DxGridLayoutItem>
+                <DxGridLayoutItem Row="0" Column="1" CssClass="m-1">
+                    <Template>
+                        <div class="card w-100 h-100">
+                            <div class="card-header bc-header-3 border-0 d-flex flex-row p-0 bc-text-align">
+                                <span class="ml-auto mr-auto">
+                                    @AppState["Map.cols"]
+                                </span>
+                            </div>
+                            <div class="card-body model-form-card-body overflow-y-auto">
+                                @if (SelectedGrille != null)
+                                {
+                                    <DxStackLayout Orientation=Orientation.Vertical ItemSpacing="8px">
+                                        <Items>
+                                            @if (GrilleColumns != null)
+                                            {
+                                                int size = RoutineMapping.MappingColumnIds.Count;
+                                                @for (int i = 0; i < size; i++)
+                                                {
+                                                    var columnId = RoutineMapping.MappingColumnIds[i];
+                                                    var column = GrilleColumns.First(c => c.Id == columnId);
+                                                    <DxStackLayoutItem Length="auto">
+                                                        <Template>
+                                                            @MappingColumnLine(column, false)
+                                                        </Template>
+                                                    </DxStackLayoutItem>
+                                                }
+                                            }
+                                            <DxStackLayoutItem @key="@(Guid.NewGuid().ToString("d"))" Length="auto">
+                                                <Template>
+                                                    @MappingColumnLine(new(), true)
+                                                </Template>
+                                            </DxStackLayoutItem>
+                                        </Items>
+                                    </DxStackLayout>
+                                }
+                            </div>
+                        </div>
+                    </Template>
+                </DxGridLayoutItem>
+            </Items>
+        </DxGridLayout>
+    </div>
+</BaseModalComponent>
+
+@code {
+
+    [Inject] public AppState AppState { get; set; }
+    [Inject] public GrilleService GrilleService { get; set; }
+
+    [Parameter] public TransformationRoutineMapping RoutineMapping { get; set; }
+    [Parameter] public EventCallback<TransformationRoutineMapping> RoutineMappingChanged { get; set; }
+    [Parameter] public bool ShowMappingModal { get; set; } = false;
+    [Parameter] public ObservableCollection<GrilleBrowserData> Grilles { get; set; }
+    [Parameter] public DimensionType Type { get; set; }
+
+
+    private GrilleBrowserData SelectedGrille
+    {
+        get
+        {
+            if (Grilles != null && Grilles.Count > 0 && RoutineMapping.GridId.HasValue)
+            {
+                var g = Grilles.FirstOrDefault(g => g.Id == RoutineMapping.GridId);
+
+                return g;
+            }
+            return null;
+        }
+        set
+        {
+            if (RoutineMapping.GridId.HasValue && RoutineMapping.GridId.Value != value.Id.Value)
+            {
+                RoutineMapping.MappingColumnIds.Clear();
+                RoutineMapping.ValueColumnId = null;
+                GrilleColumns = null;
+            }
+
+            RoutineMapping.GridId = value.Id;
+
+            //SelectedGrille.ColumnListChangeHandler = GrilleService.getById(value.Id.Value).Result.ColumnListChangeHandler;
+        }
+    }
+
+    private ICollection<GrilleColumn> GrilleColumns;
+
+    private ICollection<GrilleColumn> AuthorizedColumns
+    {
+        get
+        {
+            if ( GrilleColumns != null )
+            {
+                return GrilleColumns.Where(c => c.Type == Type).ToList();
+            }
+            return null;
+        }
+    }
+
+    private GrilleColumn SelectedColumn
+    {
+        get
+        {
+            if (SelectedGrille != null && GrilleColumns != null && RoutineMapping.ValueColumnId.HasValue)
+            {
+                return GrilleColumns.FirstOrDefault(c => c.Id == RoutineMapping.ValueColumnId && c.Type == Type);
+            }
+            return null;
+        }
+        set
+        {
+            RoutineMapping.ValueColumnId = value.Id;
+            //SelectedGrille.ColumnListChangeHandler = GrilleService.getById(value.Id.Value).Result.ColumnListChangeHandler;
+        }
+    }
+
+    public bool isXSmallScreen;
+
+    string formCaptionWidth = "0.3fr";
+    string formInputWidth = "0.7fr";
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+    }
+    
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (ShowMappingModal)
+        {
+            if (Grilles == null)
+            {
+                var page = await GrilleService.Search<GrilleBrowserData>(new Models.Grids.Filters.BrowserDataFilter() { ShowAll = true });
+                Grilles = page.Items;
+                StateHasChanged();
+            }
+
+            if (!firstRender && RoutineMapping.GridId.HasValue && GrilleColumns == null)
+            {
+                var g = await GrilleService.getById(SelectedGrille.Id.Value);
+                GrilleColumns = g.ColumnListChangeHandler.GetItems();
+                StateHasChanged();
+            }
+        }
+    }
+
+    public async void ModalOkHandler()
+    {
+        await RoutineMappingChanged.InvokeAsync(RoutineMapping);
+    }
+
+    public Task OnColumnAdded(GrilleColumn column)
+    {
+        if (!RoutineMapping.MappingColumnIds.Contains(column.Id))
+        {
+            RoutineMapping.MappingColumnIds.Add(column.Id);
+        }
+
+        return Task.CompletedTask;
+    }
+
+    public Task OnColumnReplaced(GrilleColumn oldColumn, GrilleColumn newColumn)
+    {
+        if (RoutineMapping.MappingColumnIds.Contains(oldColumn.Id) && !RoutineMapping.MappingColumnIds.Contains(newColumn.Id))
+        {
+            RoutineMapping.MappingColumnIds.Remove(oldColumn.Id);
+            RoutineMapping.MappingColumnIds.Add(newColumn.Id);
+        }
+        return Task.CompletedTask;
+    }
+
+    public void ColumnDeleted(GrilleColumn column)
+    {
+        if (RoutineMapping.MappingColumnIds.Contains(column.Id))
+        {
+            RoutineMapping.MappingColumnIds.Remove(column.Id);
+        }
+    }
+
+    public string GetSpacing(bool isHorizontal)
+    {
+        return isHorizontal ? "4px" : "0px";
+    }
+
+    private RenderFragment MappingColumnLine(GrilleColumn column, bool isNew)
+    {
+        RenderFragment renderFragment = __builder =>
+        {
+            <DxStackLayout Orientation=Orientation.Horizontal ItemSpacing="4px">
+                <Items>
+                    <DxStackLayoutItem Length="5%">
+                    </DxStackLayoutItem>
+                    <DxStackLayoutItem Length="75%">
+                        <Template>
+                            <DxComboBox Data=GrilleColumns
+                                        Value=column
+                                        ValueChanged="(GrilleColumn c) => isNew ? OnColumnAdded(c) : OnColumnReplaced(column, c)">
+                            </DxComboBox>
+                        </Template>
+                    </DxStackLayoutItem>
+                    <DxStackLayoutItem Visible=(!isNew) Length="20%">
+                        <Template>
+                            <DxButton IconCssClass="fa fa-remove" RenderStyleMode="ButtonRenderStyleMode.Text"
+                                      RenderStyle="ButtonRenderStyle.Danger"
+                                      Click="(() => ColumnDeleted(column))">
+                            </DxButton>
+                        </Template>
+                    </DxStackLayoutItem>
+                </Items>
+            </DxStackLayout>
+        };
+        return renderFragment;
+    }
+}

@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bcephal-project-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bcephal-project-service
+    
+  template:
+    metadata:
+      labels:
+        app: bcephal-project-service
+    spec:
+      volumes:
+      - name: bcephal-project-repository
+        hostPath:
+          path: /opt/bcephal-project-repository
+      containers:
+      - name: bcephal-project-service
+        image: localhost:5000/becphal-project-service-docker-image
+        volumeMounts:
+        - name: bcephal-project-repository
+          mountPath: /opt/bcephal-project-repository
+
+        ports:
+        - containerPort: 8080 
+        
+        
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: bcephal-project-service
+spec:
+  selector:
+    app: bcephal-project-service
+  type: NodePort
+  ports:  
+    - name: http
+      nodePort: 8080
+      port: 8080
+      targetPort: 8080
+      protocol: TCP
+   
+  
+  
+
+
+  
+

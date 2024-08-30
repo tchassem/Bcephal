@@ -1,0 +1,18 @@
+﻿@page "/billing/list-invoice"
+
+@inherits Base.Shared.Browser
+@{
+    base.BuildRenderTree(__builder);
+}
+
+@code {
+
+    public override string Title { get { return AppState["billing.run.invoice"]; } }
+
+    public override string TitleIcon { get { return "bi bi-journal-plus"; } }
+
+    protected override RenderFragment _BodyContent_ => __builder =>
+    {
+        <InvoicesBrowser_ />
+    };
+}

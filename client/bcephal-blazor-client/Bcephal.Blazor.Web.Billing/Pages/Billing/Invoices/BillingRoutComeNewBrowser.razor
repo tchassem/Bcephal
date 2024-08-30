@@ -1,0 +1,20 @@
+﻿@page "/billing/run-outcome"
+
+@inherits Base.Shared.Browser
+
+@{
+    base.BuildRenderTree(__builder);
+}  
+
+@code {
+
+    public override string Title { get { return AppState["billing.run.outcome"]; } }
+
+    public override string TitleIcon { get { return "bi bi-clipboard-check"; } }
+
+    protected override RenderFragment _BodyContent_ => __builder =>
+    {
+        <BillingRoutComeBrowser_  />
+        
+    };
+}

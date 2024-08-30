@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.20.0.final using JasperReports Library version 6.20.0-2bc7ab61c56f459e8176eb05c7705e145cd400ad  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="template1_map_items_invoice" pageWidth="545" pageHeight="842" columnWidth="545" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="8644fb66-035f-4b4e-a336-376dff461792">
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<parameter name="totalAmount" class="java.math.BigDecimal"/>
+	<parameter name="amountWithoutVat" class="java.math.BigDecimal"/>
+	<parameter name="category" class="java.lang.String"/>
+	<parameter name="NotBreack" class="java.lang.Boolean">
+		<defaultValueExpression><![CDATA[false]]></defaultValueExpression>
+	</parameter>
+	<parameter name="displayVat" class="java.lang.Boolean">
+		<defaultValueExpression><![CDATA[true]]></defaultValueExpression>
+	</parameter>
+	<parameter name="displayTotal" class="java.lang.Boolean">
+		<defaultValueExpression><![CDATA[false]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="category" class="java.lang.String"/>
+	<field name="items" class="java.util.List"/>
+	<field name="beans" class="java.util.List"/>
+	<field name="space" class="java.lang.String"/>
+	<detail>
+		<band height="46">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<textField isBlankWhenNull="true">
+				<reportElement x="5" y="2" width="520" height="14" forecolor="#2F5597" uuid="adb7cb98-4f22-4ab3-bb5e-a2079c4ecaa3">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Verdana" size="10" isBold="true" pdfFontName="Helvetica-Bold"/>
+					<paragraph leftIndent="0"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{category} != null  ? 
+str($F{category}) != null && !str($F{category}).trim().isEmpty() &&
+ !str($F{category}).equals($F{category}) ?  ($F{space} != null && $F{space}.length() > 2 ?  $F{space}.substring(2 )  : "" )  + str($F{category}).toUpperCase()
+:  ($F{space} != null && $F{space}.length() > 2 ?  $F{space}.substring(2 )  : "" )  + $F{category}.toUpperCase()
+: null]]></textFieldExpression>
+			</textField>
+			<subreport>
+				<reportElement x="7" y="24" width="510" height="10" isRemoveLineWhenBlank="true" uuid="e4e2660c-e38e-497e-9cfc-7a07b4bf0cff">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<printWhenExpression><![CDATA[$F{items} != null && $F{items}.size() > 0]]></printWhenExpression>
+				</reportElement>
+				<subreportParameter name="totalAmount">
+					<subreportParameterExpression><![CDATA[$P{totalAmount}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="REPORT_RESOURCE_BUNDLE">
+					<subreportParameterExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="category">
+					<subreportParameterExpression><![CDATA[( 
+	$R{parameter.not.display.vat.key1} != null && str($F{category}).trim().equalsIgnoreCase($R{parameter.not.display.vat.key1}.trim())
+    || 
+    $R{parameter.not.display.vat.key2} != null && str($F{category}).trim().equalsIgnoreCase($R{parameter.not.display.vat.key2}.trim())
+) ? 
+str($F{category})
+ : 
+( 
+	$R{parameter.not.display.vat.key1} != null && $P{category} != null && $P{category}.trim().equalsIgnoreCase($R{parameter.not.display.vat.key1}.trim())
+    || 
+    $R{parameter.not.display.vat.key2} != null && $P{category} != null && $P{category}.trim().equalsIgnoreCase($R{parameter.not.display.vat.key2}.trim())
+) ? 
+$P{category} 
+: null]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="canCount">
+					<subreportParameterExpression><![CDATA[!($R{parameter.not.display.vat.key2} != null 
+	&&  str($F{category}).trim().equalsIgnoreCase(str($R{parameter.not.display.vat.key2}.trim().toLowerCase().replaceAll(" ",".")))
+)]]></subreportParameterExpression>
+				</subreportParameter>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{items})]]></dataSourceExpression>
+				<subreportExpression><![CDATA[($P{REPORT_PARAMETERS_MAP}.get("SUBREPORT_DIR" ) != null ? $P{REPORT_PARAMETERS_MAP}.get("SUBREPORT_DIR" ) : ".") + "/template1_sub_invoice.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement positionType="Float" x="7" y="36" width="510" height="10" isRemoveLineWhenBlank="true" uuid="a10e0d69-52c0-40af-8a1f-6ba1648865d2">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<printWhenExpression><![CDATA[$F{beans} != null && $F{beans}.size() > 0]]></printWhenExpression>
+				</reportElement>
+				<subreportParameter name="totalAmount">
+					<subreportParameterExpression><![CDATA[$P{totalAmount}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="REPORT_RESOURCE_BUNDLE">
+					<subreportParameterExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="category">
+					<subreportParameterExpression><![CDATA[( 
+	$R{parameter.not.display.vat.key1} != null && str($F{category}).trim().equalsIgnoreCase($R{parameter.not.display.vat.key1}.trim())
+    || 
+    $R{parameter.not.display.vat.key2} != null && str($F{category}).trim().equalsIgnoreCase($R{parameter.not.display.vat.key2}.trim())
+) ? str($F{category})
+ : 
+( 
+	$R{parameter.not.display.vat.key1} != null && $P{category} != null && $P{category}.trim().equalsIgnoreCase($R{parameter.not.display.vat.key1}.trim())
+    || 
+    $R{parameter.not.display.vat.key2} != null && $P{category} != null && $P{category}.trim().equalsIgnoreCase($R{parameter.not.display.vat.key2}.trim())
+) ? $P{category} : null]]></subreportParameterExpression>
+				</subreportParameter>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{beans})]]></dataSourceExpression>
+				<subreportExpression><![CDATA[($P{REPORT_PARAMETERS_MAP}.get("SUBREPORT_DIR" ) != null ? $P{REPORT_PARAMETERS_MAP}.get("SUBREPORT_DIR" ) : ".") + "/template1_map_items_invoice.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+	<summary>
+		<band height="22">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<printWhenExpression><![CDATA[$P{displayVat} && $P{amountWithoutVat} != null && $P{displayTotal}]]></printWhenExpression>
+			<frame>
+				<reportElement x="77" y="0" width="460" height="22" isRemoveLineWhenBlank="true" uuid="4f5a8b08-950e-4785-bc2b-79be6f284430">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<printWhenExpression><![CDATA[$P{displayTotal}]]></printWhenExpression>
+				</reportElement>
+				<box topPadding="0" leftPadding="0">
+					<topPen lineWidth="0.1" lineColor="#2F5597"/>
+				</box>
+				<textField>
+					<reportElement x="0" y="0" width="280" height="22" uuid="bbe471ab-0ce0-4914-824f-81a4f3e49e50">
+						<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Verdana" size="8" isBold="true" isItalic="true" pdfFontName="Helvetica-Bold"/>
+						<paragraph leftIndent="5"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$R{template.description.vat.label}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00" isBlankWhenNull="true">
+					<reportElement x="280" y="0" width="180" height="22" uuid="d0e079aa-64bc-4d4f-af54-c01fffe7ba8b">
+						<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<box>
+						<pen lineStyle="Solid"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Verdana" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+						<paragraph rightIndent="0"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{amountWithoutVat}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</summary>
+</jasperReport>

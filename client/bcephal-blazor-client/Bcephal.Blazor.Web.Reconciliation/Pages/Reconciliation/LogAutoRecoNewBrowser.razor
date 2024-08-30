@@ -1,0 +1,17 @@
+﻿@page "/reconciliation-auto-reco-log"
+
+@inherits Base.Shared.Browser
+@{
+    base.BuildRenderTree(__builder);
+}
+
+@code{
+    public override string Title { get { return AppState["Current.Auto.Recos.Executions"]; } }
+
+    public override string TitleIcon { get { return "bi bi-file-play"; } }
+
+    protected override RenderFragment _BodyContent_ => __builder =>
+    {
+    <LogAutoRecoBrowser />
+    };
+}

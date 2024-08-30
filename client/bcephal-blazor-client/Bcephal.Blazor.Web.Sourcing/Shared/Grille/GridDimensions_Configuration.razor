@@ -1,0 +1,23 @@
+﻿
+@if (DimensionList != null)
+{
+    <CustomListBox Editable=Editable_ Data="@DimensionList"
+                   HeaderTitle="@AppState["grid.dimensions"]"
+                   @bind-Values="@SelectedDimensions"
+                   showContextMenu="showContextMenu_"
+                   TData="GrilleDimension"
+                   TValue="GrilleDimension"
+                   FieldName="@nameof(GrilleDimension.Name)">
+    </CustomListBox>
+
+    <DxContextMenu  @ref="@DxContextMenu_" >
+        <Items>
+            <DxContextMenuItem IconCssClass="ml-1 bi-x" Click=DeleteSelectedDimension Text="@AppState["remove"]" />
+        </Items>
+    </DxContextMenu>
+}
+
+
+@code {
+
+}

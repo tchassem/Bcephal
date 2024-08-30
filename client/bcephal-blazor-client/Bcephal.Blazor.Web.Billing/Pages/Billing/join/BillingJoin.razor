@@ -1,0 +1,18 @@
+﻿@page "/billing-join/"
+@page "/billing-join/{JoinId:long}"
+
+
+@inherits Bcephal.Blazor.Web.Reporting.Pages.Joins.JoinForm
+
+@{ base.BuildRenderTree(__builder);}
+@if (EditorDataBinding != null)
+{
+<RenderFormContent @ref="RenderFormContentRef">
+    <BaseModalComponent Title=@AppState["List.model"] @bind-ShowModal=@ShowModal Height="60%" Width="50%"
+                        ApplyBackgroundShading="true" OkHandler=@RunSelectedModel @bind-OkBtnEnabled=OkBtnEnable>
+        <div class="w-100 h-100">
+            <ModelBrowser @ref="Browser" OkBtnEnableCallback=OkBtnHandleEnabled />
+        </div>
+    </BaseModalComponent>
+</RenderFormContent>
+}

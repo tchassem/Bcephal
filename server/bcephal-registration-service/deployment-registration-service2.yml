@@ -1,0 +1,79 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: eureka-cm
+data:
+  eureka_service_address: http://eureka-0.eureka:8761/eureka
+
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: registration-service
+spec:
+  selector:
+    app: registration-service
+  clusterIP: None
+  ports:
+     - name: registration-service 
+       port: 8761
+ 
+---
+
+
+
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: registration-service
+spec:
+  serviceName: "registration-service"
+  replicas: 1
+  selector:
+    matchLabels:
+      app: registration-service
+    
+  template:
+    metadata:
+      labels:
+        app: registration-service
+    spec:
+      volumes:
+      - name: bcephal-registration-repository
+        hostPath:
+          path: /opt/bcephal-registration-repository
+      containers:
+      - name: registration-service
+        image: localhost:5000/becphal-registration-service-docker-image
+        volumeMounts:
+        - name: bcephal-registration-repository
+          mountPath: /opt/bcephal-registration-repository
+
+        ports:
+        - containerPort: 8761
+        env:
+            - name: EUREKA_SERVER_ADDRESS
+              valueFrom:
+                configMapKeyRef:
+                  name: eureka-cm
+                  key: eureka_service_address
+  
+---               
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: registration-service-lb
+  labels:
+    app: registration-service
+spec:
+  selector:
+    app: registration-service
+  type: NodePort
+  ports:
+    - port: 8762
+      targetPort: 8761
+
+  
+

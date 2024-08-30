@@ -1,0 +1,43 @@
+﻿@if (BillingModelEditorData_ != null)
+{
+    <DxLayoutBreakpoint DeviceSize="DeviceSize.Medium | DeviceSize.Small | DeviceSize.XSmall" @bind-IsActive="IsSmallScreen" />
+    <DxStackLayout CssClass="w-100 h-100 pt-2" Orientation="Orientation.Vertical" ItemSpacing="15px">
+        <Items>
+            <DxStackLayoutItem CssClass="w-100" Length="auto" >
+                <Template>
+                    <DxStackLayout CssClass="w-100" Orientation=Orientation.Vertical>
+                        <Items>
+                            @foreach (var item in BillingModelEditorData_.Item.LabelListChangeHandler.Items)
+                            {
+                                <DxStackLayoutItem CssClass="w-100">
+                                    <Template>
+                                        @RendeInvoiceLabel(item)
+                                    </Template>
+                                </DxStackLayoutItem>
+                            }
+                        </Items>
+                    </DxStackLayout>
+                </Template>
+            </DxStackLayoutItem>
+            <DxStackLayoutItem Length="auto">
+                <Template>
+                        <DxButton RenderStyle="ButtonRenderStyle.Link"
+                                  SizeMode="SizeMode.Medium"
+                                  Text="@AppState["new.label"]"
+                                  @onclick=NewBillingModelLabel
+                                  Enabled="Editable"/>
+                </Template>
+            </DxStackLayoutItem>
+        </Items>
+    </DxStackLayout>
+}
+
+@code{
+    private RenderFragment RendeInvoiceLabel(BillingModelLabel billingModelLabel) => __builder =>
+    {
+
+        <BillingModelLabelItemComponent Editable="Editable"  ModelLabel="@billingModelLabel" BillingModelEditorData="BillingModelEditorData_"
+                                   DeleteInvoiceLabelCallBack=RemoveInvoiceLabel UpdateLabelValueCallBack=UpdateInvoiceLabel />
+    };
+}
+

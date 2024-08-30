@@ -1,0 +1,3 @@
+rootProject.name = 'bcephal-messenger-service'
+includeFlat  'bcephal-utils', 'bcephal-sso'
+

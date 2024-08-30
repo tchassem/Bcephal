@@ -1,0 +1,58 @@
+﻿@page "/settings/configuration/"
+@page "/settings/configuration/{Id:long}"
+
+@using System.Collections.ObjectModel;
+
+@inherits Form<Parameter, BrowserData>
+
+@{
+    base.BuildRenderTree(__builder);
+}
+
+@code {
+
+public override RenderFragment LeftContent => __builder =>
+{
+@if (EditorData != null && EditorData.Item != null)
+{
+    var EditorData_ = (ParameterEditorData)EditorData;
+        <DxTabs ActiveTabIndex=ActiveTabIndex_ ActiveTabIndexChanged="(val) => OnActiveTabChanged(val)">
+            
+                @if (EditorData_.ParameterGroups.Any())
+                        {
+                            int offset = 0;
+                            int tail = EditorData_.ParameterGroups.Count;
+                    @while (offset < tail)
+                    {
+                        int offset2 = offset;
+                        var item = EditorData_.ParameterGroups[offset2];
+                        if (item != null)
+                        {
+                            string title = "";
+                            if (item.Code.Equals("billing") || item.Code.Equals("Billing"))
+                            {
+                                title = @AppState["billing"];
+                            }
+                            else
+                            {
+                                title = @AppState[item.Code];
+                            }
+                            <DxTabPage CssClass="pl-3" Text=@title >
+                                <div class="grid-bc-two">
+                                    <GroupParameter AutoCreateHandler=CreateAutomatically
+                                                    @bind-EditorData=EditorData 
+                                                    Entities=Entities 
+                                                    Item=EditorData_.ParameterGroups[offset2] />
+                                </div>
+                            </DxTabPage>
+                                }
+                                offset++;
+                            }
+                        }
+        </DxTabs>
+}
+
+};
+
+};
+

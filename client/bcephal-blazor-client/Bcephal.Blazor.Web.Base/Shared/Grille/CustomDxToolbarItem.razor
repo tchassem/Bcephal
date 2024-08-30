@@ -1,0 +1,11 @@
+﻿
+@inherits DxToolbarItem
+
+@code {
+
+    public void Refresh(bool enable)
+    {
+        this.Enabled = enable;
+        StateHasChanged();
+    }
+}

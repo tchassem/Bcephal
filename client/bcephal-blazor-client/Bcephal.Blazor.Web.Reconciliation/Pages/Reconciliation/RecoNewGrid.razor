@@ -1,0 +1,70 @@
+﻿
+@if (EditorData != null)
+{
+    <div class=" m-0 p-0 overflow-y-auto" style="height:@height;">
+       
+            <RecoInputNewGridComponent @bind-EditorData="EditorDataBindings"
+                                       Service="GetService()"
+                                       CanDisplayDeleteButton="false"
+                                       OnSelectionChangeHandler_=OnSelectionChangeHandler
+                                       @ref=InputGridComponentRef
+                                       AddColumns=AddColumns
+                                       UsingManualyData=UsingManualyData
+                                       DoHandlerAfterRefresh_=OnDoHandlerAfterRefresh
+                                       RecoShowSelectionColumnVisible=RecoShowSelectionColumnVisible
+                                       FilterHandler="OnFilterHandler"
+                                       ManualyData="ManualyData"
+                                       KeyName="@KeyName"
+                                       AllowToDisplayCustomPager="AllowBuildChecBoxTotalPage"
+                                       SelectionManualyDatas_="SelectionManualyDatas" 
+                                       @attributes=attributes/>
+        
+    </div>
+    <RenderFormContent @ref=RenderFormRef>
+        @if (!IsBottom)
+        {
+            <RecoNewCustomToolBar @ref=RecoCustomToolBar
+                                  @bind-CreditLabel="CreditLabel"
+                                  @bind-DebitLabel="DebitLabel"
+                                  @bind-BalanceLabel="BalanceLabel"
+                                  @bind-LeftValue="Credit"
+                                  @bind-RightValue="Debit"
+                                  @bind-BalanceValue="Balance"
+                                  RunHande=OnRunHander
+                                  ClearGridHande=OnClearGridHander
+                                  ResetHande=OnResetHander
+                                  RunFreezeHander=OnRunFreezeHander
+                                  RunUnFreezeHander=OnRunUnFreezeHander
+                                  NeutralizationHander=OnNeutralizationHander
+                                  UnNeutralizationHander=OnUnNeutralizationHander />
+        }
+        else
+        {
+            @if (CanDisplayToolBar)
+            {
+                <RecoNewCustomToolBar @ref=RecoCustomToolBar
+                                      CanRun=CanRun
+                                      CanReset=CanReset
+                                      CanDelete=CanDelete
+                                      DisplayToobar="DisplayCommandToobar"
+                                      @bind-CanFreeze="CanFreeze"
+                                      @bind-CanUnFreeze="CanUnFreeze"
+                                      @bind-CanNeutralization="CanNeutralization"
+                                      @bind-CanUnNeutralization="CanUnNeutralization"
+                                      @bind-CreditLabel="CreditLabel"
+                                      @bind-DebitLabel="DebitLabel"
+                                      @bind-BalanceLabel="BalanceLabel"
+                                      @bind-LeftValue="Credit"
+                                      @bind-RightValue="Debit"
+                                      @bind-BalanceValue="Balance"
+                                      RunHande=OnRunHander
+                                      ClearGridHande=OnClearGridHander
+                                      ResetHande=OnResetHander
+                                      RunFreezeHander=OnRunFreezeHander
+                                      RunUnFreezeHander=OnRunUnFreezeHander
+                                      NeutralizationHander=OnNeutralizationHander
+                                      UnNeutralizationHander=OnUnNeutralizationHander />
+            }
+        }
+        </RenderFormContent>
+        }

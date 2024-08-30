@@ -1,0 +1,90 @@
+﻿@implements IDisposable
+
+<DxPopup @ref=DxPopupRef
+         CloseOnOutsideClick="false"
+         CloseOnEscape="false"
+         ShowFooter="true"
+         ShowCloseButton="false"
+         HeaderText=""
+         HeaderCssClass="font-weight-light"
+         @bind-Visible="ShowPopup">
+    <BodyContentTemplate>
+        <div class="d-flex flex-column pb-1">
+            <div class="d-block">
+                <div class="d-flex flex-column h-100">
+                    <DxCheckBox CssClass="mt-auto mb-auto" @bind-Checked="DeleteAll" LabelPosition="LabelPosition.Right">
+                        @AppState["DeleteAll"]
+                    </DxCheckBox>
+                </div>
+                <div class="d-flex flex-row">
+                    <DxCheckBox @bind-Checked="DeleteSelection" LabelPosition="LabelPosition.Right">
+                        @AppState["DeleteSelection"]
+                    </DxCheckBox>
+                </div>
+                <div class="d-flex flex-row">
+                    <div class="d-flex flex-row w-25">
+                        <label class="ml-auto mr-1">@AppState["From"]</label>
+                    </div>
+                    <div class="w-75">
+                        <DxDateEdit @bind-Date="@FromDate" SizeMode="SizeMode.Small" />
+                    </div>
+                    
+                </div>
+                <div class="d-flex flex-row">
+                    <div class="d-flex flex-row w-25">
+                        <label class="ml-auto mr-1">@AppState["To"]</label>
+                    </div>
+                    <div class="w-75">
+                        <DxDateEdit @bind-Date="@ToDate"
+                                    SizeMode="SizeMode.Small" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </BodyContentTemplate>
+    <FooterContentTemplate>
+        <div class="d-flex flex-row w-100">
+            <DxButton IconCssClass="fa fa-thumbs-up mr-1" CssClass="mr-1 ml-auto" Text="@AppState["Ok"]" Click="ButtonClick"></DxButton>
+            <DxButton IconCssClass="fa fa-ban mr-1" CssClass="ml-1 mr-auto" Text="@AppState["Cancel"]" Click="ClosePopup"></DxButton>
+        </div>
+</FooterContentTemplate>
+
+</DxPopup>
+
+@code { 
+        [Inject]
+        private AppState AppState { get; set; }
+
+        DxPopup DxPopupRef;
+
+        [Parameter]
+        public bool ShowPopup { get; set; }
+
+
+        public bool DeleteAll { get; set; }
+
+        public bool DeleteSelection { get; set; }
+
+        public DateTime? FromDate { get; set; } = DateTime.Today;
+
+        public DateTime? ToDate { get; set; } = DateTime.Today;
+
+
+        public void ClosePopup()
+        {
+            ShowPopup = false;
+            Dispose();
+        }
+
+        public void ButtonClick()
+        {
+
+        }
+
+        public void Dispose()
+        {
+            GC.SuppressFinalize(DxPopupRef);
+            GC.SuppressFinalize(this);
+        }
+    
+}

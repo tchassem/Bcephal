@@ -1,0 +1,155 @@
+﻿@using Bcephal.Models.Billing.Model
+
+@inject IToastService ToastService
+
+<div class="row m-0 py-3">
+    <div class="col no-gutters flex-column">
+        @if (EditorData != null && EditorData.Item != null)
+        {
+            @foreach (var element in EditorData.Item.EnrichmentItemListChangeHandler.Items)
+            {
+                @switch (element.SourceType)
+                {
+                    case DimensionType.MEASURE:
+                        @renderMeasureLine(element)
+                        break;
+                    case DimensionType.PERIOD:
+                        @renderPeriodLine(element)
+                        break;
+                    case DimensionType.ATTRIBUTE:
+                        @renderAttributeLine(element)
+                        break;
+                    case DimensionType.BILLING_EVENT:
+                    default:
+                        if (BillingRepositories != null && BillingRepositories.Item == null)
+                        {
+                            ToastService.ShowError(AppState["billing.model.form.enrich.errorEventRepo"]);
+                        }
+                        else
+                        {
+                            @renderBillingEventLine(element)
+                        }
+                        break;
+                }
+            }
+            @renderInitCombobox(null)
+        }
+    </div>
+</div>
+
+@code {
+
+    #region RenderFragment section
+
+    RenderFragment renderInitCombobox(BillingModelEnrichmentItem element)
+    {
+        var me = "wid-200 mr-2 " + (element == null ? "mt-3" : "mt-0");
+        RenderFragment renderedFragment = __builder =>
+        {
+        <DxComboBox Data=@Dimensions  ReadOnly="!Editable" NullText="@AppState["select.type"]" TData="string" TValue="string"
+            Value="element is null ? null : element.SourceType.GetText(text => AppState[text])"
+            CssClass=@me SelectedItemChanged="DimensionSelectionChanged">
+        </DxComboBox>
+        };
+        return renderedFragment;
+    }
+
+    RenderFragment renderPeriodLine(BillingModelEnrichmentItem element)
+    {
+        RenderFragment renderedFragment = __builder =>
+        {
+        <div class="row no-gutters mt-2">
+
+            @renderInitCombobox(element)
+
+            <div style="width: 700px !important; margin: 5px 0px 0px -5px !important;">
+                <PeriodFilterItemComponent periodFilterItem="GetPeriodFilterItem(element)" ExpandField="@IsExpand" ShouldRender_="true" 
+                    removeButton="true" AddPaddingTop="false" DisplaySecondItem="false" Periods_="PeriodsItems"
+                    ItemCallback="((peiod) => PeriodChanged(peiod, element))" OnClickRemove="(() => RemoveEnrichmentItem(element))">
+                </PeriodFilterItemComponent>
+            </div>
+        </div>
+        };
+        return renderedFragment;
+    }
+
+    RenderFragment renderBillingEventLine(BillingModelEnrichmentItem element)
+    {
+        var me = "wid-200 mr-2 " + (element == null ? "mt-3" : "mt-0");
+        RenderFragment renderedFragment = __builder =>
+        {
+            @if (BillingRepositories != null && BillingRepositories.Item != null)
+            {
+                <div class="row no-gutters mt-2">
+
+                    @renderInitCombobox(element)
+
+                    <DxComboBox CssClass=@me Enabled="Editable" Data="BillingColumn" TValue="GrilleColumn" TData="GrilleColumn"
+                        TextFieldName="@nameof(GrilleColumn.Name)" Value="BillingColumn.Where(b => b.Id == element.SourceId).FirstOrDefault()"
+                        ValueChanged="(evnt) => BillingComboboxAction(evnt, element)">
+                    </DxComboBox>
+
+                    @renderDeleteBtn(element)
+                </div>
+            }
+        };
+       return renderedFragment;
+   }
+
+   RenderFragment renderMeasureLine(BillingModelEnrichmentItem element)
+   {
+       RenderFragment renderedFragment = __builder =>
+       {
+            <div class="row no-gutters mt-2">
+
+                @renderInitCombobox(element)
+
+                <div class="wid-200">
+                    <TreeViewFilter C="Measure" ItemsFilter="@EditorData.Measures" SelectedItem="@GetTreeView(element)"
+                                    SelectFilterItemCallback="((measure) => TreeViewCallback(measure, element))">
+                    </TreeViewFilter>
+                </div>
+                <DxTextBox Text="@element.StringValue" TextChanged="((val) => TextCallback(val, element))" CssClass="ml-2" BindValueMode="BindValueMode.OnInput" />
+
+                @renderDeleteBtn(element)
+            </div>
+        };
+        return renderedFragment;
+    }
+
+     RenderFragment renderAttributeLine(BillingModelEnrichmentItem element)
+     {
+         RenderFragment renderedFragment = __builder =>
+         {
+            <div class="row no-gutters mt-2">
+
+                @renderInitCombobox(element)
+
+                <div class="wid-200">
+                    <TreeViewFilter C="Bcephal.Models.Base.HierarchicalData" ItemsFilter="@AttributeList"
+                                    SelectedItem="@GetTreeView(element)" SelectFilterItemCallback="((attr) => TreeViewCallback(attr, element))">
+                    </TreeViewFilter>
+                </div>
+                <DxTextBox Enabled="Editable" Text="@element.StringValue" TextChanged="((val) => TextCallback(val, element))" CssClass="ml-2" BindValueMode="BindValueMode.OnInput" />
+
+                @renderDeleteBtn(element)
+            </div>
+        };
+        return renderedFragment;
+    }
+
+    RenderFragment renderDeleteBtn(BillingModelEnrichmentItem element)
+    {
+       RenderFragment renderedFragment = __builder =>
+       {
+            <div class="d-flex flex-column h-100 justify-content-center mt-auto mb-auto ml-2">
+                <DxButton Enabled="Editable" IconCssClass="fa fa-close" CssClass="mt-auto mb-auto" RenderStyleMode="ButtonRenderStyleMode.Text"
+                          RenderStyle="ButtonRenderStyle.Danger" Click="(() => RemoveEnrichmentItem(element))">
+                </DxButton>
+            </div>
+        };
+        return renderedFragment;
+    }
+
+#endregion
+}

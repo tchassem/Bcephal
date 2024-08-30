@@ -1,0 +1,194 @@
+﻿
+@inherits AbstractGridComponent<Models.Loaders.FileLoaderColumn, Models.Loaders.FileLoaderColumn>
+
+@{
+    base.BuildRenderTree(__builder);
+}
+
+@code{
+
+    protected override RenderFragment EditFormTemplate => __builder =>
+        {
+        <EditForm Model="@EditContext" Context="EditFormContext" OnValidSubmit="HandleValidSubmit">
+            <DataAnnotationsValidator />
+            <DxFormLayout CssClass="d-flex flex-column w-100 m-0 p-0">
+                <DxFormLayoutItem CssClass="w-100 m-0 p-0 " Context="FormLayoutContext" CaptionCssClass="font-weight-normal"
+                                  Caption="" ColSpanXs="12" ColSpanXl="12" ColSpanSm="12" ColSpanLg="12" ColSpanMd="12">
+                    <Template>
+                        <DxGridLayout CssClass="w-100 m-0 p-0" ColumnSpacing="5px" RowSpacing="10px">
+                            <Rows>
+                                <DxGridLayoutRow Areas="e0  e1 e2  r1 r2 r3 r4" Height="auto" />
+                                <DxGridLayoutRow Areas="r5 r5 r5 r5 r5 r5 r5" Height="auto" />
+                            </Rows>
+                            <Columns>
+                                <DxGridLayoutColumn Width="0.2fr" />
+                                <DxGridLayoutColumn Width="0.2fr" />
+                                <DxGridLayoutColumn Width="0.2fr" />
+                                <DxGridLayoutColumn Width="1fr" />
+                                <DxGridLayoutColumn Width="1fr" />
+                                <DxGridLayoutColumn Width="1fr" />
+                                <DxGridLayoutColumn Width="1fr" />
+                            </Columns>
+                            <Items>
+                                <DxGridLayoutItem Area="e0">
+                                    <Template>
+
+                                    </Template>
+                                </DxGridLayoutItem>
+                                <DxGridLayoutItem Area="e1">
+                                    <Template>
+
+                                    </Template>
+                                </DxGridLayoutItem>
+                                <DxGridLayoutItem Area="e2">
+                                    <Template>
+
+                                    </Template>
+                                </DxGridLayoutItem>
+                                <DxGridLayoutItem Area="r1" CssClass="w-100 m-0 p-0 pr-1">
+                                    <Template>
+                                        <div class="d-flex flex-column w-100 m-0 p-0 pr-1">
+                                            <div>@AppState["ColumnName"]</div>
+                                            <div>
+                                                <DxComboBox Data="EditContext.Columns" @bind-Value="EditContext.Column" />
+                                            </div>
+                                        </div>
+                                    </Template>
+                                </DxGridLayoutItem>
+                                <DxGridLayoutItem Area="r2" CssClass="w-100 m-0 p-0 pr-1">
+                                    <Template>
+                                        <div class="d-flex flex-column w-100 m-0 p-0">
+                                            <div>@AppState["Type"]</div>
+                                            <div>
+                                                <DxComboBox Data="EditContext.DimensionTypes" @bind-Value="EditContext.DimensionType_" />
+                                            </div>
+                                        </div>
+                                    </Template>
+                                </DxGridLayoutItem>
+                                <DxGridLayoutItem Area="r3" CssClass="w-100 m-0 p-0 pr-1">
+                                    <Template>
+                                        <div class="d-flex flex-column">
+                                            <div> @AppState["SelectionDimension"]</div>
+                                            <div>
+                                                @if (EditContext.DimensionType_ == DimensionType.ATTRIBUTE)
+                                                    {
+                                                    <TreeViewFilter C="Bcephal.Models.Base.HierarchicalData"
+                                                                    ItemsFilter=Entities
+                                                                    SelectedItem="@EditContext.SelectedDimensionName"
+                                                                    SelectFilterItemCallback="SelectedDimensionChanged">
+
+                                                    </TreeViewFilter>
+
+                                                    }
+                                                    else if (EditContext.DimensionType_ == DimensionType.MEASURE)
+                                                    {
+                                                    <TreeViewFilter C="Models.Dimensions.Measure"
+                                                                    ItemsFilter=EditorDataFileLoader.Measures
+                                                                    SelectedItem="@EditContext.SelectedDimensionName"
+                                                                    SelectFilterItemCallback="SelectedDimensionChanged">
+
+                                                    </TreeViewFilter>
+                                                    }
+                                                    else
+                                                    {
+                                                    <TreeViewFilter C="Models.Dimensions.Period"
+                                                                    ItemsFilter=EditorDataFileLoader.Periods
+                                                                    SelectedItem="@EditContext.SelectedDimensionName"
+                                                                    SelectFilterItemCallback="SelectedDimensionChanged">
+
+                                                    </TreeViewFilter>
+
+                                                    }
+                                            </div>
+                                        </div>
+                                    </Template>
+                                </DxGridLayoutItem>
+                                <DxGridLayoutItem Area="r4" CssClass="w-100 m-0 p-0">
+                                    <Template>
+                                        <div class="d-flex flex-column w-100 m-0 p-0">
+                                            <div>@AppState["InputFileColumn"]</div>
+                                            <div>
+                                                <DxTextBox ReadOnly="true" CssClass="w-100" InputCssClass="w-100" InputId="param-name-id"
+                                                           @bind-Text=@EditContext.DataItem.FileColumn BindValueMode="BindValueMode.OnInput"
+                                                           NullText=""></DxTextBox>
+                                            </div>
+                                        </div>
+                                    </Template>
+                                </DxGridLayoutItem>
+                                <DxGridLayoutItem Area="r5" CssClass="w-100 ">
+                                    <Template>
+                                        <div class="text-right">
+                                            <DxButton RenderStyle="ButtonRenderStyle.Primary" SubmitFormOnClick="true" Text="@AppState["Update"]" />
+                                            <DxButton RenderStyle="ButtonRenderStyle.Link" Click="OnCancelButtonClick" Text="@AppState["Cancel"]" />
+                                        </div>
+                                    </Template>
+                                </DxGridLayoutItem>
+                            </Items>
+                        </DxGridLayout>
+                    </Template>
+                </DxFormLayoutItem>
+            </DxFormLayout>
+
+        </EditForm>
+        };
+
+
+    protected override RenderFragment GetEditData(Models.Loaders.FileLoaderColumn DataItem, AbstractGridDataItem GridDataItem) => __builder =>
+    {
+        FormEditContext Contexts = GetContexts(DataItem);
+        if (DataItem != null && GridDataItem.Position == 3)
+        {
+            if (DimensionType.ATTRIBUTE.Equals(Contexts.DimensionType_))
+            {
+            <TreeViewFilter C="Bcephal.Models.Base.HierarchicalData"
+                            ItemsFilter=Entities
+                            SelectedItem="@Contexts.SelectedDimensionName"
+                            SelectFilterItemCallback="(value) => SelectedDimensionChanged2(value, Contexts)"
+                            KeyPressCallback="(async (e) => { await Task.Yield(); await EnterHandleValidSubmit(e, DataItem); })"
+                            Contenteditable=Editable Editable=Editable />
+            }
+            else if (DimensionType.MEASURE.Equals(Contexts.DimensionType_))
+            {
+            <TreeViewFilter C="Models.Dimensions.Measure"
+                            ItemsFilter=EditorDataFileLoader.Measures
+                            SelectedItem="@Contexts.SelectedDimensionName"
+                            SelectFilterItemCallback="(value) => SelectedDimensionChanged2(value, Contexts)"
+                            KeyPressCallback="(async (e) => { await Task.Yield(); await EnterHandleValidSubmit(e, DataItem); })"
+                            Contenteditable=Editable Editable=Editable />
+            }
+            else
+            {
+            <TreeViewFilter C="Models.Dimensions.Period"
+                            ItemsFilter=EditorDataFileLoader.Periods
+                            SelectedItem="@Contexts.SelectedDimensionName"
+                            SelectFilterItemCallback="(value) => SelectedDimensionChanged2(value, Contexts)"
+                            KeyPressCallback="(async (e) => { await Task.Yield(); await EnterHandleValidSubmit(e, DataItem); })"
+                            Contenteditable=Editable Editable=Editable />
+            }
+        }
+        else
+        {
+            if (GridDataItem.Position == 1)
+            {
+            <DxComboBox Data="Contexts.Columns" @bind-Value="Contexts.Column" Enabled=Editable
+                         @onkeyup="(async (e) => { await Task.Yield(); await EnterHandleValidSubmit(e, DataItem); })" />
+            }
+            else
+                     if (GridDataItem.Position == 2)
+            {
+            <DxComboBox Data="Contexts.DimensionTypes" @bind-Value="Contexts.DimensionType_" Enabled=Editable
+                        @onkeyup="(async (e) => { await Task.Yield(); await EnterHandleValidSubmit(e, DataItem); })" />
+            }
+            else
+                 if (GridDataItem.Position == 4)
+            {
+            <DxTextBox ReadOnly="true" CssClass="w-100" InputCssClass="w-100" InputId="param-name-id"
+                       @bind-Text=@DataItem.FileColumn BindValueMode="BindValueMode.OnInput"
+                       NullText="" Enabled=Editable
+                       @onkeyup="(async (e) => { await Task.Yield(); await EnterHandleValidSubmit(e, DataItem); })" />
+            }
+        }
+    };
+
+
+}

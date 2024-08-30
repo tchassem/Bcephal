@@ -1,0 +1,35 @@
+﻿
+<DxStackLayout CssClass="mb-3 ml-2" ItemSpacing="5px" Orientation="IsSmallScreen ? Orientation.Vertical : Orientation.Horizontal">
+    <Items>
+        <DxStackLayoutItem Length="1fr" Visible="EditorData.Item.Scheduled">
+            <Template>
+                <div class="d-flex flex-column h-100">
+                    <DxComboBox Data="filenameconditons"
+                                @bind-Value="FileNameCondition">
+                    </DxComboBox>
+                </div>
+            </Template>
+        </DxStackLayoutItem>
+        <DxStackLayoutItem Length="1fr" Visible="EditorData.Item.Scheduled">
+            <Template>
+                <div class="d-flex flex-column h-100">
+                    <DxTextBox @bind-Text=FilterBing NullText=@appState["PageLoader.Filter"]
+                                BindValueMode="BindValueMode.OnLostFocus"></DxTextBox>
+                </div>
+            </Template>
+        </DxStackLayoutItem>
+        <DxStackLayoutItem Length="0.5fr" Visible="EditorData.Item.Scheduled">
+            <Template>
+                <div class="d-flex flex-column h-100" style="width:30px !important;">
+                    <DxButton Visible="@(item.FileNameCondition != null ? true : false)"
+                                IconCssClass="fa fa-remove"
+                                CssClass="mt-auto mb-auto w-100"
+                                RenderStyleMode="ButtonRenderStyleMode.Text"
+                                RenderStyle="ButtonRenderStyle.Danger"
+                                @onclick="deleteCodition">
+                    </DxButton>
+                </div>
+            </Template>
+        </DxStackLayoutItem>
+    </Items>
+</DxStackLayout>

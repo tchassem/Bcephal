@@ -1,0 +1,263 @@
+﻿@BodyFragment
+
+@code {
+
+    private RenderFragment BodyFragment => __builder =>
+    {
+        if (EditorData != null && EditorData.Item != null)
+        {
+            if (EditorData.Item.DashboardLayout != null)
+            {
+                if (EditorData.Item.DashboardLayout.IsHorizontal())
+                {
+                @HorizontalFragment(EditorData.Item.DashboardLayout)
+                }
+                else
+                {
+                @VerticalFragment(EditorData.Item.DashboardLayout)
+                }
+            }
+        }
+    };
+
+    private List<RenderFragment> getListPanel(int[] list)
+    {
+
+        var panel = new List<RenderFragment>();
+        foreach (var position in list)
+        {
+            var item = GetItemByPosition(position);
+            if ((item != null && item.Visible) || item == null)
+            {
+                panel.Add(GuildFragment(position));
+            }
+        }
+        return panel;
+    }
+
+    private RenderFragment HorizontalFragment(Bcephal.Models.Dashboards.DashboardLayout layout) => __builder =>
+    {
+        if (layout != null)
+        {
+            if (layout.IsOne())
+            {
+            @GuildOneFragment()
+            }
+            else
+                    if (layout.IsHorizontal1x2())
+            {
+
+                var panesH1x2 = getListPanel(new int[] { 0, 1 });
+            @SplitterPanelFragment(panesH1x2, true, null);
+            }
+            else
+                    if (layout.IsHorizontal2x2())
+            {
+
+                var raw1 = getListPanel(new int[] { 0, 1 });
+                var raw2 = getListPanel(new int[] { 2, 3 });
+                var panesH2x2 = GetSplitterPanelListPanel(new List<List<RenderFragment>>() { raw1, raw2 }, true);
+            @SplitterPanelFragment(panesH2x2, false, heightCallTotal);
+            }
+            else
+                    if (layout.IsHorizontal3x3())
+            {
+
+                var raw1 = getListPanel(new int[] { 0, 1, 2 });
+                var raw2 = getListPanel(new int[] { 3, 4, 5 });
+                var raw3 = getListPanel(new int[] { 6, 7, 8 });
+                var panesH3x3 = GetSplitterPanelListPanel(new List<List<RenderFragment>>() { raw1, raw2, raw3 }, true);
+            @SplitterPanelFragment(panesH3x3, false, heightCallTotal);
+            }
+            else
+                    if (layout.IsHorizontal3x4())
+            {
+
+                var raw1 = getListPanel(new int[] { 0, 1, 2, 3 });
+                var raw2 = getListPanel(new int[] { 4, 5, 6, 7 });
+                var raw3 = getListPanel(new int[] { 8, 9, 10, 11 });
+                var panesH3x4 = GetSplitterPanelListPanel(new List<List<RenderFragment>>() { raw1, raw2, raw3 }, true);
+            @SplitterPanelFragment(panesH3x4, false, heightCallTotal);
+            }
+            else
+                if (layout.IsHorizontal4x3())
+            {
+
+                var raw1 = getListPanel(new int[] { 0, 1, 2 });
+                var raw2 = getListPanel(new int[] { 3, 4, 5 });
+                var raw3 = getListPanel(new int[] { 6, 7, 8 });
+                var raw4 = getListPanel(new int[] { 9, 10, 11 });
+                var panesH4x3 = GetSplitterPanelListPanel(new List<List<RenderFragment>>() { raw1, raw2, raw3, raw4 }, true);
+            @SplitterPanelFragment(panesH4x3, false, heightCallTotal);
+            }
+        }
+        else
+        {
+            Console.WriteLine("Empty layout =>");
+        }
+    };
+
+    private RenderFragment VerticalFragment(Bcephal.Models.Dashboards.DashboardLayout layout) => __builder =>
+    {
+        if (layout != null)
+        {
+            if (layout.IsOne())
+            {
+            @GuildOneFragment()
+            }
+            else
+            if (layout.IsVertical2x1())
+            {
+                var panes2x1 = getListPanel(new int[] { 0, 1 }); ;
+            @SplitterPanelFragment(panes2x1, false, heightCallTotal);
+            }
+            else
+            if (layout.IsVertical2x2())
+            {
+
+                var colum1 = getListPanel(new int[] { 0, 1 });
+                var colum2 = getListPanel(new int[] { 2, 3 });
+                var panes2x2 = GetSplitterPanelListPanel(new List<List<RenderFragment>>() { colum1, colum2 });
+            @SplitterPanelFragment(panes2x2, true, null);
+            //@SplitterPanelFragmentStore(panes2x2, true, null, layout);
+        }
+            else
+            if (layout.IsVertical3x3())
+            {
+
+                var colum1 = getListPanel(new int[] { 0, 1, 2 });
+                var colum2 = getListPanel(new int[] { 3, 4, 5 });
+                var colum3 = getListPanel(new int[] { 6, 7, 8 });
+                var panes3x3 = GetSplitterPanelListPanel(new List<List<RenderFragment>>() { colum1, colum2, colum3 });
+            @SplitterPanelFragment(panes3x3, true, null);
+            }
+            else
+            if (layout.IsVertical3x4())
+            {
+                var colum1 = getListPanel(new int[] { 0, 1, 2, 3 });
+                var colum2 = getListPanel(new int[] { 4, 5, 6, 7 });
+                var colum3 = getListPanel(new int[] { 8, 9, 10, 11 });
+                var panes3x4 = GetSplitterPanelListPanel(new List<List<RenderFragment>>() { colum1, colum2, colum3 });
+            @SplitterPanelFragment(panes3x4, true, null);
+            }
+            else
+            if (layout.IsVertical4x3())
+            {
+
+                var colum1 = getListPanel(new int[] { 0, 1, 2 });
+                var colum2 = getListPanel(new int[] { 3, 4, 5 });
+                var colum3 = getListPanel(new int[] { 6, 7, 8 });
+                var colum4 = getListPanel(new int[] { 9, 10, 11 });
+                var panes4x3 = GetSplitterPanelListPanel(new List<List<RenderFragment>>() { colum1, colum2, colum3, colum4 });
+            @SplitterPanelFragment(panes4x3, true, null);
+            }
+        }
+    };
+
+
+    private List<RenderFragment> GetSplitterPanelListPanel(List<List<RenderFragment>> list, bool vertical = false)
+    {
+        var panel = new List<RenderFragment>();
+
+        foreach (var pan in list)
+        {
+            if (pan != null && pan.Count > 0)
+            {
+                if (pan.Count > 1)
+                {
+                    if (!vertical)
+                    {
+                        panel.Add(SplitterPanelFragment(pan, vertical, heightCallTotal));
+                    }
+                    else
+                    {
+                        panel.Add(SplitterPanelFragment(pan, vertical, null));
+                    }
+                }
+                else
+                {
+                    panel.Add(pan.ElementAt(0));
+                }
+            }
+        }
+        return panel;
+    }
+
+    private RenderFragment GuildOneFragment() => __builder =>
+    {
+        var item = GetItemByPosition(0);
+        if (item != null)
+        {
+        <DashboardItemPanel Editable=Editable Item=@item IsReadOnlyData="true" />
+        }
+        else
+        {
+        <DashboardItemPanel Editable=Editable IsReadOnlyData="true" />
+        }
+    };
+
+    private RenderFragment GuildFragment(int position) => __builder =>
+    {
+        var item = GetItemByPosition(position);
+        if (item != null)
+        {
+        <DashboardItemPanel Editable=Editable Item=@item IsReadOnlyData="true" />
+        }
+        else
+        {
+        <DashboardItemPanel Editable=Editable IsReadOnlyData="true" />
+        @*<DashboardItemPanel  IsReadOnlyData="true" />*@
+        }
+    };
+
+
+    private RenderFragment SplitterPanelFragment(List<RenderFragment> panes, bool vertical, string heightCall) => __builder =>
+   {
+       if (panes != null && panes.Any())
+       {
+           if (panes.Count == 1)
+           {
+        @panes[0]
+        }
+        else
+        {
+        @*if (!string.IsNullOrWhiteSpace(heightCall))
+            {
+            <SplitterPanel Panes=panes LeftSize=1 heightCall=@heightCall vertical=vertical />
+            }
+            else
+            {
+            <SplitterPanel Panes=panes LeftSize=1 vertical=vertical />
+            }*@
+            if (!string.IsNullOrWhiteSpace(heightCall))
+            {
+            <SplitterPanel Panes=panes LeftSize=1 heightCall=@heightCall vertical=vertical />
+            }
+            else
+            {
+            <SplitterPanel Panes=panes LeftSize=1 vertical=vertical />
+            }
+        }
+
+    }
+};
+
+
+@*private RenderFragment SplitterPanelFragment(List<RenderFragment> panes, bool vertical, string heightCall) => __builder =>
+    {
+        if (panes != null && panes.Any())
+        {
+            if (!string.IsNullOrWhiteSpace(heightCall))
+            {
+            <SplitterPanelStore Panes=panes    heightCall=@heightCall vertical=vertical />
+            }
+            else
+            {
+            <SplitterPanelStore Panes=panes   vertical=vertical />
+            }
+        }
+    };*@
+
+
+
+}

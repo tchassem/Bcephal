@@ -1,0 +1,68 @@
+﻿@if (GetEditorData() != null && GetEditorData().Item != null)
+{
+<CardComponent CanDisplayHeader="(EditorData != null)" CardCssClass="h-100 card p-0 m-0" HeaderCssClass="bc-header-3 card-header pt-1">
+    <Header>
+        <span> @AppState["selected.columns"]</span>
+    </Header>
+    <ChildContent>
+       @RenderContent
+    </ChildContent>
+</CardComponent>
+}
+<DxContextMenu CssClass="DxContextMenuCss" @ref="@DxContextMenus" ItemClick="OnItemClick">
+    <Items>
+        <DxContextMenuItem IconCssClass="ml-1 bi-align-top" Text="@AppState["Move.start"]" />
+        <DxContextMenuItem IconCssClass="ml-1 bi-arrow-up" Text="@AppState["Move.up.upper"]" />
+        <DxContextMenuItem IconCssClass="ml-1 bi-arrow-up-short" Text="@AppState["Move.up"]" />
+        <DxContextMenuItem IconCssClass="ml-1 bi-arrow-down-short" Text="@AppState["Move.down"]" />
+        <DxContextMenuItem IconCssClass="ml-1 bi-arrow-down" Text="@AppState["Move.down.upper"]" />
+        <DxContextMenuItem IconCssClass="ml-1 bi-align-bottom" Text="@AppState["Move.end"]" />
+        <DxContextMenuItem IconCssClass="ml-1 bi-x" Text="@AppState["Delete"]" />
+    </Items>
+</DxContextMenu>
+
+
+@code {
+
+    private RenderFragment RenderContent => __builder =>
+    {
+    <DxStackLayout CssClass="w-100 overflow-y-auto h-100 p-1" Orientation="Orientation.Vertical" ItemSpacing="5px">
+        <Items>
+            <DxStackLayoutItem Length="28px">
+                <Template>
+                    <DxComboBox Data=GetEditorData().Item.GridListChangeHandler.Items TValue="JoinGrid" TextFieldName="Name" TData="JoinGrid" @bind-Value=SelectedGrid />
+                </Template>
+            </DxStackLayoutItem>
+            <DxStackLayoutItem  Length="28px">
+                <Template>
+                    <RenderFormContent @ref="SelectedColumnRef">
+                        <DxComboBox Data=GetColumns() TValue="SmallGrilleColumn" TextFieldName="Name" TData="SmallGrilleColumn" @bind-Value="SelectedColumn" />
+                    </RenderFormContent>
+                </Template>
+            </DxStackLayoutItem>
+            <DxStackLayoutItem CssClass="d-flex align-items-center justify-content-start"  Length="28px" >
+                <Template>
+                    <DxButton CssClass="h-100 border-0"
+                              RenderStyle="ButtonRenderStyle.Link"
+                              RenderStyleMode="ButtonRenderStyleMode.Contained"
+                              Text="@AppState["addcustomcolumn"]"
+                              Click="AddColumn" />
+                </Template>
+            </DxStackLayoutItem>
+            <DxStackLayoutItem CssClass="min-h-50">
+                <Template>
+                    <RenderFormContent @ref="CustomListBoxRef">
+                        <CustomListBox Editable=Editable Data="EditorData.Item.ColumnListChangeHandler.Items"
+                                       HeaderTitle=""
+                                       @bind-Values=SelectedValues
+                                       showContextMenu="showContextMenu_"
+                                       TData="JoinColumn"
+                                       TValue="JoinColumn"
+                                       FieldName="@nameof(JoinColumn.Name)" />
+                        </RenderFormContent>
+                </Template>
+            </DxStackLayoutItem>
+        </Items>
+    </DxStackLayout>
+    };
+}

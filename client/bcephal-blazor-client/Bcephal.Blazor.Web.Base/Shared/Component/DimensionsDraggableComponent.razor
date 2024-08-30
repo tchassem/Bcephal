@@ -1,0 +1,66 @@
+﻿
+
+@RenderContent
+
+
+@code {
+
+    public RenderFragment RenderContent => __builder =>
+       {
+    <Bcephal.Blazor.Web.Base.Shared.Component.SplitterPane.SplitterPanel heightCall=@DefaultHeight LeftSize="1"
+                                                                         Panes="(new() {MeasuresFragment, PeriodsFragment, AttributesFragment})"
+                                                                         vertical="false" />
+    };
+
+    public RenderFragment MeasuresFragment => __builder =>
+     {
+        @if (Measures != null)
+            {
+            <div class="card w-100 h-100">
+                <div class="card-header @HeaderStyle">
+                    <span class="mr-auto"> @AppState["MEASURE"] </span>
+                </div>
+                <div class="card-body w-100 p-0" style="height: calc(100% - var(--bc-header-height)); overflow: auto;">
+                    <DraggableComponent  Editable=Editable P="Dimension" Data=Measures
+                                        SelectItemHandler=SelectDimensionHandler
+                                        Children="Descendents" />
+                </div>
+            </div>
+            }
+      };
+
+    public RenderFragment PeriodsFragment => __builder =>
+    {
+    @if (Periods != null)
+        {
+        <div class="card w-100 h-100">
+            <div class="card-header @HeaderStyle">
+                <span class="mr-auto"> @AppState["PERIOD"] </span>
+            </div>
+            <div class="card-body w-100 p-0" style="height: calc(100% - var(--bc-header-height)); overflow: auto;">
+                <DraggableComponent Editable=Editable P="Dimension" Data=Periods 
+                                    SelectItemHandler=SelectDimensionHandler
+                                    Children="Descendents" />
+            </div>
+        </div>
+        }
+    };
+
+    public RenderFragment AttributesFragment => __builder =>
+    {
+    @if (Attributes != null)
+        {
+        <div class="card w-100 h-100">
+            <div class="card-header @HeaderStyle">
+                <span class="mr-auto"> @AppState["ATTRIBUTE"] </span>
+            </div>
+            <div class="card-body w-100 p-0" style="height: calc(100% - var(--bc-header-height)); overflow: auto;">
+                <DraggableComponent Editable=Editable P="Dimension" Data=Attributes
+                                    SelectItemHandler=SelectDimensionHandler
+                                    Children="Descendents" />
+            </div>
+        </div>
+        }
+    };
+
+}

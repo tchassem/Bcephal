@@ -1,0 +1,1030 @@
+﻿<div class="h-100 can-drop p-1" dropzone="true" style="box-sizing:border-box !important;" id="@DivRef">
+    @BodyFragment
+</div>
+
+@code {
+
+
+
+    string bordernone = "0px !important";
+    string bordervisible = "1px solid #e3e3e3 !important";
+
+
+    private RenderFragment BodyFragment => __builder =>
+    {
+        if (Item != null)
+        {
+            Item.ItemKey = DivRef;
+            if (Item.DashboardItemType.IsChart())
+            {
+        @ChartFragment
+            }
+            else
+                if (Item.DashboardItemType.IsDrillDownGrid())
+            {
+        @DrillDownGridFragment
+            }
+            else
+                if (Item.DashboardItemType.IsBrowserReportPublication())
+            {
+        @ReportPublicationBrowserFragment
+            }
+            else
+                if (Item.DashboardItemType.IsGrid())
+            {
+        @ReportGridFragment
+            }
+            else
+                if (Item.DashboardItemType.IsPivotTable())
+            {
+        @PivateTableFragment
+            }
+            else
+                if (Item.DashboardItemType.IsProjectBrowser())
+            {
+        @ReportProjectBrowserFragment
+            }
+            else
+                if (Item.DashboardItemType.IsInputGridBrowser())
+            {
+        @InputGridBrowserFragment
+            }
+            else
+                if (Item.DashboardItemType.IsReportGridBrowser())
+            {
+        @ReportGridBrowserFragment
+            }
+            else
+                if (Item.DashboardItemType.IsTransformationTreeBrowser())
+            {
+        @TransformationTreeBrowserFragment
+            }
+            else
+                if (Item.DashboardItemType.IsFormBrowser())
+            {
+        @FormBrowserFragment
+            }
+            else
+                if (Item.DashboardItemType.IsLoaderBrowser())
+            {
+        @LoaderBrowserFragment
+            }
+            else
+                if (Item.DashboardItemType.IsAutoRecoBrowser())
+            {
+        @AutoRecoBrowserFragment
+            }
+            else
+                if (Item.DashboardItemType.IsManualRecoBrowser())
+            {
+        @ManualRecoBrowserFragment
+            }
+            else
+                if (Item.DashboardItemType.IsBillingModelBrowser())
+            {
+        @BillingModelBrowserFragment
+            }
+            else
+                if (Item.DashboardItemType.IsBookingBrowser())
+            {
+        @BookingBrowserFragment
+            }
+            else
+                if (Item.DashboardItemType.IsDashboardHomePage())
+            {
+        @DashboardHomepageFragment
+            }
+            else
+                if (Item.DashboardItemType.IsDashboardBrowser())
+            {
+        @DashboardBrowserFragment
+            }
+            else
+                if (Item.DashboardItemType.IsHomePage())
+            {
+        @HomePageFragment
+            }
+            else
+                if (Item.DashboardItemType.IsPivotTableBrowser())
+            {
+        @PivotTableBrowserFragment
+            }
+            else
+                if (Item.DashboardItemType.IsChartBrowser())
+            {
+        @ChartBrowserFragment
+            }
+            else
+                if (Item.DashboardItemType.IsBrowserReportJoin())
+            {
+        @ReportJoinBrowserFragment
+            }
+            else
+                if (Item.DashboardItemType.IsBrowserJoinLog())
+            {
+        @JoinLogBrowserFragment
+            }
+            else
+                if (Item.DashboardItemType.IsBrowserReportAlarm())
+            {
+        @ReportAlarmBrowserFragment
+            }
+            else
+                if (Item.DashboardItemType.IsBrowserReportScheduledAlarm())
+            {
+        @ReportScheduledAlarmBrowserFragment
+            }
+            else
+                if (Item.DashboardItemType.IsBrowserScheduledBillingModel())
+            {
+        @ScheduledBillingModelBrowserFragment
+            }
+            else
+                if (Item.DashboardItemType.IsBrowserBillingTemplate())
+            {
+        @BillingTemplateBrowserFragment
+            }
+            else
+                if (Item.DashboardItemType.IsBrowserInvoice())
+            {
+        @InvoiceBrowserFragment
+            }
+            else
+                if (Item.DashboardItemType.IsBrowserCreditNote())
+            {
+        @CreditNoteBrowserFragment
+            }
+            else
+                if (Item.DashboardItemType.IsBrowserPosting())
+            {
+        @PostingBrowserFragment
+            }
+            else
+                if (Item.DashboardItemType.IsBrowserBookingModel())
+            {
+        @BookingModelBrowserFragment
+            }
+            else
+                if (Item.DashboardItemType.IsBrowserScheduledBooking())
+            {
+        @ScheduledBookingBrowserFragment
+            }
+            else
+                if (Item.DashboardItemType.IsBrowserBookingModelLog())
+            {
+        @BookingModelLogBrowserFragment
+            }
+            else
+                if (Item.DashboardItemType.IsProjectBackupBrowser())
+            {
+        @ProjectBackupBrowserFragment
+            }
+            else
+                if (Item.DashboardItemType.IsBrowserArchive())
+            {
+        @ArchiveBrowserFragment
+            }
+            else
+                if (Item.DashboardItemType.IsBrowserArchiveLog())
+            {
+        @ArchiveLogBrowserFragment
+            }
+            else
+                if (Item.DashboardItemType.IsBrowserArchiveConfiguration())
+            {
+        @ArchiveConfigurationBrowserFragment
+            }
+            else
+                if (Item.DashboardItemType.IsBrowserMessageLog())
+            {
+        @MessageLogBrowserFragment
+            }
+            else
+                if (Item.DashboardItemType.IsBrowserClient())
+            {
+        @ClientBrowserFragment
+            }
+            else
+                if (Item.DashboardItemType.IsBrowserUser())
+            {
+        @UserBrowserFragment
+            }
+            else
+                if (Item.DashboardItemType.IsBrowserProfil())
+            {
+        @ProfilBrowserFragment
+            }
+            else
+                if (Item.DashboardItemType.IsSpotBrowser())
+            {
+        @SpotBrowserFragment
+            }
+            else
+                if (Item.DashboardItemType.IsBrowserTransformationRoutine())
+            {
+        @TransformationRoutineBrowserFragment
+            }
+            else
+                if (Item.DashboardItemType.IsBrowserScheduledTransformationRoutine())
+            {
+        @ScheduledTransformationRoutineBrowserFragment
+            }
+            else
+                if (Item.DashboardItemType.IsAutoRecoBrowser())
+            {
+        @AdminSchedulerBrowserFragment
+            }
+            else
+            {
+        @EmptyFragment
+            }
+        }
+        else
+        {
+    @EmptyFragment
+        }
+
+    };
+
+    private RenderFragment ReportProjectBrowserFragment => __builder =>
+    {
+        if (!IsReadOnlyData)
+        {
+        @BaseRenderFragment
+        }
+        else
+        {
+            RenderFragment fragment = __builder =>
+            {
+            <ProjectBrowser_ />
+            };
+        @RenderPanel(fragment)
+        }
+    };
+    private RenderFragment ReportPublicationBrowserFragment => __builder =>
+    {
+        if (!IsReadOnlyData)
+        {
+        @BaseRenderFragment
+        }
+        else
+        {
+            RenderFragment fragment = __builder =>
+            {
+            <ReportPublicationBrowser />
+            };
+        @RenderPanel(fragment)
+        }
+    };
+    private RenderFragment ReportJoinBrowserFragment => __builder =>
+    {
+        if (!IsReadOnlyData)
+        {
+        @BaseRenderFragment
+        }
+        else
+        {
+            RenderFragment fragment = __builder =>
+            {
+            <GridJoinBrowser />
+            };
+        @RenderPanel(fragment)
+        }
+    };
+    private RenderFragment JoinLogBrowserFragment => __builder =>
+    {
+        if (!IsReadOnlyData)
+        {
+        @BaseRenderFragment
+        }
+        else
+        {
+            RenderFragment fragment = __builder =>
+            {
+            <JoinGridLogBrowser />
+            };
+        @RenderPanel(fragment)
+        }
+    };
+
+    private RenderFragment ReportAlarmBrowserFragment => __builder =>
+    {
+        if (!IsReadOnlyData)
+        {
+        @BaseRenderFragment
+        }
+        else
+        {
+            RenderFragment fragment = __builder =>
+            {
+            <AlarmBrowser_ />
+            };
+        @RenderPanel(fragment)
+        }
+    };
+    private RenderFragment ReportScheduledAlarmBrowserFragment => __builder =>
+    {
+        if (!IsReadOnlyData)
+        {
+        @BaseRenderFragment
+        }
+        else
+        {
+            RenderFragment fragment = __builder =>
+            {
+            <AlarmSchedulerBrowser_ />
+            };
+        @RenderPanel(fragment)
+        }
+    };
+    private RenderFragment ReconciliationFilterBrowserFragment => __builder =>
+    {
+        if (!IsReadOnlyData)
+        {
+        @BaseRenderFragment
+        }
+        else
+        {
+            RenderFragment fragment = __builder =>
+            {
+            <ReconciliationBrowser />
+            };
+        @RenderPanel(fragment)
+        }
+    };
+    private RenderFragment ReconciliationAutoBrowserFragment => __builder =>
+    {
+        if (!IsReadOnlyData)
+        {
+        @BaseRenderFragment
+        }
+        else
+        {
+            RenderFragment fragment = __builder =>
+            {
+            <ReconciliationRunAutoBrowser />
+            };
+        @RenderPanel(fragment)
+        }
+    };
+    private RenderFragment ScheduledBillingModelBrowserFragment => __builder =>
+    {
+        if (!IsReadOnlyData)
+        {
+        @BaseRenderFragment
+        }
+        else
+        {
+            RenderFragment fragment = __builder =>
+            {
+            <ScheduledModelBrowser />
+            };
+        @RenderPanel(fragment)
+        }
+    };
+    private RenderFragment BillingTemplateBrowserFragment => __builder =>
+    {
+        if (!IsReadOnlyData)
+        {
+        @BaseRenderFragment
+        }
+        else
+        {
+            RenderFragment fragment = __builder =>
+            {
+            <BillingTemplateBrowser />
+            };
+        @RenderPanel(fragment)
+        }
+    };
+    private RenderFragment InvoiceBrowserFragment => __builder =>
+    {
+        if (!IsReadOnlyData)
+        {
+        @BaseRenderFragment
+        }
+        else
+        {
+            RenderFragment fragment = __builder =>
+            {
+            <InvoicesBrowser_ />
+            };
+        @RenderPanel(fragment)
+        }
+    };
+    private RenderFragment CreditNoteBrowserFragment => __builder =>
+    {
+        if (!IsReadOnlyData)
+        {
+        @BaseRenderFragment
+        }
+        else
+        {
+            RenderFragment fragment = __builder =>
+        {
+    <CreditNoteBrowser_ />
+    };
+        @RenderPanel(fragment)
+        }
+    };
+    private RenderFragment PostingBrowserFragment => __builder =>
+    {
+        if (!IsReadOnlyData)
+        {
+        @BaseRenderFragment
+        }
+        else
+        {
+            RenderFragment fragment = __builder =>
+        {
+    <PostingBrowser />
+    };
+        @RenderPanel(fragment)
+        }
+    };
+    private RenderFragment BookingModelBrowserFragment => __builder =>
+    {
+        if (!IsReadOnlyData)
+        {
+        @BaseRenderFragment
+        }
+        else
+        {
+            RenderFragment fragment = __builder =>
+        {
+    <BookingModelBrowser_ />
+    };
+        @RenderPanel(fragment)
+        }
+    };
+    private RenderFragment ScheduledBookingBrowserFragment => __builder =>
+    {
+        if (!IsReadOnlyData)
+        {
+        @BaseRenderFragment
+        }
+        else
+        {
+            RenderFragment fragment = __builder =>
+        {
+    <SchedulerBookingBrowser_ />
+    };
+        @RenderPanel(fragment)
+        }
+    };
+    private RenderFragment BookingModelLogBrowserFragment => __builder =>
+    {
+        if (!IsReadOnlyData)
+        {
+        @BaseRenderFragment
+        }
+        else
+        {
+            RenderFragment fragment = __builder =>
+        {
+    <BookingLogBrowser_ />
+    };
+        @RenderPanel(fragment)
+        }
+    };
+    private RenderFragment ProjectBackupBrowserFragment => __builder =>
+    {
+        if (!IsReadOnlyData)
+        {
+        @BaseRenderFragment
+        }
+        else
+        {
+            RenderFragment fragment = __builder =>
+            {
+            <ProjectBackupBrowser_ />
+            };
+        @RenderPanel(fragment)
+        }
+    };
+    private RenderFragment ArchiveBrowserFragment => __builder =>
+    {
+        if (!IsReadOnlyData)
+        {
+        @BaseRenderFragment
+        }
+        else
+        {
+            RenderFragment fragment = __builder =>
+            {
+            <ArchiveBrowser />
+            };
+        @RenderPanel(fragment)
+        }
+    };
+    private RenderFragment ArchiveLogBrowserFragment => __builder =>
+    {
+        if (!IsReadOnlyData)
+        {
+        @BaseRenderFragment
+        }
+        else
+        {
+            RenderFragment fragment = __builder =>
+            {
+            <ArchiveLogBrowser_ />
+            };
+        @RenderPanel(fragment)
+        }
+    };
+    private RenderFragment ArchiveConfigurationBrowserFragment => __builder =>
+    {
+        if (!IsReadOnlyData)
+        {
+        @BaseRenderFragment
+        }
+        else
+        {
+            RenderFragment fragment = __builder =>
+        {
+    <ArchiveConfigurationBrowser />
+    };
+        @RenderPanel(fragment)
+        }
+    };
+    private RenderFragment MessageLogBrowserFragment => __builder =>
+    {
+        if (!IsReadOnlyData)
+        {
+        @BaseRenderFragment
+        }
+        else
+        {
+            RenderFragment fragment = __builder =>
+        {
+    <AlarmMessagerLogBrowser />
+    };
+        @RenderPanel(fragment)
+        }
+    };
+    private RenderFragment ClientBrowserFragment => __builder =>
+    {
+        if (!IsReadOnlyData)
+        {
+        @BaseRenderFragment
+        }
+        else
+        {
+            RenderFragment fragment = __builder =>
+        {
+    <Bcephal.Blazor.Web.Base.Pages.Project.Client.ClientBrowser_ />
+    };
+        @RenderPanel(fragment)
+        }
+    };
+    private RenderFragment UserBrowserFragment => __builder =>
+    {
+        if (!IsReadOnlyData)
+        {
+        @BaseRenderFragment
+        }
+        else
+        {
+            RenderFragment fragment = __builder =>
+        {
+    <UserBrowser_ />
+    };
+        @RenderPanel(fragment)
+        }
+    };
+    private RenderFragment ProfilBrowserFragment => __builder =>
+    {
+        if (!IsReadOnlyData)
+        {
+        @BaseRenderFragment
+        }
+        else
+        {
+            RenderFragment fragment = __builder =>
+        {
+    <ProfileBrowser />
+    };
+        @RenderPanel(fragment)
+        }
+    };
+    private RenderFragment AdminSchedulerBrowserFragment => __builder =>
+    {
+        if (!IsReadOnlyData)
+        {
+        @BaseRenderFragment
+        }
+        else
+        {
+            RenderFragment fragment = __builder =>
+        {
+    <AdminSchedulerBrowser_ />
+    };
+        @RenderPanel(fragment)
+        }
+    };
+    @*private RenderFragment IncrementalNumberBrowserFragment => __builder =>
+        {
+            if (!IsReadOnlyData)
+            {
+            @BaseRenderFragment
+            }
+            else
+            {
+                RenderFragment fragment = __builder =>
+        {
+        <IncrementalNumberFullBrowser />
+        };
+            @RenderPanel(fragment)
+            }
+        };*@
+    private RenderFragment SpotBrowserFragment => __builder =>
+    {
+        if (!IsReadOnlyData)
+        {
+        @BaseRenderFragment
+        }
+        else
+        {
+            RenderFragment fragment = __builder =>
+        {
+    <SpotBrowser_ />
+    };
+        @RenderPanel(fragment)
+        }
+    };
+    private RenderFragment TransformationRoutineBrowserFragment => __builder =>
+    {
+        if (!IsReadOnlyData)
+        {
+        @BaseRenderFragment
+        }
+        else
+        {
+            RenderFragment fragment = __builder =>
+            {
+            <TransformationRoutineBrowser />
+            };
+        @RenderPanel(fragment)
+        }
+    };
+    private RenderFragment ScheduledTransformationRoutineBrowserFragment => __builder =>
+    {
+        if (!IsReadOnlyData)
+        {
+        @BaseRenderFragment
+        }
+        else
+        {
+            RenderFragment fragment = __builder =>
+        {
+        <SchedulerRoutineBrowser_ />
+        };
+        @RenderPanel(fragment)
+        }
+    };
+
+
+    private RenderFragment ChartFragment => __builder =>
+    {
+        if (!IsReadOnlyData)
+        {
+        @BaseRenderFragment
+        }
+        else
+        {
+            RenderFragment fragment = __builder =>
+        {
+    <ReportChartComponent ChartData_=@ChartData_ Chart=@Chart EditorData=@EditorDataChart @key="@Guid.NewGuid().ToString("d")" />
+    };
+        @RenderPanel(fragment)
+        }
+    };
+    private RenderFragment PivateTableFragment => __builder =>
+    {
+        if (!IsReadOnlyData)
+        {
+        @BaseRenderFragment
+        }
+        else
+        {
+            RenderFragment fragment = __builder =>
+        {
+    <ReportPivotTableComponent Id=Item.ItemId />
+    };
+        @RenderPanel(fragment)
+        }
+    };
+    private RenderFragment ReportPublicationFragment => __builder =>
+    {
+        if (!IsReadOnlyData)
+        {
+        @BaseRenderFragment
+        }
+        else
+        {
+            RenderFragment fragment = __builder =>
+            {
+            <ReportPublicationBrowser />
+            };
+        @RenderPanel(fragment)
+        }
+    };
+    private RenderFragment ReportGridFragment => __builder =>
+    {
+        if (!IsReadOnlyData)
+        {
+        @BaseRenderFragment
+        }
+        else
+        {
+            RenderFragment fragment = __builder =>
+            {
+            <ReportBrowser />
+            };
+        @RenderPanel(fragment)
+        }
+    };
+
+    private RenderFragment DrillDownGridFragment => __builder =>
+    {
+        if (!IsReadOnlyData)
+        {
+        @BaseRenderFragment
+        }
+        else
+        {
+            RenderFragment fragment = __builder =>
+        {
+
+    };
+        @RenderPanel(fragment)
+        }
+    };
+
+    private RenderFragment EmptyFragment => __builder =>
+    {
+    @BaseRenderFragment
+    };
+
+    private RenderFragment RenderPanel(RenderFragment renderItem) => __builder =>
+    {
+        Models.Dashboards.DashboardItem item = GetItem();
+        if (item != null)
+        {
+        <div class="card h-100" style="border: @(Item.ShowBorder == true ? bordervisible : bordernone);background-color:@item.Background;color:@item.Foreground;">
+            @if (item.ShowTitleBar)
+                {
+                <div class="card-header d-flex align-items-center p-0 bc-header-2 " style="background-color:@item.BackgroundTitle !important;color:@item.ForegroundTitle !important;height: var(--bc-header-height);">
+                    <span class="d-flex ml-2">
+                        @item.Name
+                    </span>
+                </div>
+                }
+            <div class="card-body d-block p-0 overflowy-bc" style="height:@(item.ShowTitleBar ? "calc(100% - var(--bc-header-height))" : "100%"); width:100%;padding: 5px !important;box-sizing:border-box !important;">
+                @renderItem
+            </div>
+        </div>
+        }
+    };
+
+    private RenderFragment InputGridBrowserFragment => __builder =>
+    {
+        if (!IsReadOnlyData)
+        {
+        @BaseRenderFragment
+        }
+        else
+        {
+            RenderFragment fragment = __builder =>
+        {
+    <GridBrowser />
+    };
+        @RenderPanel(fragment)
+        }
+    };
+
+    private RenderFragment ReportGridBrowserFragment => __builder =>
+    {
+        if (!IsReadOnlyData)
+        {
+        @BaseRenderFragment
+        }
+        else
+        {
+            RenderFragment fragment = __builder =>
+        {
+    <ReportingBrowser />
+    };
+        @RenderPanel(fragment)
+        }
+    };
+    private RenderFragment TransformationTreeBrowserFragment =>
+    __builder =>
+    {
+        if (!IsReadOnlyData)
+        {
+        @BaseRenderFragment
+        }
+        else
+        {
+            RenderFragment fragment = __builder =>
+        {
+
+    };
+        @RenderPanel(fragment)
+        }
+    };
+
+
+    private RenderFragment FormBrowserFragment => __builder =>
+    {
+        if (!IsReadOnlyData)
+        {
+        @BaseRenderFragment
+        }
+        else
+        {
+            RenderFragment fragment = __builder =>
+        {
+
+    };
+        @RenderPanel(fragment)
+        }
+    };
+
+    private RenderFragment LoaderBrowserFragment => __builder =>
+    {
+        if (!IsReadOnlyData)
+        {
+        @BaseRenderFragment
+        }
+        else
+        {
+            RenderFragment fragment = __builder =>
+        {
+    <Bcephal.Blazor.Web.Sourcing.Pages.Sourcing.MultipleFileLoader.ListFileLoaders />
+    };
+        @RenderPanel(fragment)
+        }
+    };
+
+
+    private RenderFragment AutoRecoBrowserFragment => __builder =>
+    {
+        if (!IsReadOnlyData)
+        {
+        @BaseRenderFragment
+        }
+        else
+        {
+            RenderFragment fragment = __builder =>
+        {
+    <AutoRecoBrowser />
+    };
+        @RenderPanel(fragment)
+        }
+    };
+
+    private RenderFragment ManualRecoBrowserFragment => __builder =>
+    {
+        if (!IsReadOnlyData)
+        {
+        @BaseRenderFragment
+        }
+        else
+        {
+            RenderFragment fragment = __builder =>
+          {
+    <ReconciliationBrowser />
+    };
+    @RenderPanel(fragment)
+    }
+};
+
+private RenderFragment DashboardBrowserFragment => __builder =>
+{
+    if (!IsReadOnlyData)
+    {
+    @BaseRenderFragment
+    }
+    else
+    {
+        RenderFragment fragment = __builder =>
+      {
+<DashboardBrowser_ />
+};
+@RenderPanel(fragment)
+}
+};
+
+private RenderFragment PivotTableBrowserFragment => __builder =>
+{
+if (!IsReadOnlyData)
+{
+@BaseRenderFragment
+}
+else
+{
+    RenderFragment fragment = __builder =>
+      {
+    <ReportPivotTableBrowser />
+    };
+@RenderPanel(fragment)
+}
+};
+
+private RenderFragment ChartBrowserFragment => __builder =>
+{
+if (!IsReadOnlyData)
+{
+@BaseRenderFragment
+}
+else
+{
+    RenderFragment fragment = __builder =>
+      {
+    <BrowserReportingChart />
+    };
+@RenderPanel(fragment)
+}
+};
+
+
+
+private RenderFragment BillingModelBrowserFragment => __builder =>
+{
+if (!IsReadOnlyData)
+{
+@BaseRenderFragment
+}
+else
+{
+    RenderFragment fragment = __builder =>
+    {
+    <ModelBrowser />
+    };
+@RenderPanel(fragment)
+}
+};
+
+
+private RenderFragment BookingBrowserFragment => __builder =>
+{
+if (!IsReadOnlyData)
+{
+@BaseRenderFragment
+}
+else
+{
+    RenderFragment fragment = __builder =>
+    {
+    <BookingModelBrowser_ />
+    };
+@RenderPanel(fragment)
+}
+};
+
+
+private RenderFragment DashboardHomepageFragment => __builder =>
+{
+if (!IsReadOnlyData)
+{
+@BaseRenderFragment
+}
+else
+{
+    RenderFragment fragment2 = __builder =>
+    {
+    <DashboardHomePage_ Editable=Editable IsReadOnlyData="true" Item=Item />
+    };
+@RenderPanel(fragment2)
+}
+};
+
+private RenderFragment HomePageFragment => __builder =>
+{
+if (!IsReadOnlyData)
+{
+@BaseRenderFragment
+}
+else
+{
+    RenderFragment fragment = __builder =>
+    {
+    <DashboardComponetShortCut Editable=Editable Item=Item IsToolbarVisible="false" />
+    };
+@RenderPanel(fragment)
+}
+};
+
+private RenderFragment BaseRenderFragment => __builder =>
+{
+<DashboardItemPanelContent Editable=Editable IsReadOnlyData=@IsReadOnlyData @key="Guid.NewGuid().ToString()" CanEdit=IsReadOnlyData
+                           @bind-SelectItemNode=SelectItemNode
+                           GetItemHandler=GetItem_
+                           ItemHandler=AddDashboardItem
+                           UpdateItemHandler=UpdateDashboardItem
+                           DeleteOrForgetItemHandler=DeleteDashboardItem />
+    };
+
+}

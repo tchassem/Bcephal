@@ -1,0 +1,83 @@
+﻿
+@using Bcephal.Models.Projects;
+@using Bcephal.Blazor.Web.Base.Shared.AbstractComponent;
+@using Bcephal.Blazor.Web.Base.Shared;
+
+@inherits AbstractNewGridComponent<SimpleArchive, SimpleArchive>
+
+
+<RenderFormContent @ref="RenderFormContentRefValidation">
+    <BaseModalComponent @ref="ImportConfirmationModal" Title=@AppState["confirm.project.replace"] @bind-ShowModal=@ShowValidationModal
+                        ApplyBackgroundShading="true" BodyClass="p-0 h-50" OkHandler=@CheckAndContinueImport CancelHandler=@CancelImport Height="48% !important" Width="25% !important">
+        <div class="h-100 w-100 p-2 overflow-auto">
+            <DxStackLayout ItemSpacing="8px" Orientation=Orientation.Vertical>
+                <Items>
+                    <DxStackLayoutItem Length="auto">
+                        <Template>
+                            <span>
+                                @AppState["project.import.name.issue"]
+                            </span>
+                        </Template>
+                    </DxStackLayoutItem>
+                    <DxStackLayoutItem Length="auto">
+                        <Template>
+                            <div class="p-2" style="border: 1px solid #dbdbdb; ">
+                                <EditForm Model="ImportProjectData">
+                                    <InputRadioGroup Name="ImportDecision" TValue="ImportProjectDecision" ValueExpression=@(() => ImportProjectData.Decision) Value=@ImportProjectData.Decision ValueChanged=@((ImportProjectDecision value) => OptionChanged(value) )>
+                                        <label style="padding-bottom: 1.2px !important;">
+                                            <InputRadio Name="ImportDecision" Value=@(ImportProjectDecision.OverwriteExistingProject) />
+                                            @AppState["ImportProjectData.overwriteExistingProject"]
+                                        </label>
+                                        <br />
+                                        <label style="padding-bottom: 1.2px !important;">
+                                            <InputRadio Name="ImportDecision" Value=@(ImportProjectDecision.RenameExistingProject) />
+                                            @AppState["ImportProjectData.renameExistingProject"]
+                                        </label>
+                                        <br />
+                                        @*<label style="padding-bottom: 1.2px !important;">
+                                            <InputRadio Name="ImportDecision" Value=@(ImportProjectDecision.RenameProjectToImport) />
+                                            @AppState["ImportProjectData.renameProjectToImport"]
+                                        </label>*@
+                                    </InputRadioGroup>
+                                </EditForm>
+                            </div>
+                        </Template>
+                    </DxStackLayoutItem>
+                    <DxStackLayoutItem Visible="@(ImportProjectData.RenameExistingProject || ImportProjectData.RenameProjectToImport)" Length="auto">
+                        <Template>
+                            <DxStackLayout Orientation=@Orientation.Vertical ItemSpacing="0px">
+                                <Items>
+                                    <DxStackLayoutItem Length="auto">
+                                        <Template>
+                                            <span>
+                                                @if (ImportProjectData.RenameExistingProject)
+                                                {
+                                                    @AppState["import.name.label.existing"]
+                                                }
+                                                else if (ImportProjectData.RenameProjectToImport)
+                                                {
+                                                    @AppState["import.name.label.new"]
+                                                }
+                                            </span>
+                                        </Template>
+                                    </DxStackLayoutItem>
+                                    <DxStackLayoutItem Length="1fr">
+                                        <Template>
+                                            <DxTextBox @bind-Text=@ImportProjectData.NewProjectName></DxTextBox>
+                                        </Template>
+                                    </DxStackLayoutItem>
+                                </Items>
+                            </DxStackLayout>
+                        </Template>
+                    </DxStackLayoutItem>
+                </Items>
+            </DxStackLayout>
+        </div>
+    </BaseModalComponent>
+
+</RenderFormContent>
+
+
+@{
+    base.BuildRenderTree(__builder);
+}

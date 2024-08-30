@@ -1,0 +1,36 @@
+﻿<div class="h-100 overflow-auto">
+        @if (BillingModelEditorData_ != null)
+        {
+            @foreach (var Item in BillingModelEditorData_.Item.BillingDescriptionsListChangeHandler.Items)
+            {
+                @RenderDescription(Item)
+            }
+            <DxButton RenderStyle="ButtonRenderStyle.Link"
+                      CssClass="ml-5"
+                      Enabled="Editable"
+                      SizeMode="SizeMode.Medium"
+                      Text="@AppState["new.description"]"
+                      @onclick="@(() => { showModal = true; BillingDescription_ = null; })" />
+
+        }
+        <BillingDescriptionModalComponent Title="@AppState["Description"]"
+                                          Editable="Editable"
+                                          BillingDescription="@BillingDescription_"
+                                          BillingModelEditorData=BillingModelEditorData_
+                                          @bind-showDescriptionModal="showModal"
+                                          UpdateDescriptionCallBack="UpdateDescription_" 
+                                          AddDescriptionCallBack="AddDescription" />
+</div>
+
+@code{
+
+    private RenderFragment RenderDescription(BillingDescription billingDescription) => __builder =>
+    {
+    <InvoiceDescriptionBase_ BillingDescription=billingDescription
+                             Editable="Editable"
+                            BillingModelEditorData=BillingModelEditorData_
+                            DelDescriptionCallback=RemoveDescription 
+                            UpdateDescriptionCallback=EditDescription/>
+    };
+    
+}

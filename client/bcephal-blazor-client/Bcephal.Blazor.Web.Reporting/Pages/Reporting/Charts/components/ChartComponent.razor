@@ -1,0 +1,204 @@
+﻿@using Bcephal.Models.Dashboards
+@using Bcephal.Blazor.Web.Reporting.Pages.Reporting.Charts.components
+
+@if (DefaultSerie != null && GetType(DefaultSerie) == ChartSeriesType.Pie)
+{
+    <DxPieChart @key="@(Guid.NewGuid().ToString("d"))" Data="@(ChartData)" CssClass="h-100" Width="100%" Height="100%">
+        @if (!string.IsNullOrWhiteSpace(Title))
+        {
+            <DxChartTitle Text=@Title>
+                @if (!string.IsNullOrWhiteSpace(Subtitle))
+                {
+                    <DxChartSubTitle Text="@Subtitle" />
+                }
+            </DxChartTitle>
+        }
+        @RenderLegend
+
+        <DxChartTooltip Enabled="true" Position="RelativePosition.Outside">
+            <div style="margin: 0.75rem">
+                <div class="font-weight-bold">@context.Point.SeriesName</div>
+                <div>City: @context.Point.Argument</div>
+                <div>Amount: @context.Point.Value</div>
+            </div>
+        </DxChartTooltip>
+
+        @* On n'affiche les séries que s'il y a des données dispo et si la config de la série est valide *@
+        @if (ChartData != null)
+        {
+            if (IsValidSerie(DefaultSerie, true))
+            {
+                @RenderPieSerie(DefaultSerie)
+            }
+            else
+            {
+                ToastService.ShowError(AppState["chart.show.defaultSerie.issue"]);
+                FreezeView();
+            }
+        }
+
+    </DxPieChart>
+}
+else
+{
+    <DxChart @key="@(Guid.NewGuid().ToString("d"))" Data="@(ChartData)" CssClass="h-100" Width="100%" Height="100%"
+                Rotated=@Rotated LabelOverlap="LabelOverlap">
+        @if (!string.IsNullOrWhiteSpace(Title))
+        {
+            <DxChartTitle Text=@Title>
+                @if (!string.IsNullOrWhiteSpace(Subtitle))
+                {
+                    <DxChartSubTitle Text="@Subtitle" />
+                }
+            </DxChartTitle>
+        }
+
+        @RenderLegend
+
+        @* On n'affiche les séries que s'il y a des données dispo *@
+        @if (ChartData != null)
+        {
+            // On affiche d'abord la série par défaut avant d'afficher les autres séries
+
+            // On n'affiche cette série si et seulement elle est valide
+            if (IsValidSerie(DefaultSerie, true))
+            {
+                var dfType = GetType(DefaultSerie);
+                @if (dfType == null)
+                {
+                    dfType = ChartSeriesType.Bar;
+                }
+
+                @if (dfType == ChartSeriesType.Donut)
+                {
+                    @RenderDonutSerie(DefaultSerie)
+                }
+                else
+                {
+                    <ChartCommonSerie  Serie="@DefaultSerie" Type="@dfType.Value" AxisName="@defaultValueAxis">
+                    </ChartCommonSerie>
+                }
+            }
+            else
+            {
+                ToastService.ShowError(AppState["chart.show.defaultSerie.issue"]);
+                FreezeView();
+            }
+
+            @foreach (var serie in ChartSerieList)
+            {
+                // On n'affiche cette série si et seulement elle est valide
+                if (IsValidSerie(serie, false))
+                {
+                    var sType = GetType(serie);
+                    @if (sType == null)
+                    {
+                        sType = ChartSeriesType.Bar;
+                    }
+
+                    @if (sType == ChartSeriesType.Donut)
+                    {
+                        @RenderDonutSerie(serie)
+                    }
+                    else
+                    {
+                        var axisName = GetAxisName(serie);
+
+                        <ChartCommonSerie Serie="@serie" Type="@sType.Value" AxisName="@axisName">
+                        </ChartCommonSerie>
+
+                        @if (serie.AddCustomValueAxis)
+                        {
+                            <DxChartValueAxis Name="@axisName" Alignment="@GetAxisAlignment(serie)">
+                                @if (ShowAxisTitles && serie.ShowCustomValueAxisTitle)
+                                {
+                                    <DxChartAxisTitle Text=@serie.CustomValueAxisTitle></DxChartAxisTitle>
+                                }
+                            </DxChartValueAxis>
+                        }
+                    }
+                }
+                else
+                {
+                    ToastService.ShowError(AppState["chart.show.series.issue"]);
+                    FreezeView();
+                }
+
+            }
+        }
+
+        <DxChartArgumentAxis>
+            @if (ShowAxisTitles)
+            {
+                <DxChartAxisTitle Text=@ArgumentAxisTitle></DxChartAxisTitle>
+            }
+        </DxChartArgumentAxis>
+        <DxChartValueAxis  Name="@defaultValueAxis">
+            @if (ShowAxisTitles)
+            {
+                <DxChartAxisTitle Text=@ValueAxisTitle></DxChartAxisTitle>
+            }
+        </DxChartValueAxis>
+
+    </DxChart>
+}
+
+
+@code {
+
+    ChartSeriesType? GetType(ChartSerie serie)
+    {
+        return string.IsNullOrWhiteSpace(serie.Type) ?
+                    null
+                    : (ChartSeriesType?)Enum.Parse(typeof(ChartSeriesType), serie.Type);
+    }
+
+    ChartAxisAlignment GetAxisAlignment(ChartSerie serie)
+    {
+        return string.IsNullOrWhiteSpace(serie.Type) ?
+                    ChartAxisAlignment.Near
+                    : (ChartAxisAlignment)Enum.Parse(typeof(ChartAxisAlignment), serie.CustomValueAxisAlignment);
+    }
+
+    string GetAxisName(ChartSerie serie) => serie.AddCustomValueAxis && !string.IsNullOrWhiteSpace(serie.CustomValueAxisTitle) ? serie.CustomValueAxisTitle.Replace(" ", "") : defaultValueAxis;
+
+    // RenderFragment d'une série de type Pie
+    public RenderFragment RenderPieSerie(ChartSerie serie) => __builder =>
+    {
+    <DxPieChartSeries ValueField="((Dictionary<string, object> d) => decimal.Parse(d[serie.ValueAxis.Name].ToString()) )"
+                      ArgumentField="((Dictionary<string, object> d) => d[serie.ArgumentAxis.Name] )"
+                      SummaryMethod="Enumerable.Sum">
+        <DxChartSeriesLabel Visible=serie.ShowLabel />
+    </DxPieChartSeries>
+    };
+
+    // RenderFragment d'une série de type Donut
+    public RenderFragment RenderDonutSerie(ChartSerie serie) => __builder =>
+    {
+    <DxChartDonutSeries ValueField="((Dictionary<string, object> d) => decimal.Parse(d[serie.ValueAxis.Name].ToString()) )"
+                        ArgumentField="((Dictionary<string, object> d) => d[serie.ArgumentAxis.Name] )"
+                        SummaryMethod="Enumerable.Sum">
+        <DxChartSeriesLabel Visible=serie.ShowLabel />
+    </DxChartDonutSeries>
+    };
+
+
+    // RenderFragment de la légende du graphe
+    public RenderFragment RenderLegend => __builder =>
+    {
+    @if (ShowLegend && (DefaultSerie != null || ChartSerieList.Count > 0))
+        {
+            <DxChartLegend @key="@(Guid.NewGuid().ToString("d"))" AllowToggleSeries="@LegendAllowToggleSeries"
+                            CssClass="@(ShowLegendBorder ? "border border-secondary" : "")"
+                            Orientation="@LegendOrientation"
+                            Position=@LegendPosition
+                            HorizontalAlignment=@LegendHorizontalAlignment Visible="ShowLegend">
+                <DxChartTitle Text=@LegendTitle>
+                    <DxChartSubTitle Text=@LegendSubtitle></DxChartSubTitle>
+                </DxChartTitle>
+            </DxChartLegend>
+        }
+    };
+
+
+}

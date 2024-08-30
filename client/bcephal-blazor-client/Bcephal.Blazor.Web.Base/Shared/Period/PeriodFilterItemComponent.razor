@@ -1,0 +1,82 @@
+﻿
+<div class="d-flex flex-row @(AddPaddingTop ? "pt-1" : null) w-auto" style="box-sizing: border-box; margin-top: -4px;">
+    @if (DisplayFirstItem)
+    {
+        <div class="filter-elt d-flex flex-column" style="min-width:200px; width: @((!removeButton) ? "100%": (20000/770.0).ToString("N", new CultureInfo("en-US")) + "%" );">
+            <TreeViewFilter Editable=Editable C="Bcephal.Models.Base.HierarchicalData"
+                            SelectFilterItemCallback="PeriodChanged"
+                            SelectedItem=@periodFilterItem.DimensionName
+                            ItemsFilter="@Periods_">
+            </TreeViewFilter>
+        </div>
+    }
+    @if (DisplaySecondItem)
+    {
+        <div class="common-elt" style="display:@display2; min-width:50px; width:@( (5000/770.0).ToString("N", new CultureInfo("en-US")) + "%" );">
+            <DxComboBox Enabled=Editable Data="@MeasureOperator.GetAll()"
+                        DropDownDirection="DropDownDirection.Down"
+                        @bind-Value="@Comparator"
+                        SizeMode="SizeMode.Small"
+                        CssClass="w-100" />
+        </div>
+    }
+    <div class="common-elt" style="display:@display; min-width:100px; width:@( (10000/770.0).ToString("N", new CultureInfo("en-US")) + "%" );">
+        <DxComboBox Enabled=Editable Data="PeriodOperators"
+                    DropDownDirection="DropDownDirection.Down"
+                    @bind-Value="@Operator"
+                    SizeMode="SizeMode.Small"
+                    CssClass="w-100" />
+    </div>
+    <div class="common-elt" style="display:@display2; min-width:150px; width:@( (15000/770.0).ToString("N", new CultureInfo("en-US")) + "%" );">
+        <DxDateEdit ReadOnly=!Editable @bind-Date="@Value" T="DateTime?"
+                    @bind-Enabled="IsSpecific"
+                    SizeMode="SizeMode.Small"
+                    CssClass="w-100" />
+    </div>
+    @if (DisplayGroupItemJoin)
+    {
+        <div class="common-elt" style="display:@display; min-width:50px; width:@( (5000/770.0).ToString("N", new CultureInfo("en-US")) + "%" );">
+            <DxComboBox ReadOnly=!Editable Data="@FilterUtils.Signs"
+                        @bind-Value="@Sign"
+                        TData="string"
+                        TValue="string"
+                        DropDownDirection="DropDownDirection.Down"
+                        SizeMode="SizeMode.Small"
+                        @bind-Enabled="IsSpecific"
+                        CssClass="w-100" />
+        </div>
+        <div class="common-elt " style="display:@display; min-width:70px; width:@( (7000/770.0).ToString("N", new CultureInfo("en-US")) + "%" );">
+            <DxSpinEdit ReadOnly=!Editable @bind-Value="@Number"
+                        T="int?"
+                        SizeMode="SizeMode.Small"
+                        CssClass="w-100"
+                        @bind-Enabled="IsSpecific"
+                        ShowSpinButtons="false">
+            </DxSpinEdit>
+        </div>
+        <div class="common-elt" style="display:@display; min-width:100px; width:@( (10000/770.0).ToString("N", new CultureInfo("en-US")) + "%" );">
+            <DxComboBox ReadOnly=!Editable Data="PeriodGranularities"
+                        @bind-Value="@Granularity"
+                        DropDownDirection="DropDownDirection.Down"
+                        SizeMode="SizeMode.Small"
+                        @bind-Enabled="IsSpecific"
+                        CssClass="w-100" />
+        </div>
+    }
+
+    @if (DisplayDeleteButton)
+    {
+        <div style="display:@display2; min-width:50px; width:@( (5000/770.0).ToString("N", new CultureInfo("en-US")) + "%" );">
+            <div class="d-flex flex-row ml-1 h-100">
+                <DxButton Enabled=Editable IconCssClass="fa fa-remove"
+                          CssClass="mt-auto mb-auto"
+                          RenderStyleMode="ButtonRenderStyleMode.Text"
+                          RenderStyle="ButtonRenderStyle.Danger"
+                          Click="@(() => OnClickRemove.InvokeAsync(periodFilterItem))">
+                </DxButton>
+            </div>
+        </div>
+    }
+
+</div>
+

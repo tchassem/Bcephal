@@ -1,0 +1,242 @@
+﻿
+@inject IJSRuntime JSRuntime
+
+<RenderFormContent @ref="renderFormContent">
+    @BodyContent
+</RenderFormContent>
+
+<DxPopup CssClass="custom-popup"
+         ShowCloseButton="false"
+         ShowFooter="true"
+         HeaderText="@AppState["billing.parameter"]"
+         @bind-Visible="@showModalBillingParam">
+    <Content>
+        <div class=" row pt-3 pb-3 m-0">
+
+            <DxGridLayout ColumnSpacing="8px" RowSpacing="12px" CssClass="w-100">
+                <Rows>
+                    <DxGridLayoutRow Height="auto" />
+                    <DxGridLayoutRow Height="auto" />
+                    <DxGridLayoutRow Height="auto" />
+                    <DxGridLayoutRow Height="auto" />
+                </Rows>
+                <Columns>
+                    <DxGridLayoutColumn Width="auto" />
+                    <DxGridLayoutColumn />
+                </Columns>
+                <Items>
+                    <DxGridLayoutItem Column="0" Row="0">
+                        <Template>
+                            @AppState["Type"]
+                        </Template>
+                    </DxGridLayoutItem>
+                    <DxGridLayoutItem Column="1" Row="0">
+                        <Template>
+                            <DxComboBox Data="@( DimensionTypes )"
+                                        TData="DimensionType"
+                                        TValue="DimensionType"
+                                        @bind-Value=@OpenedBMParameter.DimensionType>
+                            </DxComboBox>
+                        </Template>
+                    </DxGridLayoutItem>
+                    @switch (OpenedBMParameter.DimensionType)
+                    {
+                        case DimensionType.MEASURE:
+                            <DxGridLayoutItem Column="0" Row="1">
+                                <Template>
+                                    @AppState["MEASURE"]
+                                </Template>
+                            </DxGridLayoutItem>
+                            <DxGridLayoutItem Column="1" Row="1">
+                                <Template>
+                                    <DxGridLayout ColumnSpacing="8px" RowSpacing="12px" CssClass="w-100">
+                                        <Rows>
+                                            <DxGridLayoutRow Height="auto" />
+                                        </Rows>
+                                        <Columns>
+                                            <DxGridLayoutColumn />
+                                            <DxGridLayoutColumn />
+                                        </Columns>
+                                        <Items>
+                                            <DxGridLayoutItem Column="0" Row="0">
+                                                <Template>
+                                                    <DxComboBox Data="@MeasureFunctions.GetAll()"
+                                                                TValue="MeasureFunctions"
+                                                                TData="MeasureFunctions"
+                                                                Enabled="Editable"
+                                                                @bind-Value=@OpenedBMParameter.MeasureFunction>
+                                                    </DxComboBox>
+
+                                                </Template>
+                                            </DxGridLayoutItem>
+                                            <DxGridLayoutItem Column="1" Row="0">
+                                                <Template>
+                                                    <TreeViewFilter C="Bcephal.Models.Dimensions.Measure"
+                                                                    ItemsFilter="@EditorData.Measures"
+                                                                    SelectedItem=@DimensionName
+                                                                    SelectFilterItemCallback="@((Measure m) => MeasureEvtAction(m))">
+
+                                                    </TreeViewFilter>
+
+                                                </Template>
+                                            </DxGridLayoutItem>
+                                        </Items>
+                                    </DxGridLayout>
+                                </Template>
+                            </DxGridLayoutItem>
+                            break;
+                        case DimensionType.PERIOD:
+                            <DxGridLayoutItem Column="0" Row="1">
+                                <Template>
+                                    @AppState["billing.model.form.param.period"]
+                                </Template>
+                            </DxGridLayoutItem>
+                            <DxGridLayoutItem Column="1" Row="1">
+                                <Template>
+                                    <TreeViewFilter C="Bcephal.Models.Dimensions.Period"
+                                                    SelectFilterItemCallback="@((Bcephal.Models.Dimensions.Period p) =>  PeriodEvtAction(p) )"
+                                                    SelectedItem=@DimensionName
+                                                    ItemsFilter="EditorData.Periods">
+                                    </TreeViewFilter>
+                                </Template>
+                            </DxGridLayoutItem>
+                            break;
+                        case DimensionType.ATTRIBUTE:
+                            <DxGridLayoutItem Column="0" Row="1">
+                                <Template>
+                                    @AppState["billing.model.form.param.attr"]
+                                </Template>
+                            </DxGridLayoutItem>
+                            <DxGridLayoutItem Column="1" Row="1">
+                                <Template>
+                                    <TreeViewFilter C="Bcephal.Models.Base.HierarchicalData"
+                                                    ItemsFilter="@AttributeList"
+                                                    SelectedItem=@DimensionName
+                                                    SelectFilterItemCallback="@((HierarchicalData d) => AttrEvtAction(d))">
+                                    </TreeViewFilter>
+                                </Template>
+                            </DxGridLayoutItem>
+                            break;
+                    }
+                    <DxGridLayoutItem Column="0" Row="2">
+                        <Template>
+                            @AppState["Name"]
+                        </Template>
+                    </DxGridLayoutItem>
+                    <DxGridLayoutItem Column="1" Row="2">
+                        <Template>
+                            <DxTextBox InputId="param-name-id" 
+                                       @bind-Text="Name" 
+                                       BindValueMode="BindValueMode.OnInput"
+                                       NullText="@AppState["enter.parameter.name"]"
+                                       Enabled="Editable">
+                            </DxTextBox>
+                        </Template>
+                    </DxGridLayoutItem>
+                    <DxGridLayoutItem Column="1" Row="3">
+                        <Template>
+                            <DxCheckBox @bind-Checked="@OpenedBMParameter.AddBillingFilters" 
+                                        Alignment="CheckBoxContentAlignment.Left"
+                                        Enabled="Editable"
+                                        LabelPosition="LabelPosition.Right">@AppState["auto.add.billing.filter"]
+                            </DxCheckBox>
+                                    </Template>
+                                </DxGridLayoutItem>
+
+
+                            </Items>
+                        </DxGridLayout>
+                    </div>
+                    <br />
+                </Content>
+                <FooterContentTemplate>
+                    <div class="d-flex flex-column w-100 h-auto">
+                        <div class="d-flex flex-row">
+                            <DxButton CssClass="mr-1 ml-auto  wid-100" 
+                                      IconCssClass="fa fa-check pr-1" 
+                                      RenderStyle="ButtonRenderStyle.Primary"
+                                      Enabled="@(!string.IsNullOrWhiteSpace(OpenedBMParameter.DimensionName) 
+                                                 && Editable)"
+                                      Text="@AppState["Ok"]" 
+                                      Click="@SaveBillingModelParameter" />
+
+
+                            <DxButton CssClass="ml-1 mr-auto  wid-100" 
+                                      IconCssClass="oi oi-delete pr-1" 
+                                      RenderStyle="ButtonRenderStyle.Danger"
+                                      Text="@AppState["Close"]" 
+                                      Enabled="Editable"
+                                      @onclick="@(() => { showModalBillingParam = false; nameHasFocus = false; })" />
+                        </div>
+                    </div>
+                </FooterContentTemplate>
+            </DxPopup>
+
+@code
+{
+
+    private RenderFragment BodyContent => __builder =>
+    {
+        <div class="row no-gutters pt-1 h-100">
+            <div class="col-11 pb-1 pl-4 h-100">
+                <DxListBox @ref="DxListBoxRef" Data=@EditorData.Item.ParameterListChangeHandler.Items
+                            TextFieldName="@nameof(BillingModelParameter.Name)"
+                            @bind-Values="@SelectedParamItems"
+                            CssClass="h-100 overflow-y-auto "
+                            SelectionMode="ListBoxSelectionMode.Single"
+                            SelectedItemsChanged=ParameterListSelectionChanged>
+                </DxListBox>
+            </div>
+            <div class="col-1 align-items-center d-flex flex-column">
+                <div class="mt-4 mb-2 ">
+                    <DxButton IconCssClass="fa fa-plus" Title=@AppState["Add"]
+                              RenderStyleMode="ButtonRenderStyleMode.Text"
+                              RenderStyle="ButtonRenderStyle.Primary" 
+                              Enabled="Editable"
+                              @onclick="() => OpenModalBillingParam(new BillingModelParameter()) ">
+                    </DxButton>
+                </div>
+                <div class="mb-2 ">
+                    <DxButton IconCssClass="fa fa-arrow-up" RenderStyleMode="ButtonRenderStyleMode.Text" Title=@AppState["MoveUp"]
+                                Enabled="@(SelectedParamItems != null && SelectedParamItems.Any() 
+                                           && IsParameterListHasManyItems && !IsParameterListFirstItemSelected 
+                                           && Editable )"
+                                RenderStyle="ButtonRenderStyle.Primary" Click="() =>MoveUpSelectedBillingModelParameter()">
+                    </DxButton>
+                </div>
+                <div class="mb-2 ">
+                    <DxButton IconCssClass="fa fa-arrow-down" RenderStyleMode="ButtonRenderStyleMode.Text" Title=@AppState["MoveDown"]
+                                Enabled="@( SelectedParamItems != null && SelectedParamItems.Any() 
+                                            && IsParameterListHasManyItems 
+                                            && !IsParameterListLastItemSelected
+                                            && Editable)"
+                                RenderStyle="ButtonRenderStyle.Primary" Click="() =>MoveDownSelectedBillingModelParameter()">
+                    </DxButton>
+                </div>
+                <div class="mb-2 ">
+                    <DxButton IconCssClass="fa fa-pencil" Title=@AppState["Edit"]
+                              RenderStyleMode="ButtonRenderStyleMode.Text"
+                              Enabled="@( IsParameterListItemsSelected && SelectedParamItems != null 
+                                          && SelectedParamItems.Any()
+                                          && Editable)"
+                              RenderStyle="ButtonRenderStyle.Primary" 
+                              Click="() => OpenModalBillingParam( SelectedParamItems.First())">
+                    </DxButton>
+                </div>
+                <div>
+                    <DxButton IconCssClass="fa fa-close" Title=@AppState["Delete"]
+                              Enabled="@( IsParameterListItemsSelected 
+                                            && SelectedParamItems != null 
+                                            && SelectedParamItems.Any()
+                                            && Editable)"
+                              RenderStyle="ButtonRenderStyle.Danger" 
+                              RenderStyleMode="ButtonRenderStyleMode.Text" 
+                              Click="() =>DeleteSelectedBillingModelParameter()">
+                    </DxButton>
+                </div>
+            </div>
+        </div>
+    };
+
+
+ }

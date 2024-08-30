@@ -1,0 +1,127 @@
+﻿@page "/billing/model-form"
+@page "/billing/model-form/{Id:long}"
+
+@using Bcephal.Models.Billing.Model
+@using Bcephal.Blazor.Web.Billing.Pages.Billing.Models.Components
+
+
+
+@inherits Form<BillingModel, BrowserData>
+
+@{ base.BuildRenderTree(__builder); }
+
+
+@code {
+
+
+
+    #region RenderFragments widgets
+
+    public override RenderFragment LeftContent => __builder =>
+    {
+    @if (EditorData != null)
+        {
+        <DxTabs @bind-ActiveTabIndex="@ActiveTabIndex" ScrollMode="TabsScrollMode.Auto">
+            <DxTabPage Text="@AppState["Description"]">
+                <div class="grid-bc-two">
+                    <DescriptionTabComponent @bind-BillingModelEditorData="@BillingModelEditorData" Editable="Editable" AttributeList="@AttributeList"></DescriptionTabComponent>
+                </div>
+            </DxTabPage>
+            <DxTabPage Text="@AppState["invoice.description"]">
+                <div class="grid-bc-two">
+                    <InvoiceDescriptionTabComponent Editable="Editable" @bind-BillingModelEditorData_="@BillingModelEditorData"></InvoiceDescriptionTabComponent>
+                </div>
+            </DxTabPage>
+            <DxTabPage Text="@AppState["parameters"]">
+                <div class="grid-bc-two">
+                    <ParametersTabComponent Editable="Editable" @bind-EditorData="@EditorData" AttributeList="@AttributeList"></ParametersTabComponent>
+                </div>
+            </DxTabPage>
+            <DxTabPage Text="@AppState["labels"]">
+                <div class="grid-bc-two overflow-y-auto">
+                    <BillingModelLabelTabComponent Editable="Editable" @bind-BillingModelEditorData_="@BillingModelEditorData"></BillingModelLabelTabComponent>
+                </div>
+            </DxTabPage>
+            <DxTabPage Text="@AppState["unit.cost.driver"]">
+                <div class="grid-bc-two">
+                    <UnitCostAndDriverTabComponent Editable="Editable" EditorData="@EditorData"></UnitCostAndDriverTabComponent>
+                </div>
+            </DxTabPage>
+            <DxTabPage Text="@AppState["appendices"]">
+                <div class="grid-bc-two">
+                    <AppendicesTabComponent EditorData="@EditorData"></AppendicesTabComponent>
+                </div>
+            </DxTabPage>
+            <DxTabPage Text="@AppState["Enrichment"]">
+                <div class="grid-bc-two overflow-y-auto">
+                    <EnrichmentTabComponent Editable="Editable" @bind-EditorData="@EditorData" AttributeList="@AttributeList"></EnrichmentTabComponent>
+                </div>
+            </DxTabPage>
+            <DxTabPage Text="@AppState["Scheduling"]">
+                <div class="grid-bc-two">
+                    <SchedulerItemsInfos Editable="Editable" P="BillingModel" @bind-EditorData=EditorDataBinding />
+                </div>
+            </DxTabPage>
+        </DxTabs>
+
+        }
+    };
+
+    public override RenderFragment RightContent => __builder =>
+    {
+    <div class="d-flex flex-column grid-bc-two" style="display:block;box-sizing:border-box;">
+        <div style="height:auto;padding-bottom:0;margin-bottom:10px;">
+            @RightContentTags
+        </div>
+    </div>
+    };
+
+    public RenderFragment RightContentTags => __builder =>
+    {
+    <DxTabs CssClass="bc-tab-h-100" @bind-ActiveTabIndex="ActiveTabIndexFilterBinding" ScrollMode="TabsScrollMode.Auto">
+        <DxTabPage Text="@AppState["Properties"]" CssClass="m-0 p-0">
+            <div style="height: calc(100% - var(--bc-tab-header-height)); box-sizing: border-box !important;">
+                <div class="h-100">
+                    @TabPropertiesContent
+                </div>
+            </div>
+        </DxTabPage>
+        <DxTabPage Text="@AppState["Filter"]" CssClass="h-100">
+            <div style="height: calc(100% - var(--bc-tab-header-height)); box-sizing: border-box !important;">
+                <div class="h-100">
+                    @TabFilterContent
+                </div>
+            </div>
+        </DxTabPage>
+    </DxTabs>
+    };
+
+    public RenderFragment TabPropertiesContent => __builder =>
+    {
+    @if (EditorData != null && EditorData.Item != null)
+        {
+        <DxLayoutBreakpoint DeviceSize="DeviceSize.Medium | DeviceSize.Small | DeviceSize.XSmall | DeviceSize.Large" @bind-IsActive="IsSmallScreen" />
+        <GridItemInfos @bind-EditorData=@EditorDataBinding T="BillingModel" Editable=Editable DisplayGroup="true" DisplayVisibleInShortcut="true" />
+        }
+    };
+    public RenderFragment TabFilterContent => __builder =>
+    {
+    @if (EditorData != null && EditorData.Item != null)
+        {
+        <FilterComponent @key=FilterKey
+                         @bind-UniverseFilter="@FilterBinding"
+                         Attributes="@Entities"
+                         Measures="@EditorData.Measures"
+                         Periods="EditorData.Periods"
+                         Filterstyle="@Filterstyle"
+                         CanRefreshGrid="CanRefreshGrid"
+                         FilterName=@FilterKey
+                         Editable=Editable>
+        </FilterComponent>
+        }
+    };
+
+    #endregion
+
+
+}

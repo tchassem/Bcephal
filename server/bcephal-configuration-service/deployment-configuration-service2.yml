@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: configuration-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: configuration-service
+    
+  template:
+    metadata:
+      labels:
+        app: configuration-service
+    spec:
+        volumes:
+          - name: bcephal-configuration-repository
+            hostPath:
+              path: /opt/bcephal-configuration-repository
+        containers:
+          - name: configuration-service
+            image: localhost:5000/becphal-configuration-service-docker-image
+            volumeMounts:
+            - name: bcephal-configuration-repository
+              mountPath: /opt/bcephal-configuration-repository
+     
+            ports:
+            - containerPort: 8000
+         
+
+---        
+apiVersion: v1
+kind: Service
+metadata:
+  name: configuration-service
+spec:
+  selector:
+    app: configuration-service
+  clusterIP: None
+  ports:
+  - name: configuration-service
+    port: 8000
+      
+ 
+ 
+

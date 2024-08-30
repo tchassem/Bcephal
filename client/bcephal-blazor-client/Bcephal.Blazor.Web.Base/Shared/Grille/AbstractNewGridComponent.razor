@@ -1,0 +1,281 @@
+﻿@typeparam P
+@typeparam C
+
+@namespace Bcephal.Blazor.Web.Base.Shared.AbstractComponent
+
+
+@using Bcephal.Blazor.Web.Base.Shared.Component;
+
+@{
+    bool canAdd = ColumnsDatas == null;
+    if (canAdd)
+    {
+        ColumnsDatas = new List<AbstractNewGridDataItem>();
+    }
+    canAddSummary = ColumnsSummaryDatas == null;
+    if (canAddSummary)
+    {
+        ColumnsSummaryDatas = new List<SummaryDataItem>();
+    }
+}
+<CardComponent CanDisplayHeader="CanDisplayHeader" @ref="CardComponentRef" @attributes=CardAttributes>    
+    <ChildContent>
+        @{ //@key="KeyName"
+        }
+        <DxGrid Data=DataSource
+                EditMode=@CurrentEditMode
+                ShowFilterRow=@ShowFilterRow
+                @ref=DxGridRef
+                KeyFieldName="@(KeyFieldName() == null ? "Id" : KeyFieldName())"
+                CssClass="@GridCssClass()"
+                PagerSwitchToInputBoxButtonCount=PagerSwitchToInputBoxButtonCount
+                PagerVisible=ShowPager
+                PageSize=page_PageSize
+                PagerPosition="GridPagerPosition.Bottom"
+                PageSizeSelectorVisible=PageSizeSelector
+                PageSizeSelectorItems=PageSize
+                PageSizeSelectorAllRowsItemVisible=ShowsAll_
+                PagerVisibleNumericButtonCount=PagerVisibleNumericButtonCount
+                PagerAutoHideNavButtons="true"
+                PagerNavigationMode=PagerNavigationMode.Auto
+                PageIndex=page_CurrentPage
+                CustomizeCellDisplayText=OnHtmlDataCellDecoration
+                CustomizeElement=OnHtmlElementDataCellDecoration
+                AllowSort=AllowSort
+                ColumnResizeMode=ColumnResizeMode
+                @attributes=attributes
+                PopupEditFormHeaderText=@AppState[getPopupEditFormHeaderTextLabel()]
+                RowDoubleClick=RowDoubleClick
+                EditNewRowPosition="GridEditNewRowPosition.Bottom"
+                SelectionMode=SelectionMode
+                AllowSelectRowByClick=AllowSelectRowByClick
+                SelectedDataItems="SelectedDataItems"
+                SelectedDataItemsChanged="SelectedDataItemsChanged"
+                ShowAllRows="AllowAllRow"  
+                @oncontextmenu:preventDefault>
+            <Columns>
+                @if (CanShowSelectionColumn)
+                {
+                    <DxGridSelectionColumn @ref="DxGridSelectionColumnRef" Width="@ColumnChoserWidth" />
+                }
+
+                @for (int Position = 0; Position < ItemsCount; Position++)
+                {
+                    if (canAdd || Position >= ColumnsDatas.Count)
+                    {
+                        ColumnsDatas.Add(GetGridDataItem(Position));
+                    }
+                    var GridDataItem = ColumnsDatas[Position];
+                    var columnFormat = GridDataItem.ColumnFormat;
+                    var pos = Position;
+
+                    @if (GridDataItem.ColumnType.Equals(typeof(decimal)) && GridDataItem.Visible)
+                    {
+                        if (string.IsNullOrWhiteSpace(GridDataItem.ColumnFormat))
+                        {
+                            columnFormat = "F2";
+                        }
+                    }
+                    else
+                    @if (GridDataItem.ColumnType.Equals(typeof(DateTime?)) && GridDataItem.Visible)
+                    {
+                        if (string.IsNullOrWhiteSpace(columnFormat))
+                        {
+                            columnFormat = "dd/MM/yyyy";
+                        }
+                    }                    
+                    <DxGridDataColumn AllowSort=AllowSort AllowGroup="true" MinWidth=ColumnMinWidth Width=@ColumnWidth(Position)
+                                      DisplayFormat=@columnFormat
+                                      Caption="@GridDataItem.CaptionName"
+                                      TextAlignment="@(GridDataItem.ColumnType.Equals(typeof(decimal)) ? GridTextAlignment.Right : GridDataItem.ColumnType.Equals(typeof(DateTime?)) ? GridTextAlignment.Center : GridTextAlignment.Auto)">
+                        <CellDisplayTemplate>
+                            <GridCellContentTemplate C="C" 
+                                                     columnFormat=@columnFormat
+                                                     ContextData=context
+                                                     EditGridCell=EditGridCell
+                                                     EnterHandleValidSubmit=EnterHandleValidSubmit
+                                                     FormatDateCellValue=FormatDateCellValue
+                                                     FormatDoubleCellValue=FormatDoubleCellValue
+                                                     GetEditData=GetEditData
+                                                     GetEditDateTimeFieldName=GetEditDateTimeFieldName
+                                                     GetEditDecimalFieldName=GetEditDecimalFieldName
+                                                     GetEditTextFieldName=GetEditTextFieldName
+                                                     GetFieldValue=GetFieldValue
+                                                     GetOpenTabLink=GetOpenTabLink
+                                                     GridDataItem=GridDataItem
+                                                     KeyFieldValue=KeyFieldValue
+                                                     NavigateTo=NavigateTo
+                                                     OpenLing=OpenLing
+                                                     position=pos
+                                                     EditedValues=EditedValues_
+                                                     CheckedChanged=CheckedChanged
+                                                     IsNavLink=IsNavLink />
+                        </CellDisplayTemplate>
+                        <FilterRowCellTemplate>
+                            <GridColumnFilterComponent @bind-ColumnFilter="GridDataItem.ColumnFilters"
+                                                       ColumnType="GridDataItem.ColumnType"
+                                                       EnterAction="RefreshGrid_" />
+                        </FilterRowCellTemplate>
+                        <HeaderCaptionTemplate>@RenderHeader(GridDataItem.ColumnStyle, GridDataItem.CaptionName)</HeaderCaptionTemplate>
+                    </DxGridDataColumn>
+                }
+            </Columns>
+        </DxGrid>
+    </ChildContent>
+</CardComponent>
+
+<DxContextMenu ItemClick="OnItemClick" @ref="@ContextMenuRef">
+    <Items>
+        @if (displayItem)
+        {
+            if (NewButtonVisible && false)
+            {
+                <DxContextMenuItem Enabled="@NewButtonVisible" Text="@AppState["New"]" />
+            }
+            if (DuplicateButtonVisible && SelectedDataItems.Count() >= 1)
+            {
+                <DxContextMenuItem Enabled="@DuplicateButtonVisible" Text="@AppState["Duplicate"]" />
+            }
+            if (EditButtonVisible && SelectedDataItems.Count() <= 1)
+            {
+                <DxContextMenuItem Enabled="@EditButtonVisible" Text="@AppState["Edit"]" />
+            }
+            if (DeleteButtonVisible)
+            {
+                <DxContextMenuItem Enabled="@DeleteButtonVisible" Text="@AppState["Delete"]" />
+                if (DeleteAllButtonVisible)
+                {
+                    <DxContextMenuItem Enabled="@DeleteAllButtonVisible" Text="@AppState["DeleteAll"]" />
+                }
+            }
+        }
+        @if (CustomContextMenuRender != null)
+        {
+            @CustomContextMenuRender
+        }
+    </Items>
+</DxContextMenu>
+
+<DxContextMenu ItemClick="OnItemClickOpenLinkOnNewTab" @ref="@ContextMenuOpenLinkRef">
+    <Items>
+        <DxContextMenuItem Text="@AppState["Open"]" />
+        <DxContextMenuItem Text="@AppState["OpenOnNewTab"]" />
+    </Items>
+</DxContextMenu>
+
+
+@code{
+
+    protected virtual RenderFragment RenderHeader(string stype, string cation) => __builder =>
+    {
+        string style_ = "overflow:hidden;text-overflow:ellipsis; white-space:nowrap;width:100%;" + stype;
+    <div class="w-100 h-100 d-flex align-items-center justify-content-center" style=@style_>
+        <span style=@style_>@cation</span>
+    </div>
+    };
+
+    protected virtual RenderFragment TotalSummary => __builder =>
+   {
+        @if (ItemsSummaryCount > 0)
+            {
+                @for (int Position = 0; Position < ItemsSummaryCount; Position++)
+                {
+                    if (canAddSummary || Position >= ColumnsSummaryDatas.Count)
+                    {
+                        ColumnsSummaryDatas.Add(GetSummaryItem(Position));
+                    }
+                    var SummaryItem = ColumnsSummaryDatas[Position];
+
+                    <DxGridSummaryItem SummaryType=SummaryItem.SummaryType FieldName=@SummaryItem.FieldName ValueDisplayFormat=@SummaryItem.ValueDisplayFormat Name=@SummaryItem.Name />
+               }
+        }
+};
+    
+    protected virtual RenderFragment CardHeader => __builder =>
+   {
+        if (CanDisplayHeader) { 
+            <DxToolbar AdaptivityAutoHideRootItems="false" AdaptivityMinRootItemCount="2" CssClass="m-0 p-0 bc-font-inherit bcf-grid-toolbar w-100 h-auto pt-1 pb-1" ItemRenderStyleMode="ToolbarRenderStyleMode.Contained" ItemSizeMode="SizeMode.Small">
+                <Items>
+                    <DxToolbarItem CssClass="p-0 m-0 w-100 h-auto ">
+                        <Template>
+                            @CustomHeaderRenderHandler.Invoke()
+                        </Template>
+                    </DxToolbarItem>
+                </Items>
+            </DxToolbar>
+        }
+    };
+
+ private RenderFragment BuildChecBoxTotalPage => __builder =>
+ {
+     if (AllowToDisplayCustomPager)
+     {
+    <div @ref="CheckBoxTotalPageControl" class="m-0 p-0" id="@CheckBoxTotalPageId">
+        <DxGridLayout CssClass="m-0 p-0 d-flex pt-auto mt-auto w-100 h-100 align-items-center">
+            <Rows>
+                <DxGridLayoutRow Areas="lbl all row" Height="auto" />
+            </Rows>
+            <Columns>
+                @if (AllowRowCounting && page_ != null)
+                    {
+
+                    <DxGridLayoutColumn Width="1.0fr" />
+                    }
+                <DxGridLayoutColumn Width="auto" />
+                <DxGridLayoutColumn Width="auto" />
+            </Columns>
+            <Items>
+                @if (AllowRowCounting && page_ != null)
+                    {
+                    <DxGridLayoutItem Area="lbl" CssClass="d-flex flex-column align-items-center justify-content-center p-1">
+                        <Template>
+                            <div class="d-flex align-items-center" style="min-width:20px !important;">
+                                <span class="mx-auto text-truncate">
+                                    @AppState["total.rows.count"]: @page_.TotalItemCount
+                                </span>
+                            </div>
+                        </Template>
+                    </DxGridLayoutItem>
+                    }
+                <DxGridLayoutItem Area="all" CssClass="d-flex flex-column align-items-center justify-content-center p-1">
+                    <Template>
+                        <div class="d-flex pl-1 align-items-center">
+                            <span class="ml-auto mt-auto mr-auto">
+                                <DxCheckBox @bind-Checked=AllowAllRow T="bool" data-toggle="tooltip" title=@AppState["show.all.row"] />
+                            </span>
+                        </div>
+                    </Template>
+                </DxGridLayoutItem>
+                <DxGridLayoutItem Area="row" CssClass="d-flex flex-column align-items-center justify-content-center p-1">
+                    <Template>
+                        <div class="d-flex pl-1 align-items-center">
+                            <span class="ml-auto mt-auto mr-auto">
+                                <DxCheckBox @bind-Checked=AllowRowCounting T="bool" data-toggle="tooltip" title=@AppState["allow.row.counting"] />
+                            </span>
+                        </div>
+                    </Template>
+                </DxGridLayoutItem>
+            </Items>
+        </DxGridLayout>
+    </div>
+    }
+};
+}
+<RenderFormContent @ref="RenderFormContentRefDialog">
+    <BaseModalComponent Title="@DeletionTitle"
+                        @bind-ShowModal=DeleteConfirmationPopup
+                        OkHandler="DeleteAction_"
+                        CancelHandler="CancelDeletion"
+                        IsConfirmation=@IsConfirmation>
+        <div class="d-flex">
+            <i class="bi-question-circle text-primary align-self-start mr-4" style="font-size: 1.5rem;"></i>
+
+            <div class="align-self-center">
+                <p class="p-0 m-0">@DeleteMessage</p>
+            </div>
+        </div>        
+    </BaseModalComponent>
+</RenderFormContent>
+<RenderFormContent @ref="RenderFormContentRef">
+    @BuildChecBoxTotalPage
+</RenderFormContent>

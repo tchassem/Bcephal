@@ -1,0 +1,48 @@
+﻿@page "/reporting-join/edit"
+@page "/reporting-join/edit/{Id:long}"
+@inherits Form<Bcephal.Models.Joins.Join, JoinBrowserData>;
+
+
+@{ base.BuildRenderTree(__builder);}
+@if (EditorDataBinding != null &&  EditorDataBinding.Item != null)
+{
+<RenderFormContent @ref="RenderFormContentRef">
+    <BaseModalComponent Title="@AppState["publication"]"
+                        @bind-ShowModal=DisplayDialogPublicationConfirmation
+                        OkHandler="RunJoinPublication"
+                        CancelHandler="CancelDialogPublicationConfirmation"
+                        IsConfirmation=@IsConfirmation>
+        <div class="d-flex">
+            <i class="bi-question-circle text-primary align-self-start mr-4" style="font-size: 1.5rem;"></i>
+            <div class="align-self-center">
+                <p class="p-0 m-0">@PublicationMessage</p>
+            </div>
+        </div>
+    </BaseModalComponent>
+</RenderFormContent>
+        }
+        @code {
+            public override RenderFragment LeftContent => __builder =>
+            {
+            if (EditorDataBinding != null && EditorDataBinding.Item != null)
+            {
+            <JoinFormComponent Entities=Entities Editable=Editable
+                               @bind-EditorData=EditorDataBinding
+                               @bind-ActiveTabIndex_=ActiveTabIndex />
+                }
+            };
+
+            public override RenderFragment RightContent => CurrentRightContent;
+
+            public RenderFragment RightContent___ => __builder =>
+            {
+            if (EditorDataBinding != null && EditorDataBinding.Item != null)
+            {
+            <GridItemInfos T="Join" @bind-EditorData=EditorDataBinding Editable=Editable DisplayGroup="true" DisplayVisibleInShortcut="true">
+                <ChildContent>
+                    <JoinGridInfos @bind-EditorData=EditorDataBinding Editable=Editable />
+                </ChildContent>
+            </GridItemInfos>
+            }
+        };
+        }

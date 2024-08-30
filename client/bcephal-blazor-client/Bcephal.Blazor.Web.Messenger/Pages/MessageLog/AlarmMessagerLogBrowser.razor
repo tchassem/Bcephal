@@ -1,0 +1,100 @@
+﻿
+@inherits AbstractNewGridComponent<Persistent, MessageLogBrowserData>
+
+@{
+    base.BuildRenderTree(__builder);
+}
+
+@code {
+
+    protected  RenderFragment CustomHeaderRender() => __builder =>
+    {
+
+    <DxGridLayout CssClass="w-100 h-100 bc-box-sizing" ColumnSpacing="2px">
+        <Rows>
+            <DxGridLayoutRow Areas="filter1 filter2 filter3 filter4" Height="auto"/>
+        </Rows>
+        <Columns>
+            <DxGridLayoutColumn Width="1fr" />
+            <DxGridLayoutColumn Width="1fr" />
+            <DxGridLayoutColumn Width="1fr" />
+            <DxGridLayoutColumn Width="4fr" />
+        </Columns>
+        <Items>
+            <DxGridLayoutItem Area="filter1" CssClass="w-100 bc-header-height bc-box-sizing ml-1">
+                <Template>
+                    <DxComboBox Data="AllStatus"
+                                TData="MessageLogStatus"
+                                TValue="MessageLogStatus"
+                                TextFieldName="label"
+                                @bind-Value="Status"
+                                ClearButtonDisplayMode="DataEditorClearButtonDisplayMode.Auto" />
+                </Template>
+            </DxGridLayoutItem>
+            <DxGridLayoutItem Area="filter2" CssClass="w-100 h-100 bc-box-sizing">
+                <Template>
+                    <DxComboBox Data="MessageType.GetAll()"
+                                TData="MessageType"
+                                NullText="@AppState["select.type"]"
+                                TValue="MessageType"
+                                ValueChanged=SearchByType
+                                ClearButtonDisplayMode="DataEditorClearButtonDisplayMode.Auto" />
+                </Template>
+            </DxGridLayoutItem>
+            <DxGridLayoutItem Area="filter3" CssClass="w-100 h-100 bc-box-sizing">
+                <Template>
+                    <DxComboBox Data="MessageProvider.GetAll()"
+                                TData="MessageProvider"
+                                NullText="@AppState["select.mode"]"
+                                TValue="MessageProvider"
+                                ValueChanged=SearchByManualOrAutomatic
+                                ClearButtonDisplayMode="DataEditorClearButtonDisplayMode.Auto" />
+                </Template>
+            </DxGridLayoutItem>
+            <DxGridLayoutItem Area="filter4" CssClass="w-100 h-100 bc-box-sizing">
+            </DxGridLayoutItem>
+        </Items>
+    </DxGridLayout>
+    };
+
+    public MessageLogStatus Status
+    {
+        get
+        {
+            return AlarmMessageBrowserDataFilter.Statut;
+        }
+        set
+        {
+            AlarmMessageBrowserDataFilter.Statut = value;
+            SearchByStatus(value);
+        }
+    }
+
+    public async void SearchByStatus(MessageLogStatus status)
+    {
+        await this.RefreshGrid_();
+    }
+
+    public async void SearchByType(MessageType type)
+    {
+        AlarmMessageBrowserDataFilter.MessageType = type;
+        await this.RefreshGrid_();
+    }
+
+    public async void SearchByManualOrAutomatic(MessageProvider provider)
+    {
+        AlarmMessageBrowserDataFilter.Mode = provider != null ? provider.ToString() : null;
+        await this.RefreshGrid_();
+    }
+
+}
+
+<BaseModalComponent ApplyBackgroundShading="true" Title="@AppState["cancel.messages"]" @bind-ShowModal=ConfirmationCancelModal OkHandler="(() => CancelAlarm())" CancelHandler="(() => Close())" IsConfirmation=@IsConfirmation>
+    <div class="d-flex">
+        <i class="bi-question-circle text-primary align-self-start mr-4" style="font-size: 1.5rem;"></i>
+
+        <div class="align-self-center">
+            <p class="p-0 m-0">@AppState["confirmation.cancel.message"]</p>
+        </div>
+    </div>
+</BaseModalComponent>

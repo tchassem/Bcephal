@@ -1,0 +1,133 @@
+﻿<DxStackLayout Orientation=Orientation.Horizontal CssClass="d-flex p-0 m-0 w-100 h-100 align-items-center bc-box-sizing " ItemSpacing="10px">
+    <Items>
+        <DxStackLayoutItem Length="2fr" CssClass="w-100 h-100 m-0 p-0 d-flex flex-column align-items-center">
+            <Template>
+                <div class="d-flex w-100 h-100 align-items-center">
+                    <div class="w-100 progress" style="position: relative;">
+                        <div id="@progressbarDivId" class="progress-bar progress-bar-striped active" role="progressbar" style="width: 100%; color: transparent;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                        <div class="w-100 justify-content-center d-flex" style="position: absolute; padding-top: 8px;"></div>
+                    </div>
+                </div>
+            </Template>
+        </DxStackLayoutItem>
+        <DxStackLayoutItem Length="2fr" Visible="FullBase" CssClass="w-100 h-100 m-0 p-0 d-flex flex-column align-items-center">
+            <Template>
+                <div class="d-flex w-100 h-100 align-items-center">
+                    <div class="w-100 progress" style="position: relative;">
+                        <div id="@progressbarDivSubId" class="progress-bar progress-bar-striped active" role="progressbar" style="width: 100%; color: transparent;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                        <div class="w-100 justify-content-center d-flex" style="position: absolute; padding-top: 8px;"></div>
+                    </div>
+                </div>
+            </Template>
+        </DxStackLayoutItem>
+        <DxStackLayoutItem Length="0.2fr" Visible="displayStopButton" CssClass="w-100 h-100 m-0 p-0 d-flex flex-column align-items-center justify-content-center">
+            <Template>
+                <div class="w-100 h-100 d-flex flex-column align-items-center justify-content-center">
+                    <DxButton IconCssClass="stop-btn-fill"
+                              CssClass="w-auto h-50" @onclick="(() => { if(StopTaskProgress.HasDelegate) StopTaskProgress.InvokeAsync(); })"
+                              RenderStyle="ButtonRenderStyle.Danger"
+                              RenderStyleMode="ButtonRenderStyleMode.Contained" />
+                </div>
+            </Template>
+        </DxStackLayoutItem>
+        @*<DxStackLayoutItem Length="2fr" CssClass="w-100 h-100 m-0 p-0 d-flex flex-column align-items-center">
+            <Template>
+                <div class="d-flex w-100 h-100 align-items-center">
+                    <div class="w-100 progress ">
+                        <div id="@progressbarDivId" class="progress-bar progress-bar-striped active" role="progressbar" style="width: 0; color: #000000"></div>
+                        <div class="w-100 progress" style="color: #000000; z-index: 1; position: absolute; top: 0px;left: 0px;"></div>
+                    </div>
+                </div>
+            </Template>
+        </DxStackLayoutItem>
+        <DxStackLayoutItem Length="2fr" Visible="FullBase" CssClass="w-100 h-100 m-0 p-0 d-flex flex-column align-items-center">
+            <Template>
+                <div class="d-flex w-100 h-100 align-items-center">
+                    <div class="w-100 progress" style="position: relative;">
+                        <div id="@progressbarDivSubId" class="progress-bar progress-bar-striped active" role="progressbar" style="width: 0; color: #000000; z-index: 2; position: absolute; top: 5px; left: 0px; "></div>
+                        <div class="w-100 progress" style="z-index: 5; position: absolute; top: 5px; left: 0px;"></div>
+                    </div>
+                </div>
+            </Template>
+        </DxStackLayoutItem>
+        <DxStackLayoutItem Length="0.2fr" Visible="displayStopButton" CssClass="w-100 h-100 m-0 p-0 d-flex flex-column align-items-center justify-content-center">
+            <Template>
+                <div class="w-100 h-100 d-flex flex-column align-items-center justify-content-center">
+                    <DxButton IconCssClass="stop-btn-fill"
+                              CssClass="w-75 h-50" @onclick="(() => { if(StopTaskProgress.HasDelegate) StopTaskProgress.InvokeAsync(); })"
+                              RenderStyle="ButtonRenderStyle.Danger"
+                              RenderStyleMode="ButtonRenderStyleMode.Contained" />
+                </div>
+            </Template>
+        </DxStackLayoutItem>*@
+    </Items>
+</DxStackLayout>
+
+@code {
+    public string progressbarDivId { get; set; }
+    public string progressbarDivSubId { get; set; }
+
+    private bool canStop { get; set; }
+    private bool FullBase_ { get; set; } = true;
+
+    public bool FullBase
+    {
+        get => FullBase_;
+        set
+        {
+            FullBase_ = value;
+            StateHasChanged();
+        }
+    }
+
+    public DotNetObjectReference<FullyProgressbar> dotNetReference;
+
+    protected override Task OnInitializedAsync()
+    {
+        dotNetReference = DotNetObjectReference.Create(this);
+        progressbarDivId = Guid.NewGuid().ToString("d") + "_progressbarDivId";
+        progressbarDivSubId = Guid.NewGuid().ToString("d") + "_progressbarDivSubId";
+        return base.OnInitializedAsync();
+    }
+
+    [JSInvokable("stop")]
+    public async Task stop(bool state, string message = null)
+    {
+        if (StopTaskProgress.HasDelegate && state)
+        {
+            await StopTaskProgress.InvokeAsync();
+        }
+        if (state)
+        {
+            //StopSucces?.Invoke();
+        }
+        else
+        {
+            StopError?.Invoke(message);
+        }
+    }
+
+    [Parameter]
+    public bool displayStopButton { get; set; } = true;
+
+    [Parameter]
+    public EventCallback StopTaskProgress { get; set; }
+
+    public Action StopSucces { get; set; }
+    public Action<object> StopError { get; set; }
+
+    [Inject]
+    private IJSRuntime JSRuntime { get; set; }
+
+    public async Task setParentPosition(long count, long currentPosition)
+    {
+        await JSRuntime.InvokeVoidAsync("progressBar__2", progressbarDivId, count, currentPosition,null,null).AsTask();
+        await Task.Delay(5);
+    }
+
+    public async Task setChildrenPosition(long count, long currentPosition)
+    {
+        await JSRuntime.InvokeVoidAsync("progressBar__2", progressbarDivSubId, count, currentPosition, null, null).AsTask();
+        await Task.Delay(5);
+    }
+}

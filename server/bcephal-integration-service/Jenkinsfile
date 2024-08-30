@@ -1,0 +1,141 @@
+pipeline {
+    agent any
+	tools {
+	   jdk 'JAVA_HOME'
+	    gradle 'GRADLE_HOME'
+		 dockerTool 'CustomeDocker'
+	} 
+	   
+	environment {
+	   DOCKER    = "${dockerTool1}/bin"
+	    JAVA_HOME = "${jdk}"
+		
+		
+	}
+    
+    stages {
+        stage('Clone'){
+             steps {
+			     dir('bcephal-base'){
+					 checkout([$class: 'GitSCM', branches: [[name: '*/master']],
+					doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'CloneOption', depth: 1, noTags: true, reference: '', shallow: true, timeout: 120]], 
+					submoduleCfg: [],userRemoteConfigs: [[credentialsId: 'e212babc-0713-415a-9848-da7292bb3718', url:
+					 'http://saas1402fu.saas-secure.com/git/bcephal-base.git']]])
+				 }
+				 sh ('ls')
+				 
+				 dir('bcephal-multitenant-jpa'){
+					 checkout([$class: 'GitSCM', branches: [[name: '*/master']],
+					doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'CloneOption', depth: 1, noTags: true, reference: '', shallow: true, timeout: 120]], 
+					submoduleCfg: [],userRemoteConfigs: [[credentialsId: 'e212babc-0713-415a-9848-da7292bb3718', url:
+					 'http://saas1402fu.saas-secure.com/git/bcephal-multitenant-jpa.git']]])
+					 }
+				 sh ('ls')
+				 dir('bcephal-utils'){
+					 checkout([$class: 'GitSCM', branches: [[name: '*/master']],
+					doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'CloneOption', depth: 1, noTags: true, reference: '', shallow: true, timeout: 120]], 
+					submoduleCfg: [],userRemoteConfigs: [[credentialsId: 'e212babc-0713-415a-9848-da7292bb3718', url:
+					 'http://saas1402fu.saas-secure.com/git/bcephal-utils.git']]])
+				 }
+				 sh ('ls')
+				 
+				 dir('bcephal-sso'){
+					  checkout([$class: 'GitSCM', branches: [[name: '*/master']],
+					doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'CloneOption', depth: 1, noTags: true, reference: '', shallow: true, timeout: 120]], 
+					submoduleCfg: [],userRemoteConfigs: [[credentialsId: 'e212babc-0713-415a-9848-da7292bb3718', url:
+					 'http://saas1402fu.saas-secure.com/git/bcephal-sso.git']]])
+				 }
+				 sh ('ls')
+				 dir('bcephal-integration-service'){
+					checkout([$class: 'GitSCM', branches: [[name: '*/master']],
+					doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'CloneOption', depth: 1, noTags: true, reference: '', shallow: true, timeout: 120]], 
+					submoduleCfg: [],userRemoteConfigs: [[credentialsId: 'e212babc-0713-415a-9848-da7292bb3718', url:
+					 'http://saas1402fu.saas-secure.com/git/bcephal-initiation-service.git']]])
+				 }
+			 }
+        }
+        stage('Build') {
+		
+            steps {	
+			 dir('bcephal-integration-service'){
+            	sh 'chmod +x gradlew'                
+                gradlew('clean', 'assemble')
+				sh 'ls build/libs/'
+				}
+            }
+        }
+		
+        //stage('SonarQube analysis') {
+            //steps {	
+            	//withSonarQubeEnv('SonarQube') {
+                  //  gradlew('sonarqube')
+               // }
+            //}
+        //}       
+        
+       
+		//stage('Assemble') {
+         //   steps {
+         //       gradlew('assemble')
+          //      stash includes: '**/build/libs/*.jar', name: 'app'
+          //  }
+        //}
+		 stage('Docker build image') {
+            steps {
+               dockerCmd "build -t bcephal-integration-service-docker-image:${env.BUILD_NUMBER} ."
+            //   dockerCmd "save -o=bcephal-integration-service-docker-image-${env.BUILD_NUMBER}.tar bcephal-integration-service-docker-image:${env.BUILD_NUMBER}"
+           }
+        }
+		stage('Docker tag image latest') {
+          steps {
+           dockerCmd "tag bcephal-integration-service-docker-image:${env.BUILD_NUMBER}  bcephal-integration-service-docker-image:latest "
+               
+           }
+       }
+	    stage('Docker tag ') {
+          steps {
+           dockerCmd "tag bcephal-integration-service-docker-image localhost:5000/bcephal-integration-service-docker-image "
+               
+           }
+         }
+	    stage('Docker push image latest') {
+           steps {
+              dockerCmd "push localhost:5000/bcephal-integration-service-docker-image"
+               
+            }
+        }
+		//stage('Docker run image') {
+          // steps {
+			
+            // dockerCmd "run  -tid -p 8006:8080  -v /opt/bcephal-integration-repository:/opt/bcephal-integration-repository -v /opt/bcephal-data:/opt/bcephal-data --env HOST_ADDRESS=${IP_HOST_ADDRESS} --name  bcephal-integration-service  bcephal-integration-service-docker-image"
+         //  sh 'docker ps'  
+         // }
+       // }
+		stage('Deploy app'){
+			steps{
+			
+					script{
+						kubernetesDeploy(configs:"deployment-integration-service.yml ", kubeconfigId:"kubeconfiguration")
+						
+					
+					}
+				
+			}
+		}
+	}
+    post {
+        failure {
+            mail to: 'jwambo@moriset.com', subject: 'B-Cephal integration microservice build failed', body: 'B-Cephal integration microservice build failed.\nPlease fix!'
+        }
+    }
+}
+
+def gradlew(String... args) {
+    sh "./gradlew ${args.join(' ')} -s"
+}
+
+def dockerCmd(args) {
+    sh "echo ${tool 'CustomeDocker'}"
+    sh "echo ${env.DOCKER_HOST}"
+    sh "${tool 'CustomeDocker'}/bin/docker ${args}"
+}

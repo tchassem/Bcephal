@@ -1,0 +1,92 @@
+﻿
+
+@GridMappingConfigurationContent
+
+<CreateDimensionComponent @key="@(Guid.NewGuid().ToString("d"))"
+                          C="HierarchicalData"
+                          HeaderTitle="@AppState["DimensionCreation"]"
+                          ShowDimensionSelection="true"
+                          @bind-PopupVisible=Visible
+                          Measures=EditorData.Measures
+                          Periods=EditorData.Periods
+                          Models=EditorData.Models />
+
+@code {
+
+
+    public RenderFragment GridMappingConfigurationContent => __builder =>
+     {
+        if (EditorData != null && EditorData.Item.FileLoaderMethod != null && EditorData.Item.FileLoaderMethod.IsNewGrid())
+        {
+            <CardComponent ShouldRender_="true" CardCssClass="p-0 m-0 h-100 border-0" HeaderCssClass="bc-header-height bc-header-2 d-flex flex-column  p-0 m-0 ">
+                <Header>
+                    <span class="ml-1 mt-auto mb-auto">@AppState["GridMappingConfiguration"]</span>
+                </Header>
+                <ChildContent>
+                    @RenderMappingConfigContent
+                </ChildContent>
+            </CardComponent>
+          }
+    };
+
+
+ public RenderFragment RenderMappingConfigContent => __builder =>
+ {
+    <CardComponent ShouldRender_="true" CardCssClass="p-0 m-0 h-100 border-0" HeaderCssClass="bc-header-height bc-header-3 d-flex flex-column p-0 m-0">
+        <Header>
+            <span class="ml-1 mt-auto mb-auto">@AppState["Mapping"]</span>
+        </Header>
+        <ChildContent>
+            <DxStackLayout Orientation="Orientation.Vertical" CssClass="w-100 h-100 bc-box-sizing">
+                <Items>
+                    <DxStackLayoutItem Length="3fr" CssClass="bc-box-sizing">
+                        <Template>
+                            @if (EditorData != null)
+                                   {
+                                <FileLoaderNewGrilleBrowser @ref="FileLoaderNewGrilleBrowserRef"
+                                    Entities=Entities
+                                    @bind-EditorDataFileLoader=EditorData
+                                    loadedFiles="loadedFiles"
+                                    Columns="Columns"
+                                    AllowToDisplayCustomPager="false" />
+                                   }
+                        </Template>
+                    </DxStackLayoutItem>
+                    <DxStackLayoutItem Length="0.2fr" CssClass="bc-box-sizing">
+                        <Template>
+                            <div class="d-flex flex-row align-items-center justify-content-center m-2">
+                                <DxToolbar ItemRenderStyleMode="ToolbarRenderStyleMode.Plain">
+                                    <Items>
+                                        <DxToolbarItem @ref="BtnRefresh" Enabled=CanRefreshMappingGrid Text="@AppState["Refresh"]" Alignment="ToolbarItemAlignment.Right" Tooltip="@AppState["Refresh"]"
+                                                       style="border-color: var(--bc-listbox-selected-refresh-color); background-color: var(--bc-listbox-selected-refresh-color); color:black;"
+                                                       IconCssClass="bi bi-arrow-repeat" Click="RefreshGrid" />
+                                    </Items>
+                                </DxToolbar>
+                            </div>
+                        </Template>
+                    </DxStackLayoutItem>
+                </Items>
+            </DxStackLayout>
+        </ChildContent>
+    </CardComponent>
+   };
+
+   public RenderFragment RenderValuesFormatContent => __builder =>
+   {
+        <CardComponent ShouldRender_="true" CardCssClass="p-0 m-0 h-100 border-0" HeaderCssClass="bc-header-height bc-header-3 d-flex flex-column p-0 m-0">
+            <Header>
+                <span class="ml-1 mt-auto mb-auto">@AppState["Values&Format"]</span>
+            </Header>
+            <ChildContent>
+                <DxTabs ScrollMode="TabsScrollMode.Auto">
+                    <DxTabPage Text="@AppState["Value"]">
+
+                    </DxTabPage>
+                    <DxTabPage Text="@AppState["Format"]">
+
+                    </DxTabPage>
+                </DxTabs>
+            </ChildContent>
+        </CardComponent>
+    };
+}

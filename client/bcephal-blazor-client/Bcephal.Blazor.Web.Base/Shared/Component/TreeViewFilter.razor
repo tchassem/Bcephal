@@ -1,0 +1,90 @@
+﻿@typeparam C
+@{
+    DivRefId = Guid.NewGuid().ToString("d");
+}
+<div class="d-flex flex-column m-0 p-0 w-100">
+    <div class="treefilter-container  w-100 mt-auto mb-auto p-0 hv" style="display: @(buttonHide ? "block" : "none");">
+        <div class=" w-100 m-0 p-0" id="@ViewIdButton" bcephal-id="@DivRefId" @ref="DivRef" @key="DivRefId">
+            @if (!TextBox)
+            {
+                var style = "overflow:hidden;text-overflow:ellipsis; white-space:nowrap;width:100%";
+                <ComponentRow Item1Width="calc(100% - 25px)" Item2Width="25px" CssClass="w-100 h-100 m-0 p-0 btn-treeview-event">
+                    <Item1>
+                        <ComponentRow Item1Width="calc(100% - 25px)" Item2Width="25px" CssClass="w-100 h-100 m-0 p-0">
+                            <Item1>
+                                @if (Contenteditable)
+                                {
+                                <div contenteditable=@Contenteditable class="w-100 h-100 pl-1 pr-1" data-toggle="tooltip" title=@SelectedItem style=@style @onkeyup="KeyHandler">@SelectedItem</div>
+                                }
+                                else
+                                {
+                                    <div class="w-100 h-100 pl-1 pr-1" style=@style @onkeyup="KeyHandler" data-toggle="tooltip" title=@SelectedItem  @onclick="clickEvent">@SelectedItem</div>
+                                }
+                            </Item1>
+                            <Item2>
+                                <span class="w-100 h-100" @onclick="OpenSearchItem" data-toggle="tooltip" title=@AppState["search"]>
+                                    <i class="fa h-100 fa-search ml-auto mr-1" />
+                                </span>
+                            </Item2>
+                        </ComponentRow>
+                    </Item1>
+                    <Item2>
+                        <span class="w-100 h-100" @onclick="clickEvent">
+                            <i  class="fa fa-chevron-down h-100 mr-auto ml-1" />
+                        </span>
+                    </Item2>
+                </ComponentRow>
+            }
+            else
+            {
+                <DxComboBox Enabled=Editable
+                            @ref="DxComboBoxRef"
+                            Data="@ItemsFilters"
+                            TData="C"
+                            TValue="C"
+                            InputId=@InputId
+                            @attributes="@(new Dictionary<string, object> {{"autocomplete",true }})"
+                            SelectedItemChanged="SelectedItemChanged"
+                            FilteringMode="DataGridFilteringMode.StartsWith"
+                            TextFieldName="@nameof(HierarchicalData.Name)">
+
+                </DxComboBox>
+            }
+        </div>
+    </div>
+    <DxDropDown  @bind-IsOpen="IsOpen" @ref="DxDropDownRef"
+                PositionMode="DropDownPositionMode.Bottom"
+                Width="max(25vw, 250px)"
+                MinHeight="200px"
+                MaxHeight="200px"
+                FooterVisible="true"
+                HeaderVisible="false"
+                CloseMode="DropDownCloseMode.Close"
+                PositionTarget=@PositionTarget>
+        <BodyTemplate>
+            <div class="card treeview p-0 bc-body-treeview" style="display:block;">
+                <DxTreeView @ref="DxTreeViewRef" 
+                    AllowSelectNodes="true"
+                    @bind-Visible="IsOpen"
+                    Data="@ItemsFilters"
+                    TextExpression="((item) => ((C)item).Name )"
+                    SelectionChanged="OnSelectFilterItemChanged"
+                    ChildrenExpression="((item) => TreeViewChildrenExpression(item))"
+                    ShowExpandButtons="@ShowExpandButton">
+                </DxTreeView>
+              
+            </div>
+        </BodyTemplate>
+        <FooterTemplate>
+            <div class="d-flex align-items-center bc-footer-treeview">
+                <DxButton Text=@Btn_Text style="color: #8497b0!important; text-decoration:underline !important;" CssClass="ml-auto w-50"
+                          RenderStyle="ButtonRenderStyle.None"
+                          SizeMode="SizeMode.Small" Click="ShowPopup">
+                </DxButton>
+            </div>
+        </FooterTemplate>
+    </DxDropDown>
+</div>
+
+
+<CreateDimensionComponent @key="@(Guid.NewGuid().ToString("d"))" C=C  CanRebuildTreeItemsFilter=CanRebuildTreeItemsFilter  DimensionType_=DimensionType_  @bind-Items=ItemsFilter HeaderTitle=@Btn_Text @ref="CreateDimComponent" @bind-PopupVisible="CanShowAddPopup" />

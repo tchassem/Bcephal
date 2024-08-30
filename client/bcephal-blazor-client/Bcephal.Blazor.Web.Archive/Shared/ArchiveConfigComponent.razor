@@ -1,0 +1,99 @@
+﻿@if (EditorData != null)
+{
+    <DxLayoutBreakpoint DeviceSize="DeviceSize.Medium | DeviceSize.Small | DeviceSize.XSmall" @bind-IsActive="IsSmallScreen" />
+    <DxStackLayout CssClass="w-100 h-100" Orientation="@(IsSmallScreen ? Orientation.Vertical : Orientation.Horizontal)" ItemSpacing="15px">
+        <Items>
+            <DxStackLayoutItem CssClass="w-75" Length="auto">
+                <Template>
+                    <DxStackLayout CssClass="w-100 m-2" Orientation=Orientation.Vertical>
+                        <Items>
+                            <DxStackLayoutItem Length="auto">
+                                <Template>
+                                    @foreach (var enrichmentItem in EditorData.Item.EnrichmentItemListChangeHandler.GetItems())
+                                    {
+                                        <div class="d-flex flex-row py-1 w-auto" style="box-sizing:border-box;">
+                                            <div class="common-elt" style="min-width: 180px;">
+
+                                                <DxComboBox Data=DimensionItems
+                                                            NullText="@enrichmentItem.Type.ToString()"
+                                                            @bind-Value="enrichmentItem.Type"
+                                                            Enabled="false" />
+                                            </div>
+                                            @if (enrichmentItem.Type.Equals(DimensionType.MEASURE))
+                                            {
+                                                <div class="common-elt" style="min-width: 100px;">
+
+                                                    <MeasureFilterItemComponent modelmeasure="GetMeasureFilterItem(enrichmentItem)"
+                                                                                Measures_="MeasureItems_"
+                                                                                Editable=Editable
+                                                                                ShouldRender_="true"
+                                                                                ExpandField="true"
+                                                                                removeButton="true"
+                                                                                DisplayCloseBrackets="false"
+                                                                                DisplayFilterVerb_="false"
+                                                                                DisplayOpenBrackets="false"
+                                                                                DisplayOperator="false"
+                                                                                ItemCallback="@((Item) => ArchiveConfigEnrichmentUpdateMeasureHandler(enrichmentItem, Item))"
+                                                                                OnClickRemove="@(() => ArchiveConfigEnrichmentDeleteHandler(enrichmentItem))">
+                                                    </MeasureFilterItemComponent>
+
+                                                </div>
+                                            }
+                                            else
+                                               if (enrichmentItem.Type.Equals(DimensionType.PERIOD))
+                                            {
+                                                <div class="common-elt" style="min-width: 100px;">
+                                                    <PeriodFilterItemComponent periodFilterItem="GetPeriodFilterItem(enrichmentItem)"
+                                                                               Periods_="PeriodsItems_"
+                                                                               Editable=Editable
+                                                                               ShouldRender_="true"
+                                                                               ExpandField="true"
+                                                                               DisplaySecondItem="false"
+                                                                               removeButton="true"
+                                                                               ItemCallback="@((Item) => ArchiveConfigEnrichmentUpdatePeriodHandler(enrichmentItem, Item))"
+                                                                               OnClickRemove="@(() => ArchiveConfigEnrichmentDeleteHandler(enrichmentItem))">
+
+                                                    </PeriodFilterItemComponent>
+                                                </div>
+                                            }
+                                            else
+                                                if (enrichmentItem.Type.Equals(DimensionType.ATTRIBUTE))
+                                                {
+                                                    <div class="common-elt" style="min-width: 100px;">
+
+                                                        <InputFilter modelattribute="GetAttributeFilterItem(enrichmentItem)"
+                                                                     EntityItems="Entities"
+                                                                     ExpandField="true"
+                                                                     Editable=Editable
+                                                                     removeButton="true"
+                                                                     ShouldRender_="true"
+                                                                     DisplayFilterVerbs="false"
+                                                                     ItemCallback="@((Item) => ArchiveConfigEnrichmentUpdateAttributeHandler(enrichmentItem, Item))"
+                                                                     OnClickRemove="@(() => ArchiveConfigEnrichmentDeleteHandler(enrichmentItem))">
+
+                                                        </InputFilter>
+                                                    </div>
+                                                }
+                                        </div>
+                                    }
+                                </Template>
+                            </DxStackLayoutItem>
+                            <DxStackLayoutItem Length="auto">
+                                <Template>
+                                    <div class="filter-elt d-flex flex-column py-1" style="min-width: 180px;">
+                                        <DxComboBox Enabled=Editable Data="DimensionItems"
+                                                    TData="string"
+                                                    NullText="@AppState["select.type"]"
+                                                    TValue="string"
+                                                    ValueChanged=@((t) => ArchiveConfigEnrichmentHandler(t)) 
+                                                    ClearButtonDisplayMode="DataEditorClearButtonDisplayMode.Auto"/>
+                                    </div>
+                                </Template>
+                            </DxStackLayoutItem>
+                        </Items>
+                    </DxStackLayout>
+                </Template>
+            </DxStackLayoutItem>
+        </Items>
+    </DxStackLayout>
+}

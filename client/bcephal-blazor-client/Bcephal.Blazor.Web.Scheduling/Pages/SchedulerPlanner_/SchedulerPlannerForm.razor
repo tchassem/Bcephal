@@ -1,0 +1,55 @@
+﻿@page "/scheduler/planner/"
+@page "/scheduler/planner/{Id:long}"
+
+@inherits Form<SchedulerPlanner, SchedulerPlannerBrowserData>
+
+@{
+    base.BuildRenderTree(__builder);
+}
+
+@code {
+
+
+    public override RenderFragment LeftContent => __builder =>
+    {
+        if (EditorData != null)
+        {
+        <DxTabs CssClass="m-0 p-0  bc-tab-h-100" @bind-ActiveTabIndex=ActiveTabIndex ScrollMode="TabsScrollMode.Auto">
+            <DxTabPage Text="@AppState["Description"]" CssClass="m-0 p-0 h-100">
+                <div style="height: calc(100% - var(--bc-tab-header-height));">
+                    @SchedulerPlannerComponent
+                </div>
+            </DxTabPage>
+            <DxTabPage Text=@AppState["Scheduling"] CssClass="m-0 p-0 h-100">
+                <div style="height: calc(100% - var(--bc-tab-header-height));">
+
+                </div>
+            </DxTabPage>
+            <DxTabPage Text="@AppState["Logs"]" CssClass="m-0 p-0 h-100">
+                <div style="height: calc(100% - var(--bc-tab-header-height));">
+                    @SchedulerPlannerLogs
+                </div>
+            </DxTabPage>
+        </DxTabs>
+        }
+    };
+
+    public override RenderFragment RightContent => RightContent___;
+
+    public RenderFragment RightContent___ => __builder =>
+    {
+      <GridItemInfos T="SchedulerPlanner" @bind-EditorData="EditorData" Editable=Editable DisplayGroup="true" DisplayVisibleInShortcut="true" />   
+    };
+
+    public RenderFragment SchedulerPlannerComponent => __builder =>
+    {
+<SchedulerPlannerComponent @bind-EditorData=@EditorData Editable=@Editable />
+};
+
+public RenderFragment SchedulerPlannerLogs => __builder =>
+{
+<SchedulerPlannerLogs EditorData="@EditorDataBinding" />
+};
+
+
+}

@@ -1,0 +1,46 @@
+﻿
+<DxStackLayout CssClass="mt-1 w-50" Orientation="Orientation.Horizontal" >
+    <Items>
+        <DxStackLayoutItem CssClass="ml-1" Length="1fr">
+            <Template>
+                <DxComboBox Data="GetEditorData().Routines"
+                            TData="Nameable"
+                            TValue="Nameable"
+                            @bind-Value=@Name>
+                </DxComboBox>
+            </Template>
+        </DxStackLayoutItem>
+        <DxStackLayoutItem CssClass="ml-1 mr-1 w-80" Length="1fr">
+            <Template>
+                <DxComboBox Data=@RoutineExectorTypes
+                            @bind-Value=@Type_>
+                </DxComboBox>
+            </Template>
+        </DxStackLayoutItem>
+        @if (IsNew)
+        {
+            <DxStackLayoutItem CssClass="mr-1" Length="0.05fr" />
+        }
+
+        @if (!IsNew)
+        {
+            <DxStackLayoutItem Length="0.05fr">
+                <Template>
+                    <DxButton IconCssClass="fa fa-remove" RenderStyleMode="ButtonRenderStyleMode.Text"
+                              RenderStyle="ButtonRenderStyle.Danger"
+                              Click=DeleteItem>
+                    </DxButton>
+                </Template>
+            </DxStackLayoutItem>
+        }
+        <DxStackLayoutItem CssClass="mr-1" Length="2fr" />
+    </Items>
+</DxStackLayout>
+
+
+@code{ 
+
+   
+
+}
+

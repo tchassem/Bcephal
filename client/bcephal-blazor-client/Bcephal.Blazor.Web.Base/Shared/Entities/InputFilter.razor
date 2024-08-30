@@ -1,0 +1,75 @@
+
+<div class="d-flex flex-row pt-1 w-auto" style="box-sizing: border-box; margin-top: -4px;">
+
+    <div class="common-elt" style="display:@display; min-width:70px; width:@( (7000/700.0).ToString("N", new CultureInfo("en-US")) + "%" );">
+        <DxComboBox Enabled=Editable Data="@FilterUtils.OpenBrackets"
+                    @bind-Value="@OpenBrackets"
+                    SizeMode="SizeMode.Small" CssClass="w-100" />
+    </div>
+
+    @if (DisplayFilterVerbs)
+    {
+        <div class="common-elt" style="display:@display2; min-width:70px; width:@( (7000/700.0).ToString("N", new CultureInfo("en-US")) + "%" );">
+            <DxComboBox Enabled=Editable Data="FilterVerbs" NullText=""
+                        @bind-Value="@FilterVerb_" SizeMode="@SizeMode" CssClass="w-100" />
+        </div>
+    }
+
+    @if (DisplayTreeViewFilterRender)
+    {
+        @TreeViewFilterRender
+    }
+
+
+
+    <div class="common-elt" style="display:@display; min-width:60px; width:@( (6000/700.0).ToString("N", new CultureInfo("en-US")) + "%" );">
+        <DxComboBox Enabled=Editable Data="FilterUtils.CloseBrackets"
+                    @bind-Value="@CloseBrackets"
+                    SizeMode="SizeMode.Small"
+                    CssClass="w-100" />
+    </div>
+    <div class="common-elt" style="display:@display; min-width:100px; width: @( (10000/700.0).ToString("N", new CultureInfo("en-US")) + "%" );">
+        <DxComboBox Enabled=Editable Data="AttributeOperators"
+                    @bind-Value="@Operator_"
+                    SizeMode="@SizeMode"
+                    CssClass="w-100" />
+    </div>
+    @if (modelattribute.Operator != AttributeOperator.NOT_NULL && modelattribute.Operator != AttributeOperator.NULL)
+    {
+        <div class="common-elt " style="display:@display2; min-width:150px; width: @( (15000/700.0).ToString("N", new CultureInfo("en-US")) + "%" );">
+            <DxTextBox ReadOnly=!Editable CssClass="w-100" @bind-Text="Value" BindValueMode="BindValueMode.OnLostFocus" @ondblclick="@(() => OpenDialog())"></DxTextBox>
+        </div>
+    }
+    <div style="display:@((removeButton == true)? "block": "none")">
+        <div class="d-flex flex-row ml-1 h-100" style="display:@display2;min-width:50px; ">
+            <DxButton Enabled=Editable IconCssClass="fa fa-remove"
+                      CssClass="mt-auto mb-auto"
+                      RenderStyleMode="ButtonRenderStyleMode.Text"
+                      RenderStyle="ButtonRenderStyle.Danger"
+                      Click="@(() => OnClickRemove.InvokeAsync(modelattribute))">
+            </DxButton>
+        </div>
+    </div>
+
+
+</div>
+
+<Bcephal.Blazor.Web.Base.Shared.Entities.ModalAttributeValue @ref="ModalAttributeValueRef" ValueTextChanged=ValueTextChanged @bind-Show=Show AttributeId=modelattribute.DimensionId />
+
+
+@code {
+
+public RenderFragment TreeViewFilterRender => __builder =>
+{//@key=key
+<div class="filter-elt d-flex flex-column" style="min-width: 200px; width: @((!removeButton) ? "100%":  (20000/700.0).ToString("N", new CultureInfo("en-US")) + "%" ) ;">
+    <TreeViewFilter Editable=Editable 
+                    C="Bcephal.Models.Base.HierarchicalData"
+                    ItemsFilter="EntityItems"
+                    SelectFilterItemCallback="AttributeChanged"
+                    SelectedItem=@modelattribute.DimensionName>
+    </TreeViewFilter>
+</div>
+};
+
+
+}

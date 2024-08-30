@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bcephal-billing-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bcephal-billing-service
+    
+  template:
+    metadata:
+      labels:
+        app: bcephal-billing-service
+    spec:
+      volumes:
+      - name: bcephal-billing-repository
+        hostPath:
+          path: /opt/bcephal-billing-repository
+      containers:
+      - name: bcephal-billing-service
+        image: localhost:5000/becphal-billing-service-docker-image
+        volumeMounts:
+        - name: bcephal-billing-repository
+          mountPath: /opt/bcephal-billing-repository
+
+        ports:
+        - containerPort: 32005 
+        
+        
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: bcephal-billing-service
+spec:
+  selector:
+    app: bcephal-billing-service
+  type: NodePort
+  ports:  
+    - name: http
+      nodePort: 32005
+      port: 32005
+      targetPort: 32005
+      protocol: TCP
+   
+  
+  
+
+
+  
+

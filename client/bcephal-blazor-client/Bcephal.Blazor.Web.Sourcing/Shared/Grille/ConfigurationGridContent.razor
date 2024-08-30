@@ -1,0 +1,61 @@
+﻿@SplitterPanelContent
+
+<div>
+    <DxContextMenu CssClass="DxContextMenuCss" @ref="@DxContextMenu_" ItemClick="OnItemClick">
+        <Items>
+            <DxContextMenuItem IconCssClass="ml-1 bi-x" Text="@AppState["remove"]" />
+            <DxContextMenuItem IconCssClass="ml-1 bi-input-cursor-text" Text="@AppState["Rename"]" />
+            <DxContextMenuItem IconCssClass="ml-1 bi-align-top" Text="@AppState["Move.start"]" />
+            <DxContextMenuItem IconCssClass="ml-1 bi-arrow-up" Text="@AppState["Move.up.upper"]" />
+            <DxContextMenuItem IconCssClass="ml-1 bi-arrow-up-short" Text="@AppState["Move.up"]" />
+            <DxContextMenuItem IconCssClass="ml-1 bi-arrow-down-short" Text="@AppState["Move.down"]" />
+            <DxContextMenuItem IconCssClass="ml-1 bi-arrow-down" Text="@AppState["Move.down.upper"]" />
+            <DxContextMenuItem IconCssClass="ml-1 bi-align-bottom" Text="@AppState["Move.end"]" />
+        </Items>
+    </DxContextMenu>
+</div>
+
+@code{
+    public RenderFragment CustomListBoxContent =>
+      __builder =>
+      {
+    <CustomListBox Editable=Editable_ Data="@Items"
+                   HeaderTitle="@AppState["Grid.edit.columns"]"
+                   @bind-Values="@GrilleColumns"
+                   showContextMenu="showContextMenu_"
+                   TData="GrilleColumn"
+                   TValue="GrilleColumn"
+                   FieldName="@nameof(GrilleColumn.Name)">
+    </CustomListBox>
+    };
+
+  public RenderFragment SplitterPanelContent => __builder =>
+  {      
+    <SplitterPanel Panes="new List<RenderFragment>() {CustomListBoxContent,GridColumnComponentTagContent  }"
+               LeftSize="1"
+               RightSize="2" />
+  };
+
+  public RenderFragment GridColumnComponentTagContent => __builder =>
+  {
+<DxStackLayout CssClass="m-0 p-0 w-100 h-100" Orientation="Orientation.Vertical">
+    <Items>
+        <DxStackLayoutItem CssClass="m-0 p-0 w-100 h-100" Length="100%">
+            <Template>
+                <CardComponent ShouldRender_="true" CanDisplayHeader="true" CardCssClass="m-0 p-0 w-100 h-100 border-0" HeaderCssClass="m-0 p-0 bc-header-2 bc-header-height bc-text-align">
+                    <Header>
+                        <span class="text-left ml-1">
+                            <i class="mr-1 ml-1 mt-auto mb-auto "></i>
+                            @AppState["Gridcolumn.column.properties"]
+                        </span>
+                    </Header>
+                    <ChildContent>
+                        <GridColumnComponentTag @key="@(new Guid().ToString("d"))" Editable=Editable_ @bind-GrilleColumn=GrilleColumn_ grilleType=EditorData.Item.Type ItemsCount="Items.Count" />
+                    </ChildContent>
+                </CardComponent>
+            </Template>
+        </DxStackLayoutItem>
+    </Items>
+</DxStackLayout>
+  };
+}

@@ -1,0 +1,128 @@
+﻿
+@if (EditorData != null)
+{
+    @RenderItem
+
+}
+
+@code {
+
+    private RenderFragment RenderDeleteItem => __builder =>
+   {
+        <DxButton IconCssClass="fa fa-remove" 
+                  CssClass="mt-auto mb-auto"
+                  RenderStyleMode="ButtonRenderStyleMode.Text"
+                  RenderStyle="ButtonRenderStyle.Danger"
+                  Click="(() => DeleteItem(JoinColumnConcatenateItem))">
+        </DxButton>
+};
+
+ private RenderFragment RenderItem => __builder =>
+     {
+
+    <DxStackLayout Orientation="Orientation.Horizontal" CssClass="m-2" ItemSpacing="4px">
+        <Items>
+            <DxStackLayoutItem Length="91%">
+                <Template>
+                    <DxStackLayout Orientation="Orientation.Horizontal" ItemSpacing="4px" CssClass="w-100">
+                        <Items>
+                            <DxStackLayoutItem Length="32%">
+                                <Template>
+                                    <DxComboBox Data=@JoinColumnConcatenateItem.Field.JoinColumnType.GetAllTypePeriods(text => AppState[text])
+                                                TData="string"
+                                                TValue="string"
+                                                NullText="@AppState["select.type"]"
+                                                @bind-Value=ColumnType
+                                                Enabled="Editable">
+                                    </DxComboBox>
+                                </Template>
+                            </DxStackLayoutItem>
+                            @if (JoinColumnConcatenateItem != null
+                               && JoinColumnConcatenateItem.Field != null
+                               && JoinColumnConcatenateItem.Field.JoinColumnType != null
+                               && !string.IsNullOrWhiteSpace(JoinColumnConcatenateItem.Field.Type)
+                               && JoinColumnConcatenateItem.Field.JoinColumnType.IsFree())
+                                {
+                                <DxStackLayoutItem Length="32%">
+                                    <Template>
+                                        <DxTextBox ReadOnly="!Editable" @bind-Text=StringValue />
+                                    </Template>
+                                </DxStackLayoutItem>
+                                }
+                                else if (JoinColumnConcatenateItem != null
+                            && JoinColumnConcatenateItem.Field != null &&
+                            JoinColumnConcatenateItem.Field.JoinColumnType != null
+                            && !JoinColumnConcatenateItem.Field.JoinColumnType.IsCopy())
+                                {
+                                <DxStackLayoutItem Length="32%">
+                                    <Template>
+                                        <DxComboBox Data=EditorData.Item.GridListChangeHandler.Items
+                                                    TData="JoinGrid"
+                                                    TValue="JoinGrid"
+                                                    TextFieldName="Name"
+                                                    NullText="@AppState["SelectGrid"]"
+                                                    @bind-Value=JoinGrid_
+                                                    Enabled="Editable">
+                                        </DxComboBox>
+                                    </Template>
+                                </DxStackLayoutItem>
+                                }
+
+                            @if (JoinColumnConcatenateItem != null
+                               && JoinColumnConcatenateItem.Field != null
+                               && JoinColumnConcatenateItem.Field.JoinColumnType != null
+                               && JoinColumnConcatenateItem.Field.JoinColumnType.IsCopy())
+                                {
+                                <DxStackLayoutItem @key="@(Guid.NewGuid().ToString("d"))" Length="32%">
+                                    <Template>
+                                        <DxComboBox Data=@EditorData.Item.ColumnListChangeHandler.Items.Where(x => x.IsPersistent == true && x.Type.Equals(DimensionType.ATTRIBUTE))
+                                                    TData="JoinColumn"
+                                                    TValue="JoinColumn"
+                                                    TextFieldName="Name"
+                                                    NullText="@AppState["select.column"]"
+                                                    @bind-Value=SelectedJoinColumn
+                                                    Enabled="Editable">
+                                        </DxComboBox>
+                                    </Template>
+                                </DxStackLayoutItem>
+                                }
+                            @if (JoinColumnConcatenateItem != null
+                               && JoinColumnConcatenateItem.Field != null
+                               && JoinColumnConcatenateItem.Field.JoinColumnType != null
+                               && JoinColumnConcatenateItem.Field.JoinColumnType.IsColumn())
+                                {
+                                @if (JoinGrid_ != null && JoinGrid_.GridId.HasValue)
+                                    {
+                                    <DxStackLayoutItem @key="@(Guid.NewGuid().ToString("d"))" Length="32%">
+                                        <Template>
+                                            <DxComboBox Data=GetColumns()
+                                                        TData="SmallGrilleColumn"
+                                                        TValue="SmallGrilleColumn"
+                                                        TextFieldName="Name"
+                                                        NullText="@AppState["select.column"]"
+                                                        @bind-Value=SelectedColumn
+                                                        Enabled="Editable">
+                                            </DxComboBox>
+                                        </Template>
+                                    </DxStackLayoutItem>
+                                    }
+                                }
+                        </Items>
+                    </DxStackLayout>
+                </Template>
+            </DxStackLayoutItem>
+            <DxStackLayoutItem Length="8%" CssClass="min-w-30">
+                <Template>
+                    @if (!IsNew)
+                        {
+                        @RenderDeleteItem
+                        }
+                </Template>
+            </DxStackLayoutItem>
+        </Items>
+    </DxStackLayout>
+
+    };
+
+
+}

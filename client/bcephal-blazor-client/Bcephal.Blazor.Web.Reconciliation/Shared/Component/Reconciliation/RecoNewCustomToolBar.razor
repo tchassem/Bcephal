@@ -1,0 +1,97 @@
+﻿
+@bodyContent
+
+<BaseModalComponent @bind-ShowModal=ShowConfirmedResetPopup Title="@AppState["Resetting"]" OkHandler=ResetEvent IsConfirmation=@IsConfirmation>
+    @RenderConfirmDialoag
+</BaseModalComponent>
+
+@code {
+    string CssClass = "mt-0 mb-0 pt-0 pb-0";
+    public RenderFragment DxToolbarContent => __builder =>
+    {
+    <DxToolbar DropDownDisplayMode="DropDownDisplayMode.Auto"
+               AdaptivityMinRootItemCount="1" AdaptivityAutoHideRootItems="true" AdaptivityAutoCollapseItemsToIcons="true"
+               ItemRenderStyleMode="ToolbarRenderStyleMode.Contained" CssClass="d-flex flex-column h-100 m-0 p-0">
+        <Items>
+            <DxToolbarItem @bind-Visible=CanFreeze Name="" CssClass=@CssClass
+                           IconCssClass="bi bi-lock"
+                           Tooltip="@AppState["Freeze"]" Alignment="ToolbarItemAlignment.Right" Click=RunFreeze />
+            <DxToolbarItem @bind-Visible=CanUnFreeze Name="" CssClass=@CssClass
+                           IconCssClass="bi bi-unlock"
+                           Tooltip="@AppState["UnFreeze"]" Alignment="ToolbarItemAlignment.Right" Click=RunUnFreeze />
+            <DxToolbarItem @bind-Visible=CanNeutralization Name="" CssClass=@CssClass
+                           IconCssClass="bi bi-cloud-arrow-down"
+                           Tooltip="@AppState["Neutralization"]" Alignment="ToolbarItemAlignment.Right" Click=Neutralization />
+            <DxToolbarItem @bind-Visible=CanUnNeutralization Name="" CssClass=@CssClass
+                           IconCssClass="bi bi-cloud-arrow-up"
+                           Tooltip="@AppState["UnNeutralization"]" Alignment="ToolbarItemAlignment.Right" Click=UnNeutralization />
+            <DxToolbarItem @bind-Visible=CanRun Name="" CssClass=@CssClass
+                           IconCssClass="bi bi-caret-right"
+                           Tooltip="@AppState["Run"]" Alignment="ToolbarItemAlignment.Right" Click=RunEvent />
+            <DxToolbarItem @bind-Visible=CanReset Name="" CssClass=@CssClass
+                           IconCssClass="bi bi-reply-fill"
+                           Tooltip="@AppState["Reset"]" Alignment="ToolbarItemAlignment.Right" Click=ConfirmReset />
+            <DxToolbarItem @bind-Visible=CanDelete Name="" CssClass=@CssClass IconCssClass="bi bi-trash"
+                           Tooltip="@AppState["clear.grid"]" Alignment="ToolbarItemAlignment.Right"
+                           Click=ClearGridEvent />
+        </Items>
+    </DxToolbar>
+    };
+
+    public RenderFragment bodyContent => __builder =>
+        {
+        <div class="d-flex flex-row m-0 p-0 w-100 align-items-center" style="height: 21px;">
+            <div class="@(DisplayToobar ? "w-50": "w-100") h-100 align-items-center">
+                @LeftContent
+            </div>
+            @if (DisplayToobar)
+                {
+                <div class="w-50 h-100 align-items-center">
+                    @DxToolbarContent
+                </div>
+                }
+        </div>
+        };
+
+    public RenderFragment LeftContent => __builder =>
+    {
+    <div class="d-flex flex-row m-0 p-0 w-100 align-items-center overflow-auto" style="min-width:250px;">
+        <div class="pl-1 align-items-center">
+            <span class="pr-1">
+                @AppState[CreditLabel]
+            </span>:
+            <span class="pl-1">
+                @LeftValue
+            </span>
+        </div>
+        <div class="pl-1 align-items-center">
+            <span class="pr-1">
+                @AppState[DebitLabel]
+            </span>:
+            <span class="pl-1">
+                @RightValue
+            </span>
+        </div>
+        <div class="pl-1 align-items-center">
+            <span class="pr-1">
+                @AppState[BalanceLabel]
+            </span>:
+            <span class="pl-1">
+                @BalanceValue
+            </span>
+        </div>
+    </div>
+    };
+
+
+    public RenderFragment RenderConfirmDialoag => __builder =>
+    {
+        <div class="d-flex">
+            <i class="bi-question-circle text-primary align-self-start mr-4" style="font-size: 1.5rem;"></i>
+
+            <div class="align-self-center">
+                <p class="p-0 m-0">@AppState["ResetReCoConfirmation"]</p>
+            </div>
+        </div>
+    };
+}

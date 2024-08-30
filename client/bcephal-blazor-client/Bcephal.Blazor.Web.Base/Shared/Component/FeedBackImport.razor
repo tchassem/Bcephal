@@ -1,0 +1,43 @@
+﻿
+<DxPopup @bind-Visible="@IsLoadedFile"
+         ShowFooter="true"
+         ShowCloseButton="false"
+         MaxWidth="500px"
+         @ref="Popup"
+         HeaderCssClass="font-weight-bold text-uppercase"
+         HeaderText="@AppState["import.FeedBack"]">
+    <Content>
+
+
+        <div class="d-flex flex-column h-100 mt-3 ml-3 mr-3 mb-1" style="justify-content:center; box-sizing:border-box;">
+            <DxFormLayout CssClass="w-100" ItemSizeMode="DevExpress.Blazor.SizeMode.Small">
+                <DxFormLayoutItem CssClass="p-0 m-0" CaptionCssClass="font-weight-normal" Caption="@AppState["ImportProjectData.overwriteExistingProject"]" ColSpanMd="12" ColSpanLg="12" ColSpanSm="12">
+                    <Template>
+                        <DxCheckBox @bind-Checked="overwriteExistingProject" CssClass="w-100"></DxCheckBox>
+                    </Template>
+                </DxFormLayoutItem>
+                <DxFormLayoutItem CssClass="p-0 m-0" CaptionCssClass="font-weight-normal" Caption="@AppState["ImportProjectData.renameExistingProject"]" ColSpanMd="12" ColSpanLg="12" ColSpanSm="12">
+                    <Template>
+                        <DxCheckBox @bind-Checked="renameExistingProject" CssClass="w-100"></DxCheckBox>
+                    </Template>
+                </DxFormLayoutItem>
+                <DxFormLayoutItem CssClass="p-0 m-0" CaptionCssClass="font-weight-normal" Caption="@AppState["ImportProjectData.renameProjectToImport"]" ColSpanMd="12" ColSpanLg="12" ColSpanSm="12">
+                    <Template>
+                        <DxCheckBox @bind-Checked="renameProjectToImport" CssClass="w-100"></DxCheckBox>
+                    </Template>
+                </DxFormLayoutItem>
+                <DxFormLayoutItem CssClass="p-0 m-0" CaptionCssClass="font-weight-normal" Caption="@AppState["ImportProjectData.newProjectName"]" ColSpanMd="12" ColSpanLg="12" ColSpanSm="12" Visible="@(renameExistingProject || renameProjectToImport)">
+                    <Template>
+                        <DxTextBox @bind-Text="newProjectName" BindValueMode="BindValueMode.OnInput" CssClass="w-100"></DxTextBox>
+                    </Template>
+                </DxFormLayoutItem>
+            </DxFormLayout>
+        </div>
+    </Content>
+    <FooterTemplate>
+        <div class="d-flex flex-row mt-auto mb-2">
+            <DxButton CssClass="ml-auto mr-1 wid-200" IconCssClass="oi oi-cloud-upload pr-1" RenderStyle="ButtonRenderStyle.Primary" Text="@AppState["ReImport"]" @onclick="((e) => Transfert())" />
+            <DxButton CssClass="mr-auto ml-1 wid-200" IconCssClass="oi oi-delete pr-1" RenderStyle="ButtonRenderStyle.Danger" Text="@AppState["Close"]" @onclick="@(() => ClosePopup())" />
+        </div>
+    </FooterTemplate>
+</DxPopup>

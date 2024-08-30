@@ -1,0 +1,173 @@
+﻿@if (Item != null)
+{
+    <DxStackLayout CssClass="mb-2 align-items-center bc-box-sizing" Orientation="Orientation.Horizontal" ItemSpacing="2px">
+        <Items>
+            <DxStackLayoutItem CssClass="d-flex justify-content-end mr-2 mt-1" Length="50px">
+                <Template>
+                    @if (!string.IsNullOrEmpty(Item.Type))
+                    {
+                        <span>@Item.Code</span>
+                    }
+                </Template>
+            </DxStackLayoutItem>
+            <DxStackLayoutItem Length="1120px">
+                <Template>
+                    <DxStackLayout Orientation="Orientation.Horizontal" ItemSpacing="2px">
+                        <Items>
+                            <DxStackLayoutItem CssClass="" Length="200px">
+                                <Template>
+                                    <DxComboBox Data="@SchedPlrItemTypeCollection_" @bind-Value="ItemType" />
+                                </Template>
+                            </DxStackLayoutItem>
+                            <DxStackLayoutItem CssClass="ml-1 mt-1" Length="30px" >
+                                <Template>
+                                    <span data-toggle="tooltip" title="@AppState["Active"] ?"><DxCheckBox Enabled=Editable @bind-Checked="@Active" /></span>                                    
+                                </Template>
+                            </DxStackLayoutItem>
+                            @if (!string.IsNullOrEmpty(Item.Type) && Item.ItemType.IsAction())
+                            {
+                                <DxStackLayoutItem CssClass="" Length="410px">
+                                    <Template>
+                                        <SchedulerPlannerItemActionComponent @bind-Action="@Action1" Editable="Editable" SchedulerPlannerEditorData="GetEditorData()" />
+                                    </Template>
+                                </DxStackLayoutItem>
+                            }
+                            @if (!string.IsNullOrEmpty(Item.Type) && Item.ItemType.IsBilling())
+                            {
+                                <DxStackLayoutItem CssClass="" Length="200px">
+                                    <Template>
+                                        <DxComboBox Enabled="Editable" Data="@PlannerEditorData.Billing" TData="Nameable" TValue="Nameable" TextFieldName="@nameof(Nameable.Name)" @bind-Value="@BillingItem" />
+                                    </Template>
+                                </DxStackLayoutItem>
+                            }
+                            @if (!string.IsNullOrEmpty(Item.Type) && Item.ItemType.IsCheck())
+                            {
+                                <DxStackLayoutItem CssClass="" Length="">
+                                    <Template>
+                                        <DxStackLayout ItemSpacing="2px">
+                                            <Items>
+                                                <DxStackLayoutItem Length="208px" CssClass="mr-2">
+                                                    <Template>
+                                                        <DxComboBox Enabled="Editable" Data="@PlannerEditorData.Spots" TData="Nameable" TValue="Nameable" TextFieldName="@nameof(Nameable.Name)" @bind-Value="@SpotItem" />
+                                                    </Template>
+                                                </DxStackLayoutItem>
+                                                <DxStackLayoutItem Length="85px" CssClass="mr-2">
+                                                    <Template>
+                                                        <DxComboBox Enabled="Editable" Data="ItemOperatorCollection_" @bind-Value="@Comparator" />
+                                                    </Template>
+                                                </DxStackLayoutItem>
+                                                <DxStackLayoutItem Length="120px" CssClass="mr-2">
+                                                    <Template>
+                                                        <DxSpinEdit ReadOnly=!Editable @bind-Value="@DecimalValue" T="decimal?" />
+                                                    </Template>
+                                                </DxStackLayoutItem>
+                                                <DxStackLayoutItem CssClass="d-flex flex-column" Length="460px">
+                                                    <Template>
+                                                        <DxStackLayout Orientation="Orientation.Horizontal" CssClass="mb-1" ItemSpacing="2px">
+                                                            <Items>
+                                                                <DxStackLayoutItem CssClass="d-flex justify-content-end align-self-center mr-2" Length="50px">
+                                                                    <Template>
+                                                                        <span class="fs-sm">@AppState["then"]</span>
+                                                                    </Template>
+                                                                </DxStackLayoutItem>
+                                                                <DxStackLayoutItem CssClass="" Length="410px">
+                                                                    <Template>
+                                                                        <SchedulerPlannerItemActionComponent @bind-Action="@Action1" Editable="Editable" SchedulerPlannerEditorData="GetEditorData()" />
+                                                                    </Template>
+                                                                </DxStackLayoutItem>
+                                                            </Items>
+                                                        </DxStackLayout>                                                        
+                                                        <DxStackLayout Orientation="Orientation.Horizontal" ItemSpacing="2px">
+                                                            <Items>
+                                                                <DxStackLayoutItem CssClass="d-flex justify-content-end align-self-center mr-2" Length="50px">
+                                                                    <Template>
+                                                                        <span class="fs-sm">@AppState["else"]</span>
+                                                                    </Template>
+                                                                </DxStackLayoutItem>
+                                                                <DxStackLayoutItem CssClass="" Length="410px">
+                                                                    <Template>
+                                                                        <SchedulerPlannerItemActionComponent @bind-Action="@Action2" Editable="Editable" SchedulerPlannerEditorData="GetEditorData()" />
+                                                                    </Template>
+                                                                </DxStackLayoutItem>
+                                                            </Items>
+                                                        </DxStackLayout>
+                                                    </Template>
+                                                </DxStackLayoutItem>
+                                            </Items>
+                                        </DxStackLayout>
+                                    </Template>
+                                </DxStackLayoutItem>
+                            }
+                            @if (!string.IsNullOrEmpty(Item.Type) && Item.ItemType.IsJoin())
+                            {
+                                <DxStackLayoutItem CssClass="" Length="200px">
+                                    <Template>
+                                        <DxComboBox Enabled="Editable" Data="@PlannerEditorData.Joins" TData="Nameable" TValue="Nameable" TextFieldName="@nameof(Nameable.Name)" @bind-Value="@JoinItem" />
+                                    </Template>
+                                </DxStackLayoutItem>
+                            }
+                            @if (!string.IsNullOrEmpty(Item.Type) && Item.ItemType.IsReco())
+                            {
+                                <DxStackLayoutItem CssClass="" Length="200px">
+                                    <Template>
+                                        <DxComboBox Enabled="Editable" Data="@PlannerEditorData.Recos" TData="Nameable" TValue="Nameable" TextFieldName="@nameof(Nameable.Name)" @bind-Value="@RecoItem" />
+                                    </Template>
+                                </DxStackLayoutItem>
+                            }
+                            @if (!string.IsNullOrEmpty(Item.Type) && Item.ItemType.IsRoutine())
+                            {
+                                <DxStackLayoutItem CssClass="" Length="200px">
+                                    <Template>
+                                        <DxComboBox Enabled="Editable" Data="@PlannerEditorData.Routines" TData="Nameable" TValue="Nameable" TextFieldName="@nameof(Nameable.Name)" @bind-Value="@RoutineItem" />
+                                    </Template>
+                                </DxStackLayoutItem>
+                            }
+                            @if (!string.IsNullOrEmpty(Item.Type) && Item.ItemType.IsTemporisation())
+                            {
+                                <DxStackLayoutItem CssClass="" Length="210px">
+                                    <Template>
+                                        <DxStackLayout ItemSpacing="2px" CssClass="d-flex justify-content-end">
+                                            <Items>
+                                                <DxStackLayoutItem Length="85px" CssClass="mr-2">
+                                                    <Template>
+                                                        <span data-toggle="tooltip" title="@AppState["wait"]"><DxSpinEdit ReadOnly=!Editable @bind-Value="@TemporisationValue" T="int" /></span>                                                        
+                                                    </Template>
+                                                </DxStackLayoutItem>
+                                                <DxStackLayoutItem Length="120px" CssClass="mr-2">
+                                                    <Template>
+                                                        <DxComboBox Enabled="Editable" Data="SchedPlrItemTempUnitCollection_" @bind-Value="@TemporisationUnit" />
+                                                    </Template>
+                                                </DxStackLayoutItem>
+                                            </Items>
+                                        </DxStackLayout>
+                                    </Template>
+                                </DxStackLayoutItem>
+                            }
+                            @if (!string.IsNullOrEmpty(Item.Type) && Item.ItemType.IsTransformationTree())
+                            {
+                                <DxStackLayoutItem CssClass="" Length="200px">
+                                    <Template>
+                                        <DxComboBox Enabled="Editable" Data="@PlannerEditorData.Trees" TData="Nameable" TValue="Nameable" TextFieldName="@nameof(Nameable.Name)" @bind-Value="@TreeItem" />
+                                    </Template>
+                                </DxStackLayoutItem>
+                            }
+                        </Items>
+                    </DxStackLayout>
+                </Template>
+            </DxStackLayoutItem>
+            <DxStackLayoutItem CssClass="" Length="30px">
+                <Template>
+                    @if (IsAdded)
+                    {
+                        <DxButton IconCssClass="fa fa-remove"
+                                    CssClass="mt-auto mb-auto"
+                                    RenderStyleMode="ButtonRenderStyleMode.Text"
+                                    RenderStyle="ButtonRenderStyle.Danger"
+                                    Click="()=>RemoveItem(Item)">
+                        </DxButton>
+                    }
+                </Template>
+            </DxStackLayoutItem>
+        </Items>
+    </DxStackLayout>
+    }

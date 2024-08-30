@@ -1,0 +1,95 @@
+﻿
+
+
+<div class="ml-2 pt-2">
+    <DxFormLayout Data="@EditorData.Item" CssClass="w-100 mt-2">
+        <DxFormLayoutItem Caption="@AppState["billing.model.form.appendice"]" CaptionCssClass="text-right" BeginRow="true" ColSpanMd="8">
+            <Template>
+                <DxCheckBox Enabled="Editable" @bind-Checked="@AddAppendicies" CssClass="mt-2"> </DxCheckBox>
+            </Template>
+        </DxFormLayoutItem>
+        @if (AddAppendicies)
+        {
+            <DxFormLayoutItem Caption="@AppState["cron.expression"]" CaptionCssClass="text-right" BeginRow="true" ColSpanMd="8">
+                <Template>
+                    <DxComboBox Enabled="Editable" CssClass="no-gutters filter-combo wid-200" Data="@( BillingModelAppendicyType.GetAll() )"
+                                @bind-Value="@BillingModelAppendicyType">
+                    </DxComboBox>
+                </Template>
+            </DxFormLayoutItem>
+        }
+    </DxFormLayout>
+</div>
+
+@code {
+
+    #region Injected properties
+
+    [Inject]
+    public AppState AppState { get; set; }
+    [Parameter]
+    public EditorData<BillingModel> EditorData { get; set; }
+
+    #endregion
+
+    #region Internal properties and attributes
+
+    IEnumerable<string> AppendicesTypes = new List<String>(){
+        "Report grid",
+        "Sub invoice based on department number"
+    };
+
+    #endregion
+
+
+    #region Properties binded to the form items
+
+    public bool AddAppendicies
+    {
+        get { return EditorData.Item.AddAppendicies; }
+        set
+        {
+            EditorData.Item.AddAppendicies = value;
+            StateHasChanged_();
+        }
+    }
+    public BillingModelAppendicyType BillingModelAppendicyType
+    {
+        get { return EditorData.Item.BillingModelAppendicyType; }
+        set
+        {
+            EditorData.Item.BillingModelAppendicyType = value;
+            EditorData.Item.AppendicyType = value.getCode();
+            StateHasChanged_();
+        }
+    }
+
+    public bool Editable
+    {
+        get
+        {
+            var first = AppState.PrivilegeObserver.CanCreatedBillingModel;
+            var second = AppState.PrivilegeObserver.CanEditBillingModel(EditorData.Item);
+            return first || second;
+        }
+    }
+
+    #endregion
+
+    #region Region reserved for Methods
+
+    protected async override Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        AddAppendicies = true;
+        StateHasChanged_();
+    }
+
+    public void StateHasChanged_()
+    {
+        StateHasChanged();
+        AppState.Update = true;
+    }
+
+    #endregion
+}

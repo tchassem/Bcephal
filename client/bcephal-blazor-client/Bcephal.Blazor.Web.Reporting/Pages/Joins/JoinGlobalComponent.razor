@@ -1,0 +1,61 @@
+﻿
+@BodyRenderFragment
+
+@code {
+
+    private RenderFragment BodyRenderFragment => __builder =>
+    {
+        if (EditorData != null)
+        {
+            <SplitterPanel LeftSize="1" vertical="false" Panes="new() { JoinGridKeyRender(), ColumnReportRender(), ConditionRender() }" />
+        }
+    };
+
+    private RenderFragment JoinGridKeyRender() => __builder =>
+    {
+        <SplitterPanel LeftSize="1" RightSize="2" Panes="new() { JoinGridComponentRender(),  KeysComponentRender() }" />
+    };
+
+    private RenderFragment ColumnReportRender() => __builder =>
+    {
+        <CardComponent @ref="CardComponentRef" CanDisplayHeader="(EditorData != null)" CardCssClass="card h-100" HeaderCssClass="bc-header-2 card-header pt-1">
+            <Header>
+                <span class=""> @AppState["report.columns"]</span>
+            </Header>
+            <ChildContent>
+                 @RenderSplitterPanes
+            </ChildContent>
+        </CardComponent>
+    };
+
+    private RenderFragment RenderSplitterPanes => __builder =>
+    {
+        <SplitterPanel LeftSize="1" RightSize="2" Panes="new() { SelectColumnReportRender(),  ColumnEditorRender() }" />
+    };
+
+    private RenderFragment ConditionRender() => __builder =>
+    {
+        <JoinConditionComponent Editable=Editable @bind-EditorData=EditorData Entities=Entities />
+    };
+
+    private RenderFragment JoinGridComponentRender() => __builder =>
+    {
+        <JoinGridComponent Editable=Editable @bind-EditorData=EditorData ></JoinGridComponent>
+    };
+
+    private RenderFragment KeysComponentRender() => __builder =>
+     {
+        <JoinKeyComponent Editable=Editable @bind-EditorData=EditorData />
+     };
+
+    private RenderFragment SelectColumnReportRender() => __builder =>
+    {
+        <ColumnReportComponent  @bind-EditorData=EditorData @bind-JoinColumnPosition=JoinColumnPosition Editable=Editable  />
+    };
+
+    private RenderFragment ColumnEditorRender() => __builder =>
+    {
+        <ColumnEditorComponent  Editable=Editable @bind-EditorData=EditorData  Entities=Entities  JoinColumnPosition=JoinColumnPosition />
+    };
+
+}

@@ -1,0 +1,103 @@
+﻿
+@LeftContent_
+
+
+<BaseModalComponent CssClass="created-dimension"  Width="40%" BodyClass="h-75 p-0"  Title="@AppState["new.dimensions"]" @bind-ShowModal=ShowNewDimension
+                    OkHandler=OkHandler
+                    CancelHandler=CancelHandler>
+    <DxStackLayout CssClass="h-100" Orientation="Orientation.Vertical">
+        <Items>
+            <DxStackLayoutItem Length="0.95fr">
+                <Template>
+                    <LoaderCreatedDimension FileLoaderColumns=FileLoaderColumns />
+                </Template>
+            </DxStackLayoutItem>
+            <DxStackLayoutItem CssClass="d-flex align-items-center justify-content-center" Length="0.05fr">
+                <Template>
+                    @AppState["doYouwanToCreatedimensionslistedAboveAfterLoading"]
+                </Template>
+            </DxStackLayoutItem>
+        </Items>
+    </DxStackLayout>
+</BaseModalComponent>
+
+
+
+@code {
+
+
+    public RenderFragment LeftContent_ => __builder =>
+    {
+        @RenderLeftFileLoaderContent
+    };
+
+    public RenderFragment RenderLeftFileLoaderContent => __builder =>
+    {
+        AppState.HideLoadingStatus();
+        <DxTabs CssClass="m-0 p-0 bc-tab-h-100" @bind-ActiveTabIndex="@ActiveIndex_" ScrollMode="TabsScrollMode.Auto">
+            <DxTabPage Text="@AppState["LoadFiles"]" CssClass="m-0 p-0 h-100">
+                <div style="height: calc(100% - var(--bc-tab-header-height));">
+                    <div class="h-100">
+                        @RenderFileLoaderConfig
+                        @RenderGridMappingConfig
+                    </div>
+                </div>
+            </DxTabPage>
+            <DxTabPage Text="@AppState["Scheduling"]" CssClass="m-0 p-0 h-100">
+                <div style="height: calc(100% - var(--bc-tab-header-height));">
+                    <div class="h-100">
+                        <FileLoadSchedulerFilter @bind-EditorData=EditorDataBinding
+                                                 @bind-loadedFiles=LoadedFiles
+                                                 @bind-TemplateFileName="TemplateFileName" Editable=Editable />
+                    </div>
+                </div>
+            </DxTabPage>
+            <DxTabPage Text="@AppState["routines"]" CssClass="m-0 p-0 h-100">
+                <div style="height: calc(100% - var(--bc-tab-header-height));">
+                    <div class="h-100">
+                        <FileLoaderRoutine Editable=Editable @bind-EditorData="EditorDataBinding" />
+                    </div>
+                </div>
+            </DxTabPage>
+            <DxTabPage Text="@AppState["Log"]" CssClass="m-0 p-0 h-100">
+                <div style="height: calc(100% - var(--bc-tab-header-height));">
+                    <div class="h-100">
+                        <FilesLoaderLogs EditorData=EditorDataBinding />
+                    </div>
+                </div>
+            </DxTabPage>
+        </DxTabs>
+    };
+    public RenderFragment RenderFileLoaderConfig => __builder =>
+    {
+        <FileLoaderConfigComponent BrowserFileChanged=BrowserFileUpdate
+                                   @bind-EditorData=EditorDataBinding
+                                   Page=Page
+                                   Editable=Editable
+                                   TargetIdHandler="LoadTargetHandler"
+                                   @bind-TemplateFileName="TemplateFileName"
+                                   LoadTemplateCount="LoadTemplateCount"
+                                   HeaderIsReadOnly="HeaderIsReadOnly"
+                                   @bind-IsLoaderTemplate="IsLoaderTemplate"
+                                   @bind-Config=ConfigBinding />
+    };
+
+    public RenderFragment RenderGridMappingConfig => __builder =>
+    {
+        <FileLoadGridMappingConfigComponent Repository=@RepositoryFullPath
+                                            loadedFiles=templateFiles
+                                            Entities=Entities
+                                            Editable=Editable
+                                            @bind-EditorData=EditorDataBinding
+                                            Columns="Columns_"
+                                            CustomChangedState="StateHasChanged" />
+    };
+
+    public RenderFragment RenderRow(FileLoaderColumn fileLoaderColumn) => __builder =>
+    {
+        <tr style="border-color: #cdd4e0">
+            <td style="border-color: #cdd4e0">@fileLoaderColumn.Type</td>
+            <td style="border-color: #cdd4e0">@fileLoaderColumn.FileColumn</td>
+        </tr>
+    };
+}

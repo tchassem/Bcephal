@@ -1,0 +1,41 @@
+﻿<BaseModalComponent Title=@AppState["edit.concatenation"]
+                    @bind-ShowModal=@ShowModal
+                    ApplyBackgroundShading="true"
+                    BodyClass="p-0 h-50"
+                    OkHandler=OkHandler
+                    CancelHandler=CloseHandler
+                    Height="50% !important"
+                    Width="35% !important">
+    <DxStackLayout CssClass="h-100 w-100 p-2" ItemSpacing="12px" Orientation=Orientation.Vertical>
+        <Items>
+            <DxStackLayoutItem CssClass="h-100 w-100 overflow-y-auto overflow-x-hidden">
+                <Template>
+                    @if (JoinColumn != null && JoinColumn.Properties != null)
+                    {
+                        @*var offset = 0;
+            var items = JoinColumn.Properties.ConcatenateItemListChangeHandler.GetItems();
+            @while (offset < items.Count)
+            {
+                <ConcatenateItem @key="@(Guid.NewGuid().ToString("d"))" JoinColumnConcatenateItem=items[offset] @bind-EditorData=EditorData @bind-JoinColumn=JoinColumn IsNew=false />
+                offset++;
+            }*@
+                         
+                        @foreach (var item in JoinColumn.Properties.ConcatenateItemListChangeHandler.Items)
+                        {
+                            <ConcatenateItem @key="@(Guid.NewGuid().ToString("d"))" JoinColumnConcatenateItem=item @bind-EditorData=EditorData @bind-JoinColumn=JoinColumn IsNew=false />
+
+                        }
+                    }
+
+                    <ConcatenateItem @key="@(Guid.NewGuid().ToString("d"))" @bind-EditorData=EditorData @bind-JoinColumn=JoinColumn IsNew=true />
+                </Template>
+            </DxStackLayoutItem>
+        </Items>
+    </DxStackLayout>
+</BaseModalComponent>
+
+
+@code {
+
+
+}

@@ -1,0 +1,97 @@
+﻿ @typeparam P
+@typeparam B
+
+@if (Panes != null && Panes.Count > 0)
+{
+    if (usingUnitPane)
+    {
+        @RenderSplitterPanel
+    }
+    else
+    {
+        @MixtRenderUnitPane;
+    }
+}
+
+@code {
+
+    public virtual RenderFragment RenderSplitterPanel =>
+    __builder =>
+    {
+    <SplitterPanel Panes=Panes LeftSize=LeftSize RightSize=RightSize @bind-StyleRight=displayRight @bind-StyleLeft=displayLeft />
+    };
+
+    public virtual RenderFragment RenderUnitPane =>
+    __builder =>
+    {
+    @_LeftContent_
+    };
+
+
+    public virtual RenderFragment MixtRenderUnitPane =>
+    __builder =>
+    {
+    <RenderFormContent @ref=MixFormSplitter>
+        @RenderSplitterPanel
+    </RenderFormContent>
+    };
+
+
+    private RenderFragment _RightContent_ =>
+    __builder =>
+    {
+    <div class="card @CssClass m-0 p-0" style="box-sizing: border-box !important;@(displayRight)">
+        <div class="card-header m-0 p-0 bc-header-1 bc-header-height bc-text-align">
+            <span class="text-left ml-1">
+                <i class="mr-1 ml-1 mt-auto mb-auto @(RightTitleIcon)"></i>
+                @RightTitle
+            </span>
+        </div>
+        <div class="card-body m-0 p-0" style="height:calc(var(--bc-grid-body) - var(--bc-header-height));box-sizing:border-box !important;">
+            <RenderFormContent @ref=RightForm>
+                @if (RightContent != null)
+                    {
+                    @RightContent
+                    }
+            </RenderFormContent>
+        </div>
+    </div>
+    };
+
+    private RenderFragment _LeftContent_ =>
+    __builder =>
+    {
+    bool hasTitle = !string.IsNullOrWhiteSpace(LeftTitle);
+    <div class="card @CssClass m-0 p-0" style="box-sizing: border-box !important;@(displayLeft)">
+        @if (hasTitle)
+        {
+        <div class="card-header m-0 p-0 bc-header-1 bc-header-height bc-text-align">
+            <span class="text-left ml-1">
+                <i class="mr-1 ml-1 mt-auto mb-auto @(LeftTitleIcon)"></i>
+                @if (string.IsNullOrWhiteSpace(LeftTitlePage))
+                {
+                    @LeftTitle
+                }
+                else
+                {
+                    @LeftTitle
+                    <span class="font-italic ml-1">
+                        @(" - " + LeftTitlePage)
+                    </span>
+                }
+            </span>
+        </div>
+        }
+        <div class="card-body m-0 p-0 d-block" 
+             style="height: calc(var(--bc-grid-body) @(!hasTitle ? "" : " - var(--bc-header-height)"));box-sizing:border-box !important;">
+            <RenderFormContent @ref=LeftForm>
+                @if (LeftContent != null)
+                    {
+                    @LeftContent
+                    }
+            </RenderFormContent>
+        </div>
+    </div>
+
+    };
+}

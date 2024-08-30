@@ -1,0 +1,18 @@
+﻿@page "/billing/current-run-status"
+
+@inherits Base.Shared.Browser
+@{
+    base.BuildRenderTree(__builder);
+}
+
+@code {
+
+    public override string Title { get { return AppState["Current.billing.run.status"]; } }
+
+    public override string TitleIcon { get { return "bi bi-record-circle"; } }
+
+    protected override RenderFragment _BodyContent_ => __builder =>
+    {
+        <CurrentRunBrowser_ />
+    };
+}

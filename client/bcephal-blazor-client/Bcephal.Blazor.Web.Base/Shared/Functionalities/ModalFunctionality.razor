@@ -1,0 +1,148 @@
+﻿
+@inject AppState _AppState;
+@inject FunctionnalityWorkspaceService FunctionnalityWorkspaceService;
+@inject FunctionalityService FunctionalityService;
+@inject IToastService toastService;
+
+<DxPopup CloseOnEscape="false"
+         CloseOnOutsideClick="false"
+         ShowFooter="true"
+         ShowCloseButton="false"
+         CssClass="custom-popup"
+         HeaderCssClass="font-weight-light"
+         HeaderText="@Title"
+         @bind-Visible="@ModalActioning">
+    <Content>
+        <p class="list-project row p-0 m-0">
+            <div class="col-lg-6 text-center mb-5">
+                <span class="text-secondary"> @AppState["Functionality.ForegroundColor"]</span>
+                <input type="color" @bind=Foregrounds>
+            </div>
+            <div class="col-lg-6 text-center mb-5">
+                <span class="text-secondary">@AppState["Functionality.BackgroundColor"]</span>
+                <input type="color" @bind=Backgrounds>
+            </div>
+        </p>
+    </Content>
+    <FooterContentTemplate>
+        <div class="d-flex flex-row w-100">
+            <div class="mr-auto ml-auto">
+                <span class="text-center" style="color:red;">@ProjectService.ErrorMessage</span>
+            </div>
+            <div class="ml-auto mr-auto">
+                <DxButton IconCssClass="oi oi-hard-drive mr-1" RenderStyle="ButtonRenderStyle.Primary"
+                          Enabled="@(BColorChange_ || FColorChange_)"
+                          Text="@AppState["Update"]"
+                          @onclick="@(() => Changecolor())" />
+            </div>
+
+            <DxButton IconCssClass="oi oi-delete mr-1" RenderStyle="ButtonRenderStyle.Danger" Text="@AppState["Close"]" @onclick="@((e) => { ModalActioning = false;ActionModal = ""; })" />
+        </div>
+    </FooterContentTemplate>
+</DxPopup>
+
+
+@code{
+    [Inject]
+    private AppState AppState { get; set; }
+    [Parameter]
+    public string Title { get; set; }
+
+
+    [Parameter]
+    public EventCallback<Models.Functionalities.FunctionalityBlock> UpdateFunctionalityBlock { get; set; }
+
+    [Parameter]
+    public EventCallback<Models.Functionalities.FunctionalityBlock> DeleteFunctionalityBlock { get; set; }
+
+    [Parameter]
+    public FunctionalityBlock Block { get; set; }
+    [Parameter]
+    public EventCallback<FunctionalityBlock> BlockChanged { get; set; }
+
+    [Parameter]
+    public string ActionModal { get; set; }
+    [Parameter]
+    public EventCallback<string> ActionModalChanged { get; set; }
+
+    [Parameter]
+    public bool ModalAction { get; set; }
+    [Parameter]
+    public EventCallback<bool> ModalActionChanged { get; set; }
+
+    public bool ModalActioning
+    {
+        get => ModalAction;
+        set
+        {
+            ModalAction = value;
+            ModalActionChanged.InvokeAsync(value);
+        }
+    }
+
+    [Parameter]
+    public FunctionalityWorkspace FunctionalityWorkspace { get; set; }
+
+
+    private bool BColorChange_ { get; set; } = false;
+    private bool FColorChange_ { get; set; } = false;
+
+    private string Backgrounds_;
+    private string Backgrounds
+    {
+        get => !BColorChange_ ? Block.Backgrounds : Backgrounds_;
+        set
+        {
+            Backgrounds_ = value;
+            BColorChange_ = true;
+        }
+    }
+
+    private string Foregrounds_;
+    private string Foregrounds
+    {
+        get => !FColorChange_ ? Block.Foregrounds : Foregrounds_;
+        set
+        {
+            Foregrounds_ = value;
+            FColorChange_ = true;
+        }
+    }
+
+    public async Task Changecolor()
+    {
+        if (BColorChange_ || FColorChange_)
+        {
+            if (BColorChange_)
+            {
+                Block.Backgrounds = Backgrounds_;
+            }
+            if (FColorChange_)
+            {
+                Block.Foregrounds = Foregrounds_;
+            }
+            try
+            {
+                await UpdateFunctionalityBlock.InvokeAsync(Block);
+                await BlockChanged.InvokeAsync(Block);
+                toastService.ShowSuccess(AppState["Color.SuccessfullyChanged"]);
+                StateHasChanged();
+            }
+            catch (Exception e)
+            {
+                toastService.ShowError(e.Message);
+            }
+            finally
+            {
+                ModalActioning = false;
+                ActionModal = "";
+                StateHasChanged();
+            }
+
+
+
+        }
+        BColorChange_ = false;
+        FColorChange_ = false;
+    }
+}

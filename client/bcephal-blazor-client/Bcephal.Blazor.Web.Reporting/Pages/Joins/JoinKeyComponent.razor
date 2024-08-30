@@ -1,0 +1,40 @@
+﻿
+<CardComponent @ref="CardComponentRef" CanDisplayHeader="(EditorData != null)" CardCssClass="card" HeaderCssClass="bc-header-2 card-header pt-1">
+    <Header>
+        <span> @AppState["join.keys"]</span>
+    </Header>
+    <ChildContent>
+        <DxStackLayout CssClass="h-100" ItemSpacing="4px" Orientation=Orientation.Vertical>
+            <Items>
+                <DxStackLayoutItem CssClass="h-100 ml-1 mr-1 overflow-y-auto">
+                    <Template>
+                        @if (EditorData != null)
+                        {
+                            if (EditorData.Item != null && EditorData.Item.KeyListChangeHandler != null)
+                            {
+                            <div class="mt-1 p-0">
+                                @foreach (var Item in EditorData.Item.KeyListChangeHandler.Items)
+                                {
+                                    @RenderItem(Item, true)
+                                }
+                            </div>
+                            }
+                            <div class="mt-1 p-0">
+                                @RenderItem(new(), false)
+                            </div>
+                        }
+                    </Template>
+                </DxStackLayoutItem>
+            </Items>
+        </DxStackLayout>
+    </ChildContent>
+</CardComponent>
+
+@code{
+
+    private RenderFragment RenderItem(JoinKey joinKey, bool added) => __builder =>
+    {
+    <JoinKeyItemComponent JoinKey="@joinKey" Editable="Editable" EditorData=@EditorData
+                            IsAdded=added AddKeyCallback="AddKey" UpdKeyCallback="UpdateKey" DelKeyCallback="RemoveKey" />
+    };
+}

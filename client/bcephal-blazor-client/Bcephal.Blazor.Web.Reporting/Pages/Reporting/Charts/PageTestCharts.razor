@@ -1,0 +1,276 @@
+﻿@page "/page-test-charts/"
+
+
+<DxButton CssClass="mr-1 ml-auto wid-70" IconCssClass="fa fa-check mr-1"
+          RenderStyle="ButtonRenderStyle.Primary" Text="Toggle PopUp"
+          @onclick="(()=> { ShowPopUp = !ShowPopUp; StateHasChanged(); } )" />
+
+<BaseModalComponent Title="Test du composant de modale" Message="le message est fonctionnel !!" @bind-ShowModal=@ShowPopUp>
+    <div class="border border-danger">
+        Ceci est un contenu de test !!
+    </div>
+</BaseModalComponent>
+
+<BaseModalComponent Title="Test du composant de modale" Message="le message est fonctionnel !!" @bind-ShowModal=@ShowIModal>
+    <div style=@("height: " + height + "px; border: 1px solid red; width:" + width + "px;")>
+        <DxButton CssClass="mr-1 ml-auto " IconCssClass="fa fa-check mr-1"
+                  RenderStyle="ButtonRenderStyle.Primary" Text="Increase size"
+                  @onclick=@OnClickBtn />
+        <DxButton CssClass="mr-1 ml-auto " IconCssClass="fa fa-check mr-1"
+                  RenderStyle="ButtonRenderStyle.Primary" Text="Decrease size"
+                  @onclick=@OnClickBtn2 />
+    </div>
+</BaseModalComponent>
+
+
+<BaseModalComponent Title="Test du composant de modale" Message="le message est fonctionnel !!" ShowModal="true">
+    <div style="height: calc(100vh - 20%); width: calc(100vw - 20%); border: 1px solid green;">
+        <DxButton CssClass="mr-1 ml-auto " IconCssClass="fa fa-check mr-1"
+                  RenderStyle="ButtonRenderStyle.Primary" Text="Decrease size"  />
+    </div>
+</BaseModalComponent>
+
+<DxTabs>
+    <DxTabPage Text="Histogramme">
+        <div class="m-4">
+            @* Une chart est un ensemble constitué de séries et les séries peuvent avoir des types différents *@
+            @* Ici les types de données en axe et en ordonné affichés dans les 2 séries sont du même type *@
+            @* Argument=Axe_abscisse, Value=Axe_ordonné *@
+            <DxChart Data="@forecasts" LabelOverlap="ChartLabelOverlap.Hide">
+                <DxChartTitle Text="Weather Forecast">
+                    <DxChartSubTitle Text="(10 days)" />
+                </DxChartTitle>
+                <DxChartLegend AllowToggleSeries="true" CssClass="border border-secondary"
+                               Orientation="Orientation.Vertical"
+                               Position="RelativePosition.Outside"
+                               HorizontalAlignment="HorizontalAlignment.Right">
+                    <DxChartTitle Text="Légende">
+                        <DxChartSubTitle Text="...."></DxChartSubTitle>
+                    </DxChartTitle>
+                </DxChartLegend>
+                @* Cette série affiche les précipitations pour des dates données *@
+                @* Elle s'affiche sous forme de bandes  *@
+                <DxChartBarSeries ArgumentField="@((WeatherForecast i) => i.Date)"
+                                  ValueField="@((WeatherForecast i) => i.Precipitation)"
+                                  Name="Precipitation">
+                    <DxChartSeriesLabel Visible="true" />
+                </DxChartBarSeries>
+                @* Cette série affiche les températures pour les mêmes dates que la série précédente *@
+                @* Elle s'affiche sous forme d'un trait *@
+                <DxChartLineSeries ArgumentField="@((WeatherForecast i) => i.Date)" Axis="Temperature"
+                                   ValueField="@((WeatherForecast i) => i.TemperatureC)"
+                                   Name="Temperature">
+                    <DxChartSeriesLabel Visible="true">
+                        <DxChartSeriesLabelConnector Visible="true" Width="1" />
+                    </DxChartSeriesLabel>
+                </DxChartLineSeries>
+
+                @* Ce chart est dynamique dc sa forme est affiché du parametre SeriesType *@
+                @*<DxChartCommonSeries NameField="@((WeatherForecast s) => s.Precipitation)"
+                                         ArgumentField="@((WeatherForecast s) => s.Date)"
+                                         ValueField="@((WeatherForecast s) => s.TemperatureC)"
+                                         SeriesType="ChartSeriesType.Bar"
+                                         SummaryMethod="Enumerable.Max">
+                    </DxChartCommonSeries>*@
+
+                @* Configuration des axes du chart*@
+                <DxChartArgumentAxis>
+                    @* Titre de l'axe *@
+                    <DxChartAxisTitle Text="Dates à venir" />
+                    @* format d'affichage des éléments des séries sur le chart *@
+                    <DxChartAxisLabel Format='ChartElementFormat.MonthAndDay' />
+                </DxChartArgumentAxis>
+
+                @* Comme on 2 séries de données qui affichent des info diff sur l'axe des ordonnées, on peut créer plusieurs config pour cet axe comme suit *@
+                <DxChartValueAxis>
+                    <DxChartAxisTitle Text="Precipitation, mm" />
+                </DxChartValueAxis>
+                @* Lorsqu'on précise le Name ici, on doit binder une des séries du graphe avec cet Axis *@
+                <DxChartValueAxis Name="Temperature">
+                    <DxChartAxisTitle Text="Temperature, C" />
+                </DxChartValueAxis>
+            </DxChart>
+        </div>
+    </DxTabPage>
+    <DxTabPage Text="Camembert">
+        <div>
+            <DxChart Data="@SalesData">
+                <DxChartTitle Text="Total Sales" />
+                <DxChartLegend VerticalAlignment="VerticalEdge.Bottom" Position="RelativePosition.Outside" />
+                <DxChartPieSeries ValueField="@((SaleInfo i) => i.Amount)"
+                                  ArgumentField="@(i => i.City)"
+                                  SummaryMethod="Enumerable.Sum">
+                    <DxChartSeriesLabel Visible="true" />
+                </DxChartPieSeries>
+            </DxChart>
+        </div>
+    </DxTabPage>
+</DxTabs>
+
+
+@code{
+    public class WeatherForecast
+    {
+        public DateTime Date { get; set; }
+        public int TemperatureC { get; set; }
+        public double Precipitation { get; set; }
+    }
+    public class SaleInfo
+    {
+        public int OrderId { get; set; }
+        public string Region { get; set; }
+        public string Country { get; set; }
+        public string City { get; set; }
+        public int Amount { get; set; }
+        public DateTime Date { get; set; }
+    }
+    private WeatherForecast[] forecasts;
+    IEnumerable<SaleInfo> SalesData;
+    public bool ShowPopUp { get; set; } = false;
+    public bool ShowIModal { get; set; } = false;
+    public int height = 500;
+    public int width = 600;
+
+    protected override void OnInitialized()
+    {
+        forecasts = GetForecast();
+        SalesData = GetSalesData();
+    }
+
+    public WeatherForecast[] GetForecast()
+    {
+        WeatherForecast[] forecasts = new WeatherForecast[] {
+                new WeatherForecast() { Date = new DateTime(2020, 05, 11), TemperatureC = 20,
+                                        Precipitation = 5},
+                new WeatherForecast() { Date = new DateTime(2020, 05, 12), TemperatureC = 22,
+                                        Precipitation = 1.2},
+                new WeatherForecast() { Date = new DateTime(2020, 05, 13), TemperatureC = 18,
+                                        Precipitation = 0.8},
+                new WeatherForecast() { Date = new DateTime(2020, 05, 14), TemperatureC = 19,
+                                        Precipitation = 0},
+                new WeatherForecast() { Date = new DateTime(2020, 05, 15), TemperatureC = 14,
+                                        Precipitation = 3.3},
+                new WeatherForecast() { Date = new DateTime(2020, 05, 16), TemperatureC = 15,
+                                        Precipitation = 1.7},
+                new WeatherForecast() { Date = new DateTime(2020, 05, 17), TemperatureC = 18,
+                                        Precipitation = 1},
+                new WeatherForecast() { Date = new DateTime(2020, 05, 18), TemperatureC = 23,
+                                        Precipitation = 0},
+                new WeatherForecast() { Date = new DateTime(2020, 05, 19), TemperatureC = 21,
+                                        Precipitation = 4.4},
+                new WeatherForecast() { Date = new DateTime(2020, 05, 20), TemperatureC = 20,
+                                        Precipitation = 8.5},
+            };
+        return forecasts;
+    }
+
+    public IEnumerable<SaleInfo> GetSalesData()
+    {
+        return new List<SaleInfo> {
+        new SaleInfo {
+                OrderId = 10248,
+                Region = "North America",
+                Country = "United States",
+                City = "New York",
+                Amount = 1740,
+                Date = DateTime.Parse("2017/01/06")
+            },
+            new SaleInfo {
+                OrderId = 10249,
+                Region = "North America",
+                Country = "United States",
+                City = "Los Angeles",
+                Amount = 850,
+                Date = DateTime.Parse("2017/01/13")
+            },
+            new SaleInfo {
+                OrderId = 10250,
+                Region = "North America",
+                Country = "United States",
+                City = "Denver",
+                Amount = 2235,
+                Date = DateTime.Parse("2017/01/07")
+            },
+            new SaleInfo {
+                OrderId = 10251,
+                Region = "North America",
+                Country = "Canada",
+                City = "Vancouver",
+                Amount = 1965,
+                Date = DateTime.Parse("2017/01/03")
+            },
+            new SaleInfo {
+                OrderId = 10252,
+                Region = "North America",
+                Country = "Canada",
+                City = "Edmonton",
+                Amount = 880,
+                Date = DateTime.Parse("2017/01/10")
+            },
+            new SaleInfo {
+                OrderId = 10253,
+                Region = "South America",
+                Country = "Brazil",
+                City = "Rio de Janeiro",
+                Amount = 5260,
+                Date = DateTime.Parse("2017/01/17")
+            },
+            new SaleInfo {
+                OrderId = 10254,
+                Region = "South America",
+                Country = "Argentina",
+                City = "Buenos Aires",
+                Amount = 2790,
+                Date = DateTime.Parse("2017/01/21")
+            },
+            new SaleInfo {
+                OrderId = 10255,
+                Region = "South America",
+                Country = "Paraguay",
+                City = "Asuncion",
+                Amount = 3140,
+                Date = DateTime.Parse("2017/01/01")
+            },
+            new SaleInfo {
+                OrderId = 10256,
+                Region = "Europe",
+                Country = "United Kingdom",
+                City = "London",
+                Amount = 6175,
+                Date = DateTime.Parse("2017/01/24")
+            },
+            new SaleInfo {
+                OrderId = 10257,
+                Region = "Europe",
+                Country = "Germany",
+                City = "Berlin",
+                Amount = 4575,
+                Date = DateTime.Parse("2017/01/11")
+            },
+            // ...
+        };
+    }
+
+    public RenderFragment TestFragment => __builder =>
+    {
+    <div class="border border-primary">
+        Ceci est un contenu de test !!
+    </div>
+    };
+
+    public void OnClickBtn()
+    {
+        height += 10;
+        width += 10;
+
+        //StateHasChanged();
+    }
+
+    public void OnClickBtn2()
+    {
+        height -= 10;
+        width -= 10;
+
+        //StateHasChanged();
+    }
+}

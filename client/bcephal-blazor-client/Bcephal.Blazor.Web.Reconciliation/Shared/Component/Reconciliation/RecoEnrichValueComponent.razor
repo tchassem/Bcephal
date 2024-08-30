@@ -1,0 +1,175 @@
+
+
+@if (EnrichmentValueEditorData != null)
+{
+    <DxGridLayout CssClass="w-100 pb-2 pt-2" ColumnSpacing="5px" style="height:80px;">
+
+        <Rows>
+            <DxGridLayoutRow />
+            <DxGridLayoutRow />
+        </Rows>
+
+        <Columns>
+            <DxGridLayoutColumn />
+        </Columns>
+
+        <Items>
+            <DxGridLayoutItem Row="0" Column="0">
+                <Template>
+                    <DxStackLayout Orientation="Orientation.Horizontal">
+                        <Items>
+                            <DxStackLayoutItem Length="1fr">
+                                <Template>
+                                    <div class="d-flex flex-column h-100">
+                                        <div class="d-flex flex-column mt-auto mb-auto">
+                                            <label class="ml-auto mr-1 mt-auto mb-auto">@AppState["enrich.value.of"]</label>
+                                        </div>
+                                    </div>
+                                </Template>
+                            </DxStackLayoutItem>
+                            <DxStackLayoutItem Length="7fr">
+                                <Template>
+                                    <div class="d-flex flex-row">
+                                        <DxComboBox Enabled=Editable CssClass="wid-200 mr-2" Data="@ReconciliationModelSideConditions" @bind-Value=SelectedTargetSide></DxComboBox>
+                                        <DxComboBox Enabled=Editable CssClass="wid-200 mr-2" Data=EnrichValuesTargetSide TData="GrilleColumn" TValue="GrilleColumn" TextFieldName="Name" @bind-Value=TargetColumn></DxComboBox>
+                                        @if (TargetColumn != null && !String.IsNullOrEmpty(TargetColumn.Name))
+                                        {
+                                            <div class="d-flex flex-row mr-1 mt-auto mb-auto">
+                                                <DxButton Enabled=Editable IconCssClass="fa fa-remove"
+                                                          RenderStyleMode="ButtonRenderStyleMode.Text"
+                                                          RenderStyle="ButtonRenderStyle.Danger"
+                                                          Click="@(() => CallBackRemove.InvokeAsync(Item))">
+                                                </DxButton>
+                                            </div>
+                                        }
+                                    </div>
+
+                                </Template>
+                            </DxStackLayoutItem>
+                        </Items>
+                    </DxStackLayout>
+
+                </Template>
+            </DxGridLayoutItem>
+            @if (Item != null && Item.TargetColumnId != null)
+            {
+                <DxGridLayoutItem Row="1" Column="0">
+                    <Template>
+                        <DxStackLayout Orientation="Orientation.Horizontal">
+                            <Items>
+                                <DxStackLayoutItem Length="1fr">
+                                    <Template>
+                                        <div class="d-flex flex-column h-100">
+                                            <div class="d-flex flex-row mt-auto mb-auto">
+                                                <label class="ml-auto  mr-1 mt-auto mb-auto">@AppState["With.Following.Value.Of"]</label>
+                                            </div>
+                                        </div>
+                                    </Template>
+                                </DxStackLayoutItem>
+                                <DxStackLayoutItem Length="7fr">
+                                    <Template>
+                                        <div class="d-flex flex-row h-100">
+                                            <div>
+                                                <DxComboBox Enabled=Editable CssClass="wid-200 mr-2 d-flex flex-column h-100 justify-content-center" Data="@ReconciliationModelSide.GetSides()" @bind-Value=SelectedSourceSide></DxComboBox>
+                                            </div>
+                                            @if (Item.SourceModelSide != null)
+                                            {
+                                                @if (!Item.SourceModelSide.Equals(ReconciliationModelSide.CUSTOM))
+                                                {
+                                                    <div>
+                                                        <DxComboBox Enabled=Editable CssClass="wid-200 mr-2 d-flex flex-column h-100 justify-content-center" Data="@EnrichValuesSourceSide" TData="GrilleColumn" TValue="GrilleColumn" TextFieldName="Name" @bind-Value=SourceColumn> </DxComboBox>
+                                                    </div>
+                                                }
+                                                else
+                                                {
+                                                    <div style="display:@(Item.DimensionType.IsAttribute() ? "block" : "none")">
+                                                        <DxTextBox ReadOnly=!Editable CssClass="wid-200 mr-2 d-flex flex-column h-100 justify-content-center" @bind-Text="Item.StringValue"></DxTextBox>
+                                                    </div>
+                                                    <div style="display:@(Item.DimensionType.IsMeasure() ? "block" : "none")">
+                                                        <DxSpinEdit Enabled=Editable CssClass="wid-200 mr-2 d-flex flex-column h-100 justify-content-center" @bind-Value="Item.DecimalValue"
+                                                                    T="Decimal?"
+                                                                    SizeMode="SizeMode.Small"
+                                                                    ShowSpinButtons="false">
+                                                        </DxSpinEdit>
+                                                    </div>
+                                                    <div class="w-auto" style="display:@(Item.DimensionType.IsPeriod()  ? "block" : "none")">
+                                                        <DxStackLayout CssClass="w-100 h-100">
+                                                            <Items>
+                                                                <DxStackLayoutItem CssClass="pr-1 h-100" Length="2fr">
+                                                                    <Template>
+                                                                        <DxComboBox Enabled=Editable CssClass="d-flex flex-column h-100 justify-content-center" Data="PeriodOperatorExtensionMethods.GetAllOperator()"
+                                                                                    DropDownDirection="DropDownDirection.Down"
+                                                                                    @bind-Value="DateOperator"
+                                                                                    NullText=""
+                                                                                    TValue="PeriodOperator"
+                                                                                    TData="PeriodOperator"
+                                                                                    SizeMode="SizeMode.Small">
+                                                                        </DxComboBox>
+                                                                    </Template>
+                                                                </DxStackLayoutItem>
+
+                                                                <DxStackLayoutItem Visible="IsSpecific" CssClass="pr-1 h-100" Length="3fr">
+                                                                    <Template>
+                                                                        <DxDateEdit ReadOnly=!Editable CssClass="d-flex flex-column h-100 justify-content-center" @bind-Date="Item.DateValue.DateValue"
+                                                                                    @bind-Enabled="IsSpecific"
+                                                                                    SizeMode="SizeMode.Small" />
+                                                                    </Template>
+                                                                </DxStackLayoutItem>
+
+                                                                <DxStackLayoutItem Visible="IsSpecific" CssClass="pr-1 h-100" Length="0.5fr">
+                                                                    <Template>
+                                                                        <DxComboBox ReadOnly=!Editable  CssClass="d-flex flex-column h-100 justify-content-center" Data="@FilterUtils.Signs"
+                                                                                    @bind-Value="Item.DateValue.DateSign"
+                                                                                    DropDownDirection="DropDownDirection.Down"
+                                                                                    @bind-Enabled="IsSpecific"
+                                                                                    SizeMode="SizeMode.Small">
+                                                                        </DxComboBox>
+                                                                    </Template>
+                                                                </DxStackLayoutItem>
+
+                                                                <DxStackLayoutItem Visible="IsSpecific" CssClass="pr-1 h-100" Length="0.5fr">
+                                                                    <Template>
+                                                                        <DxSpinEdit ReadOnly=!Editable  CssClass="d-flex flex-column h-100 justify-content-center" @bind-Value="Number"
+                                                                                    T="int?"
+                                                                                    SizeMode="SizeMode.Small"
+                                                                                    @bind-Enabled="IsSpecific"
+                                                                                    ShowSpinButtons="false">
+                                                                        </DxSpinEdit>
+                                                                    </Template>
+                                                                </DxStackLayoutItem>
+
+                                                                <DxStackLayoutItem Visible="IsSpecific" CssClass="pr-1 h-100" Length="1fr">
+                                                                    <Template>
+                                                                        <DxComboBox ReadOnly=!Editable  CssClass="d-flex flex-column h-100 justify-content-center" Data="this.Granularity.GetAll()"
+                                                                                    @bind-Value="Granularity"
+                                                                                    TValue="PeriodGranularity?"
+                                                                                    TData="PeriodGranularity?"
+                                                                                    @bind-Enabled="IsSpecific"
+                                                                                    DropDownDirection="DropDownDirection.Down"
+                                                                                    SizeMode="SizeMode.Small">
+                                                                        </DxComboBox>
+                                                                    </Template>
+                                                                </DxStackLayoutItem>
+                                                            </Items>
+                                                        </DxStackLayout>
+                                                    </div>
+                                                }
+                                            }
+
+                                        </div>
+                                    </Template>
+                                </DxStackLayoutItem>
+                            </Items>
+                        </DxStackLayout>
+                    </Template>
+                </DxGridLayoutItem>
+            }
+
+        </Items>
+
+    </DxGridLayout>
+}
+
+
+
+

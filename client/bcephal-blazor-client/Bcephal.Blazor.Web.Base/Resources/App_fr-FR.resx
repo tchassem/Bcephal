@@ -1,0 +1,4593 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="About.Bcephal" xml:space="preserve">
+    <value>A propos de Bcephal...</value>
+  </data>
+  <data name="Accessories" xml:space="preserve">
+    <value>Accessoires</value>
+  </data>
+  <data name="Acess.Rights" xml:space="preserve">
+    <value>Droits </value>
+  </data>
+  <data name="Alarm" xml:space="preserve">
+    <value>Alarme</value>
+  </data>
+  <data name="Archive.Configuration" xml:space="preserve">
+    <value>Configuration d'archive</value>
+  </data>
+  <data name="Archive.Logs" xml:space="preserve">
+    <value>Logs des archives</value>
+  </data>
+  <data name="Archives" xml:space="preserve">
+    <value>Archives</value>
+  </data>
+  <data name="List.trans.rout" xml:space="preserve">
+    <value>Liste des routines de transformation</value>
+  </data>
+  <data name="New.trans.rout" xml:space="preserve">
+    <value>Nouvelle routine de transformation</value>
+  </data>
+  <data name="Trans.routs" xml:space="preserve">
+    <value>Routines de transformation</value>
+  </data>
+  <data name="Trans.rout" xml:space="preserve">
+    <value>Routine de transformation</value>
+  </data>
+  <data name="BackgroundColor.SuccessfullyChanged" xml:space="preserve">
+    <value>Couleur d'arrière plan changée avec succès</value>
+  </data>
+  <data name="Backup" xml:space="preserve">
+    <value>Sauvegarde</value>
+  </data>
+  <data name="billing" xml:space="preserve">
+    <value>Facturation</value>
+  </data>
+  <data name="billing.event" xml:space="preserve">
+    <value>Evènement de facturation</value>
+  </data>
+  <data name="billing.event.repository" xml:space="preserve">
+    <value>Référentiel des évènements de facturation</value>
+  </data>
+  <data name="billing.model" xml:space="preserve">
+    <value>Modèle de facturation</value>
+  </data>
+  <data name="billing.models" xml:space="preserve">
+    <value>Modèles de facturation</value>
+  </data>
+  <data name="billing.run" xml:space="preserve">
+    <value>Exécution de facturation</value>
+  </data>
+  <data name="billing.run.outcome" xml:space="preserve">
+    <value>Résultat de l'exécution de la facturation</value>
+  </data>
+  <data name="billing.template" xml:space="preserve">
+    <value>Patron de facture</value>
+  </data>
+  <data name="Calculated.Measure" xml:space="preserve">
+    <value>Mesure calculée</value>
+  </data>
+  <data name="Chart" xml:space="preserve">
+    <value>Graphe</value>
+  </data>
+  <data name="Clear.LoadTable" xml:space="preserve">
+    <value>Effacer le tableau des charges</value>
+  </data>
+  <data name="Client" xml:space="preserve">
+    <value>Client</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>Fermer</value>
+  </data>
+  <data name="Close.B-Cephal" xml:space="preserve">
+    <value>Fermer B-Cephal</value>
+  </data>
+  <data name="Color.SuccessfullyChanged" xml:space="preserve">
+    <value>Couleur Changée avec succès.</value>
+  </data>
+  <data name="Configuration" xml:space="preserve">
+    <value>Configuration</value>
+  </data>
+  <data name="Connected.users" xml:space="preserve">
+    <value>Utilisateurs connectés</value>
+  </data>
+  <data name="COPY" xml:space="preserve">
+    <value>Copier</value>
+  </data>
+  <data name="Current.Auto.Recos.Executions" xml:space="preserve">
+    <value>Exécutions auto des récos courantes</value>
+  </data>
+  <data name="Current.billing.run.status" xml:space="preserve">
+    <value>Statut de l'exécution de la facturation actuelle</value>
+  </data>
+  <data name="Dashboard" xml:space="preserve">
+    <value>Tableau de bord</value>
+  </data>
+  <data name="dashboarding" xml:space="preserve">
+    <value>Tableaux de bord</value>
+  </data>
+  <data name="DataManager" xml:space="preserve">
+    <value>Gestion des données</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Supprimer</value>
+  </data>
+  <data name="Dynamic.Form" xml:space="preserve">
+    <value>Forme dynamique</value>
+  </data>
+  <data name="Edit.Measure" xml:space="preserve">
+    <value>Editer la mesure</value>
+  </data>
+  <data name="Edit.Model" xml:space="preserve">
+    <value>Editer le modèle</value>
+  </data>
+  <data name="Edit.Period" xml:space="preserve">
+    <value>Editer la période </value>
+  </data>
+  <data name="Export" xml:space="preserve">
+    <value>Exporter</value>
+  </data>
+  <data name="ExportLoading" xml:space="preserve">
+    <value>Exporter...</value>
+  </data>
+  <data name="File" xml:space="preserve">
+    <value>Fichier</value>
+  </data>
+  <data name="ForegroundColor.SuccessfullyChanged" xml:space="preserve">
+    <value>Couleur du texte changée avec succès</value>
+  </data>
+  <data name="Functionality.BackgroundColor" xml:space="preserve">
+    <value>Arrière-plan</value>
+  </data>
+  <data name="Functionality.ChangeProperties" xml:space="preserve">
+    <value>Changer les propriétés de la fonctionalité :  </value>
+  </data>
+  <data name="Functionality.ForegroundColor" xml:space="preserve">
+    <value>Avant-plan</value>
+  </data>
+  <data name="Functionality.NotFound" xml:space="preserve">
+    <value>Aucune fonctionnalité trouvée</value>
+  </data>
+  <data name="Functionality.SuccessfullyDeleted" xml:space="preserve">
+    <value>Fonctionnalité supprimée avec succès</value>
+  </data>
+  <data name="FunctionalityBlock.FailureAdd" xml:space="preserve">
+    <value>Echec d'ajout des FunctionalityBlock</value>
+  </data>
+  <data name="FunctionalityBlock.SucessfullyAdded" xml:space="preserve">
+    <value>FunctionalityBlock(s) ajouté(s) avec succès</value>
+  </data>
+  <data name="GRID" xml:space="preserve">
+    <value>Grille</value>
+  </data>
+  <data name="Groups" xml:space="preserve">
+    <value>Groupes</value>
+  </data>
+  <data name="Help" xml:space="preserve">
+    <value>Aide</value>
+  </data>
+  <data name="HelpB" xml:space="preserve">
+    <value>Aide...</value>
+  </data>
+  <data name="Hide" xml:space="preserve">
+    <value>Masquer</value>
+  </data>
+  <data name="Import" xml:space="preserve">
+    <value>Importer</value>
+  </data>
+  <data name="Import.Project" xml:space="preserve">
+    <value>Importer un projet</value>
+  </data>
+  <data name="Incremental.Number" xml:space="preserve">
+    <value>Nombre séquentiel</value>
+  </data>
+  <data name="initiation" xml:space="preserve">
+    <value>Initialisation</value>
+  </data>
+  <data name="Input.Table" xml:space="preserve">
+    <value>Tableau d'entrée</value>
+  </data>
+  <data name="List.Alarms" xml:space="preserve">
+    <value>Liste des alarmes</value>
+  </data>
+  <data name="List.Automatic.Reconciliations" xml:space="preserve">
+    <value>Liste des réconciliations automatiques</value>
+  </data>
+  <data name="List.Automatic.Sourcing.For.Grid" xml:space="preserve">
+    <value>Liste de source automatique de grille</value>
+  </data>
+  <data name="List.billing.event" xml:space="preserve">
+    <value>Liste des évènements de facturation</value>
+  </data>
+  <data name="List.Calculated.Measure" xml:space="preserve">
+    <value>Liste mesures calculées</value>
+  </data>
+  <data name="List.Chart" xml:space="preserve">
+    <value>Liste des graphiques</value>
+  </data>
+  <data name="List.configurations" xml:space="preserve">
+    <value>Liste des configurations</value>
+  </data>
+  <data name="billing.run.credit.note" xml:space="preserve">
+    <value>Liste des notes de crédit</value>
+  </data>
+  <data name="List.Dashboard" xml:space="preserve">
+    <value>Liste des tableaux de bord</value>
+  </data>
+  <data name="List.Dynamic.Forms" xml:space="preserve">
+    <value>Liste dynamique des formes</value>
+  </data>
+  <data name="List.Files.Loader" xml:space="preserve">
+    <value>Liste des chargeurs de fichier</value>
+  </data>
+  <data name="List.Incremental.Numbers" xml:space="preserve">
+    <value>Liste des nombres séquentiels</value>
+  </data>
+  <data name="List.Input.Grid" xml:space="preserve">
+    <value>Listes des grilles d'entrée</value>
+  </data>
+  <data name="List.Input.Tables" xml:space="preserve">
+    <value>Tableur</value>
+  </data>
+  <data name="List.invoice" xml:space="preserve">
+    <value>Liste facture</value>
+  </data>
+  <data name="List.Links" xml:space="preserve">
+    <value>Liste des liens</value>
+  </data>
+  <data name="List.model" xml:space="preserve">
+    <value>Liste des modèles de facturation</value>
+  </data>
+  <data name="List.Pivot.Grid" xml:space="preserve">
+    <value>Liste des grilles pivots</value>
+  </data>
+  <data name="List.Reconciliation.Filter" xml:space="preserve">
+    <value>Liste des filtres de réconciliation</value>
+  </data>
+  <data name="List.Report.Grid" xml:space="preserve">
+    <value>Liste des grilles de rapport</value>
+  </data>
+  <data name="List.Report.Publication" xml:space="preserve">
+    <value>Liste des rapports publiés</value>
+  </data>
+  <data name="List.Reports" xml:space="preserve">
+    <value>Liste des tableurs</value>
+  </data>
+  <data name="List.template" xml:space="preserve">
+    <value>Listes des patrons de facture</value>
+  </data>
+  <data name="Load" xml:space="preserve">
+    <value>Chargement</value>
+  </data>
+  <data name="Load.LoadTable" xml:space="preserve">
+    <value>Table des charges</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Déconnection</value>
+  </data>
+  <data name="Manual.billing.event" xml:space="preserve">
+    <value>Evènement manuel de facturation</value>
+  </data>
+  <data name="MoveDown" xml:space="preserve">
+    <value>Descendre</value>
+  </data>
+  <data name="MoveUp" xml:space="preserve">
+    <value>Monter</value>
+  </data>
+  <data name="Multiple.Files.Loader" xml:space="preserve">
+    <value>Chargeur fichier multiple</value>
+  </data>
+  <data name="New" xml:space="preserve">
+    <value>Nouveau</value>
+  </data>
+  <data name="New billing event" xml:space="preserve">
+    <value>Nouvel évènement de facturation</value>
+  </data>
+  <data name="New.Alarm" xml:space="preserve">
+    <value>Nouvelle alarme</value>
+  </data>
+  <data name="New.Automatic.Reconciliation" xml:space="preserve">
+    <value>Nouvelle réconciliation automatique</value>
+  </data>
+  <data name="Automatic.Reconciliation" xml:space="preserve">
+    <value>Réconciliation automatique</value>
+  </data>
+  <data name="New.billing.temp" xml:space="preserve">
+    <value>Nouveau modèle de facturation</value>
+  </data>
+  <data name="New.Automatic.Sourcing.For.Grid" xml:space="preserve">
+    <value>Nouvelle source automatique de grille</value>
+  </data>
+  <data name="New.Calculated.Measure" xml:space="preserve">
+    <value>Nouvelle mesure calculée</value>
+  </data>
+  <data name="New.Chart" xml:space="preserve">
+    <value>Nouveau graphique</value>
+  </data>
+  <data name="New.configuration" xml:space="preserve">
+    <value>Nouvelle configuration</value>
+  </data>
+  <data name="New.Dashboard" xml:space="preserve">
+    <value>Nouveau tableau de bord</value>
+  </data>
+  <data name="New.Dynamic.Form" xml:space="preserve">
+    <value>Nouvelle forme dynamique</value>
+  </data>
+  <data name="New.Files.Loader" xml:space="preserve">
+    <value>Nouveau chargeur de fichiers</value>
+  </data>
+  <data name="New.Incremental.Number" xml:space="preserve">
+    <value>Nouvelle séquence</value>
+  </data>
+  <data name="New.Input.Grid" xml:space="preserve">
+    <value>Nouvelle grille d'entrée</value>
+  </data>
+  <data name="New.Input.Table" xml:space="preserve">
+    <value>Nouveau tableau d'entrée</value>
+  </data>
+  <data name="New.model" xml:space="preserve">
+    <value>Nouveau modèle</value>
+  </data>
+  <data name="New.Pivot.Grid" xml:space="preserve">
+    <value>Nouvelle grille pivot</value>
+  </data>
+  <data name="New.Project" xml:space="preserve">
+    <value>Nouveau projet</value>
+  </data>
+  <data name="New.Reconciliation.Filter" xml:space="preserve">
+    <value>Nouveau filtre de réconciliation</value>
+  </data>
+  <data name="New.Report" xml:space="preserve">
+    <value>Nouveau rapport</value>
+  </data>
+  <data name="New.Report.Grid" xml:space="preserve">
+    <value>Nouvelle grille rapport</value>
+  </data>
+  <data name="New.template" xml:space="preserve">
+    <value>Nouveau patron de facture</value>
+  </data>
+  <data name="Open" xml:space="preserve">
+    <value>Ouvrir</value>
+  </data>
+  <data name="Open.Recent.Project" xml:space="preserve">
+    <value>Ouvrir projet récent</value>
+  </data>
+  <data name="Paste" xml:space="preserve">
+    <value>Coller</value>
+  </data>
+  <data name="Pivot.Table" xml:space="preserve">
+    <value>Table pivot</value>
+  </data>
+  <data name="Print" xml:space="preserve">
+    <value>Imprimer</value>
+  </data>
+  <data name="Profile" xml:space="preserve">
+    <value>Profil</value>
+  </data>
+  <data name="project" xml:space="preserve">
+    <value>Projet</value>
+  </data>
+  <data name="Project.Automatic.Backup" xml:space="preserve">
+    <value>Sauvegarde automatique</value>
+  </data>
+  <data name="Project.New.Backup" xml:space="preserve">
+    <value>Nouvelle sauvegarde du projet</value>
+  </data>
+  <data name="ProjectFailedClosed" xml:space="preserve">
+    <value>Fermeture du projet échouée</value>
+  </data>
+  <data name="Projects" xml:space="preserve">
+    <value>Projets</value>
+  </data>
+  <data name="Projects.AddToYourWorkspace" xml:space="preserve">
+    <value>Ajouter un projet à votre espace de travail</value>
+  </data>
+  <data name="Projects.Available" xml:space="preserve">
+    <value>Projet disponible</value>
+  </data>
+  <data name="Projects.AvailableHeader" xml:space="preserve">
+    <value>Sélectionner les projets à ajouter</value>
+  </data>
+  <data name="Projects.BackgroundColor" xml:space="preserve">
+    <value>Couleur arrière-plan </value>
+  </data>
+  <data name="Projects.ChangeProjectProperties" xml:space="preserve">
+    <value>Changer les proprietées du projet :  </value>
+  </data>
+  <data name="Projects.Create" xml:space="preserve">
+    <value>Créer un projet</value>
+  </data>
+  <data name="Projects.CreateLoad" xml:space="preserve">
+    <value>Chargement...</value>
+  </data>
+  <data name="Projects.DeletionProject" xml:space="preserve">
+    <value>Suppression du projet :</value>
+  </data>
+  <data name="Detail" xml:space="preserve">
+    <value>Détail</value>
+  </data>
+  <data name="Projects.EnterProjectName" xml:space="preserve">
+    <value>Saisir nom du projet...</value>
+  </data>
+  <data name="Projects.FailureAddProject" xml:space="preserve">
+    <value>Echec ajout projet</value>
+  </data>
+  <data name="Projects.FailureDeleteProject" xml:space="preserve">
+    <value>Echec suppression projet</value>
+  </data>
+  <data name="Projects.ForegroundColor" xml:space="preserve">
+    <value>Couleur premier plan  </value>
+  </data>
+  <data name="Projects.Functionality.AddToYourWorkspace" xml:space="preserve">
+    <value>Ajouter une fonctionnalité au projet</value>
+  </data>
+  <data name="projects.functionality.available" xml:space="preserve">
+    <value>Fonctionnalités disponibles</value>
+  </data>
+  <data name="Projects.Functionality.NotFound" xml:space="preserve">
+    <value>Aucune fonctionnalité trouvée</value>
+  </data>
+  <data name="Projects.Functionality.Project" xml:space="preserve">
+    <value>Projet</value>
+  </data>
+  <data name="Projects.HideProject" xml:space="preserve">
+    <value>Masquer le projet :</value>
+  </data>
+  <data name="Projects.NotFound" xml:space="preserve">
+    <value>Aucun projet trouvé</value>
+  </data>
+  <data name="Projects.ProjectFailureCreated" xml:space="preserve">
+    <value>Echec de création du projet</value>
+  </data>
+  <data name="Projects.ProjectSuccessfullyAdded" xml:space="preserve">
+    <value>Projet ajouté avec succès</value>
+  </data>
+  <data name="Projects.ProjectSuccessfullyDeleted" xml:space="preserve">
+    <value>Projet supprimé avec succès</value>
+  </data>
+  <data name="Projects.ProjectSuccessfullyHidden" xml:space="preserve">
+    <value>Projet masqué avec succès </value>
+  </data>
+  <data name="Projects.RenameProject" xml:space="preserve">
+    <value>Renommer le projet :  </value>
+  </data>
+  <data name="Projects.RenameSuccessfully" xml:space="preserve">
+    <value>Projet renommé avec succès</value>
+  </data>
+  <data name="Projects.SuccessfullyExported" xml:space="preserve">
+    <value>Projet exporté avec succès</value>
+  </data>
+  <data name="Projects.ExportFileIssue" xml:space="preserve">
+    <value>Erreur survenue lors de la transmission du contenu du fichier</value>
+  </data>
+  <data name="export.archiveName.required" xml:space="preserve">
+    <value>Le nom de l'archive est requis</value>
+  </data>
+  <data name="Projects.UnknownErrorFailedExport" xml:space="preserve">
+    <value>Une erreur inconnue est survenue lors de l'export</value>
+  </data>
+  <data name="Projects.WantHideProject" xml:space="preserve">
+    <value>Voulez-vous masquer ce projet ?</value>
+  </data>
+  <data name="Projects.WantRemoveProject" xml:space="preserve">
+    <value>Voulez-vous supprimer ce projet ?</value>
+  </data>
+  <data name="Projects.Workspace" xml:space="preserve">
+    <value>Espace de travail Projets</value>
+  </data>
+  <data name="ProjectSuccessfullyClosed" xml:space="preserve">
+    <value>Projet fermé avec succès</value>
+  </data>
+  <data name="ProjectSuccessfullyCreated" xml:space="preserve">
+    <value>Projet créé avec succès</value>
+  </data>
+  <data name="Properties" xml:space="preserve">
+    <value>Propriétés</value>
+  </data>
+  <data name="reconciliation" xml:space="preserve">
+    <value>Réconciliation</value>
+  </data>
+  <data name="Rename" xml:space="preserve">
+    <value>Renommer</value>
+  </data>
+  <data name="Report" xml:space="preserve">
+    <value>Rapport</value>
+  </data>
+  <data name="reporting" xml:space="preserve">
+    <value>Rapports</value>
+  </data>
+  <data name="Review" xml:space="preserve">
+    <value>Revue</value>
+  </data>
+  <data name="Run.Automatic.Reconciliations" xml:space="preserve">
+    <value>Exécuter les réconciliations automatiques</value>
+  </data>
+  <data name="Run.Files.Loader" xml:space="preserve">
+    <value>Exécuter le chargeur de fichier</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Enregistrer</value>
+  </data>
+  <data name="Scheduled.Alarms" xml:space="preserve">
+    <value>Alarmes planifiées</value>
+  </data>
+  <data name="billing.model.form.schedul.sched" xml:space="preserve">
+    <value>Planifié</value>
+  </data>
+  <data name="Scheduled.Auto.Recos" xml:space="preserve">
+    <value>Planification auto des récos</value>
+  </data>
+  <data name="billing.model.scheduler" xml:space="preserve">
+    <value>Modèles de facturation planifiés</value>
+  </data>
+  <data name="Scheduling" xml:space="preserve">
+    <value>Planification</value>
+  </data>
+  <data name="settings" xml:space="preserve">
+    <value>Paramètres</value>
+  </data>
+  <data name="Settlement.Evolution" xml:space="preserve">
+    <value>Evolution du règlement</value>
+  </data>
+  <data name="sourcing" xml:space="preserve">
+    <value>Source</value>
+  </data>
+  <data name="TransformationData" xml:space="preserve">
+    <value>Transformation</value>
+  </data>
+  <data name="TransformationData.CombinedTransformationTree" xml:space="preserve">
+    <value>Arbre de transformation combiné</value>
+  </data>
+  <data name="TransformationData.ListCombinedTransformationTrees" xml:space="preserve">
+    <value>Liste des arbres de transformation combinés</value>
+  </data>
+  <data name="TransformationData.ListTransformationTrees" xml:space="preserve">
+    <value>Liste des arbres de transformation </value>
+  </data>
+  <data name="TransformationData.NewCombinedTransformationTree" xml:space="preserve">
+    <value>Nouvel arbre de transformation combiné</value>
+  </data>
+  <data name="TransformationData.NewTransformationTree" xml:space="preserve">
+    <value>Nouvel arbre de transformation</value>
+  </data>
+  <data name="TransformationData.ScheduledTransformationTrees" xml:space="preserve">
+    <value>Arbres de transformation programmés</value>
+  </data>
+  <data name="TransformationData.TransformationTree" xml:space="preserve">
+    <value>Arbre de transformation</value>
+  </data>
+  <data name="Users" xml:space="preserve">
+    <value>Utilisateurs</value>
+  </data>
+  <data name="View" xml:space="preserve">
+    <value>Visualiser</value>
+  </data>
+  <data name="item.delete" xml:space="preserve">
+    <value>Supprimer</value>
+  </data>
+  <data name="target.period" xml:space="preserve">
+    <value>Période</value>
+  </data>
+  <data name="Grid.configuration" xml:space="preserve">
+    <value>Configuration</value>
+  </data>
+  <data name="target.entities" xml:space="preserve">
+    <value>Entités</value>
+  </data>
+  <data name="target.grid.columns" xml:space="preserve">
+    <value>Colonnes de la grille</value>
+  </data>
+  <data name="Gridcolumn.column" xml:space="preserve">
+    <value>Colonne</value>
+  </data>
+  <data name="category" xml:space="preserve">
+    <value>Catégorie</value>
+  </data>
+  <data name="Gridcolumn.shape.color" xml:space="preserve">
+    <value>Couleur de la forme</value>
+  </data>
+  <data name="Gridcolumn.text.color" xml:space="preserve">
+    <value>Couleur de texte</value>
+  </data>
+  <data name="Gridcolumn.fixed.style" xml:space="preserve">
+    <value>Style fixe</value>
+  </data>
+  <data name="Gridcolumn.show.column" xml:space="preserve">
+    <value>Afficher la colonne</value>
+  </data>
+  <data name="Gridcolumn.mandatory" xml:space="preserve">
+    <value>Obligatoire</value>
+  </data>
+  <data name="Gridcolumn.editable" xml:space="preserve">
+    <value>Modifiable</value>
+  </data>
+  <data name="Gridcolumn.show.existing.value" xml:space="preserve">
+    <value>Afficher les valeurs existantes</value>
+  </data>
+  <data name="MEASURE" xml:space="preserve">
+    <value>Mesure</value>
+  </data>
+  <data name="PERIOD" xml:space="preserve">
+    <value>Période</value>
+  </data>
+  <data name="Grid.user.filter" xml:space="preserve">
+    <value>Filtre utilisateur</value>
+  </data>
+  <data name="Grid.admin.filter" xml:space="preserve">
+    <value>Filtre Administrateur</value>
+  </data>
+  <data name="grid.VisibleInShortcut" xml:space="preserve">
+    <value>Visible dans le raccourci</value>
+  </data>
+  <data name="Grid.edit.column" xml:space="preserve">
+    <value>Colonne</value>
+  </data>
+  <data name="Grid.edit.value" xml:space="preserve">
+    <value>Valeur</value>
+  </data>
+  <data name="Grid.edit.column.properties" xml:space="preserve">
+    <value>Propriétés</value>
+  </data>
+  <data name="Gridcolumn.Dimension" xml:space="preserve">
+    <value>Dimension</value>
+  </data>
+  <data name="AppState.lived" xml:space="preserve">
+    <value>Avertissement: quitter cette page entraînera la perte de toutes les données non enregistrées. Êtes-vous sûr de vouloir continuer?</value>
+  </data>
+  <data name="DynamicForm.Select" xml:space="preserve">
+    <value>Sélectionner la grille d'entrée qui recueillera les données du formulaire</value>
+  </data>
+  <data name="DynamicForm.Fields" xml:space="preserve">
+    <value>Champs</value>
+  </data>
+  <data name="Gridcolumn.default.value" xml:space="preserve">
+    <value>Valeur de champ par défaut</value>
+  </data>
+  <data name="Gridcolumn.apply.empty.cell" xml:space="preserve">
+    <value>Appliquer uniquement si la cellule est vide</value>
+  </data>
+  <data name="Gridcolumn.apply.future.new.or.modifiy" xml:space="preserve">
+    <value>Appliquer à la future ligne nouvelle et modifiée</value>
+  </data>
+  <data name="Gridcolumn.apply.button" xml:space="preserve">
+    <value>Appliquer</value>
+  </data>
+  <data name="Gridcolumn.default.reste" xml:space="preserve">
+    <value>Réinitialiser</value>
+  </data>
+  <data name="Gridcolumn.columns" xml:space="preserve">
+    <value>Colonnes</value>
+  </data>
+  <data name="Grid.edit.columns" xml:space="preserve">
+    <value>Colonnes</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Modifier</value>
+  </data>
+  <data name="Show.Filter.Row" xml:space="preserve">
+    <value>Afficher la ligne de filtre</value>
+  </data>
+  <data name="Column.Chooser" xml:space="preserve">
+    <value>Sélecteur de colonne</value>
+  </data>
+  <data name="EDIT.FORM" xml:space="preserve">
+    <value>Modifier le formulaire</value>
+  </data>
+  <data name="EDIT.FORM.GRID" xml:space="preserve">
+    <value>Modifier la grille</value>
+  </data>
+  <data name="credit.note" xml:space="preserve">
+    <value>Note de crédit</value>
+  </data>
+  <data name="CreditNoteAmount" xml:space="preserve">
+    <value>Montant note de crédit</value>
+  </data>
+  <data name="From" xml:space="preserve">
+    <value>Du</value>
+  </data>
+  <data name="From_" xml:space="preserve">
+    <value>De</value>
+  </data>
+  <data name="Invoice" xml:space="preserve">
+    <value>Facture</value>
+  </data>
+  <data name="InvoiceAmount" xml:space="preserve">
+    <value>Montant facture</value>
+  </data>
+  <data name="Mode" xml:space="preserve">
+    <value>Mode</value>
+  </data>
+  <data name="NumberAbbreviation" xml:space="preserve">
+    <value>Nº</value>
+  </data>
+  <data name="RunDate" xml:space="preserve">
+    <value>Date d'exécution</value>
+  </data>
+  <data name="Status" xml:space="preserve">
+    <value>Statut</value>
+  </data>
+  <data name="To" xml:space="preserve">
+    <value>Au</value>
+  </data>
+  <data name="To_" xml:space="preserve">
+    <value>À</value>
+  </data>
+  <data name="User" xml:space="preserve">
+    <value>Utilisateur</value>
+  </data>
+  <data name="FileSeparator" xml:space="preserve">
+    <value>Séparateur de fichier</value>
+  </data>
+  <data name="PageLoader.Active" xml:space="preserve">
+    <value>Active</value>
+  </data>
+  <data name="PageLoader.Del" xml:space="preserve">
+    <value>Sup</value>
+  </data>
+  <data name="PageLoader.FileExtension" xml:space="preserve">
+    <value>Extension de fichier</value>
+  </data>
+  <data name="PageLoader.Configuration" xml:space="preserve">
+    <value>Configuration</value>
+  </data>
+  <data name="PageLoader.FileNameConditions" xml:space="preserve">
+    <value>Conditions de nom de fichier</value>
+  </data>
+  <data name="PageLoader.FileSeparator" xml:space="preserve">
+    <value>Séparateur de fichiers</value>
+  </data>
+  <data name="PageLoader.Filter" xml:space="preserve">
+    <value>Filtre...</value>
+  </data>
+  <data name="PageLoader.FolderWhereFilesArePostedOnServerSide" xml:space="preserve">
+    <value>Dossier où les fichiers sont publiés côté serveur</value>
+  </data>
+  <data name="PageLoader.Group" xml:space="preserve">
+    <value>Groupe</value>
+  </data>
+  <data name="PageLoader.HasHeader" xml:space="preserve">
+    <value>A un en-tête</value>
+  </data>
+  <data name="PageLoader.MaxBackup" xml:space="preserve">
+    <value>Sauvegarde maximale</value>
+  </data>
+  <data name="PageLoader.MaxBackupCount" xml:space="preserve">
+    <value>Nombre maximal de sauvegardes</value>
+  </data>
+  <data name="PageLoader.NoBackup" xml:space="preserve">
+    <value>Pas de sauvegarde</value>
+  </data>
+  <data name="PageLoader.Path" xml:space="preserve">
+    <value>Chemin</value>
+  </data>
+  <data name="PageLoader.Properties" xml:space="preserve">
+    <value>Propriétés</value>
+  </data>
+  <data name="PageLoader.Repository" xml:space="preserve">
+    <value>Référentiel où les fichiers sont publiés</value>
+  </data>
+  <data name="PageLoader.RepositoryOnServer" xml:space="preserve">
+    <value>Référentiel sur le serveur</value>
+  </data>
+  <data name="PageLoader.SchedulerOption" xml:space="preserve">
+    <value>Option de planificateur</value>
+  </data>
+  <data name="PageLoader.SchedulerOptionNullText" xml:space="preserve">
+    <value>Option de planificateur</value>
+  </data>
+  <data name="PageLoader.VisibleInShortcut" xml:space="preserve">
+    <value>Visible dans le raccourci</value>
+  </data>
+  <data name="PageLoaderUploadMethod" xml:space="preserve">
+    <value>Méthode de téléchargement</value>
+  </data>
+  <data name="AmountWithoutVat" xml:space="preserve">
+    <value>Montant hors VAT</value>
+  </data>
+  <data name="ClientName" xml:space="preserve">
+    <value>Nom client</value>
+  </data>
+  <data name="ClientNumero" xml:space="preserve">
+    <value>Numéro client</value>
+  </data>
+  <data name="InvoiceDate" xml:space="preserve">
+    <value>Date facturation</value>
+  </data>
+  <data name="ManuallyModified" xml:space="preserve">
+    <value>Modification manuelle</value>
+  </data>
+  <data name="Pdf" xml:space="preserve">
+    <value>Pdf</value>
+  </data>
+  <data name="Reference" xml:space="preserve">
+    <value>Référence</value>
+  </data>
+  <data name="Run" xml:space="preserve">
+    <value>Exécuter</value>
+  </data>
+  <data name="TotalAmount" xml:space="preserve">
+    <value>Montant total</value>
+  </data>
+  <data name="BillingType" xml:space="preserve">
+    <value>Type facture</value>
+  </data>
+  <data name="Creation" xml:space="preserve">
+    <value>Création</value>
+  </data>
+  <data name="End" xml:space="preserve">
+    <value>Clôturé</value>
+  </data>
+  <data name="LastModification" xml:space="preserve">
+    <value>Dernière modification</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Nom</value>
+  </data>
+  <data name="Group.add.title" xml:space="preserve">
+    <value>Ajouter un groupe</value>
+  </data>
+  <data name="saving" xml:space="preserve">
+    <value>En cours de traitement</value>
+  </data>
+  <data name="ATTRIBUTE" xml:space="preserve">
+    <value>Attribut</value>
+  </data>
+  <data name="AttributeValue" xml:space="preserve">
+    <value>Valeur attribut</value>
+  </data>
+  <data name="AutoManualRecoAttribute" xml:space="preserve">
+    <value>Auto\Manuel Attribut Reco</value>
+  </data>
+  <data name="AutoRecoValue" xml:space="preserve">
+    <value>Valeur Reco Automatique</value>
+  </data>
+  <data name="CreditValue" xml:space="preserve">
+    <value>Valeur Crédit</value>
+  </data>
+  <data name="DebitCreditAttribute" xml:space="preserve">
+    <value>Débit/Crédit Attribut</value>
+  </data>
+  <data name="DebitValue" xml:space="preserve">
+    <value>Valeur Débit</value>
+  </data>
+  <data name="DefaultModel" xml:space="preserve">
+    <value>Modèle par défaut</value>
+  </data>
+  <data name="LoadedFilenameAttribute" xml:space="preserve">
+    <value>Nom du fichier chargé  Attribut</value>
+  </data>
+  <data name="LoadNbrAttribute" xml:space="preserve">
+    <value>Attribut Nbre de charge</value>
+  </data>
+  <data name="ManualRecoValue" xml:space="preserve">
+    <value>Valeur Reco manuelle</value>
+  </data>
+  <data name="Object" xml:space="preserve">
+    <value>Objet</value>
+  </data>
+  <data name="Partners" xml:space="preserve">
+    <value>Partenaires</value>
+  </data>
+  <data name="RecoTypeBlock" xml:space="preserve">
+    <value>Type bloc reco</value>
+  </data>
+  <data name="Roles" xml:space="preserve">
+    <value>Rôles</value>
+  </data>
+  <data name="Twodots" xml:space="preserve">
+    <value>:</value>
+  </data>
+  <data name="UserAttribute" xml:space="preserve">
+    <value>Attribut utilisateur</value>
+  </data>
+  <data name="Move.up" xml:space="preserve">
+    <value>Monter</value>
+  </data>
+  <data name="Move.down" xml:space="preserve">
+    <value>Descendre</value>
+  </data>
+  <data name="Move.up.upper" xml:space="preserve">
+    <value>Monter de 5</value>
+  </data>
+  <data name="Move.down.upper" xml:space="preserve">
+    <value>Descendre de 5</value>
+  </data>
+  <data name="remove" xml:space="preserve">
+    <value>Supprimer</value>
+  </data>
+  <data name="Move.end" xml:space="preserve">
+    <value>Fin</value>
+  </data>
+  <data name="Move.start" xml:space="preserve">
+    <value>Début</value>
+  </data>
+  <data name="select.file.to.Import" xml:space="preserve">
+    <value>Sélectionner le fichier à importer</value>
+  </data>
+  <data name="Max.allowed.file" xml:space="preserve">
+    <value>Nombre maximum de fichiers autorisés</value>
+  </data>
+  <data name="Max.file.size" xml:space="preserve">
+    <value>Taille maximale du fichier</value>
+  </data>
+  <data name="Upload.file.loader.message" xml:space="preserve">
+    <value>Importez jusqu'à {0} Mo</value>
+  </data>
+  <data name="Upload.file.name" xml:space="preserve">
+    <value>Nom du fichier</value>
+  </data>
+  <data name="Upload.file.last.modified" xml:space="preserve">
+    <value>Dernière modification</value>
+  </data>
+  <data name="Upload.file.size" xml:space="preserve">
+    <value>Taille (octets)</value>
+  </data>
+  <data name="Upload.file.type" xml:space="preserve">
+    <value>Type de contenu</value>
+  </data>
+  <data name="import.file" xml:space="preserve">
+    <value>Fichier</value>
+  </data>
+  <data name="import.operation" xml:space="preserve">
+    <value>Opération</value>
+  </data>
+  <data name="ImportProjectData.newProjectName" xml:space="preserve">
+    <value>Nouveau nom</value>
+  </data>
+  <data name="ImportProjectData.renameProjectToImport" xml:space="preserve">
+    <value>Renommer le projet à importer</value>
+  </data>
+  <data name="ImportProjectData.renameExistingProject" xml:space="preserve">
+    <value>Renommer le projet existant</value>
+  </data>
+  <data name="ImportProjectData.overwriteExistingProject" xml:space="preserve">
+    <value>Ecraser le projet existant</value>
+  </data>
+  <data name="Billing.Template.SuccessfullyAdd" xml:space="preserve">
+    <value>Modèle de facturation ajouté</value>
+  </data>
+  <data name="List.Pivot.Table" xml:space="preserve">
+    <value>Liste des tables pivots</value>
+  </data>
+  <data name="New.Pivot.Table" xml:space="preserve">
+    <value>Nouvelle table pivot</value>
+  </data>
+  <data name="import.project.successfuly" xml:space="preserve">
+    <value>Importation du projet {0} terminée avec succès</value>
+  </data>
+  <data name="DashboardReportProperties" xml:space="preserve">
+    <value>Propriétés du rapport du tableau de bord</value>
+  </data>
+  <data name="Data" xml:space="preserve">
+    <value>Donnée</value>
+  </data>
+  <data name="Default" xml:space="preserve">
+    <value>Par défaut</value>
+  </data>
+  <data name="IsSchedulerActive" xml:space="preserve">
+    <value>Le planificateur est-il actif ?</value>
+  </data>
+  <data name="Layout" xml:space="preserve">
+    <value>Mise en page</value>
+  </data>
+  <data name="RefreshFrequency" xml:space="preserve">
+    <value>Fréquence de rafraîchissement</value>
+  </data>
+  <data name="Scheduler.Title" xml:space="preserve">
+    <value>Rafraîchir le planificateur</value>
+  </data>
+  <data name="VisibleInBrowser" xml:space="preserve">
+    <value>Visible dans le navigateur</value>
+  </data>
+  <data name="Panels" xml:space="preserve">
+    <value>Panneaux</value>
+  </data>
+  <data name="Panel" xml:space="preserve">
+    <value>Panneau</value>
+  </data>
+  <data name="AlarmProperties" xml:space="preserve">
+    <value>Propriétés de l'alarme</value>
+  </data>
+  <data name="Audience" xml:space="preserve">
+    <value>Audience</value>
+  </data>
+  <data name="Filter" xml:space="preserve">
+    <value>Filtre</value>
+  </data>
+  <data name="Logs" xml:space="preserve">
+    <value>Logs</value>
+  </data>
+  <data name="Messages" xml:space="preserve">
+    <value>Messages</value>
+  </data>
+  <data name="ChatMessage" xml:space="preserve">
+    <value>Message chat</value>
+  </data>
+  <data name="MailTitle" xml:space="preserve">
+    <value>Titre courrier</value>
+  </data>
+  <data name="SendChat" xml:space="preserve">
+    <value>Envoyer  le chat</value>
+  </data>
+  <data name="SendMail" xml:space="preserve">
+    <value>Envoyer un courrier</value>
+  </data>
+  <data name="SendSms" xml:space="preserve">
+    <value>Envoyer un  sms</value>
+  </data>
+  <data name="SmsMessage" xml:space="preserve">
+    <value>Message sms</value>
+  </data>
+  <data name="MailMessage" xml:space="preserve">
+    <value>Message courrier</value>
+  </data>
+  <data name="Audiences" xml:space="preserve">
+    <value>Audiences</value>
+  </data>
+  <data name="Profils" xml:space="preserve">
+    <value>Profils</value>
+  </data>
+  <data name="scheduling.option" xml:space="preserve">
+    <value>Option de planification</value>
+  </data>
+  <data name="billing.model.form.appendice" xml:space="preserve">
+    <value>Ajouter des annexes avec les détails de l'évènement de facturation</value>
+  </data>
+  <data name="appendices" xml:space="preserve">
+    <value>Annexes</value>
+  </data>
+  <data name="billing.model.form.enrich" xml:space="preserve">
+    <value>Enrichir les infos avec les valeurs suivantes</value>
+  </data>
+  <data name="repository" xml:space="preserve">
+    <value>Repertoire</value>
+  </data>
+  <data name="system.template" xml:space="preserve">
+    <value>Modèle système</value>
+  </data>
+  <data name="parameters" xml:space="preserve">
+    <value>Paramètres</value>
+  </data>
+  <data name="unit.cost.driver" xml:space="preserve">
+    <value>Coût unitaire et inducteur</value>
+  </data>
+  <data name="Reconciliation.Configuration.SuccessfullyAdd" xml:space="preserve">
+    <value>Configuration ajoutée avec succès</value>
+  </data>
+  <data name="reconciliation.ExecutionOption" xml:space="preserve">
+    <value>Options d'exécution</value>
+  </data>
+  <data name="Files.Loader.Logs" xml:space="preserve">
+    <value>Logs chargeur de fichier</value>
+  </data>
+  <data name="Loader" xml:space="preserve">
+    <value>Chargeur</value>
+  </data>
+  <data name="Method" xml:space="preserve">
+    <value>Méthode</value>
+  </data>
+  <data name="billing.model.form.cost.exclvalues" xml:space="preserve">
+    <value>Exclure les valeurs des groupes suivants</value>
+  </data>
+  <data name="billing.model.form.cost.inclunit" xml:space="preserve">
+    <value>Inclure le coût unitaire et le pilote</value>
+  </data>
+  <data name="billing.model.form.cost.usebillamount" xml:space="preserve">
+    <value>Utiliser le coût unitaire pour calculer le montant de la facturation</value>
+  </data>
+  <data name="billing.model.form.desc.addstruct" xml:space="preserve">
+    <value>Ajouter une instruction de paiement structuré</value>
+  </data>
+  <data name="billing.model.form.desc.billtemp" xml:space="preserve">
+    <value>Modèle de facture</value>
+  </data>
+  <data name="billing.model.form.desc.currency" xml:space="preserve">
+    <value>Devise</value>
+  </data>
+  <data name="billing.model.form.desc.duedate" xml:space="preserve">
+    <value>Calcul de la date d'échéance</value>
+  </data>
+  <data name="billing.model.form.desc.invoicedate" xml:space="preserve">
+    <value>Calcul de la date de facturation</value>
+  </data>
+  <data name="billing.model.form.desc.incevent" xml:space="preserve">
+    <value>Inclure les événements dont le montant = 0</value>
+  </data>
+  <data name="billing.model.form.desc.invoice" xml:space="preserve">
+    <value>Facturer séparément par période sélectionnée</value>
+  </data>
+  <data name="billing.model.form.desc.orderitem" xml:space="preserve">
+    <value>Ordre des éléments</value>
+  </data>
+  <data name="billing.model.form.desc.selall" xml:space="preserve">
+    <value>Tout sélectionner</value>
+  </data>
+  <data name="billing.model.form.desc.selevent" xml:space="preserve">
+    <value>Sélectionner les types d'événements de facturation</value>
+  </data>
+  <data name="billing.model.form.desc.seleventinvoice" xml:space="preserve">
+    <value>Facture</value>
+  </data>
+  <data name="billing.model.form.desc.selgrouping" xml:space="preserve">
+    <value>Sélectionner des éléments de regroupement</value>
+  </data>
+  <data name="billing.model.form.desc.selinvoice" xml:space="preserve">
+    <value>Sélectionner le pivot de la facture</value>
+  </data>
+  <data name="billing.model.form.desc.selper" xml:space="preserve">
+    <value>Sélectionner la période au moment de l'exécution</value>
+  </data>
+  <data name="billing.model.form.desc.usevat" xml:space="preserve">
+    <value>Utiliser la TVA</value>
+  </data>
+  <data name="select.type" xml:space="preserve">
+    <value>Choisir un type</value>
+  </data>
+  <data name="billing.model.form.param.attr" xml:space="preserve">
+    <value>Attribut</value>
+  </data>
+  <data name="auto.add.billing.filter" xml:space="preserve">
+    <value>Ajouter automatiquement des filtres de facturation</value>
+  </data>
+  <data name="billing.parameter" xml:space="preserve">
+    <value>Paramètre de facturation</value>
+  </data>
+  <data name="enter.parameter.name" xml:space="preserve">
+    <value>Entrer le nom du paramètre</value>
+  </data>
+  <data name="billing.model.form.param.period" xml:space="preserve">
+    <value>Periode</value>
+  </data>
+  <data name="Dimensions" xml:space="preserve">
+    <value>Dimensions</value>
+  </data>
+  <data name="grid.dimensions" xml:space="preserve">
+    <value>Dimensions de la grille</value>
+  </data>
+  <data name="SelectedDimensions" xml:space="preserve">
+    <value>Dimensions Sélectionnées</value>
+  </data>
+  <data name="Reconciliation.Action" xml:space="preserve">
+    <value>Action</value>
+  </data>
+  <data name="Reconciliation.RecoN" xml:space="preserve">
+    <value>Reco N</value>
+  </data>
+  <data name="Reconciliation.LeftAmount" xml:space="preserve">
+    <value>Montant de gauche</value>
+  </data>
+  <data name="Reconciliation.RightAmount" xml:space="preserve">
+    <value>Montant de droite</value>
+  </data>
+  <data name="Reconciliation.BalanceAmount" xml:space="preserve">
+    <value>Montant de la balance</value>
+  </data>
+  <data name="Reconciliation.DeltaAmount" xml:space="preserve">
+    <value>Montant Delta</value>
+  </data>
+  <data name="EnterValue" xml:space="preserve">
+    <value>Entrer une valeur</value>
+  </data>
+  <data name="CreateAutomatically" xml:space="preserve">
+    <value>Créer automatiquement</value>
+  </data>
+  <data name="ENTITY" xml:space="preserve">
+    <value>Entité</value>
+  </data>
+  <data name="LoadNbrGenerator" xml:space="preserve">
+    <value>Générateur de Nbr de charge</value>
+  </data>
+  <data name="Sequence_" xml:space="preserve">
+    <value>Séquence</value>
+  </data>
+  <data name="BillingCompanyId" xml:space="preserve">
+    <value>Id société facturation</value>
+  </data>
+  <data name="BillingCompanyName" xml:space="preserve">
+    <value>Nom société facturation</value>
+  </data>
+  <data name="ClientContact" xml:space="preserve">
+    <value>Contact client</value>
+  </data>
+  <data name="DepartmentName" xml:space="preserve">
+    <value>Nom département</value>
+  </data>
+  <data name="DepartmentNumber" xml:space="preserve">
+    <value>Numéro département</value>
+  </data>
+  <data name="Reconciliation.Left" xml:space="preserve">
+    <value>Gauche</value>
+  </data>
+  <data name="Reconciliation.Right" xml:space="preserve">
+    <value>Droite</value>
+  </data>
+  <data name="Reconciliation.Configuration" xml:space="preserve">
+    <value>Configuration</value>
+  </data>
+  <data name="Reconciliation.RecoType" xml:space="preserve">
+    <value>Type de Reco </value>
+  </data>
+  <data name="Reconciliation.RecoAmount" xml:space="preserve">
+    <value>Montant Reco</value>
+  </data>
+  <data name="Reconciliation.LeftMeasure" xml:space="preserve">
+    <value>Mesure de gauche</value>
+  </data>
+  <data name="Reconciliation.UseDc" xml:space="preserve">
+    <value>Utiliser D/C ? </value>
+  </data>
+  <data name="Reconciliation.DebitLines" xml:space="preserve">
+    <value>Lignes de débit en rouge ?</value>
+  </data>
+  <data name="Reconciliation.Enrichment" xml:space="preserve">
+    <value>Enrichissement</value>
+  </data>
+  <data name="Reconciliation.EnrichValue" xml:space="preserve">
+    <value>Enrichir la valeur lors du rapprochement</value>
+  </data>
+  <data name="Reconciliation.RecoDate" xml:space="preserve">
+    <value>Date Reco</value>
+  </data>
+  <data name="Reconciliation.AutomaticManual" xml:space="preserve">
+    <value>Automatique/manuel</value>
+  </data>
+  <data name="Reconciliation.Customized" xml:space="preserve">
+    <value>Personnalisée</value>
+  </data>
+  <data name="Reconciliation.WriteOff" xml:space="preserve">
+    <value>Annulation</value>
+  </data>
+  <data name="Reconciliation.LeftConfiguration" xml:space="preserve">
+    <value>Configuration de gauche</value>
+  </data>
+  <data name="Reconciliation.RightConfiguration" xml:space="preserve">
+    <value>Configuration de droite</value>
+  </data>
+  <data name="Reconciliation.BottomConfiguration" xml:space="preserve">
+    <value>Configuration inférieure</value>
+  </data>
+  <data name="Reconciliation.Logs" xml:space="preserve">
+    <value>Registres</value>
+  </data>
+  <data name="BillingTemplate.SelectedItem" xml:space="preserve">
+    <value>Élément sélectionné :</value>
+  </data>
+  <data name="billing.model.form.cost.saisi" xml:space="preserve">
+    <value>Saisissez une nouvelle valeur...</value>
+  </data>
+  <data name="billing.model.successfullyAdded" xml:space="preserve">
+    <value>Le modèle de facturation a été ajouté avec succès</value>
+  </data>
+  <data name="HttpServiceUnavailable" xml:space="preserve">
+    <value>Service Indisponible</value>
+  </data>
+  <data name="HttpServiceRequestTimeout" xml:space="preserve">
+    <value>Temps d'attente expiré</value>
+  </data>
+  <data name="enrich.value.of" xml:space="preserve">
+    <value>Enrichir la valeur de</value>
+  </data>
+  <data name="reconciliation.filter" xml:space="preserve">
+    <value>Filtre de réconciliation</value>
+  </data>
+  <data name="Reconciliation.RightMeasure" xml:space="preserve">
+    <value>Mesure de droite</value>
+  </data>
+  <data name="billing.model.form.scheduling" xml:space="preserve">
+    <value>Planification</value>
+  </data>
+  <data name="ClientId" xml:space="preserve">
+    <value>Id Client</value>
+  </data>
+  <data name="CommunicationMessage" xml:space="preserve">
+    <value>Message de communication</value>
+  </data>
+  <data name="CreditNoteNbrGen" xml:space="preserve">
+    <value>Générateur de numéros de notes de crédit</value>
+  </data>
+  <data name="CreditNoteNumber" xml:space="preserve">
+    <value>Numéro de la note de crédit</value>
+  </data>
+  <data name="DefaultLanguage" xml:space="preserve">
+    <value>Langue</value>
+  </data>
+  <data name="DefaultTemplate" xml:space="preserve">
+    <value>Modèle par défaut</value>
+  </data>
+  <data name="DraftValue" xml:space="preserve">
+    <value>Valeur du projet</value>
+  </data>
+  <data name="DueDate" xml:space="preserve">
+    <value>Date d'échéance</value>
+  </data>
+  <data name="DueDateCalculation" xml:space="preserve">
+    <value>Calcul de la date d'échéance</value>
+  </data>
+  <data name="InvoicedAmountExcelVat" xml:space="preserve">
+    <value>Montant facturé Excel TVA</value>
+  </data>
+  <data name="InvoicedAmountInclVat" xml:space="preserve">
+    <value>Montant facturé, TVA incluse</value>
+  </data>
+  <data name="InvoicedVatAmount" xml:space="preserve">
+    <value>Montant de la TVA facturée</value>
+  </data>
+  <data name="InvoiceNbrGenerator" xml:space="preserve">
+    <value>Générateur de numéro de facture</value>
+  </data>
+  <data name="InvoiceNumber" xml:space="preserve">
+    <value>Numéro facture</value>
+  </data>
+  <data name="LegalForm" xml:space="preserve">
+    <value>Forme juridique</value>
+  </data>
+  <data name="NotYetSentValue" xml:space="preserve">
+    <value>Valeur non encore envoyée</value>
+  </data>
+  <data name="PostalCode" xml:space="preserve">
+    <value>Code postal</value>
+  </data>
+  <data name="SendingStatus" xml:space="preserve">
+    <value>Statut d'envoi</value>
+  </data>
+  <data name="SentValue" xml:space="preserve">
+    <value>Valeur envoyée</value>
+  </data>
+  <data name="StreetNumberBox" xml:space="preserve">
+    <value>Ville, rue et boite postale</value>
+  </data>
+  <data name="SubInvoiceNumber" xml:space="preserve">
+    <value>N° de sous-facture</value>
+  </data>
+  <data name="ToCheckValue" xml:space="preserve">
+    <value>Valeur à verifier</value>
+  </data>
+  <data name="ValidatedValue" xml:space="preserve">
+    <value>Valeur validée</value>
+  </data>
+  <data name="VatNumber" xml:space="preserve">
+    <value>Numéro TVA</value>
+  </data>
+  <data name="import.project.failure" xml:space="preserve">
+    <value>Échec de l'importation du projet</value>
+  </data>
+  <data name="confirm.project.replace" xml:space="preserve">
+    <value>Confirmez le remplacement du projet</value>
+  </data>
+  <data name="project.import.name.issue" xml:space="preserve">
+    <value>Il existe déjà un projet portant le même nom. Sélectionnez l'action que vous souhaitez exécuter.</value>
+  </data>
+  <data name="project.import.valid.name.issue" xml:space="preserve">
+    <value>Le nom que vous avez saisi ne peut être utilisé, veuillez entrez un autre</value>
+  </data>
+  <data name="project.import.valid.name.empty" xml:space="preserve">
+    <value>Veuillez saisir un nom afin de poursuivre l'import du projet</value>
+  </data>
+  <data name="BillTemplate" xml:space="preserve">
+    <value>Modèle  facture</value>
+  </data>
+  <data name="AutomaticValue" xml:space="preserve">
+    <value>Valeur automatique</value>
+  </data>
+  <data name="BilledStatusValue" xml:space="preserve">
+    <value>Valeur du statut facturé</value>
+  </data>
+  <data name="BillingAmount" xml:space="preserve">
+    <value>Montant facturé</value>
+  </data>
+  <data name="BillingDriver" xml:space="preserve">
+    <value>Pilote de facturation</value>
+  </data>
+  <data name="BillingEventDate" xml:space="preserve">
+    <value>Date de facturation</value>
+  </data>
+  <data name="BillingRun" xml:space="preserve">
+    <value>Exécution de facturation</value>
+  </data>
+  <data name="BillingRunDate" xml:space="preserve">
+    <value>Date d'exécution de la facturation</value>
+  </data>
+  <data name="CreationTypeAm" xml:space="preserve">
+    <value>Type de création (A/M)</value>
+  </data>
+  <data name="CreditNoteTypeValue" xml:space="preserve">
+    <value>Valeur du type de note de crédit</value>
+  </data>
+  <data name="DraftStatusValue" xml:space="preserve">
+    <value>Valeur de l'état du brouillon</value>
+  </data>
+  <data name="FrozenNoteStatusValue" xml:space="preserve">
+    <value>Valeur d'état de la note gelée</value>
+  </data>
+  <data name="InvoiceTypeValue" xml:space="preserve">
+    <value>Valeur du type de facture</value>
+  </data>
+  <data name="ManualValue" xml:space="preserve">
+    <value>Valeur manuelle</value>
+  </data>
+  <data name="UnitCost" xml:space="preserve">
+    <value>Prix unitaire</value>
+  </data>
+  <data name="VatRate" xml:space="preserve">
+    <value>Taux TVA</value>
+  </data>
+  <data name="billing.template.mainfile" xml:space="preserve">
+    <value>Fichier principal</value>
+  </data>
+  <data name="billing.model.duplicateName" xml:space="preserve">
+    <value>Un modèle de facturation porte déjà ce nom, veuillez saisir un autre.</value>
+  </data>
+  <data name="billing.model.successfullyModified" xml:space="preserve">
+    <value>Le modèle de facturation a été modifié avec succès</value>
+  </data>
+  <data name="save.SuccessfullyAdd" xml:space="preserve">
+    <value>{0} enregistré avec succès.</value>
+  </data>
+  <data name="ActivateFileLoaderScheduling" xml:space="preserve">
+    <value>Activer la planification du chargeur de fichier</value>
+  </data>
+  <data name="CurrentExecutionFirstTime" xml:space="preserve">
+    <value>Première exécution</value>
+  </data>
+  <data name="CurrentlyExecuting" xml:space="preserve">
+    <value>En cours d'exécution</value>
+  </data>
+  <data name="NextFiretime" xml:space="preserve">
+    <value>Prochaine heure d'exécution</value>
+  </data>
+  <data name="PrevFiretime" xml:space="preserve">
+    <value>Précédente heure d'exécution</value>
+  </data>
+  <data name="CurrentExecutionRunTime" xml:space="preserve">
+    <value>Temps d'exécution actuel</value>
+  </data>
+  <data name="Scheduled.Files.Loader.Logs" xml:space="preserve">
+    <value>Logs des chargeurs de fichier planifiés</value>
+  </data>
+  <data name="functionality.createFileLoader" xml:space="preserve">
+    <value>Nouveau chargeur de fichier</value>
+  </data>
+  <data name="functionality.listFileLoaders" xml:space="preserve">
+    <value>Liste des chargeurs de fichier</value>
+  </data>
+  <data name="Functionality.list.billingListInvoice" xml:space="preserve">
+    <value>Lister les factures</value>
+  </data>
+  <data name="Functionality.list.billingModel" xml:space="preserve">
+    <value>Liste des modèles de facturation</value>
+  </data>
+  <data name="Functionality.list.billingRunCreditNote" xml:space="preserve">
+    <value>Liste des notes de crédit de facturation</value>
+  </data>
+  <data name="Functionality.list.billingtemplate" xml:space="preserve">
+    <value>Liste des modèles de facturation</value>
+  </data>
+  <data name="Functionality.list.inputgrid" xml:space="preserve">
+    <value>Lister les grilles d'entrée</value>
+  </data>
+  <data name="Functionality.new.billingModel" xml:space="preserve">
+    <value>Nouveau modèle de facturation</value>
+  </data>
+  <data name="Functionality.new.reportingChart" xml:space="preserve">
+    <value>Créer un graphe de reporting</value>
+  </data>
+  <data name="Functionality.new.billingrunoutcome" xml:space="preserve">
+    <value>Afficher le résultat du cycle de facturation</value>
+  </data>
+  <data name="Functionality.new.billingtemplate" xml:space="preserve">
+    <value>Nouveau modèle de facturation</value>
+  </data>
+  <data name="Functionality.new.dynamicform" xml:space="preserve">
+    <value>Nouveau formulaire dynamique</value>
+  </data>
+  <data name="Functionality.new.inputgrid" xml:space="preserve">
+    <value>Nouvelle grille de données</value>
+  </data>
+  <data name="Functionality.new.reconciliationlog" xml:space="preserve">
+    <value>Nouveau journal de réconciliation</value>
+  </data>
+  <data name="Functionality.list.billingEvent" xml:space="preserve">
+    <value>Lister les référentiels d'événements de facturation</value>
+  </data>
+  <data name="Functionality.list.billingRunStatus" xml:space="preserve">
+    <value>Lister les états de facturation</value>
+  </data>
+  <data name="Functionality.list.dashboardAlarm" xml:space="preserve">
+    <value>Lister les alarmes du tableau de bord</value>
+  </data>
+  <data name="Functionality.list.dashboardAlarmScheduled" xml:space="preserve">
+    <value>Lister les alarmes du tableau de bord planifiées</value>
+  </data>
+  <data name="Functionality.list.fileLoaderLog" xml:space="preserve">
+    <value>Lister les logs des chargeurs de fichier</value>
+  </data>
+  <data name="Functionality.list.fileLoaderScheduling" xml:space="preserve">
+    <value>Lister les chargeurs de fichier planifiés</value>
+  </data>
+  <data name="Functionality.list.reconciliationFilter" xml:space="preserve">
+    <value>Lister les filtres de réconciliation</value>
+  </data>
+  <data name="Functionality.list.reportDashboard" xml:space="preserve">
+    <value>Créer un tableau de bord de rapport</value>
+  </data>
+  <data name="Functionality.list.reportingChart" xml:space="preserve">
+    <value>Lister les graphes de reporting</value>
+  </data>
+  <data name="Functionality.list.reportingGrid" xml:space="preserve">
+    <value>Lister les grilles de reporting</value>
+  </data>
+  <data name="Functionality.list.reportingReport" xml:space="preserve">
+    <value>Lister les rapports de reporting</value>
+  </data>
+  <data name="Functionality.list.reportPivotTable" xml:space="preserve">
+    <value>Lister les tables pivot de rapport</value>
+  </data>
+  <data name="Functionality.list.reportPublication" xml:space="preserve">
+    <value>Lister les rapports de publications</value>
+  </data>
+  <data name="Functionality.new.dashboardAlarm" xml:space="preserve">
+    <value>Créer une alarme d'un tableau de bord</value>
+  </data>
+  <data name="Functionality.new.reconciliationFilter" xml:space="preserve">
+    <value>Créer un filtre de réconciliation</value>
+  </data>
+  <data name="Functionality.new.reportDashboard" xml:space="preserve">
+    <value>Créer un tableu de bord de rapport</value>
+  </data>
+  <data name="Functionality.new.reportingGrid" xml:space="preserve">
+    <value>Créer une grille de reporting</value>
+  </data>
+  <data name="Functionality.new.reportPivotTable" xml:space="preserve">
+    <value>Créer un tableau croisé dynamique</value>
+  </data>
+  <data name="Functionality.settings.configuration" xml:space="preserve">
+    <value>Ouvrir la configuration des paramètres</value>
+  </data>
+  <data name="import.FeedBack" xml:space="preserve">
+    <value>Actions recommandées</value>
+  </data>
+  <data name="ReImport" xml:space="preserve">
+    <value>Appliquer &amp; Importer</value>
+  </data>
+  <data name="reco.auto.duplicateName" xml:space="preserve">
+    <value>Un rapprochement automatique porte déjà ce nom, veuillez saisir un autre.</value>
+  </data>
+  <data name="reco.auto.recoFilter" xml:space="preserve">
+    <value>Filtre de réconciliation</value>
+  </data>
+  <data name="reco.auto.recoFilter.availableText" xml:space="preserve">
+    <value>Attributs et périodes disponibles</value>
+  </data>
+  <data name="reco.auto.recoFilter.commonText" xml:space="preserve">
+    <value>Attributs et périodes communs</value>
+  </data>
+  <data name="reco.auto.recoFilterSelect" xml:space="preserve">
+    <value>Sélectionner le filtre de réconciliation pour l'enregistrement automatique</value>
+  </data>
+  <data name="reco.auto.recoFilterText" xml:space="preserve">
+    <value>Définir les conditions requises entre les éléments gauche et droite</value>
+  </data>
+  <data name="reco.auto.successfullyAdded" xml:space="preserve">
+    <value>Le rapprochement automatique a été ajouté avec succès</value>
+  </data>
+  <data name="reco.auto.successfullyUpdated" xml:space="preserve">
+    <value>Le rapprochement automatique a été mis à jour avec succès</value>
+  </data>
+  <data name="reco.auto.tab1" xml:space="preserve">
+    <value>Filtre</value>
+  </data>
+  <data name="reco.auto.filter" xml:space="preserve">
+    <value>Filtre</value>
+  </data>
+  <data name="reco.auto.recoFilter.recoCond" xml:space="preserve">
+    <value>Condition de réconciliation</value>
+  </data>
+  <data name="reco.auto.recoFilter.recoMethod" xml:space="preserve">
+    <value>Méthode de réconciliation</value>
+  </data>
+  <data name="reco.auto.recoFilter.useCombi" xml:space="preserve">
+    <value>Utiliser des combinaisons</value>
+  </data>
+  <data name="reco.auto.recoSchedul.active" xml:space="preserve">
+    <value>Activer</value>
+  </data>
+  <data name="edit.cron.expression" xml:space="preserve">
+    <value>Editer l'expression cron</value>
+  </data>
+  <data name="selectElement" xml:space="preserve">
+    <value>Sélectionner un élément</value>
+  </data>
+  <data name="DesactivateFileLoaderScheduling" xml:space="preserve">
+    <value>Désactiver la planification du chargeur de fichier</value>
+  </data>
+  <data name="ActivateAutoRecoScheduling" xml:space="preserve">
+    <value>Activer la planification des rapprochements automatiques </value>
+  </data>
+  <data name="DesactivateAutoRecoScheduling" xml:space="preserve">
+    <value>Désactiver la planification des rapprochements automatiques</value>
+  </data>
+  <data name="ActivateLogAutoRecoScheduling" xml:space="preserve">
+    <value>Activer la planification du journal des rapprochements automatiques</value>
+  </data>
+  <data name="DesactivateLogAutoRecoScheduling" xml:space="preserve">
+    <value>Désactiver la planification du journal des rapprochements automatiques</value>
+  </data>
+  <data name="HttpError.NotFound" xml:space="preserve">
+    <value>Resource introuvable</value>
+  </data>
+  <data name="InputGrid" xml:space="preserve">
+    <value>Grille d'entrée</value>
+  </data>
+  <data name="duplicate.grid.column" xml:space="preserve">
+    <value>Impossible de dupliquer la colonne {0} de la grille</value>
+  </data>
+  <data name="duplicate.grid.dimension" xml:space="preserve">
+    <value>Impossible de dupliquer la dimension {0} de la grille</value>
+  </data>
+  <data name="AllowReconciliationDelta" xml:space="preserve">
+    <value>Autoriser la réconciliation avec un delta</value>
+  </data>
+  <data name="FieldToShowForAReconciliationDelta" xml:space="preserve">
+    <value>Champ à afficher pour une réconciliation delta</value>
+  </data>
+  <data name="left" xml:space="preserve">
+    <value>Gauche</value>
+  </data>
+  <data name="CUSTOM" xml:space="preserve">
+    <value>Personnalisée</value>
+  </data>
+  <data name="right" xml:space="preserve">
+    <value>Droite</value>
+  </data>
+  <data name="balance" xml:space="preserve">
+    <value>Balance</value>
+  </data>
+  <data name="show.all.row.by.default" xml:space="preserve">
+    <value>Afficher toutes les lignes par défaut ?</value>
+  </data>
+  <data name="allow.row.counting" xml:space="preserve">
+    <value>Autoriser le comptage de lignes ?</value>
+  </data>
+  <data name="using.link" xml:space="preserve">
+    <value>Utiliser des liens ?</value>
+  </data>
+  <data name="Functionality.list.autoReco" xml:space="preserve">
+    <value>Lister les réconciliations automatiques</value>
+  </data>
+  <data name="Functionality.new.autoReco" xml:space="preserve">
+    <value>Créer une réconciliation automatique</value>
+  </data>
+  <data name="all" xml:space="preserve">
+    <value>Tous</value>
+  </data>
+  <data name="not.reconciled.row.only" xml:space="preserve">
+    <value>Ligne non réconciliée uniquement</value>
+  </data>
+  <data name="New.billing.event" xml:space="preserve">
+    <value>Nouvel évènement de facturation</value>
+  </data>
+  <data name="reconciled.row.only" xml:space="preserve">
+    <value>Ligne réconciliée uniquement</value>
+  </data>
+  <data name="show" xml:space="preserve">
+    <value>Affiché</value>
+  </data>
+  <data name="Side" xml:space="preserve">
+    <value>Côté</value>
+  </data>
+  <data name="positive.amount" xml:space="preserve">
+    <value>Montant positif</value>
+  </data>
+  <data name="negative.amount" xml:space="preserve">
+    <value>Montant négatif</value>
+  </data>
+  <data name="clear.grid" xml:space="preserve">
+    <value>Effacer la grille</value>
+  </data>
+  <data name="show.counter.part" xml:space="preserve">
+    <value>Afficher la contre partie</value>
+  </data>
+  <data name="change.position" xml:space="preserve">
+    <value>Changer la position</value>
+  </data>
+  <data name="With.Following.Value.Of" xml:space="preserve">
+    <value>Avec la valeur suivante</value>
+  </data>
+  <data name="billing.model.form.enrich.errorEventRepo" xml:space="preserve">
+    <value>Impossible d'afficher les colonnes pour le repository, veuillez configurer le Billing event repo</value>
+  </data>
+  <data name="reco.auto.script" xml:space="preserve">
+    <value>Script</value>
+  </data>
+  <data name="reco.auto.script.execScript" xml:space="preserve">
+    <value>Exécuter un script supplémentaire</value>
+  </data>
+  <data name="DeltaMeasure" xml:space="preserve">
+    <value>Mesure delta</value>
+  </data>
+  <data name="reco.auto.recoFilterException" xml:space="preserve">
+    <value>Impossible d'afficher la liste des filtres de réconciliation</value>
+  </data>
+  <data name="Reconciliation.FreezeType" xml:space="preserve">
+    <value>Freeze Type</value>
+  </data>
+  <data name="NoteType" xml:space="preserve">
+    <value>Type note</value>
+  </data>
+  <data name="ThisReconciliationWillProduceDelta" xml:space="preserve">
+    <value>Cette réconciliation produira un delta</value>
+  </data>
+  <data name="accountId" xml:space="preserve">
+    <value>Id Compte</value>
+  </data>
+  <data name="accounting" xml:space="preserve">
+    <value>Comptabilité</value>
+  </data>
+  <data name="SelectSide" xml:space="preserve">
+    <value>Sélectionner le côté</value>
+  </data>
+  <data name="SAME_DAY" xml:space="preserve">
+    <value>Même jour</value>
+  </data>
+  <data name="SAME_WEEK" xml:space="preserve">
+    <value>Même semaine</value>
+  </data>
+  <data name="SAME_MONTH" xml:space="preserve">
+    <value>Même mois</value>
+  </data>
+  <data name="SAME_YEAR" xml:space="preserve">
+    <value>Même année</value>
+  </data>
+  <data name="SelectOperator" xml:space="preserve">
+    <value>Sélectionner l'opérateur</value>
+  </data>
+  <data name="ExcludeNullValue" xml:space="preserve">
+    <value>Exclure la valeur nulle</value>
+  </data>
+  <data name="DoYouConfirmOperation" xml:space="preserve">
+    <value>Confirmez-vous l'opération ?</value>
+  </data>
+  <data name="Freeze.type" xml:space="preserve">
+    <value>Ligne en attente uniquement</value>
+  </data>
+  <data name="Freeze" xml:space="preserve">
+    <value>Geler</value>
+  </data>
+  <data name="Unfreeze" xml:space="preserve">
+    <value>Dégeler</value>
+  </data>
+  <data name="Reconciliate" xml:space="preserve">
+    <value>Réconcilier</value>
+  </data>
+  <data name="Hide.counter.part" xml:space="preserve">
+    <value>Masquer la contre-partie</value>
+  </data>
+  <data name="DeleteAll" xml:space="preserve">
+    <value>Supprimer tout</value>
+  </data>
+  <data name="DeleteSelection" xml:space="preserve">
+    <value>Supprimer les éléments sélectionnés</value>
+  </data>
+  <data name="using.Consolidated" xml:space="preserve">
+    <value>Consolidés</value>
+  </data>
+  <data name="open.project.list" xml:space="preserve">
+    <value>Ouvrir la liste des projets</value>
+  </data>
+  <data name="project.select" xml:space="preserve">
+    <value>Veuillez sélectionner votre projet</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="Projects.DefaultProject" xml:space="preserve">
+    <value>Projet par défaut</value>
+  </data>
+  <data name="SureToCloseProjectOrDoYouWantToOpenAnotherProject" xml:space="preserve">
+    <value>Êtes-vous sûr de vouloir fermer le projet ou souhaitez-vous ouvrir un autre projet ?</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Annuler</value>
+  </data>
+  <data name="FunctionalityBlockGroup.SuccessFullyDeleted" xml:space="preserve">
+    <value>FunctionalityBlockGroup supprimé avec succès</value>
+  </data>
+  <data name="TagHasBeenSuccessfullyRemoved" xml:space="preserve">
+    <value>Onglet supprimé avec succès</value>
+  </data>
+  <data name="RenameTab" xml:space="preserve">
+    <value>Renommer l'onglet</value>
+  </data>
+  <data name="customized" xml:space="preserve">
+    <value>Personnalisé</value>
+  </data>
+  <data name="standard" xml:space="preserve">
+    <value>Standard</value>
+  </data>
+  <data name="Gridcolumn.format" xml:space="preserve">
+    <value>Format</value>
+  </data>
+  <data name="Scheduled" xml:space="preserve">
+    <value>Planifié</value>
+  </data>
+  <data name="confirmation.cancel.message" xml:space="preserve">
+    <value>Êtes-vous sûr de vouloir annuler des messages ?</value>
+  </data>
+  <data name="Gridcolumn.column.properties" xml:space="preserve">
+    <value>Propriétés de la colonne</value>
+  </data>
+  <data name="Gridcolumn.function" xml:space="preserve">
+    <value>Fonction</value>
+  </data>
+  <data name="ReportGrid" xml:space="preserve">
+    <value>Grille de rapport</value>
+  </data>
+  <data name="SelectFileExtension" xml:space="preserve">
+    <value>Extension du fichier</value>
+  </data>
+  <data name="HomePage" xml:space="preserve">
+    <value>Page d'accueil</value>
+  </data>
+  <data name="GridMappingConfiguration" xml:space="preserve">
+    <value>Configuration du mappage de la grille</value>
+  </data>
+  <data name="LoaderConfiguration" xml:space="preserve">
+    <value>Configuration chargeur</value>
+  </data>
+  <data name="Mapping" xml:space="preserve">
+    <value>Mappage</value>
+  </data>
+  <data name="SelectFiles" xml:space="preserve">
+    <value>Choisir les fichiers</value>
+  </data>
+  <data name="SelectFolder" xml:space="preserve">
+    <value>Choisir un dossier</value>
+  </data>
+  <data name="Values&amp;Format" xml:space="preserve">
+    <value>Valeurs &amp; Format</value>
+  </data>
+  <data name="FileLoader" xml:space="preserve">
+    <value>Chargeur de fichier</value>
+  </data>
+  <data name="Format" xml:space="preserve">
+    <value>Format</value>
+  </data>
+  <data name="Value" xml:space="preserve">
+    <value>Valeur</value>
+  </data>
+  <data name="ADDCOLUMNTOTARGET" xml:space="preserve">
+    <value>Ajouter une colonne à la cible</value>
+  </data>
+  <data name="ColumnName" xml:space="preserve">
+    <value>Colonne de la grille</value>
+  </data>
+  <data name="InputFileColumn" xml:space="preserve">
+    <value>Colonne du fichier</value>
+  </data>
+  <data name="NEWPERIODMEASUREATTRIBUTE" xml:space="preserve">
+    <value>Nouvelle période/mesure/attribut</value>
+  </data>
+  <data name="SelectionDimension" xml:space="preserve">
+    <value>Dimension</value>
+  </data>
+  <data name="VIEWGRID" xml:space="preserve">
+    <value>Afficher la grille</value>
+  </data>
+  <data name="ProjectsList" xml:space="preserve">
+    <value>Liste des projets</value>
+  </data>
+  <data name="Gridcolumn.ColumnName" xml:space="preserve">
+    <value>Nom de la colonne</value>
+  </data>
+  <data name="PageLoader.UploadMethod" xml:space="preserve">
+    <value>Méthode de téléchargement</value>
+  </data>
+  <data name="HeaderRowCount" xml:space="preserve">
+    <value>Nombre de lignes d'en-tête</value>
+  </data>
+  <data name="SelectFile" xml:space="preserve">
+    <value>Choisir un fichier</value>
+  </data>
+  <data name="Conditions" xml:space="preserve">
+    <value>Conditions</value>
+  </data>
+  <data name="Files" xml:space="preserve">
+    <value>Fichiers</value>
+  </data>
+  <data name="ConfirmationMessage" xml:space="preserve">
+    <value>Êtes-vous sûr de vouloir supprimer cet élément?</value>
+  </data>
+  <data name="empty.input.files" xml:space="preserve">
+    <value>Fichier d'entrée vide</value>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>Erreur</value>
+  </data>
+  <data name="warning" xml:space="preserve">
+    <value>Avertissement</value>
+  </data>
+  <data name="ErrorFileCount" xml:space="preserve">
+    <value># Erreurs</value>
+  </data>
+  <data name="FileCount" xml:space="preserve">
+    <value># Fichiers</value>
+  </data>
+  <data name="Refresh" xml:space="preserve">
+    <value>Actualiser</value>
+  </data>
+  <data name="reporting.chart.form.data" xml:space="preserve">
+    <value>Données</value>
+  </data>
+  <data name="reporting.chart.form.design" xml:space="preserve">
+    <value>Conception</value>
+  </data>
+  <data name="LoadFiles" xml:space="preserve">
+    <value>Chargement des fichiers</value>
+  </data>
+  <data name="SelectTemplate" xml:space="preserve">
+    <value>Choisir un modèle</value>
+  </data>
+  <data name="Template" xml:space="preserve">
+    <value>Modèle</value>
+  </data>
+  <data name="LoadTemplate" xml:space="preserve">
+    <value>charger template</value>
+  </data>
+  <data name="LigneNumber" xml:space="preserve">
+    <value>N°</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>Modifier</value>
+  </data>
+  <data name="CreationDate" xml:space="preserve">
+    <value>Date de création</value>
+  </data>
+  <data name="ModificationDate" xml:space="preserve">
+    <value>Date de modification</value>
+  </data>
+  <data name="Sheet" xml:space="preserve">
+    <value>Feuille</value>
+  </data>
+  <data name="HttpError.BadRequest" xml:space="preserve">
+    <value>Mauvaise demande</value>
+  </data>
+  <data name="LineCount" xml:space="preserve">
+    <value># Lignes</value>
+  </data>
+  <data name="Active" xml:space="preserve">
+    <value>Active</value>
+  </data>
+  <data name="Mandatory" xml:space="preserve">
+    <value>Obligatoire</value>
+  </data>
+  <data name="VisibleInShortcut" xml:space="preserve">
+    <value>Visible dans le raccourci</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>Ajouter</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>Créer</value>
+  </data>
+  <data name="Ok" xml:space="preserve">
+    <value>Ok</value>
+  </data>
+  <data name="Editable" xml:space="preserve">
+    <value>Editable</value>
+  </data>
+  <data name="Cycle" xml:space="preserve">
+    <value>Cycle</value>
+  </data>
+  <data name="Increment" xml:space="preserve">
+    <value>Séquence</value>
+  </data>
+  <data name="InitialValue" xml:space="preserve">
+    <value>Valeur initiale</value>
+  </data>
+  <data name="MaximumValue" xml:space="preserve">
+    <value>Valeur maximale</value>
+  </data>
+  <data name="MinimumValue" xml:space="preserve">
+    <value>Valeur minimale</value>
+  </data>
+  <data name="Prefix" xml:space="preserve">
+    <value>Préfixe</value>
+  </data>
+  <data name="Size" xml:space="preserve">
+    <value>Taille</value>
+  </data>
+  <data name="Suffix" xml:space="preserve">
+    <value>Suffixe</value>
+  </data>
+  <data name="LinkedAttribute" xml:space="preserve">
+    <value>Attribut lié</value>
+  </data>
+  <data name="PrimaryAttribute" xml:space="preserve">
+    <value>Attribut principal</value>
+  </data>
+  <data name="EditLink" xml:space="preserve">
+    <value>Modifier le lien</value>
+  </data>
+  <data name="Link" xml:space="preserve">
+    <value>Lien</value>
+  </data>
+  <data name="LinkName" xml:space="preserve">
+    <value>Nom du lien</value>
+  </data>
+  <data name="LoadedSuccess.files.message" xml:space="preserve">
+    <value>Fichier(s) chargé(s) avec succès</value>
+  </data>
+  <data name="load.template.confirmation.dialog" xml:space="preserve">
+    <value>Vous avez déja chargé ce tempate, voulez vous le recharger?</value>
+  </data>
+  <data name="OpenOnNewTab" xml:space="preserve">
+    <value>Ouvrir dans un nouvel onglet</value>
+  </data>
+  <data name="IndentifySheetByPosition" xml:space="preserve">
+    <value>Identifier la feuille par sa position</value>
+  </data>
+  <data name="LoadAllSheets" xml:space="preserve">
+    <value>Charger toutes les feuilles</value>
+  </data>
+  <data name="DeletionTitle" xml:space="preserve">
+    <value>Suppression</value>
+  </data>
+  <data name="SureToDeleteAllItem" xml:space="preserve">
+    <value>Êtes-vous sûr de vouloir supprimer tous les éléments ? </value>
+  </data>
+  <data name="SureToDeleteSelectedItem" xml:space="preserve">
+    <value>Êtes-vous sûr de vouloir supprimer {0} ?</value>
+  </data>
+  <data name="New.Spot" xml:space="preserve">
+    <value>Nouveau spot</value>
+  </data>
+  <data name="List.Spot" xml:space="preserve">
+    <value>Listes des spots</value>
+  </data>
+  <data name="SPOT" xml:space="preserve">
+    <value>Spot</value>
+  </data>
+  <data name="Function" xml:space="preserve">
+    <value>Fonction</value>
+  </data>
+  <data name="General" xml:space="preserve">
+    <value>Général</value>
+  </data>
+  <data name="AVG" xml:space="preserve">
+    <value>Moyenne</value>
+  </data>
+  <data name="BEGIN_MONTH" xml:space="preserve">
+    <value>Début mois</value>
+  </data>
+  <data name="BEGIN_WEEK" xml:space="preserve">
+    <value>Début semaine</value>
+  </data>
+  <data name="BEGIN_YEAR" xml:space="preserve">
+    <value>Début année</value>
+  </data>
+  <data name="CALENDAR" xml:space="preserve">
+    <value>Calendrier</value>
+  </data>
+  <data name="CONTAINS" xml:space="preserve">
+    <value>Contient</value>
+  </data>
+  <data name="COUNT" xml:space="preserve">
+    <value>Compter</value>
+  </data>
+  <data name="CUSTOM_DATE" xml:space="preserve">
+    <value>Date personnalisée</value>
+  </data>
+  <data name="DAY" xml:space="preserve">
+    <value>Jour</value>
+  </data>
+  <data name="ENDS_WITH" xml:space="preserve">
+    <value>Se termine par</value>
+  </data>
+  <data name="END_MONTH" xml:space="preserve">
+    <value>Fin mois</value>
+  </data>
+  <data name="END_WEEK" xml:space="preserve">
+    <value>Fin semaine</value>
+  </data>
+  <data name="END_YEAR" xml:space="preserve">
+    <value>Fin année</value>
+  </data>
+  <data name="FREE" xml:space="preserve">
+    <value>Libre</value>
+  </data>
+  <data name="LEFT_SIDE" xml:space="preserve">
+    <value>Côté gauche</value>
+  </data>
+  <data name="LIST_OF_VALUES" xml:space="preserve">
+    <value>Liste des valeurs</value>
+  </data>
+  <data name="MAX" xml:space="preserve">
+    <value>Max</value>
+  </data>
+  <data name="MIN" xml:space="preserve">
+    <value>Min</value>
+  </data>
+  <data name="MONTH" xml:space="preserve">
+    <value>Mois</value>
+  </data>
+  <data name="NOT_CONTAINS" xml:space="preserve">
+    <value>Ne contient pas</value>
+  </data>
+  <data name="NOT_EQUALS" xml:space="preserve">
+    <value>Pas égal</value>
+  </data>
+  <data name="Add.axis.serie" xml:space="preserve">
+    <value>Ajouter un axe pour cette série</value>
+  </data>
+  <data name="Show.title.axis" xml:space="preserve">
+    <value>Afficher le titre de cet axe</value>
+  </data>
+  <data name="NOT_NULL" xml:space="preserve">
+    <value>Non nul</value>
+  </data>
+  <data name="NULL" xml:space="preserve">
+    <value>Nul</value>
+  </data>
+  <data name="RIGHT_SIDE" xml:space="preserve">
+    <value>Côté droit</value>
+  </data>
+  <data name="specific" xml:space="preserve">
+    <value>Spécifique</value>
+  </data>
+  <data name="STARTS_WITH" xml:space="preserve">
+    <value>Commence par</value>
+  </data>
+  <data name="SUM" xml:space="preserve">
+    <value>Somme</value>
+  </data>
+  <data name="TODAY" xml:space="preserve">
+    <value>Aujourd'hui</value>
+  </data>
+  <data name="WEEK" xml:space="preserve">
+    <value>Semaine</value>
+  </data>
+  <data name="YEAR" xml:space="preserve">
+    <value>Année</value>
+  </data>
+  <data name="EQUALS_" xml:space="preserve">
+    <value>Egal</value>
+  </data>
+  <data name="Dateformatdescription" xml:space="preserve">
+    <value>Description du format de la date</value>
+  </data>
+  <data name="AND" xml:space="preserve">
+    <value>Et</value>
+  </data>
+  <data name="OR" xml:space="preserve">
+    <value>Ou</value>
+  </data>
+  <data name="SelectFilesDescription" xml:space="preserve">
+    <value>Vous pouvez choisir un ou plusieurs fichiers à la fois et le premier fichier sera utilisé comme template.</value>
+  </data>
+  <data name="EditNewGridName" xml:space="preserve">
+    <value>Entrer le  nom de la grille</value>
+  </data>
+  <data name="SelectGrid" xml:space="preserve">
+    <value>Choisir une grille</value>
+  </data>
+  <data name="export.grid.data" xml:space="preserve">
+    <value>Exporter les données de la grille</value>
+  </data>
+  <data name="download.grid.data" xml:space="preserve">
+    <value>Télécharger les données de la grille</value>
+  </data>
+  <data name="DefaultValue" xml:space="preserve">
+    <value>Valeur par défaut</value>
+  </data>
+  <data name="custom.full.date" xml:space="preserve">
+    <value>dddd, le dd MMMM yyyy</value>
+  </data>
+  <data name="date.dd.explain" xml:space="preserve">
+    <value>Jour écrit sur deux chiffres</value>
+  </data>
+  <data name="date.ddd.explain" xml:space="preserve">
+    <value>Le nom abrégé du jour de la semaine en trois lettres</value>
+  </data>
+  <data name="date.dddd.explain" xml:space="preserve">
+    <value>Le nom complet du jour de la semaine</value>
+  </data>
+  <data name="date.mm.explain" xml:space="preserve">
+    <value>Mois sous forme de nombre de 1 à 12</value>
+  </data>
+  <data name="date.mmm.explain" xml:space="preserve">
+    <value>Le nom du mois en trois lettres. Janvier = Jan</value>
+  </data>
+  <data name="date.mmmm.explain" xml:space="preserve">
+    <value>Le nom du mois épelé en toutes lettres</value>
+  </data>
+  <data name="date.yy.explain" xml:space="preserve">
+    <value>Les deux derniers chiffres du numéro de l'année</value>
+  </data>
+  <data name="date.yyyy.explain" xml:space="preserve">
+    <value>Le numéro de l'année en quatre chiffres</value>
+  </data>
+  <data name="example" xml:space="preserve">
+    <value>Exemple</value>
+  </data>
+  <data name="the.date" xml:space="preserve">
+    <value>La date</value>
+  </data>
+  <data name="the.day" xml:space="preserve">
+    <value>Le jour</value>
+  </data>
+  <data name="the.month" xml:space="preserve">
+    <value>Le mois</value>
+  </data>
+  <data name="the.year" xml:space="preserve">
+    <value>L'année</value>
+  </data>
+  <data name="not.found.repository" xml:space="preserve">
+    <value>Le référentiel des événements de facturation est introuvable</value>
+  </data>
+  <data name="New_Attribute" xml:space="preserve">
+    <value>Nouvel attribut</value>
+  </data>
+  <data name="New_Measure" xml:space="preserve">
+    <value>Nouvelle mesure</value>
+  </data>
+  <data name="New_Period" xml:space="preserve">
+    <value>Nouvelle période</value>
+  </data>
+  <data name="DimensionCreation" xml:space="preserve">
+    <value>Création de la dimension</value>
+  </data>
+  <data name="DimensionCreateSuccessfully" xml:space="preserve">
+    <value>Dimension créée avec succès</value>
+  </data>
+  <data name="UnableToCreateDimension" xml:space="preserve">
+    <value>Impossible de créer la dimension</value>
+  </data>
+  <data name="dynamicInputGridEdit" xml:space="preserve">
+    <value>Edition du {0}</value>
+  </data>
+  <data name="grid.export.error" xml:space="preserve">
+    <value>Une erreur s'est produite lors de l'exportation de la grille</value>
+  </data>
+  <data name="grid.export.success" xml:space="preserve">
+    <value>La grille a été exportée avec succès</value>
+  </data>
+  <data name="Background" xml:space="preserve">
+    <value>Arrière-plan</value>
+  </data>
+  <data name="Foreground" xml:space="preserve">
+    <value>Couleur avant-plan</value>
+  </data>
+  <data name="Height" xml:space="preserve">
+    <value>Hauteur</value>
+  </data>
+  <data name="ShowBox" xml:space="preserve">
+    <value>Afficher la boîte</value>
+  </data>
+  <data name="ShowTitleBar" xml:space="preserve">
+    <value>Afficher la barre de titre</value>
+  </data>
+  <data name="Tiles" xml:space="preserve">
+    <value>Tuiles</value>
+  </data>
+  <data name="Width" xml:space="preserve">
+    <value>Largeur</value>
+  </data>
+  <data name="Chart.config" xml:space="preserve">
+    <value>Configuration du graphe</value>
+  </data>
+  <data name="RowFields" xml:space="preserve">
+    <value>Champs de ligne</value>
+  </data>
+  <data name="ColumnFields" xml:space="preserve">
+    <value>Champs de colonne</value>
+  </data>
+  <data name="DataFields" xml:space="preserve">
+    <value>Champs de données</value>
+  </data>
+  <data name="AllFields" xml:space="preserve">
+    <value>Tous les champs</value>
+  </data>
+  <data name="FilterFields" xml:space="preserve">
+    <value>Filtrer les champs</value>
+  </data>
+  <data name="EmptyDimensionName" xml:space="preserve">
+    <value>Nom de la dimension vide </value>
+  </data>
+  <data name="NullEntity" xml:space="preserve">
+    <value>Entité nulle</value>
+  </data>
+  <data name="Functionality.list.dashboard" xml:space="preserve">
+    <value>Liste des tableaux de bord</value>
+  </data>
+  <data name="Functionality.new.dashboard" xml:space="preserve">
+    <value>Créer un tableau de bord</value>
+  </data>
+  <data name="Published" xml:space="preserve">
+    <value>Publier</value>
+  </data>
+  <data name="UnPublished" xml:space="preserve">
+    <value>Dépublier</value>
+  </data>
+  <data name="Welcome" xml:space="preserve">
+    <value>Bienvenue</value>
+  </data>
+  <data name="List.screen" xml:space="preserve">
+    <value>Écran de liste</value>
+  </data>
+  <data name="available.dimensions" xml:space="preserve">
+    <value>Dimensions disponibles</value>
+  </data>
+  <data name="selected.dimensions" xml:space="preserve">
+    <value>Dimensions sélectionnées</value>
+  </data>
+  <data name="Archives.Browser" xml:space="preserve">
+    <value>Navigateur d'archives</value>
+  </data>
+  <data name="List.Archives" xml:space="preserve">
+    <value>Liste d'archive</value>
+  </data>
+  <data name="New.Archives" xml:space="preserve">
+    <value>Nouvelle archive</value>
+  </data>
+  <data name="EditCustomer" xml:space="preserve">
+    <value> Editer un client</value>
+  </data>
+  <data name="List.Customer" xml:space="preserve">
+    <value>Liste  des clients</value>
+  </data>
+  <data name="New.Costumer" xml:space="preserve">
+    <value>Nouveau client</value>
+  </data>
+  <data name="List.Archive.Logs" xml:space="preserve">
+    <value>Liste d'archive logs</value>
+  </data>
+  <data name="New.Archive.Log" xml:space="preserve">
+    <value>Nouvelle archive log</value>
+  </data>
+  <data name="MeasureData.Tree" xml:space="preserve">
+    <value>Edition des mesures</value>
+  </data>
+  <data name="ProjectName" xml:space="preserve">
+    <value>Nom du projet</value>
+  </data>
+  <data name="Dashboard.home.page" xml:space="preserve">
+    <value>Tableau de bord</value>
+  </data>
+  <data name="Home.page" xml:space="preserve">
+    <value>Page d'accueil</value>
+  </data>
+  <data name="TextEditor" xml:space="preserve">
+    <value>Editeur de texte</value>
+  </data>
+  <data name="generic" xml:space="preserve">
+    <value>Générique</value>
+  </data>
+  <data name="Variables" xml:space="preserve">
+    <value>Variables</value>
+  </data>
+  <data name="Edit.Archive" xml:space="preserve">
+    <value> Editer l'archive</value>
+  </data>
+  <data name="Backup.Configuration" xml:space="preserve">
+    <value>Configuration de sauvegarde</value>
+  </data>
+  <data name="Enrichment" xml:space="preserve">
+    <value>Enrichissement</value>
+  </data>
+  <data name="Replacement.Configuration" xml:space="preserve">
+    <value>Configuration de replacement </value>
+  </data>
+  <data name="MeasureData.New" xml:space="preserve">
+    <value>Nouvelle mesure</value>
+  </data>
+  <data name="MeasureData.Title" xml:space="preserve">
+    <value>Mesures</value>
+  </data>
+  <data name="PeriodData.New" xml:space="preserve">
+    <value>Nouvelle période</value>
+  </data>
+  <data name="PeriodData.Title" xml:space="preserve">
+    <value>Périodes</value>
+  </data>
+  <data name="PeriodData.Tree" xml:space="preserve">
+    <value>Edition des périodes</value>
+  </data>
+  <data name="Initialization" xml:space="preserve">
+    <value>Initialisation</value>
+  </data>
+  <data name="alignment" xml:space="preserve">
+    <value>Alignement</value>
+  </data>
+  <data name="chart.rotation" xml:space="preserve">
+    <value>Rotation du graphe</value>
+  </data>
+  <data name="graph.title" xml:space="preserve">
+    <value>Titre du graphe</value>
+  </data>
+  <data name="hide.series" xml:space="preserve">
+    <value>Masquer les séries</value>
+  </data>
+  <data name="insert.border" xml:space="preserve">
+    <value>Insérer une bordure</value>
+  </data>
+  <data name="label.overlap" xml:space="preserve">
+    <value>Superposer les étiquettes</value>
+  </data>
+  <data name="Legend" xml:space="preserve">
+    <value>Légende</value>
+  </data>
+  <data name="legend.title" xml:space="preserve">
+    <value>Titre de la légende</value>
+  </data>
+  <data name="orientation" xml:space="preserve">
+    <value>Orientation</value>
+  </data>
+  <data name="POSITION" xml:space="preserve">
+    <value>Position</value>
+  </data>
+  <data name="Visible" xml:space="preserve">
+    <value>Visible</value>
+  </data>
+  <data name="x.bar.title" xml:space="preserve">
+    <value>Titre axe X</value>
+  </data>
+  <data name="y.bar.title" xml:space="preserve">
+    <value>Titre axe Y</value>
+  </data>
+  <data name="allow.hide.series" xml:space="preserve">
+    <value>Autoriser le masquage des séries</value>
+  </data>
+  <data name="Show.Axis.Titles" xml:space="preserve">
+    <value>Afficher les titres des axes</value>
+  </data>
+  <data name="Visibility" xml:space="preserve">
+    <value>Visibilité</value>
+  </data>
+  <data name="Booking.Model" xml:space="preserve">
+    <value>Modèle de réservation</value>
+  </data>
+  <data name="List.Booking.Model" xml:space="preserve">
+    <value>Liste modèles de réservation</value>
+  </data>
+  <data name="New.Booking.Model" xml:space="preserve">
+    <value>Nouveau modèle de réservation</value>
+  </data>
+  <data name="New.Booking.Log" xml:space="preserve">
+    <value>Nouveau journal de réservation</value>
+  </data>
+  <data name="Tree.Properties" xml:space="preserve">
+    <value>Propriétés arbre</value>
+  </data>
+  <data name="Booking.list" xml:space="preserve">
+    <value>Liste des réservations</value>
+  </data>
+  <data name="Booking.Pivot" xml:space="preserve">
+    <value>Pivot de réservation</value>
+  </data>
+  <data name="Select.Booking.Pivot" xml:space="preserve">
+    <value>Sélectionner le pivot de réservation</value>
+  </data>
+  <data name="BackgroundTitle" xml:space="preserve">
+    <value>Couleur arrière-plan titre</value>
+  </data>
+  <data name="ForegroundTitle" xml:space="preserve">
+    <value>Couleur avant-plan titre</value>
+  </data>
+  <data name="BackgroundBox" xml:space="preserve">
+    <value>Couleur  arrière-plan boite</value>
+  </data>
+  <data name="ForegroundBox" xml:space="preserve">
+    <value>Couleur  avant-plan boîte</value>
+  </data>
+  <data name="Reset" xml:space="preserve">
+    <value>Réinitialiser</value>
+  </data>
+  <data name="Argument" xml:space="preserve">
+    <value>Argument</value>
+  </data>
+  <data name="Default.serie" xml:space="preserve">
+    <value>Série par défaut</value>
+  </data>
+  <data name="Select.arg" xml:space="preserve">
+    <value>Sélectionner la dimension de l'argument</value>
+  </data>
+  <data name="Select.serie" xml:space="preserve">
+    <value>Sélectionner la dimension de la série</value>
+  </data>
+  <data name="Select.serie.type" xml:space="preserve">
+    <value>Sélectionner le type de série</value>
+  </data>
+  <data name="Select.value" xml:space="preserve">
+    <value>Sélectionner la dimension de la valeur</value>
+  </data>
+  <data name="Serie" xml:space="preserve">
+    <value>Série</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="ModelData.Tree" xml:space="preserve">
+    <value>Edition des modèles</value>
+  </data>
+  <data name="Default.Subscription" xml:space="preserve">
+    <value>Suscription par défaut</value>
+  </data>
+  <data name="Max.User" xml:space="preserve">
+    <value>Max utilisateur</value>
+  </data>
+  <data name="Owner.User" xml:space="preserve">
+    <value>Administrateur </value>
+  </data>
+  <data name="billing.event.period" xml:space="preserve">
+    <value>Période de facturation</value>
+  </data>
+  <data name="Booking.Model.includeZeroAmountEntries" xml:space="preserve">
+    <value>Inclure écriture comptable avec montant = 0</value>
+  </data>
+  <data name="Booking.Model.selectPeriodAtRuntime" xml:space="preserve">
+    <value>Sélectionner la période d'exécution</value>
+  </data>
+  <data name="ShowBorder" xml:space="preserve">
+    <value>Afficher les bordures</value>
+  </data>
+  <data name="Show.label" xml:space="preserve">
+    <value>Afficher les libellés</value>
+  </data>
+  <data name="Tildes" xml:space="preserve">
+    <value>Tildes</value>
+  </data>
+  <data name="Enter.serie.name" xml:space="preserve">
+    <value>Entrer le nom de la série</value>
+  </data>
+  <data name="config.series.issue" xml:space="preserve">
+    <value>Impossible de sauvegarder une série qui ne comporte pas de nom, d'argument ou de valeur</value>
+  </data>
+  <data name="config.defaultSerie.issue" xml:space="preserve">
+    <value>Impossible de sauvegarder la configuration car la série par défaut ne comporte pas de dimension de la série, d'argument ou de valeur</value>
+  </data>
+  <data name="chart.show.defaultSerie.issue" xml:space="preserve">
+    <value>Impossible d'afficher le graphe car la série par défaut n'est pas bien configuré</value>
+  </data>
+  <data name="chart.show.series.issue" xml:space="preserve">
+    <value>Impossible d'afficher le graphe car l'une des série n'est pas bien configuré</value>
+  </data>
+  <data name="Form.NoEmpty" xml:space="preserve">
+    <value>Le champ ne peut pas être vide</value>
+  </data>
+  <data name="Form.UName" xml:space="preserve">
+    <value>Le nom doit être unique</value>
+  </data>
+  <data name="ModelData.Attribute" xml:space="preserve">
+    <value>Editer l'attribut</value>
+  </data>
+  <data name="ModelData.Entity" xml:space="preserve">
+    <value>Edition d'entité</value>
+  </data>
+  <data name="Duplicate" xml:space="preserve">
+    <value>Dupliquer</value>
+  </data>
+  <data name="ON_REQUEST" xml:space="preserve">
+    <value>A la demande</value>
+  </data>
+  <data name="SCHEDULER" xml:space="preserve">
+    <value>Ordonnanceur</value>
+  </data>
+  <data name="AddVal" xml:space="preserve">
+    <value>Ajouter une valeur</value>
+  </data>
+  <data name="Declare" xml:space="preserve">
+    <value>Déclarer</value>
+  </data>
+  <data name="List.User" xml:space="preserve">
+    <value>Liste des utilisateurs</value>
+  </data>
+  <data name="New.User" xml:space="preserve">
+    <value>Nouvel utilisateur</value>
+  </data>
+  <data name="Profil" xml:space="preserve">
+    <value>Profils</value>
+  </data>
+  <data name="Profil.List" xml:space="preserve">
+    <value>Liste des profils</value>
+  </data>
+  <data name="Profil.New" xml:space="preserve">
+    <value>Nouveau profil</value>
+  </data>
+  <data name="Client.Code" xml:space="preserve">
+    <value>Code du Client </value>
+  </data>
+  <data name="Default.Language" xml:space="preserve">
+    <value>Langue par défaut</value>
+  </data>
+  <data name="Edit.User" xml:space="preserve">
+    <value>Editer un  utilisateur</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="EmailVerified" xml:space="preserve">
+    <value>Email vérifié</value>
+  </data>
+  <data name="Enabled" xml:space="preserve">
+    <value>Autoriser</value>
+  </data>
+  <data name="FirstName" xml:space="preserve">
+    <value>Prénom</value>
+  </data>
+  <data name="LastName" xml:space="preserve">
+    <value>Nom</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>Mot de passe</value>
+  </data>
+  <data name="User.Id" xml:space="preserve">
+    <value>Id utilisateur</value>
+  </data>
+  <data name="Profil.Edit" xml:space="preserve">
+    <value>Modifier le profil</value>
+  </data>
+  <data name="Neutralization" xml:space="preserve">
+    <value>Neutralisation</value>
+  </data>
+  <data name="PartialReconciliation" xml:space="preserve">
+    <value>Réconciliation partielle</value>
+  </data>
+  <data name="Reconciliation.Reco.sequence" xml:space="preserve">
+    <value>Séquence de reco</value>
+  </data>
+  <data name="Reconciliation.Partial.RecoType" xml:space="preserve">
+    <value>Type de Reco partielle</value>
+  </data>
+  <data name="Reconciliation.Neutralization.type" xml:space="preserve">
+    <value>Type de Neut.</value>
+  </data>
+  <data name="Reconciliation.partiel.recoliated.amount" xml:space="preserve">
+    <value>Montant rapproché</value>
+  </data>
+  <data name="Reconciliation.partiel.remaining.amount" xml:space="preserve">
+    <value>Montant restant</value>
+  </data>
+  <data name="Confirmation.Password" xml:space="preserve">
+    <value>Confirmation du mot de passe</value>
+  </data>
+  <data name="User.name" xml:space="preserve">
+    <value>Nom utilisateur</value>
+  </data>
+  <data name="Filename" xml:space="preserve">
+    <value>Nom du fichier</value>
+  </data>
+  <data name="Default.Client" xml:space="preserve">
+    <value>Client par défaut</value>
+  </data>
+  <data name="NeutralizationRequestSelectValue" xml:space="preserve">
+    <value>Demande</value>
+  </data>
+  <data name="NeutralizationAllowCreateNewValue" xml:space="preserve">
+    <value>Créer</value>
+  </data>
+  <data name="NeutralizationInsertNote" xml:space="preserve">
+    <value>Insérer une note</value>
+  </data>
+  <data name="NeutralizationMandatoryNote" xml:space="preserve">
+    <value>Note obligatoire</value>
+  </data>
+  <data name="ArchiveSuccess.create.message" xml:space="preserve">
+    <value>Archive(s) créé(s) avec succès</value>
+  </data>
+  <data name="RefreshReconciliation" xml:space="preserve">
+    <value>Actualiser les montants rapprochés et restants</value>
+  </data>
+  <data name="Refresh.pub" xml:space="preserve">
+    <value>Actualiser la publication</value>
+  </data>
+  <data name="UnNeutralization" xml:space="preserve">
+    <value>Déneutralisation</value>
+  </data>
+  <data name="Posting.Balance" xml:space="preserve">
+    <value>Solde</value>
+  </data>
+  <data name="Posting.Edit" xml:space="preserve">
+    <value>Edition des écritures comptables</value>
+  </data>
+  <data name="Posting.EntryDate" xml:space="preserve">
+    <value>Date d'entrée</value>
+  </data>
+  <data name="Posting.Id" xml:space="preserve">
+    <value>Id écriture comptable</value>
+  </data>
+  <data name="Posting.List" xml:space="preserve">
+    <value>Liste des écritures comptables manuelles</value>
+  </data>
+  <data name="Posting.New" xml:space="preserve">
+    <value>Nouvelle écriture comptable manuelle</value>
+  </data>
+  <data name="Posting.Repo" xml:space="preserve">
+    <value>Référentiel d'entrée de l'écriture comptable</value>
+  </data>
+  <data name="Posting.Status" xml:space="preserve">
+    <value>Statut</value>
+  </data>
+  <data name="Posting.Title" xml:space="preserve">
+    <value>Ecriture comptable</value>
+  </data>
+  <data name="Posting.ValueDate" xml:space="preserve">
+    <value>Date de valeur</value>
+  </data>
+  <data name="List.Manual.Reconciliations" xml:space="preserve">
+    <value>Liste des réconciliations manuelles</value>
+  </data>
+  <data name="Booking.Model.Log" xml:space="preserve">
+    <value>Logs des booking</value>
+  </data>
+  <data name="confirme.reco.type.message1" xml:space="preserve">
+    <value>Ce rapprochement créera un delta.</value>
+  </data>
+  <data name="confirme.reco.type.partial" xml:space="preserve">
+    <value>Reco partielle</value>
+  </data>
+  <data name="confirme.reco.type.write.offt" xml:space="preserve">
+    <value>Ecrire perte</value>
+  </data>
+  <data name="chart.title" xml:space="preserve">
+    <value>Titre du Graphe</value>
+  </data>
+  <data name="Inititiation" xml:space="preserve">
+    <value>Initialisation</value>
+  </data>
+  <data name="confirme.reco.type.message2" xml:space="preserve">
+    <value>Confirmez-vous l'opération?</value>
+  </data>
+  <data name="confirme.reco.type.message3" xml:space="preserve">
+    <value>Impossible de créer une réconciliation avec un delta</value>
+  </data>
+  <data name="Neutralizer" xml:space="preserve">
+    <value>Neutraliser</value>
+  </data>
+  <data name="Add.serie" xml:space="preserve">
+    <value>Ajouter une série</value>
+  </data>
+  <data name="empty.archive.config" xml:space="preserve">
+    <value>Archive de configuration vide</value>
+  </data>
+  <data name="BillingModel" xml:space="preserve">
+    <value>Modèle de facturation</value>
+  </data>
+  <data name="BillingModels" xml:space="preserve">
+    <value>Modèles de facturation</value>
+  </data>
+  <data name="billing.run.invoice" xml:space="preserve">
+    <value>Liste des factures</value>
+  </data>
+  <data name="List.Spreadsheet" xml:space="preserve">
+    <value>Liste des tableurs</value>
+  </data>
+  <data name="New.Spreadsheet" xml:space="preserve">
+    <value>Nouveau tableur</value>
+  </data>
+  <data name="Spreadsheet" xml:space="preserve">
+    <value>Tableur</value>
+  </data>
+  <data name="CSV" xml:space="preserve">
+    <value>CSV</value>
+  </data>
+  <data name="XLS" xml:space="preserve">
+    <value>XLS</value>
+  </data>
+  <data name="Export.To" xml:space="preserve">
+    <value>Exporter vers</value>
+  </data>
+  <data name="JSON" xml:space="preserve">
+    <value>JSON</value>
+  </data>
+  <data name="unable.to.load.client" xml:space="preserve">
+    <value>Impossible de charger le client</value>
+  </data>
+  <data name="unable.to.load.profile" xml:space="preserve">
+    <value>Impossible de charger le profil</value>
+  </data>
+  <data name="export.Success.files.message" xml:space="preserve">
+    <value>Fichier exporté avec succès</value>
+  </data>
+  <data name="export.Error.files.message" xml:space="preserve">
+    <value>Echec de téléchargement</value>
+  </data>
+  <data name="account.name" xml:space="preserve">
+    <value>Nom du compte</value>
+  </data>
+  <data name="Posting.EntryAmount" xml:space="preserve">
+    <value>Montant entrée</value>
+  </data>
+  <data name="Posting.Sign" xml:space="preserve">
+    <value>Signe</value>
+  </data>
+  <data name="Profil.Role.TitleFct" xml:space="preserve">
+    <value>Fonctionalités</value>
+  </data>
+  <data name="Profil.Role.TitleRole" xml:space="preserve">
+    <value>Droits disponibles</value>
+  </data>
+  <data name="Add.Selected" xml:space="preserve">
+    <value>Ajouter les choix</value>
+  </data>
+  <data name="Profil.User.TitleAvailable" xml:space="preserve">
+    <value>Utilisateurs disponibles</value>
+  </data>
+  <data name="Profil.User.TitleSelected" xml:space="preserve">
+    <value>Utilisateurs sélectionnés</value>
+  </data>
+  <data name="Restore" xml:space="preserve">
+    <value>Restaurer</value>
+  </data>
+  <data name="ArchiveSuccess.restore.message" xml:space="preserve">
+    <value>Archive restaurée avec succès</value>
+  </data>
+  <data name="functionalities" xml:space="preserve">
+    <value>Fonctionnalités</value>
+  </data>
+  <data name="Select.All" xml:space="preserve">
+    <value>Sélectionner tout</value>
+  </data>
+  <data name="Deselect.All" xml:space="preserve">
+    <value>Désélectionner tout</value>
+  </data>
+  <data name="ModelData.Attribute.Add" xml:space="preserve">
+    <value>Ajouter un attribut</value>
+  </data>
+  <data name="ModelData.Attribute.Val" xml:space="preserve">
+    <value>Ajouter une valeur d'attribut</value>
+  </data>
+  <data name="ModelData.Tree.Add" xml:space="preserve">
+    <value>Ajouter une entité</value>
+  </data>
+  <data name="initiation.period" xml:space="preserve">
+    <value>Edition des périodes</value>
+  </data>
+  <data name="administration" xml:space="preserve">
+    <value>Administration</value>
+  </data>
+  <data name="administration.profile" xml:space="preserve">
+    <value>Profils</value>
+  </data>
+  <data name="administration.user" xml:space="preserve">
+    <value>Utilisateur</value>
+  </data>
+  <data name="dashboarding.alarm" xml:space="preserve">
+    <value>Alarme</value>
+  </data>
+  <data name="dashboarding.alarm.scheduler" xml:space="preserve">
+    <value>Alarmes planifiées</value>
+  </data>
+  <data name="dashboarding.alarm.scheduler.log" xml:space="preserve">
+    <value>Log des alarmes planifiées</value>
+  </data>
+  <data name="dashboarding.dashboard" xml:space="preserve">
+    <value>Tableau de bord</value>
+  </data>
+  <data name="data.management" xml:space="preserve">
+    <value>Gestion des données</value>
+  </data>
+  <data name="data.management.archive" xml:space="preserve">
+    <value>Archive</value>
+  </data>
+  <data name="data.management.archive.config" xml:space="preserve">
+    <value>Configuration</value>
+  </data>
+  <data name="data.management.archive.config.scheduler" xml:space="preserve">
+    <value>Planification de configuration</value>
+  </data>
+  <data name="data.management.archive.config.scheduler.log" xml:space="preserve">
+    <value>Log des planifications de configuration</value>
+  </data>
+  <data name="initiation.calendar" xml:space="preserve">
+    <value>Edition de calendrier</value>
+  </data>
+  <data name="initiation.measure" xml:space="preserve">
+    <value>Edition des mesures</value>
+  </data>
+  <data name="initiation.model" xml:space="preserve">
+    <value>Edition des modèles</value>
+  </data>
+  <data name="project.backup" xml:space="preserve">
+    <value>Sauvegarde</value>
+  </data>
+  <data name="project.backup.scheduler" xml:space="preserve">
+    <value>Sauvegarde simple du projet</value>
+  </data>
+  <data name="project.backup.scheduler.log" xml:space="preserve">
+    <value>Sauvegarde automatique du projet</value>
+  </data>
+  <data name="project.import" xml:space="preserve">
+    <value>Importer un projet</value>
+  </data>
+  <data name="reconciliation.auto.reco" xml:space="preserve">
+    <value>Réconciliation automatique</value>
+  </data>
+  <data name="reconciliation.auto.reco.scheduler" xml:space="preserve">
+    <value>Planification auto des récos</value>
+  </data>
+  <data name="reconciliation.auto.reco.scheduler.log" xml:space="preserve">
+    <value>Exécutions auto des récos courantes</value>
+  </data>
+  <data name="reporting.chart" xml:space="preserve">
+    <value>Graphe</value>
+  </data>
+  <data name="reporting.pivot.table" xml:space="preserve">
+    <value>Table pivot</value>
+  </data>
+  <data name="reporting.report.grid" xml:space="preserve">
+    <value>Tableur des rapport</value>
+  </data>
+  <data name="reporting.report.spreadsheet" xml:space="preserve">
+    <value>Tableur</value>
+  </data>
+  <data name="settings.group" xml:space="preserve">
+    <value>Groupes</value>
+  </data>
+  <data name="settings.incremental.number" xml:space="preserve">
+    <value>Nombre séquentiel</value>
+  </data>
+  <data name="sourcing.file.loader" xml:space="preserve">
+    <value>Chargeur de fichier</value>
+  </data>
+  <data name="sourcing.file.loader.scheduler" xml:space="preserve">
+    <value>Chargeurs de fichier planifiés</value>
+  </data>
+  <data name="sourcing.file.loader.scheduler.log" xml:space="preserve">
+    <value>Log des chargeurs de fichier planifiés</value>
+  </data>
+  <data name="sourcing.input.grid" xml:space="preserve">
+    <value>Grille d'entrée</value>
+  </data>
+  <data name="sourcing.input.spreadsheet" xml:space="preserve">
+    <value>Tableur</value>
+  </data>
+  <data name="sourcing.link" xml:space="preserve">
+    <value>Lien</value>
+  </data>
+  <data name="sourcing.spot" xml:space="preserve">
+    <value>Spot</value>
+  </data>
+  <data name="transformation" xml:space="preserve">
+    <value>Transformation</value>
+  </data>
+  <data name="TRANSFORMATION_TREE" xml:space="preserve">
+    <value>Arbre de transformation</value>
+  </data>
+  <data name="transformation.tree.scheduler" xml:space="preserve">
+    <value>Arbre de transformation planifié </value>
+  </data>
+  <data name="transformation.tree.scheduler.log" xml:space="preserve">
+    <value>Log des arbres de transformation planifiés</value>
+  </data>
+  <data name="administration.connected.user" xml:space="preserve">
+    <value>Utilisateurs connectés</value>
+  </data>
+  <data name="data.management.log" xml:space="preserve">
+    <value>Journal du gestionnaire de données</value>
+  </data>
+  <data name="dashboards" xml:space="preserve">
+    <value>Tableaux de bord</value>
+  </data>
+  <data name="Profil.Dashboard.TitleAvailable" xml:space="preserve">
+    <value>Tableaux de bord disponibles</value>
+  </data>
+  <data name="Profil.Dashboard.TitleSelected" xml:space="preserve">
+    <value>Tableaux de bord sélectionnés</value>
+  </data>
+  <data name="CUSTOM_" xml:space="preserve">
+    <value>Personnalisé</value>
+  </data>
+  <data name="LEFT_" xml:space="preserve">
+    <value>Gauche</value>
+  </data>
+  <data name="Reconciliation.RecoFormula" xml:space="preserve">
+    <value>Formule  Reco</value>
+  </data>
+  <data name="ResetReCoConfirmation" xml:space="preserve">
+    <value>Voulez-vous réinitialiser la réconciliation ?</value>
+  </data>
+  <data name="Resetting" xml:space="preserve">
+    <value>Réinitialisation</value>
+  </data>
+  <data name="Upload.data.error.message" xml:space="preserve">
+    <value>Erreur de téléchargement de données</value>
+  </data>
+  <data name="Set.As.Default" xml:space="preserve">
+    <value>Définir par défaut</value>
+  </data>
+  <data name="Set.value.of" xml:space="preserve">
+    <value>Définir la valeur de</value>
+  </data>
+  <data name="Within" xml:space="preserve">
+    <value>Dans</value>
+  </data>
+  <data name="With" xml:space="preserve">
+    <value>Avec</value>
+  </data>
+  <data name="access.rights" xml:space="preserve">
+    <value>Droits d'accès</value>
+  </data>
+  <data name="Profiles.Available" xml:space="preserve">
+    <value>Profils disponibles</value>
+  </data>
+  <data name="Profiles.Selected" xml:space="preserve">
+    <value>Profils sélectionnés</value>
+  </data>
+  <data name="initiation.default.entity" xml:space="preserve">
+    <value>Entité par défaut</value>
+  </data>
+  <data name="initiation.default.model" xml:space="preserve">
+    <value>Modèle par défaut</value>
+  </data>
+  <data name="initiation.file.loader.file.attribute" xml:space="preserve">
+    <value>Nom du fichier chargé</value>
+  </data>
+  <data name="initiation.file.loader.load.nbr.attribute" xml:space="preserve">
+    <value>Numéro du chargement</value>
+  </data>
+  <data name="initiation.file.loader.load.nbr.sequence" xml:space="preserve">
+    <value>Générateur du numéro de chargement</value>
+  </data>
+  <data name="billing.model.form.cost.selGrouptext" xml:space="preserve">
+    <value>Sélectionnez un élément de regroupement...</value>
+  </data>
+  <data name="New.trans.routine" xml:space="preserve">
+    <value>Nouvelle routine de transformation</value>
+  </data>
+  <data name="trans.routine.run.success" xml:space="preserve">
+    <value>La routine de transformation a été exécutée avec succès</value>
+  </data>
+  <data name="trans.routine.run.error" xml:space="preserve">
+    <value>Une erreur est survenue lors de l'exécution de la routine de transformation</value>
+  </data>
+  <data name="invoice.description" xml:space="preserve">
+    <value>Description de la facture</value>
+  </data>
+  <data name="add.to.description" xml:space="preserve">
+    <value>Ajouter à la description</value>
+  </data>
+  <data name="Validate" xml:space="preserve">
+    <value>Valider</value>
+  </data>
+  <data name="reset.messages" xml:space="preserve">
+    <value>Réinitialiser les messages</value>
+  </data>
+  <data name="Reset.pub" xml:space="preserve">
+    <value>Annuler la publication</value>
+  </data>
+  <data name="SureToDeleteAllSelectedItems" xml:space="preserve">
+    <value>Êtes-vous sûr de vouloir supprimer tous les éléments sélectionnés?</value>
+  </data>
+  <data name="Save.All" xml:space="preserve">
+    <value>Enregistrer tout</value>
+  </data>
+  <data name="edit.operation" xml:space="preserve">
+    <value>Editer l'opération</value>
+  </data>
+  <data name="Edit.mapping" xml:space="preserve">
+    <value>Editer le mapping</value>
+  </data>
+  <data name="Edit.filter" xml:space="preserve">
+    <value>Editer le filtre</value>
+  </data>
+  <data name="Edit.concat" xml:space="preserve">
+    <value>Editer la concaténation</value>
+  </data>
+  <data name="Edit.calc" xml:space="preserve">
+    <value>Editer le calcul</value>
+  </data>
+  <data name="Edit.replace" xml:space="preserve">
+    <value>Editer le remplacement</value>
+  </data>
+  <data name="ATTRIBUTE_VALUE" xml:space="preserve">
+    <value>Valeur attribut</value>
+  </data>
+  <data name="BILL_TEMPLATE" xml:space="preserve">
+    <value>Modèle de facturation</value>
+  </data>
+  <data name="BOOLEAN" xml:space="preserve">
+    <value>Booléen</value>
+  </data>
+  <data name="DATE" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="DECIMAL" xml:space="preserve">
+    <value>Décimale</value>
+  </data>
+  <data name="INCREMENTAL_NUMBER" xml:space="preserve">
+    <value>Nombre séquentiel</value>
+  </data>
+  <data name="INTEGER" xml:space="preserve">
+    <value>Entier</value>
+  </data>
+  <data name="LONG" xml:space="preserve">
+    <value>Entier</value>
+  </data>
+  <data name="MODEL" xml:space="preserve">
+    <value>Modèle</value>
+  </data>
+  <data name="reconciliation.auto.manual.attribute" xml:space="preserve">
+    <value>Attribut manuel/automatique</value>
+  </data>
+  <data name="reconciliation.automatic.value" xml:space="preserve">
+    <value>Valeur automatique</value>
+  </data>
+  <data name="reconciliation.credit.value" xml:space="preserve">
+    <value>Valeur crédit</value>
+  </data>
+  <data name="reconciliation.dc.attribute" xml:space="preserve">
+    <value>DC attribut</value>
+  </data>
+  <data name="reconciliation.debit.value" xml:space="preserve">
+    <value>Valeur débit</value>
+  </data>
+  <data name="reconciliation.manual.value" xml:space="preserve">
+    <value>Valeur manuelle</value>
+  </data>
+  <data name="reconciliation.user.attribute" xml:space="preserve">
+    <value>User attribute</value>
+  </data>
+  <data name="STRING" xml:space="preserve">
+    <value>Caractères</value>
+  </data>
+  <data name="Project.List.Backup" xml:space="preserve">
+    <value>Listes des sauvegardes</value>
+  </data>
+  <data name="AutoRun" xml:space="preserve">
+    <value>Exécution automatique</value>
+  </data>
+  <data name="accounting.entry.repository.grid" xml:space="preserve">
+    <value>Grille de dépôt d'entrée</value>
+  </data>
+  <data name="accountingbooking" xml:space="preserve">
+    <value>Ecriture comptable</value>
+  </data>
+  <data name="accountingbooking.amount.measure" xml:space="preserve">
+    <value>Montant</value>
+  </data>
+  <data name="accountingbooking.ma.attribute" xml:space="preserve">
+    <value>Ma </value>
+  </data>
+  <data name="accountingbooking.ma.automatic.value" xml:space="preserve">
+    <value>Ma valeur auto</value>
+  </data>
+  <data name="accountingbooking.ma.manual.value" xml:space="preserve">
+    <value>Ma valeur saisie</value>
+  </data>
+  <data name="accountingbooking.number.sequence" xml:space="preserve">
+    <value>Numéro séquence</value>
+  </data>
+  <data name="accountingbooking.repository.grid" xml:space="preserve">
+    <value>Grille de dépôt</value>
+  </data>
+  <data name="accountingposting" xml:space="preserve">
+    <value>Ecriture comptable</value>
+  </data>
+  <data name="accountingposting.account.grid" xml:space="preserve">
+    <value>Grille</value>
+  </data>
+  <data name="accountingposting.amount.measure" xml:space="preserve">
+    <value>Montant</value>
+  </data>
+  <data name="accountingposting.comment.attribute" xml:space="preserve">
+    <value>Commentaire attribut</value>
+  </data>
+  <data name="accountingposting.entry.date.period" xml:space="preserve">
+    <value>Période date entrée</value>
+  </data>
+  <data name="accountingposting.number.sequence" xml:space="preserve">
+    <value>Numéro séquence</value>
+  </data>
+  <data name="accountingposting.sign.attribute" xml:space="preserve">
+    <value>Signe </value>
+  </data>
+  <data name="accountingposting.sign.credit.value" xml:space="preserve">
+    <value>Signe valeur crédit</value>
+  </data>
+  <data name="accountingposting.sign.debit.value" xml:space="preserve">
+    <value>Signe valeur débit</value>
+  </data>
+  <data name="accountingposting.status.attribute" xml:space="preserve">
+    <value>Statut </value>
+  </data>
+  <data name="accountingposting.status.draft.value" xml:space="preserve">
+    <value>Valeur du projet </value>
+  </data>
+  <data name="accountingposting.user.attribute" xml:space="preserve">
+    <value>Attribut utilisateur</value>
+  </data>
+  <data name="SuccessfullyCreateAutomatically" xml:space="preserve">
+    <value>Crée automatiquement avec succès</value>
+  </data>
+  <data name="AutoRecoSuccess.create.message" xml:space="preserve">
+    <value>AutoReco a été exécuté avec succès</value>
+  </data>
+  <data name="List.button" xml:space="preserve">
+    <value>Liste</value>
+  </data>
+  <data name="loading" xml:space="preserve">
+    <value>Chargement en cours...</value>
+  </data>
+  <data name="billing.event.name.attribute" xml:space="preserve">
+    <value>Nom attribut</value>
+  </data>
+  <data name="billing.role" xml:space="preserve">
+    <value>Role</value>
+  </data>
+  <data name="billing.company" xml:space="preserve">
+    <value>Sociéte de facturation</value>
+  </data>
+  <data name="id" xml:space="preserve">
+    <value>Id </value>
+  </data>
+  <data name="billing.role.client" xml:space="preserve">
+    <value>Client</value>
+  </data>
+  <data name="billing.role.client.contact.attribute" xml:space="preserve">
+    <value>Contact</value>
+  </data>
+  <data name="billing.role.client.department.internal.number.attribute" xml:space="preserve">
+    <value>Numéro interne </value>
+  </data>
+  <data name="billing.role.client.department.name.attribute" xml:space="preserve">
+    <value>Nom département</value>
+  </data>
+  <data name="billing.role.client.department.number.attribute" xml:space="preserve">
+    <value>Numéro département</value>
+  </data>
+  <data name="billing.role.client.doing.business.as.attribute" xml:space="preserve">
+    <value>Attribut business</value>
+  </data>
+  <data name="billing.role.client.internal.id.attribute" xml:space="preserve">
+    <value>Id interne</value>
+  </data>
+  <data name="billing.role.grid" xml:space="preserve">
+    <value>Grille</value>
+  </data>
+  <data name="Archive.Name" xml:space="preserve">
+    <value>Nom de l'archive</value>
+  </data>
+  <data name="comments" xml:space="preserve">
+    <value>Commentaires</value>
+  </data>
+  <data name="Backup.Successfully.Created" xml:space="preserve">
+    <value>Sauvegarde effectuée avec succès</value>
+  </data>
+  <data name="Project.Code" xml:space="preserve">
+    <value>Code du projet</value>
+  </data>
+  <data name="billing.credit.note.invoice.cn.attribute" xml:space="preserve">
+    <value>Facture cn</value>
+  </data>
+  <data name="billing.credit.note.invoice.cn.cn.value" xml:space="preserve">
+    <value>Facture cn cn</value>
+  </data>
+  <data name="billing.credit.note.invoice.cn.invoice.value" xml:space="preserve">
+    <value>Valeur facture cn</value>
+  </data>
+  <data name="billing.credit.note.number.attribute" xml:space="preserve">
+    <value>Numéro</value>
+  </data>
+  <data name="billing.credit.note.number.sequence" xml:space="preserve">
+    <value>Numéro séquence</value>
+  </data>
+  <data name="billing.event.am.attribute" xml:space="preserve">
+    <value>Am</value>
+  </data>
+  <data name="billing.event.am.auto.value" xml:space="preserve">
+    <value>Valeur am auto</value>
+  </data>
+  <data name="billing.event.am.manual.value" xml:space="preserve">
+    <value>Am valeur saisie</value>
+  </data>
+  <data name="billing.event.billing.driver.measure" xml:space="preserve">
+    <value>Inducteur facturation</value>
+  </data>
+  <data name="billing.event.driver.name.attribute" xml:space="preserve">
+    <value>Nom conducteur</value>
+  </data>
+  <data name="billing.event.grid" xml:space="preserve">
+    <value>Grille</value>
+  </data>
+  <data name="billing.event.manual.billing.event.dinamic.form" xml:space="preserve">
+    <value>Formulaire dynamique d'évènement de facturation manuelle</value>
+  </data>
+  <data name="billing.event.repository.grid" xml:space="preserve">
+    <value>Grille de dépôt</value>
+  </data>
+  <data name="billing.event.run.attribute" xml:space="preserve">
+    <value>Exécution</value>
+  </data>
+  <data name="billing.event.run.date.period" xml:space="preserve">
+    <value>Date exécution</value>
+  </data>
+  <data name="billing.event.run.type.attribute" xml:space="preserve">
+    <value>Type exécution</value>
+  </data>
+  <data name="billing.event.status.attribute" xml:space="preserve">
+    <value>Statut</value>
+  </data>
+  <data name="billing.event.status.billed.value" xml:space="preserve">
+    <value>Statut valeur facturée</value>
+  </data>
+  <data name="billing.event.status.draft.value" xml:space="preserve">
+    <value>Valeur brouillon</value>
+  </data>
+  <data name="billing.event.status.frozen.value" xml:space="preserve">
+    <value>Valeur état gelé</value>
+  </data>
+  <data name="billing.event.type.credit.note.value" xml:space="preserve">
+    <value>Type valeur crédit</value>
+  </data>
+  <data name="billing.event.type.invopice.value" xml:space="preserve">
+    <value>Type valeur facture</value>
+  </data>
+  <data name="billing.event.unit.cost.measure" xml:space="preserve">
+    <value>Coût unitaire</value>
+  </data>
+  <data name="billing.event.vat.rate.measure" xml:space="preserve">
+    <value>Taux TVA</value>
+  </data>
+  <data name="billing.invoice.billed.amount.without.vat.measure" xml:space="preserve">
+    <value>Montant facturé sans TVA</value>
+  </data>
+  <data name="billing.invoice.communication.message.attribute" xml:space="preserve">
+    <value>Message communication</value>
+  </data>
+  <data name="billing.invoice.due.date.calculation.measure" xml:space="preserve">
+    <value>Calcul de la date d'échéance</value>
+  </data>
+  <data name="billing.invoice.due.date.period" xml:space="preserve">
+    <value>Date d'échéance</value>
+  </data>
+  <data name="billing.invoice.number.attribute" xml:space="preserve">
+    <value>Numéro</value>
+  </data>
+  <data name="billing.invoice.number.sequence" xml:space="preserve">
+    <value>Numéro séquence</value>
+  </data>
+  <data name="billing.invoice.sending.status.attribute" xml:space="preserve">
+    <value>Statut d'envoi</value>
+  </data>
+  <data name="billing.invoice.sending.status.notyetsent.value" xml:space="preserve">
+    <value>Statut non envoyé</value>
+  </data>
+  <data name="billing.invoice.sending.status.sent.value" xml:space="preserve">
+    <value>Statut envoyé</value>
+  </data>
+  <data name="billing.invoice.status.attribute" xml:space="preserve">
+    <value>Statut</value>
+  </data>
+  <data name="billing.invoice.status.draft.value" xml:space="preserve">
+    <value>Statut brouillon</value>
+  </data>
+  <data name="billing.invoice.status.tocheck.value" xml:space="preserve">
+    <value>Statut à vérifier</value>
+  </data>
+  <data name="billing.invoice.status.validated.value" xml:space="preserve">
+    <value>Statut validé</value>
+  </data>
+  <data name="billing.invoice.total.amount.measure" xml:space="preserve">
+    <value>Montant total</value>
+  </data>
+  <data name="billing.invoicesub.invoice.number.attribute" xml:space="preserve">
+    <value>Sous numéro de facture</value>
+  </data>
+  <data name="city" xml:space="preserve">
+    <value>Ville</value>
+  </data>
+  <data name="country" xml:space="preserve">
+    <value>Pays</value>
+  </data>
+  <data name="street" xml:space="preserve">
+    <value>Adresse rue</value>
+  </data>
+  <data name="billing.role.default.language.attribute" xml:space="preserve">
+    <value>Langue</value>
+  </data>
+  <data name="billing.role.legal.form.attribute" xml:space="preserve">
+    <value>Forme juridique</value>
+  </data>
+  <data name="billing.role.status.active.value" xml:space="preserve">
+    <value>Statut actif</value>
+  </data>
+  <data name="billing.role.status.attribute" xml:space="preserve">
+    <value>Statut</value>
+  </data>
+  <data name="billing.role.status.inactive.value" xml:space="preserve">
+    <value>Statut inactif</value>
+  </data>
+  <data name="billing.role.vat.number.attribute" xml:space="preserve">
+    <value>Numéro TVA</value>
+  </data>
+  <data name="billing.invoice.invoice.cn.attribute" xml:space="preserve">
+    <value>Facture cn</value>
+  </data>
+  <data name="billing.invoice.invoice.cn.cn.value" xml:space="preserve">
+    <value>Facture cn cn</value>
+  </data>
+  <data name="billing.invoice.invoice.cn.invoice.value" xml:space="preserve">
+    <value>Valeur facture cn</value>
+  </data>
+  <data name="WantProduceNewArchive" xml:space="preserve">
+    <value>Voulez-vous produire une nouvelle archive ?</value>
+  </data>
+  <data name="total.rows.count" xml:space="preserve">
+    <value>Total</value>
+  </data>
+  <data name="Mapp.grid" xml:space="preserve">
+    <value>Grille de mapping</value>
+  </data>
+  <data name="Val.col" xml:space="preserve">
+    <value>Colonne de valeur</value>
+  </data>
+  <data name="Map.cols" xml:space="preserve">
+    <value>Colonnes de mapping</value>
+  </data>
+  <data name="map.card.un.title" xml:space="preserve">
+    <value>Grille et valeur</value>
+  </data>
+  <data name="Projects.Edit" xml:space="preserve">
+    <value>Modifier un projet</value>
+  </data>
+  <data name="Projects.ProjectSuccessfullyEdited" xml:space="preserve">
+    <value>Projet modifié avec succès</value>
+  </data>
+  <data name="data.messenger" xml:space="preserve">
+    <value>Messagerie</value>
+  </data>
+  <data name="SMS" xml:space="preserve">
+    <value>SMS</value>
+  </data>
+  <data name="Attachments" xml:space="preserve">
+    <value>Pièces jointes</value>
+  </data>
+  <data name="Recipient" xml:space="preserve">
+    <value>Destinataires</value>
+  </data>
+  <data name="ApplyOnlyIfEmpty" xml:space="preserve">
+    <value>Appliquer uniquement si vide</value>
+  </data>
+  <data name="Chat" xml:space="preserve">
+    <value>Chat</value>
+  </data>
+  <data name="Grid.Input" xml:space="preserve">
+    <value>Grille</value>
+  </data>
+  <data name="Booking" xml:space="preserve">
+    <value>Réservation</value>
+  </data>
+  <data name="InsertVariables" xml:space="preserve">
+    <value>Insérer des variables</value>
+  </data>
+  <data name="Phone" xml:space="preserve">
+    <value>Téléphone</value>
+  </data>
+  <data name="List.Message.Logs" xml:space="preserve">
+    <value>Liste des logs de message</value>
+  </data>
+  <data name="Group" xml:space="preserve">
+    <value>Groupe</value>
+  </data>
+  <data name="Address" xml:space="preserve">
+    <value>Adresse</value>
+  </data>
+  <data name="elements" xml:space="preserve">
+    <value>Eléments</value>
+  </data>
+  <data name="Nature" xml:space="preserve">
+    <value>Nature</value>
+  </data>
+  <data name="parent" xml:space="preserve">
+    <value>Parent</value>
+  </data>
+  <data name="attachment.template.select" xml:space="preserve">
+    <value>Sélectionner le Template</value>
+  </data>
+  <data name="routines" xml:space="preserve">
+    <value>Routines</value>
+  </data>
+  <data name="select.routine" xml:space="preserve">
+    <value>Sélectionner une routine</value>
+  </data>
+  <data name="select.spot" xml:space="preserve">
+    <value>Sélectionner un  spot</value>
+  </data>
+  <data name="billing.invoice" xml:space="preserve">
+    <value>Facture</value>
+  </data>
+  <data name="add.child.attribute" xml:space="preserve">
+    <value>Ajouter un attribut enfant</value>
+  </data>
+  <data name="add.child.measure" xml:space="preserve">
+    <value>Ajouter une mesure enfant</value>
+  </data>
+  <data name="add.child.period" xml:space="preserve">
+    <value>Ajouter une période enfant</value>
+  </data>
+  <data name="delete.attribute" xml:space="preserve">
+    <value>Supprimer l'attribut</value>
+  </data>
+  <data name="delete.entity" xml:space="preserve">
+    <value>Supprimer l'entité</value>
+  </data>
+  <data name="delete.measure" xml:space="preserve">
+    <value>Supprimer la mesure</value>
+  </data>
+  <data name="delete.model" xml:space="preserve">
+    <value>Supprimer le modèle</value>
+  </data>
+  <data name="delete.period" xml:space="preserve">
+    <value>Supprimer la période</value>
+  </data>
+  <data name="edit.models" xml:space="preserve">
+    <value>Edition des modèles</value>
+  </data>
+  <data name="select.profile" xml:space="preserve">
+    <value>Choisir un profil </value>
+  </data>
+  <data name="select.user" xml:space="preserve">
+    <value>Choisir un utilisateur</value>
+  </data>
+  <data name="Gridcolumn.NumberOfDecimal" xml:space="preserve">
+    <value>Nombre de décimales</value>
+  </data>
+  <data name="Gridcolumn.UseSeparator" xml:space="preserve">
+    <value>Utiliser le séparateur</value>
+  </data>
+  <data name="show.all.row" xml:space="preserve">
+    <value>Afficher toutes les lignes ?</value>
+  </data>
+  <data name="UnableToDeleteSelectedItem" xml:space="preserve">
+    <value>Impossible de supprimer l'élément sélectionné {0}</value>
+  </data>
+  <data name="my.profile" xml:space="preserve">
+    <value>Mon profil</value>
+  </data>
+  <data name="right.click.edit.measure" xml:space="preserve">
+    <value>Click droit pour éditer la mesure</value>
+  </data>
+  <data name="right.click.edit.object" xml:space="preserve">
+    <value>Click droit pour éditer l'objet</value>
+  </data>
+  <data name="right.click.edit.period" xml:space="preserve">
+    <value>Click droit pour éditer la période</value>
+  </data>
+  <data name="scheduler.alarm" xml:space="preserve">
+    <value>Formulaire d'alarme</value>
+  </data>
+  <data name="scheduler.booking" xml:space="preserve">
+    <value>Formulaire de réservation</value>
+  </data>
+  <data name="cron.expression" xml:space="preserve">
+    <value>Expression cron</value>
+  </data>
+  <data name="last.execution.time" xml:space="preserve">
+    <value>Dernière exécution</value>
+  </data>
+  <data name="next.execution.time" xml:space="preserve">
+    <value>Prochaine exécution</value>
+  </data>
+  <data name="restart" xml:space="preserve">
+    <value>Redémarrer</value>
+  </data>
+  <data name="stop" xml:space="preserve">
+    <value>Arrêter</value>
+  </data>
+  <data name="message" xml:space="preserve">
+    <value>Message</value>
+  </data>
+  <data name="first.send.date" xml:space="preserve">
+    <value>Date du premier envoi</value>
+  </data>
+  <data name="last.send.date" xml:space="preserve">
+    <value>Date du dernier envoi</value>
+  </data>
+  <data name="max.send.attempts" xml:space="preserve">
+    <value>Tentatives max d'envoi </value>
+  </data>
+  <data name="send.attempts" xml:space="preserve">
+    <value>Tentatives d'envoi</value>
+  </data>
+  <data name="select.mode" xml:space="preserve">
+    <value>Sélectionner le mode ...</value>
+  </data>
+  <data name="select.status" xml:space="preserve">
+    <value>Sélectionner le status ...</value>
+  </data>
+  <data name="cancel.messages" xml:space="preserve">
+    <value>Annuler des messages</value>
+  </data>
+  <data name="send.messages" xml:space="preserve">
+    <value>Envoyer des messages</value>
+  </data>
+  <data name="Allow" xml:space="preserve">
+    <value>Autoriser</value>
+  </data>
+  <data name="advanced" xml:space="preserve">
+    <value>Avancée</value>
+  </data>
+  <data name="advanced.serie.config" xml:space="preserve">
+    <value>Configuration avancée de la série</value>
+  </data>
+  <data name="evaluate" xml:space="preserve">
+    <value>Evaluer</value>
+  </data>
+  <data name="font.size" xml:space="preserve">
+    <value>Taille de police</value>
+  </data>
+  <data name="select.operator" xml:space="preserve">
+    <value>Sélectionner l'opérateur</value>
+  </data>
+  <data name="Series" xml:space="preserve">
+    <value>Séries</value>
+  </data>
+  <data name="accessDenied" xml:space="preserve">
+    <value>Accès refusé, contactez l'administrateur pour obtenir les droits.</value>
+  </data>
+  <data name="unable.to.rename.project" xml:space="preserve">
+    <value>Impossible de renommer le projet</value>
+  </data>
+  <data name="project.access.right" xml:space="preserve">
+    <value>Droit d'accès au projet</value>
+  </data>
+  <data name="reporting.report.join.grid" xml:space="preserve">
+    <value>Jointure</value>
+  </data>
+  <data name="transformation.routine" xml:space="preserve">
+    <value>Routine de transformation</value>
+  </data>
+  <data name="transformation.routine.scheduler" xml:space="preserve">
+    <value>Planificateur de routine de transformation </value>
+  </data>
+  <data name="transformation.routine.scheduler.log" xml:space="preserve">
+    <value>Log planificateur de routine de transformation</value>
+  </data>
+  <data name="Join.Grid" xml:space="preserve">
+    <value>Jointure</value>
+  </data>
+  <data name="Conf.Join.Grid" xml:space="preserve">
+    <value>Configuration de jointure</value>
+  </data>
+  <data name="Data.Join.Grid" xml:space="preserve">
+    <value>Données de jointure</value>
+  </data>
+  <data name="List.Join.Grid" xml:space="preserve">
+    <value>Liste des jointures</value>
+  </data>
+  <data name="New.Join.Grid" xml:space="preserve">
+    <value>Nouvelle jointure de rapports</value>
+  </data>
+  <data name="Edit.Join.Grid" xml:space="preserve">
+    <value>Edition d'une jointure</value>
+  </data>
+  <data name="RIGHT_" xml:space="preserve">
+    <value>Droite</value>
+  </data>
+  <data name="greater" xml:space="preserve">
+    <value>Supérieur</value>
+  </data>
+  <data name="greaterOrEqual" xml:space="preserve">
+    <value>Supérieur ou égal</value>
+  </data>
+  <data name="less" xml:space="preserve">
+    <value>Inférieur</value>
+  </data>
+  <data name="lessOrEqual" xml:space="preserve">
+    <value>Inférieur ou égal</value>
+  </data>
+  <data name="notEquals" xml:space="preserve">
+    <value>Différent</value>
+  </data>
+  <data name="duplicate.name" xml:space="preserve">
+    <value>Doublon</value>
+  </data>
+  <data name="unable.to.get.rows.dashboard.data" xml:space="preserve">
+    <value>Impossible d'obtenir les données du tableau de bord</value>
+  </data>
+  <data name="unable.to.save.entity" xml:space="preserve">
+    <value>Impossible de sauvegarder l'entité</value>
+  </data>
+  <data name="unable.to.retreive.user.clients" xml:space="preserve">
+    <value>Impossible de récupérer les clients utilisateurs</value>
+  </data>
+  <data name="unable.to.retreive.user.info" xml:space="preserve">
+    <value>Impossible de récupérer les informations sur les utilisateurs</value>
+  </data>
+  <data name="unable.to.retreive.user.privileges" xml:space="preserve">
+    <value>Impossible de récupérer les privilèges des utilisateurs</value>
+  </data>
+  <data name="unable.to.save.profile.projects" xml:space="preserve">
+    <value>Impossible d'enregistrer les projets de profil</value>
+  </data>
+  <data name="unable.to.search.entity.by.filter" xml:space="preserve">
+    <value>Impossible de rechercher une entité par filtre</value>
+  </data>
+  <data name="unable.to.evaluate.spot" xml:space="preserve">
+    <value>Impossible d'évaluer le spot : la mesure du spot n'est pas définie !</value>
+  </data>
+  <data name="credit" xml:space="preserve">
+    <value>Crédit</value>
+  </data>
+  <data name="debit" xml:space="preserve">
+    <value>Débit</value>
+  </data>
+  <data name="CLOSED" xml:space="preserve">
+    <value>Fermer</value>
+  </data>
+  <data name="JOIN" xml:space="preserve">
+    <value>Jointure</value>
+  </data>
+  <data name="List.Joins" xml:space="preserve">
+    <value>Liste des jointures</value>
+  </data>
+  <data name="New.Join" xml:space="preserve">
+    <value>Nouvelle jointure</value>
+  </data>
+  <data name="List.Join.Log" xml:space="preserve">
+    <value>Liste des logs de jointures</value>
+  </data>
+  <data name="APPEND" xml:space="preserve">
+    <value>Ajouter</value>
+  </data>
+  <data name="EndDate" xml:space="preserve">
+    <value>Date fin</value>
+  </data>
+  <data name="NEW_GRID" xml:space="preserve">
+    <value>Nouvelle grille</value>
+  </data>
+  <data name="ACTIVED" xml:space="preserve">
+    <value>ACTIVE</value>
+  </data>
+  <data name="END_OF_TRIAL" xml:space="preserve">
+    <value>FIN DE L'ESSAI</value>
+  </data>
+  <data name="SUSPENDED" xml:space="preserve">
+    <value>SUSPENDU</value>
+  </data>
+  <data name="TRIAL" xml:space="preserve">
+    <value>TRIAL</value>
+  </data>
+  <data name="PublicationGridName" xml:space="preserve">
+    <value>Nom de la grid de publication</value>
+  </data>
+  <data name="PublicationNbrAttributeId" xml:space="preserve">
+    <value>Id du numéro de publication</value>
+  </data>
+  <data name="PublicationNbrAttributeName" xml:space="preserve">
+    <value>Nom d'attribut du numéro de publication</value>
+  </data>
+  <data name="PublicationNumber" xml:space="preserve">
+    <value>Numéro de publication</value>
+  </data>
+  <data name="RowCount" xml:space="preserve">
+    <value>Nombre de lignes</value>
+  </data>
+  <data name="condition.title" xml:space="preserve">
+    <value>Conditions</value>
+  </data>
+  <data name="join.keys" xml:space="preserve">
+    <value>Clés de jointure</value>
+  </data>
+  <data name="CALCULATE" xml:space="preserve">
+    <value>Calculer</value>
+  </data>
+  <data name="COLUMN" xml:space="preserve">
+    <value>Colonne</value>
+  </data>
+  <data name="CONCATENATE" xml:space="preserve">
+    <value>Concaténer</value>
+  </data>
+  <data name="select.column" xml:space="preserve">
+    <value>Choisir une colonne</value>
+  </data>
+  <data name="report.columns" xml:space="preserve">
+    <value>Colonnes du rapport</value>
+  </data>
+  <data name="selected.columns" xml:space="preserve">
+    <value>Colonnes sélectionnées</value>
+  </data>
+  <data name="column.editor" xml:space="preserve">
+    <value>Editeur de la colonne</value>
+  </data>
+  <data name="for.publication" xml:space="preserve">
+    <value>Pour publication</value>
+  </data>
+  <data name="ROUTINE" xml:space="preserve">
+    <value>Routine</value>
+  </data>
+  <data name="grid_" xml:space="preserve">
+    <value>Grille</value>
+  </data>
+  <data name="join.grid.title" xml:space="preserve">
+    <value>Choisir une grille</value>
+  </data>
+  <data name="addcustomcolumn" xml:space="preserve">
+    <value>Ajouter une  colonne personnalisée</value>
+  </data>
+  <data name="duplicate.join.column" xml:space="preserve">
+    <value>Impossible de dupliquer la colonne de jointure {0} </value>
+  </data>
+  <data name="add.run.nbr" xml:space="preserve">
+    <value>Ajouter le n° d'exécution</value>
+  </data>
+  <data name="refresh.grid" xml:space="preserve">
+    <value>Rafraîchir les grilles avant publication</value>
+  </data>
+  <data name="run.method" xml:space="preserve">
+    <value>Méthode d'exécution</value>
+  </data>
+  <data name="search" xml:space="preserve">
+    <value>Rechercher</value>
+  </data>
+  <data name="edit.concatenation" xml:space="preserve">
+    <value>Editer la concaténation</value>
+  </data>
+  <data name="DIRECT_TO_GRID" xml:space="preserve">
+    <value>Directement dans une grille</value>
+  </data>
+  <data name="POST" xml:space="preserve">
+    <value>Après</value>
+  </data>
+  <data name="PRE" xml:space="preserve">
+    <value>Avant</value>
+  </data>
+  <data name="allrightsreserved" xml:space="preserve">
+    <value>Tous les droits sont réservés</value>
+  </data>
+  <data name="graph" xml:space="preserve">
+    <value>Graphe</value>
+  </data>
+  <data name="report.grid" xml:space="preserve">
+    <value>Grille de rapport</value>
+  </data>
+  <data name="report.spreadsheet" xml:space="preserve">
+    <value>Tableau de rapport</value>
+  </data>
+  <data name="None" xml:space="preserve">
+    <value>Aucun</value>
+  </data>
+  <data name="duplicate.file.loader.name" xml:space="preserve">
+    <value>Un autre chargeur de fichier utilise déjà le nom {0}</value>
+  </data>
+  <data name="duplicate.project.name" xml:space="preserve">
+    <value>Un autre projet utilise déjà le nom {0}</value>
+  </data>
+  <data name="duplicate.dashboard.name" xml:space="preserve">
+    <value>Un autre tableau de bord utilise déjà le nom {0}</value>
+  </data>
+  <data name="duplicate.alarm.name" xml:space="preserve">
+    <value>Une autre alarme utilise déjà le nom {0}</value>
+  </data>
+  <data name="duplicate.archive.config.name" xml:space="preserve">
+    <value>Une autre configuration d'archive utilise déjà le nom {0}.</value>
+  </data>
+  <data name="duplicate.measure.name" xml:space="preserve">
+    <value>Une autre mesure utilise déjà le nom {0}.</value>
+  </data>
+  <data name="duplicate.model.and.attribute.name" xml:space="preserve">
+    <value>Une autre modèle utilise déjà le nom {0}.</value>
+  </data>
+  <data name="duplicate.periode.name" xml:space="preserve">
+    <value>Une autre période utilise déjà le nom {0}.</value>
+  </data>
+  <data name="duplicate.incremental.number.name" xml:space="preserve">
+    <value>Un autre nombre séquentiel utilise déjà le nom {0}</value>
+  </data>
+  <data name="duplicate.automatic.reconciliation.name" xml:space="preserve">
+    <value>Une autre réconciliation auto utilise déjà le nom {0}</value>
+  </data>
+  <data name="duplicate.reconciliation.name" xml:space="preserve">
+    <value>Une autre réconciliation utilise déjà le nom {0}</value>
+  </data>
+  <data name="duplicate.client.name" xml:space="preserve">
+    <value>Un autre client utilise déjà le nom {0}</value>
+  </data>
+  <data name="duplicate.profile.name" xml:space="preserve">
+    <value>Un autre profil utilise déjà le nom {0}</value>
+  </data>
+  <data name="duplicate.user.name" xml:space="preserve">
+    <value>Un autre utilisateur utilise déjà le login {0}</value>
+  </data>
+  <data name="List.scheduler" xml:space="preserve">
+    <value>Liste des tâches planifiées</value>
+  </data>
+  <data name="duplicate.join.name" xml:space="preserve">
+    <value>Une autre jointure  utilise déjà le nom {0}</value>
+  </data>
+  <data name="duplicate.report.pivot.table.name" xml:space="preserve">
+    <value>Une autre table pivot utilise déjà le nom {0}</value>
+  </data>
+  <data name="duplicate.reporting.chart.name" xml:space="preserve">
+    <value>Un autre graphe utilise déjà le nom {0}</value>
+  </data>
+  <data name="duplicate.reporting.name" xml:space="preserve">
+    <value>Un autre rapport utilise déjà le nom {0}</value>
+  </data>
+  <data name="duplicate.grille.name" xml:space="preserve">
+    <value>Une autre grille d'entrée utilise déjà le nom {0}</value>
+  </data>
+  <data name="duplicate.spot.name" xml:space="preserve">
+    <value>Un autre spot utilise déjà le nom {0}</value>
+  </data>
+  <data name="duplicate.transformationRoutine.name" xml:space="preserve">
+    <value>Une autre transformation de routine utilise déjà le nom {0}</value>
+  </data>
+  <data name="duplicate.simpleArchive.name" xml:space="preserve">
+    <value>Une autre archive de projet utilise déjà le nom {0}</value>
+  </data>
+  <data name="Run.join" xml:space="preserve">
+    <value>Publier comme grille d'entrée</value>
+  </data>
+  <data name="PARAMETER" xml:space="preserve">
+    <value>Paramètre</value>
+  </data>
+  <data name="refresh.publication.success" xml:space="preserve">
+    <value>Publication rafraîchi avec succès</value>
+  </data>
+  <data name="trans.join.run.error" xml:space="preserve">
+    <value>Une erreur est survenue lors de l'exécution de la jointure</value>
+  </data>
+  <data name="trans.join.run.success" xml:space="preserve">
+    <value>La jointure a été exécutée avec succès</value>
+  </data>
+  <data name="list.scheduled.tranformation.routine" xml:space="preserve">
+    <value>Liste des routines de tranformation planifiées</value>
+  </data>
+  <data name="Scheduled.booking" xml:space="preserve">
+    <value>Réservation planifiée</value>
+  </data>
+  <data name="import.sel.backup" xml:space="preserve">
+    <value>Importer la sauvegarde sélectionnée</value>
+  </data>
+  <data name="SEQUENCE" xml:space="preserve">
+    <value>Nombre séquentiel</value>
+  </data>
+  <data name="import.name.label.existing" xml:space="preserve">
+    <value>Nom à donner au projet existant</value>
+  </data>
+  <data name="import.name.label.new" xml:space="preserve">
+    <value>Nom à donner au projet à importer</value>
+  </data>
+  <data name="reporting.report.join.grid.scheduler" xml:space="preserve">
+    <value>Jointures planifiées</value>
+  </data>
+  <data name="reporting.report.join.grid.scheduler.log" xml:space="preserve">
+    <value>Logs des jointures planifiées</value>
+  </data>
+  <data name="publish.input.grid.success" xml:space="preserve">
+    <value>Grille publié avec succes</value>
+  </data>
+  <data name="publish.input.grid.error" xml:space="preserve">
+    <value>Erreur survenue pendant la publication de la grille</value>
+  </data>
+  <data name="reset.publication.input.grid.error" xml:space="preserve">
+    <value>La réinitialisation de la publication a échoué</value>
+  </data>
+  <data name="reset.publication.input.grid.success" xml:space="preserve">
+    <value>La grille a été reinitialier avec succès</value>
+  </data>
+  <data name="refresh.publication.input.grid.success" xml:space="preserve">
+    <value>Publication rafraîchi avec succès</value>
+  </data>
+  <data name="duplicate.scheduler.planner.name" xml:space="preserve">
+    <value>Un autre ordonnanceur utilise déjà le nom {0}</value>
+  </data>
+  <data name="list.scheduler.planner" xml:space="preserve">
+    <value>Liste des ordonnanceurs</value>
+  </data>
+  <data name="new.scheduler.planner" xml:space="preserve">
+    <value>Nouvel ordonnanceur</value>
+  </data>
+  <data name="scheduled.operations" xml:space="preserve">
+    <value>Opérations planifiées</value>
+  </data>
+  <data name="scheduling.planner" xml:space="preserve">
+    <value>Ordonnancement</value>
+  </data>
+  <data name="CONTINUE" xml:space="preserve">
+    <value>Continuer</value>
+  </data>
+  <data name="GOTO" xml:space="preserve">
+    <value>Aller à</value>
+  </data>
+  <data name="MESSAGE_WITHOUT_CONFIRM" xml:space="preserve">
+    <value>Message sans confirmation</value>
+  </data>
+  <data name="MESSAGE_WITH_CONFIRM" xml:space="preserve">
+    <value>Message avec confirmation</value>
+  </data>
+  <data name="RESTART_" xml:space="preserve">
+    <value>Redémarrer</value>
+  </data>
+  <data name="SKIP_NEXT" xml:space="preserve">
+    <value>Sauter l'instruction suivante </value>
+  </data>
+  <data name="STOP_" xml:space="preserve">
+    <value>Arrêter</value>
+  </data>
+  <data name="list.scheduler.planner.logs" xml:space="preserve">
+    <value>Liste des logs des ordonnanceurs planifiés</value>
+  </data>
+  <data name="select.alarm" xml:space="preserve">
+    <value>Sélectionner un message</value>
+  </data>
+  <data name="select.code" xml:space="preserve">
+    <value>Sélectionner une instruction </value>
+  </data>
+  <data name="select.decision" xml:space="preserve">
+    <value>Sélectionner une décision</value>
+  </data>
+  <data name="StartDate" xml:space="preserve">
+    <value>Date début</value>
+  </data>
+  <data name="Step" xml:space="preserve">
+    <value>Etape</value>
+  </data>
+  <data name="ACTION" xml:space="preserve">
+    <value>Action</value>
+  </data>
+  <data name="CHECK" xml:space="preserve">
+    <value>Vérifier</value>
+  </data>
+  <data name="HOUR" xml:space="preserve">
+    <value>Heure</value>
+  </data>
+  <data name="MINUTE" xml:space="preserve">
+    <value>Minute</value>
+  </data>
+  <data name="RECO" xml:space="preserve">
+    <value>Reco</value>
+  </data>
+  <data name="REFRESH_PUBLICATIONS" xml:space="preserve">
+    <value>Actualiser les publications</value>
+  </data>
+  <data name="SECONDE" xml:space="preserve">
+    <value>Seconde</value>
+  </data>
+  <data name="TEMPORISATION" xml:space="preserve">
+    <value>Temporisation</value>
+  </data>
+  <data name="else" xml:space="preserve">
+    <value>Sinon</value>
+  </data>
+  <data name="then" xml:space="preserve">
+    <value>Alors</value>
+  </data>
+  <data name="wait" xml:space="preserve">
+    <value>Attendre</value>
+  </data>
+  <data name="scheduler.planner.run.succes.message" xml:space="preserve">
+    <value>Exécution réussie du planificateur de planificateur {0}</value>
+  </data>
+  <data name="scheduler.planner" xml:space="preserve">
+    <value>Ordonnancement</value>
+  </data>
+  <data name="scheduler.planner.scheduler" xml:space="preserve">
+    <value>Ordonnanceur</value>
+  </data>
+  <data name="scheduler.planner.scheduler.log" xml:space="preserve">
+    <value>Logs des ordonnanceurs</value>
+  </data>
+  <data name="transformation.tree" xml:space="preserve">
+    <value>Arbre de transformation</value>
+  </data>
+  <data name="filter.left" xml:space="preserve">
+    <value>Filtre gauche</value>
+  </data>
+  <data name="filter.right" xml:space="preserve">
+    <value>Filtre droit</value>
+  </data>
+  <data name="billing.event.join.repository" xml:space="preserve">
+    <value>Jointure de la facturation</value>
+  </data>
+  <data name="client.repository" xml:space="preserve">
+    <value>Référentiel client</value>
+  </data>
+  <data name="repositories" xml:space="preserve">
+    <value>Référentiels</value>
+  </data>
+  <data name="new.description" xml:space="preserve">
+    <value>Nouvelle description</value>
+  </data>
+  <data name="select.language" xml:space="preserve">
+    <value>Sélectionner la langue</value>
+  </data>
+  <data name="QUARTER" xml:space="preserve">
+    <value>Trimestre</value>
+  </data>
+  <data name="duplicate.parameter" xml:space="preserve">
+    <value>Impossible de dupliquer le parametre {0}</value>
+  </data>
+  <data name="current" xml:space="preserve">
+    <value>En cours</value>
+  </data>
+  <data name="interval" xml:space="preserve">
+    <value>Intervalle</value>
+  </data>
+  <data name="previous" xml:space="preserve">
+    <value>Précédent</value>
+  </data>
+  <data name="confirmation.publication.message" xml:space="preserve">
+    <value>Etes-vous sûr de vouloir publier {0} comme une grille d'entrée?</value>
+  </data>
+  <data name="publication" xml:space="preserve">
+    <value>Publication</value>
+  </data>
+  <data name="billing.model.run.error" xml:space="preserve">
+    <value>Une erreur est survenue lors de l'exécution du modèle de facture</value>
+  </data>
+  <data name="billing.model.run.success" xml:space="preserve">
+    <value>Le modèle de facture a été exécutée avec succès</value>
+  </data>
+  <data name="edit.invoice.values" xml:space="preserve">
+    <value>Editer la valeur de l'étiquette</value>
+  </data>
+  <data name="new.label" xml:space="preserve">
+    <value>Nouvelle étiquette</value>
+  </data>
+  <data name="billing.run.status" xml:space="preserve">
+    <value>Statut de l'exécution de la facturation</value>
+  </data>
+  <data name="language" xml:space="preserve">
+    <value>Langue</value>
+  </data>
+  <data name="billed" xml:space="preserve">
+    <value>Facturé</value>
+  </data>
+  <data name="file.manager" xml:space="preserve">
+    <value>Gestionnaire de fichier</value>
+  </data>
+  <data name="draft" xml:space="preserve">
+    <value>Brouillon</value>
+  </data>
+  <data name="currency" xml:space="preserve">
+    <value>Devise</value>
+  </data>
+  <data name="modified" xml:space="preserve">
+    <value>Modifié</value>
+  </data>
+  <data name="ref" xml:space="preserve">
+    <value>Ref.</value>
+  </data>
+  <data name="version" xml:space="preserve">
+    <value>Version</value>
+  </data>
+  <data name="duplicate.invoice.name" xml:space="preserve">
+    <value>Une autre facture utilise déjà le nom {0}</value>
+  </data>
+  <data name="create.credit.note" xml:space="preserve">
+    <value>Créer la note de  crédit</value>
+  </data>
+  <data name="reset.credit.note" xml:space="preserve">
+    <value>Réinitialiser la note de crédit</value>
+  </data>
+  <data name="reset.invoice" xml:space="preserve">
+    <value>Réinitialiser la facture</value>
+  </data>
+  <data name="reset.validation" xml:space="preserve">
+    <value>Réinitialiser la validation</value>
+  </data>
+  <data name="amount.without.vat" xml:space="preserve">
+    <value>Montant sans TVA</value>
+  </data>
+  <data name="total" xml:space="preserve">
+    <value>Total</value>
+  </data>
+  <data name="vat.amount" xml:space="preserve">
+    <value>Montant TVA</value>
+  </data>
+  <data name="vat.rate" xml:space="preserve">
+    <value>Taux TVA</value>
+  </data>
+  <data name="billing.operation.corruption" xml:space="preserve">
+    <value>Cette opération peut entraîner une grave corruption de la comptabilité si les factures et les notes de crédit liées ont déjà été comptabilisées.</value>
+  </data>
+  <data name="billing.run.outcome.reset.message" xml:space="preserve">
+    <value>Vous êtes sur le point de réinitialiser {0} exécution de facturation.</value>
+  </data>
+  <data name="billing.run.outcome.validation" xml:space="preserve">
+    <value>Validation du résultat de la facturation</value>
+  </data>
+  <data name="billing.run.outcome.validation.message" xml:space="preserve">
+    <value>Vous êtes sur le point de valider {0} exécution de facturation.</value>
+  </data>
+  <data name="billing.runs.outcome.reset.message" xml:space="preserve">
+    <value>Vous êtes sur le point de réinitialiser {0} exécutions de facturation.</value>
+  </data>
+  <data name="billing.runs.outcome.validation.message" xml:space="preserve">
+    <value>Vous êtes sur le point de valider {0} exécutions de facturation.</value>
+  </data>
+  <data name="confirmation.continue" xml:space="preserve">
+    <value>Voulez-vous continuer ?</value>
+  </data>
+  <data name="billing.run.outcome.reset" xml:space="preserve">
+    <value>Réinitialisation du résultat de la facturation</value>
+  </data>
+  <data name="credit.note.deleted.warning" xml:space="preserve">
+    <value>Cette note de crédit sera supprimée et les événements liés seront réinitialisés.</value>
+  </data>
+  <data name="credit.note.no.modified" xml:space="preserve">
+    <value>Cette note de crédit ne peut plus être modifiée.</value>
+  </data>
+  <data name="credit.note.operation.corruption" xml:space="preserve">
+    <value>Cette opération peut entraîner une corruption grave de la comptabilité si la note de crédit a déjà été enregistrée.</value>
+  </data>
+  <data name="credit.note.reset" xml:space="preserve">
+    <value>Réinitialisation des notes de crédit</value>
+  </data>
+  <data name="credit.note.reset.message" xml:space="preserve">
+    <value>Vous êtes sur le point de réinitialiser {0} note de crédit.</value>
+  </data>
+  <data name="credit.note.reset.validation" xml:space="preserve">
+    <value>Réinitialisation de la validation des notes de crédit</value>
+  </data>
+  <data name="credit.note.reset.validation.message" xml:space="preserve">
+    <value>Vous êtes sur le point de non-valider {0} note de crédit.</value>
+  </data>
+  <data name="credit.note.validation" xml:space="preserve">
+    <value>Validation des notes de crédit</value>
+  </data>
+  <data name="credit.note.validation.message" xml:space="preserve">
+    <value>Vous êtes sur le point de valider {0} note de crédit.</value>
+  </data>
+  <data name="credit.notes.deleted.warning" xml:space="preserve">
+    <value>Ces notes de crédit seront supprimées et les événements liés seront réinitialisés.</value>
+  </data>
+  <data name="credit.notes.no.modified" xml:space="preserve">
+    <value>Ces notes de crédit ne peuvent plus être modifiées.</value>
+  </data>
+  <data name="credit.notes.operation.corruption" xml:space="preserve">
+    <value>Cette opération peut entraîner une corruption grave de la comptabilité si les notes de crédit ont déjà été enregistrées.</value>
+  </data>
+  <data name="credit.notes.reset.message" xml:space="preserve">
+    <value>Vous êtes sur le point de réinitialiser {0} notes de crédit.</value>
+  </data>
+  <data name="credit.notes.reset.validation.message" xml:space="preserve">
+    <value>Vous êtes sur le point de non-valider {0} notes de crédit.</value>
+  </data>
+  <data name="credit.notes.validation.message" xml:space="preserve">
+    <value>Vous êtes sur le point de valider {0} notes de crédit.</value>
+  </data>
+  <data name="invoice.deleted.warning" xml:space="preserve">
+    <value>Cette facture sera supprimée et les événements liés seront réinitialisés.</value>
+  </data>
+  <data name="invoice.no.modified" xml:space="preserve">
+    <value>Cette facture ne peut plus être modifiée.</value>
+  </data>
+  <data name="invoice.operation.corruption" xml:space="preserve">
+    <value>Cette opération peut entraîner une corruption grave de la comptabilité si la facture a déjà été enregistrée.</value>
+  </data>
+  <data name="invoice.reset" xml:space="preserve">
+    <value>Réinitialisation des factures</value>
+  </data>
+  <data name="invoice.reset.message" xml:space="preserve">
+    <value>Vous êtes sur le point de réinitialiser {0} facture.</value>
+  </data>
+  <data name="invoice.reset.validation" xml:space="preserve">
+    <value>Réinitialisation de la validation des factures</value>
+  </data>
+  <data name="invoice.reset.validation.message" xml:space="preserve">
+    <value>Vous êtes sur le point de non-valider {0} facture.</value>
+  </data>
+  <data name="invoice.validation" xml:space="preserve">
+    <value>Validation des factures</value>
+  </data>
+  <data name="invoice.validation.message" xml:space="preserve">
+    <value>Vous êtes sur le point de valider {0} facture.</value>
+  </data>
+  <data name="invoices.deleted.warning" xml:space="preserve">
+    <value>Ces factures seront supprimées et les événements liés seront réinitialisés.</value>
+  </data>
+  <data name="invoices.no.modified" xml:space="preserve">
+    <value>Ces factures ne peuvent plus être modifiées.</value>
+  </data>
+  <data name="invoices.operation.corruption" xml:space="preserve">
+    <value>Cette opération peut entraîner une corruption grave de la comptabilité si les factures ont déjà été enregistrées.</value>
+  </data>
+  <data name="invoices.reset.message" xml:space="preserve">
+    <value>Vous êtes sur le point de réinitialiser {0} factures.</value>
+  </data>
+  <data name="invoices.reset.validation.message" xml:space="preserve">
+    <value>Vous êtes sur le point de non-valider {0} factures.</value>
+  </data>
+  <data name="invoices.validation.message" xml:space="preserve">
+    <value>Vous êtes sur le point de valider {0} factures.</value>
+  </data>
+  <data name="success.create.credit.note.message" xml:space="preserve">
+    <value>Note de crédit crée avec succès.</value>
+  </data>
+  <data name="success.reset.billing.run.message" xml:space="preserve">
+    <value>{0} exécution de facturation réinitialisée.</value>
+  </data>
+  <data name="success.reset.billings.run.message" xml:space="preserve">
+    <value>{0} exécutions de facturation réinitialisées.</value>
+  </data>
+  <data name="success.reset.credit.note.message" xml:space="preserve">
+    <value>{0} note de crédit réinitialisée.</value>
+  </data>
+  <data name="success.reset.credit.notes.message" xml:space="preserve">
+    <value>{0} notes de crédit réinitialisées.</value>
+  </data>
+  <data name="success.reset.invoice.message" xml:space="preserve">
+    <value>{0} facture réinitialisée.</value>
+  </data>
+  <data name="success.reset.invoices.message" xml:space="preserve">
+    <value>{0} factures réinitialisées.</value>
+  </data>
+  <data name="success.validate.billing.run.message" xml:space="preserve">
+    <value>{0} exécution de facturation validée.</value>
+  </data>
+  <data name="success.validate.billings.run.message" xml:space="preserve">
+    <value>{0} exécutions de facturation validées.</value>
+  </data>
+  <data name="success.validate.credit.note.message" xml:space="preserve">
+    <value>{0} note de crédit validée.</value>
+  </data>
+  <data name="success.validate.credit.notes.message" xml:space="preserve">
+    <value>{0} notes de crédit validées.</value>
+  </data>
+  <data name="success.validate.invoice.message" xml:space="preserve">
+    <value>{0} facture validée.</value>
+  </data>
+  <data name="success.validate.invoices.message" xml:space="preserve">
+    <value>{0} factures validées.</value>
+  </data>
+  <data name="no" xml:space="preserve">
+    <value>Non</value>
+  </data>
+  <data name="success.reset.validation.credit.note.message" xml:space="preserve">
+    <value>{0} note de crédit non validée.</value>
+  </data>
+  <data name="success.reset.validation.credit.notes.message" xml:space="preserve">
+    <value>{0} notes de crédit non validées.</value>
+  </data>
+  <data name="success.reset.validation.invoice.message" xml:space="preserve">
+    <value>{0} facture non validée.</value>
+  </data>
+  <data name="success.reset.validation.invoices.message" xml:space="preserve">
+    <value>{0} factures non validées.</value>
+  </data>
+  <data name="success.send.mail.message" xml:space="preserve">
+    <value>Courriel envoyé avec succès.</value>
+  </data>
+  <data name="yes" xml:space="preserve">
+    <value>Oui</value>
+  </data>
+  <data name="view.credit.note" xml:space="preserve">
+    <value>Voir les notes de crédits</value>
+  </data>
+  <data name="view.pdf" xml:space="preserve">
+    <value>Voir le pdf</value>
+  </data>
+  <data name="labels" xml:space="preserve">
+    <value>Etiquettes</value>
+  </data>
+  <data name="maxValue" xml:space="preserve">
+    <value>Valeur max.</value>
+  </data>
+  <data name="minValue" xml:space="preserve">
+    <value>Valeur min.</value>
+  </data>
+  <data name="column.size" xml:space="preserve">
+    <value>Taille de la colonne</value>
+  </data>
+  <data name="billing.role.billing.company" xml:space="preserve">
+    <value>Sociéte de facturation</value>
+  </data>
+  <data name="billing.role.billing.company.id.attribute" xml:space="preserve">
+    <value>Id </value>
+  </data>
+  <data name="billing.role.billing.company.name.attribute" xml:space="preserve">
+    <value>Nom </value>
+  </data>
+  <data name="billing.role.client.id.attribute" xml:space="preserve">
+    <value>Id </value>
+  </data>
+  <data name="billing.role.client.name.attribute" xml:space="preserve">
+    <value>Nom</value>
+  </data>
+  <data name="billing.role.email.attribute" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="billing.role.phone.attribute" xml:space="preserve">
+    <value>Téléphone</value>
+  </data>
+  <data name="billing.role.adress.street.attribute" xml:space="preserve">
+    <value>Adresse rue</value>
+  </data>
+  <data name="billing.role.adress.postalcode.attribute" xml:space="preserve">
+    <value>Code postal</value>
+  </data>
+  <data name="billing.role.adress.city.attribute" xml:space="preserve">
+    <value>Ville</value>
+  </data>
+  <data name="billing.role.adress.country.attribute" xml:space="preserve">
+    <value>Pays</value>
+  </data>
+  <data name="billing.invoice.vat.amount.measure" xml:space="preserve">
+    <value>Montant TVA</value>
+  </data>
+  <data name="billing.invoice.date.period" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="billing.invoice.description.attribute" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="billing.invoice.default.template" xml:space="preserve">
+    <value>Modèle par défaut</value>
+  </data>
+  <data name="billing.event.description.attribute" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="billing.event.date.period" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="billing.event.billing_amount.measure" xml:space="preserve">
+    <value>Montant</value>
+  </data>
+  <data name="billing.event.type.attribute" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="accountingposting.id.attribute" xml:space="preserve">
+    <value>Id </value>
+  </data>
+  <data name="accountingposting.type.attribute" xml:space="preserve">
+    <value>Type </value>
+  </data>
+  <data name="accountingposting.status.validated.value" xml:space="preserve">
+    <value>Valeur validée</value>
+  </data>
+  <data name="accountingposting.account.id.attribute" xml:space="preserve">
+    <value>Id </value>
+  </data>
+  <data name="accountingposting.account.name.attribute" xml:space="preserve">
+    <value>Nom </value>
+  </data>
+  <data name="accountingposting.value.date.period" xml:space="preserve">
+    <value>Date de valeur</value>
+  </data>
+  <data name="accountingbooking.id.attribute" xml:space="preserve">
+    <value>Id </value>
+  </data>
+  <data name="accountingbooking.date.period" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="billing.event.client.repository" xml:space="preserve">
+    <value>Référentiel client</value>
+  </data>
+  <data name="billing.template.repo" xml:space="preserve">
+    <value>Repertoire</value>
+  </data>
+  <data name="run.number" xml:space="preserve">
+    <value>Numero d'execution</value>
+  </data>
+  <data name="code" xml:space="preserve">
+    <value>Code</value>
+  </data>
+  <data name="new.dimensions" xml:space="preserve">
+    <value>Nouvelle(s) dimension(s)</value>
+  </data>
+  <data name="doYouwanToCreatedimensionslistedAboveAfterLoading" xml:space="preserve">
+    <value>Voulez-vous créer les dimensions énumérées ci-dessus après le chargement ?</value>
+  </data>
+  <data name="String1" xml:space="preserve">
+    <value />
+  </data>
+</root>

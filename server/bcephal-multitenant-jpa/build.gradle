@@ -1,0 +1,61 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.3.1'
+	id 'io.spring.dependency-management' version '1.1.5'
+	id "org.sonarqube" version "5.0.0.4638"
+}
+
+group = 'com.moriset'
+version = '0.0.1'
+
+java {
+	sourceCompatibility = '21'
+}
+
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+	maven { url 'https://repo.spring.io/milestone' }
+}
+
+ext {
+	set('springCloudVersion', "2023.0.1")
+}
+
+bootJar {
+  enabled = false
+}
+
+jar {
+  enabled = true
+}
+
+dependencies {
+	//implementation 'org.springframework.boot:spring-boot-starter-websocket'
+	//implementation 'org.springframework.boot:spring-boot-autoconfigure'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	//implementation 'org.springframework.data:spring-data-jpa'
+	implementation 'org.springframework:spring-webmvc'
+	implementation 'org.springframework:spring-websocket'
+	//implementation 'org.hibernate:hibernate-core'
+	//implementation 'javax.servlet:javax.servlet-api'
+	implementation 'org.flywaydb:flyway-database-postgresql'
+	implementation 'com.zaxxer:HikariCP'
+	
+	implementation 'jakarta.servlet:jakarta.servlet-api'
+	
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'	
+		
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
+compileJava.dependsOn clean

@@ -1,0 +1,165 @@
+##################################################################################
+##################################################################################
+##############                                       #############################
+##############  Micro Services                       #############################
+##############                                       #############################
+##################################################################################
+##################################################################################
+
+FROM bcephal-ubuntu-20.04 
+
+
+ARG BCEPHAL_MAX_MEMORY_SIZE
+ARG BCEPHAL_GIT_AUTH_USER_NAME
+ARG BCEPHAL_GIT_AUTH_USER_PWD
+ARG POSTGRES_ADRESS
+ARG BCEPHAL_KEYCLOAK
+ARG BCEPHAL_DB_USER_NAME=bcephal
+ARG BCEPHAL_DB_USER_PWD
+ARG KEYCLOAK_FRONTEND_URL
+ARG KEYCLOAK_EXTERNAL_HOSTNAME
+ARG KEYCLOAK_EXTERNAL_PORT
+
+ENV BCEPHAL_MAX_MEMORY_SIZE $BCEPHAL_MAX_MEMORY_SIZE
+ENV BCEPHAL_GIT_AUTH $BCEPHAL_GIT_AUTH_USER_NAME:$BCEPHAL_GIT_AUTH_USER_PWD
+ENV POSTGRES_ADRESS $POSTGRES_ADRESS
+ENV BCEPHAL_KEYCLOAK $BCEPHAL_KEYCLOAK
+ENV BCEPHAL_DB_USER_NAME $BCEPHAL_DB_USER_NAME
+ENV BCEPHAL_DB_USER_PWD $BCEPHAL_DB_USER_PWD
+ENV KEYCLOAK_FRONTEND_URL $KEYCLOAK_FRONTEND_URL
+ENV KEYCLOAK_EXTERNAL_HOSTNAME $KEYCLOAK_EXTERNAL_HOSTNAME
+ENV KEYCLOAK_EXTERNAL_PORT $KEYCLOAK_EXTERNAL_PORT
+
+#EXPOSE 9000/tcp 8000/tcp 8761/tcp 8930/tcp 8926/tcp 8923/tcp 8922/tcp 8921/tcp 8920/tcp 8919/tcp 8917/tcp 8918/tcp
+
+EXPOSE 9000/tcp
+
+#USER root
+
+SHELL ["/bin/bash", "-c"]
+
+RUN apt-get update \
+	&& git clone https://$BCEPHAL_GIT_AUTH@saas1402fu.saas-secure.com/git/bcephal-configuration-repository /opt/bcephal/v8/bcephal-configuration-repository \
+	&& git clone https://$BCEPHAL_GIT_AUTH@saas1402fu.saas-secure.com/git/bcephal-configuration-service /home/bcephal/8/server/bcephal-configuration-service \
+	&& git clone https://$BCEPHAL_GIT_AUTH@saas1402fu.saas-secure.com/git/bcephal-gateway-service /home/bcephal/8/server/bcephal-gateway-service \
+	&& git clone https://$BCEPHAL_GIT_AUTH@saas1402fu.saas-secure.com/git/bcephal-registration-service /home/bcephal/8/server/bcephal-registration-service \	
+	&& git clone https://$BCEPHAL_GIT_AUTH@saas1402fu.saas-secure.com/git/bcephal-project-service /home/bcephal/8/server/bcephal-project-service \	
+	&& git clone https://$BCEPHAL_GIT_AUTH@saas1402fu.saas-secure.com/git/bcephal-initiation-service /home/bcephal/8/server/bcephal-initiation-service \	
+	&& git clone https://$BCEPHAL_GIT_AUTH@saas1402fu.saas-secure.com/git/bcephal-multitenant-jpa /home/bcephal/8/server/bcephal-multitenant-jpa \	
+	&& git clone https://$BCEPHAL_GIT_AUTH@saas1402fu.saas-secure.com/git/bcephal-sso /home/bcephal/8/server/bcephal-sso \	
+	&& git clone https://$BCEPHAL_GIT_AUTH@saas1402fu.saas-secure.com/git/bcephal-utils /home/bcephal/8/server/bcephal-utils \	
+	&& git clone https://$BCEPHAL_GIT_AUTH@saas1402fu.saas-secure.com/git/bcephal-sourcing-grid-service /home/bcephal/8/server/bcephal-sourcing-grid-service \	
+	&& git clone https://$BCEPHAL_GIT_AUTH@saas1402fu.saas-secure.com/git/bcephal-settings-service /home/bcephal/8/server/bcephal-settings-service \	
+	&& git clone https://$BCEPHAL_GIT_AUTH@saas1402fu.saas-secure.com/git/bcephal-reporting-service /home/bcephal/8/server/bcephal-reporting-service \	
+	&& git clone https://$BCEPHAL_GIT_AUTH@saas1402fu.saas-secure.com/git/bcephal-reconciliation-service /home/bcephal/8/server/bcephal-reconciliation-service \	
+	&& git clone https://$BCEPHAL_GIT_AUTH@saas1402fu.saas-secure.com/git/bcephal-reconciliation-scheduler-service /home/bcephal/8/server/bcephal-reconciliation-scheduler-service \	
+	&& git clone https://$BCEPHAL_GIT_AUTH@saas1402fu.saas-secure.com/git/bcephal-planification-service /home/bcephal/8/server/bcephal-planification-service \	
+	&& git clone https://$BCEPHAL_GIT_AUTH@saas1402fu.saas-secure.com/git/bcephal-planification-scheduler-service /home/bcephal/8/server/bcephal-planification-scheduler-service \	
+	&& git clone https://$BCEPHAL_GIT_AUTH@saas1402fu.saas-secure.com/git/bcephal-file-loader-scheduler-service /home/bcephal/8/server/bcephal-file-loader-scheduler-service \
+	&& git clone https://$BCEPHAL_GIT_AUTH@saas1402fu.saas-secure.com/git/bcephal-dashboard-service /home/bcephal/8/server/bcephal-dashboard-service \
+	&& git clone https://$BCEPHAL_GIT_AUTH@saas1402fu.saas-secure.com/git/bcephal-billing-service /home/bcephal/8/server/bcephal-billing-service \
+	&& git clone https://$BCEPHAL_GIT_AUTH@saas1402fu.saas-secure.com/git/bcephal-billing-scheduler-service /home/bcephal/8/server/bcephal-billing-scheduler-service \
+	&& git clone https://$BCEPHAL_GIT_AUTH@saas1402fu.saas-secure.com/git/bcephal-web-ui-service /home/bcephal/8/server/bcephal-web-ui-service \	
+	&& echo "#!/bin/bash" > build.sh \
+	&& echo '#ls $1' >> build.sh \
+	&& echo 'cd $1' >> build.sh \
+	&& echo "#ls" >> build.sh \
+	&& echo "chmod +x gradlew" >> build.sh \
+	&& echo './gradlew buildZipDocker' >> build.sh \
+	&& echo 'unzip "$1/$2"  -d $3' >> build.sh \
+	&& echo 'chmod ugo+rwxs -R $3' >> build.sh \
+	&& echo 'mkdir -p /var/run/Bcephal/8 || true' >> build.sh \	
+	&& echo 'chown -R bcephal:root /var/run/Bcephal/8 || true' >> build.sh \
+	&& echo "touch /var/run/Bcephal/8/$4.pid || true" >> build.sh \
+	&& echo "touch /var/run/Bcephal/8/$4.log || true" >> build.sh \
+	&& echo '#$3/installService.sh' >> build.sh \
+	&& echo 'sed -i -e "s/userdel/#userdel/g" $3/post-install-update.sh' >> build.sh \
+	&& echo 'sed -i -e "s/useradd/#useradd/g" $3/post-install-update.sh' >> build.sh \
+	&& echo 'sed -i -e "s/usermod/#usermod/g" $3/post-install-update.sh' >> build.sh \
+	&& echo '#sed -i -e "s/\"$SCRIPT_PATH/#\"$SCRIPT_PATH/g" $3/post-install-update.sh' >> build.sh \
+	&& echo 'sed -i -e "s/echo/#echo/g" $3/post-install-update.sh' >> build.sh \
+	&& echo 'sed -i -e "s/if /#if /g" $3/post-install-update.sh' >> build.sh \
+	&& echo 'sed -i -e "s/fi /#fi /g" $3/post-install-update.sh' >> build.sh \
+	&& echo '$3/post-install-update.sh' >> build.sh \
+	&& echo '#rm -f $3/post-install-update.sh' >> build.sh \
+	&& echo 'rm -f $3/post-remove-update.sh' >> build.sh \
+	&& echo 'rm -f $3/$4.service' >> build.sh \
+	&& echo 'sed -i -e "s/#server.port/server.port/g" $3/bootstrap.properties' >> build.sh \
+	&& echo '#ln -s /opt/jdk-14 $3/jdk14' >> build.sh \
+	&& echo 'echo "#!/bin/bash" >> $3/../update-install.sh' >> build.sh \
+	&& echo 'echo " cd $3/" >> $3/../update-install.sh' >> build.sh \
+	&& echo 'echo "./post-install-update.sh" >> $3/../update-install.sh' >> build.sh \
+	&& echo 'chmod +x $3/../update-install.sh' >> build.sh \
+	&& chmod +x build.sh \
+	&& ./build.sh /home/bcephal/8/server/bcephal-configuration-service "B-Cephal Configuration 8.0.0-alpha-setup.zip"  /opt/bcephal/v8/configuration-service  Bcephal-Configuration-Service \
+	&& ./build.sh /home/bcephal/8/server/bcephal-gateway-service "B-Cephal Gateway 8.0.0-alpha-setup.zip"  /opt/bcephal/v8/gateway-service Bcephal-Gateway-Service.service \
+	&& ./build.sh /home/bcephal/8/server/bcephal-registration-service "B-Cephal Registration 8.0.0-alpha-setup.zip"  /opt/bcephal/v8/registration-service Bcephal-Registration-Service.service \
+	&& ./build.sh /home/bcephal/8/server/bcephal-sourcing-grid-service "B-Cephal Sourcing Grid 8.0.0-alpha-setup.zip"  /opt/bcephal/v8/sourcing-grid-service Bcephal-Sourcing-Grid-Service.service \
+	&& ./build.sh /home/bcephal/8/server/bcephal-settings-service "B-Cephal Settings 8.0.0-alpha-setup.zip"  /opt/bcephal/v8/settings-service Bcephal-Settings-Service.service \
+	&& ./build.sh /home/bcephal/8/server/bcephal-reporting-service "B-Cephal Reporting 8.0.0-alpha-setup.zip"  /opt/bcephal/v8/reporting-service Bcephal-Reporting-Service.service \
+	&& ./build.sh /home/bcephal/8/server/bcephal-reconciliation-service "B-Cephal Reconciliation 8.0.0-alpha-setup.zip"  /opt/bcephal/v8/reconciliation-service Bcephal-Reconciliation-Service.service \
+	&& ./build.sh /home/bcephal/8/server/bcephal-project-service "B-Cephal Project 8.0.0-alpha-setup.zip"  /opt/bcephal/v8/project-service Bcephal-Project-Service.service \
+	&& ./build.sh /home/bcephal/8/server/bcephal-initiation-service "B-Cephal Initiation 8.0.0-alpha-setup.zip"  /opt/bcephal/v8/initiation-service Bcephal-Initiation-Service.service \
+	&& ./build.sh /home/bcephal/8/server/bcephal-billing-service "B-Cephal Billing 8.0.0-alpha-setup.zip"  /opt/bcephal/v8/billing-service Bcephal-Billing-Service.service \	
+	&& ./build.sh /home/bcephal/8/server/bcephal-web-ui-service "B-Cephal Web UI 8.0.0-alpha-setup.zip"  /opt/bcephal/v8/web-ui-service Bcephal-Web-Ui-Service.service \	
+	&& echo "#!/bin/bash" > build-set.sh \
+	&& echo "sed -i -e \"s/spring.datasource.url=jdbc:postgresql:\/\/localhost:5433\//spring.datasource.url=jdbc:postgresql:\/\/$POSTGRES_ADRESS\//g\" /opt/bcephal/v8/bcephal-configuration-repository/"'$1' >> build-set.sh \
+	&& echo "sed -i -e \"s/spring.datasource.username=postgres/spring.datasource.username=$BCEPHAL_DB_USER_NAME/g\" /opt/bcephal/v8/bcephal-configuration-repository/"'$1' >> build-set.sh \
+	&& echo "sed -i -e \"s/spring.datasource.password=123456/spring.datasource.password=$BCEPHAL_DB_USER_PWD/g\" /opt/bcephal/v8/bcephal-configuration-repository/"'$1' >> build-set.sh \
+	&& chmod +x build-set.sh \
+	&& ./build-set.sh application.properties \
+	&& ./build-set.sh file-loader-service.properties \
+	&& ./build-set.sh gateway.properties \
+	&& ./build-set.sh initiation-service.properties \
+	&& ./build-set.sh project-service.properties \
+	&& ./build-set.sh reconciliation-service.properties \
+	&& ./build-set.sh registration-service.properties \
+	&& ./build-set.sh sourcing-grid-service.properties \
+	&& ./build-set.sh ui-service.properties \
+	&& ./build-set.sh auto-reconciliation-service.properties \
+	&& sed -i -e "s/keycloak.auth-server-url=http:\/\/localhost:8181\/auth/keycloak.auth-server-url=http:\/\/$KEYCLOAK_FRONTEND_URL\/auth/g" /opt/bcephal/v8/bcephal-configuration-repository/application.properties \
+	&& sed -i -e "s/#keycloak.proxy-url=http:\/\/localhost:8181\/auth/keycloak.proxy-url=http:\/\/$BCEPHAL_KEYCLOAK\/auth/g" /opt/bcephal/v8/bcephal-configuration-repository/application.properties \
+	&& sed -i -e "s/#server.servlet.session.cookie.domain=/server.servlet.session.cookie.domain=$KEYCLOAK_EXTERNAL_HOSTNAME/g" /opt/bcephal/v8/bcephal-configuration-repository/application.properties \
+	&& sed -i -e "s/#server.use-forward-headers=/server.use-forward-headers=/g" /opt/bcephal/v8/bcephal-configuration-repository/application.properties \
+	&& sed -i -e "s/#server.tomcat.remote-ip-header=/server.tomcat.remote-ip-header=/g" /opt/bcephal/v8/bcephal-configuration-repository/application.properties \
+	&& sed -i -e "s/#server.tomcat.protocol-header=/server.tomcat.protocol-header=/g" /opt/bcephal/v8/bcephal-configuration-repository/application.properties \
+	&& sed -i -e "s/#server.tomcat.proxy-name=/server.tomcat.proxy-name=$KEYCLOAK_EXTERNAL_HOSTNAME/g" /opt/bcephal/v8/bcephal-configuration-repository/application.properties \
+	&& sed -i -e "s/#server.tomcat.proxy-port=/server.tomcat.proxy-port=$KEYCLOAK_EXTERNAL_PORT/g" /opt/bcephal/v8/bcephal-configuration-repository/application.properties \
+	&& sed -i -e "s/bcephal.enable.proxy=false/bcephal.enable.proxy=true/g" /opt/bcephal/v8/bcephal-configuration-repository/application.properties \
+	&& sed -i -e 's/spring.cloud.config.server.git.uri=\/\/${user.dir}\/..\/bcephal-configuration-repository/spring.cloud.config.server.git.uri=\/opt\/bcephal\/v8\/bcephal-configuration-repository/g' /opt/bcephal/v8/configuration-service/application.properties \
+	&& rm -rf /home/bcephal/8/*;\
+	apt-get clean && rm -rf /var/lib/apt/lists/*;
+
+RUN ls /var/run
+#RUN ls /run
+
+RUN  rm -f ./build.sh && rm -f ./build-set.sh	
+
+RUN  (cd /opt/bcephal/v8/bcephal-configuration-repository/ && \
+	git config --global user.email "bcephalDocker@moriset.com" && \
+	git config --global user.name "bcephalDocker" && \
+	git commit -a --allow-empty-message -m '' )
+
+
+RUN  (cd /opt/bcephal/v8 && \
+	echo "#!/bin/bash" > start-stop-service.sh && \
+	echo "./update-install.sh || true" >> start-stop-service.sh && \
+	echo 'systemctl $1 Bcephal-Configuration-Service' >> start-stop-service.sh && \
+	echo 'sleep 5' >> start-stop-service.sh && \
+	echo 'systemctl $1 Bcephal-Registration-Service' >> start-stop-service.sh && \
+	echo 'sleep 7' >> start-stop-service.sh && \
+	echo 'systemctl $1 Bcephal-Gateway-Service' >> start-stop-service.sh && \
+	echo 'systemctl $1 Bcephal-Project-Service' >> start-stop-service.sh && \
+	echo 'systemctl $1 Bcephal-Sourcing-Grid-Service' >> start-stop-service.sh && \
+	echo 'systemctl $1 Bcephal-Settings-Service' >> start-stop-service.sh && \
+	echo 'systemctl $1 Bcephal-Initiation-Service' >> start-stop-service.sh && \
+	echo 'systemctl $1 Bcephal-Billing-Service' >> start-stop-service.sh && \
+	echo 'systemctl $1 Bcephal-Web-Ui-Service' >> start-stop-service.sh && \
+	echo 'systemctl $1 Bcephal-Reconciliation-Service' >> start-stop-service.sh && \
+	echo 'systemctl $1 Bcephal-Reporting-Service' >> start-stop-service.sh && \
+	chmod +x start-stop-service.sh;)
+
+
+	
+VOLUME ["/run/Bcephal","/home/bcephal"]
+CMD ["/usr/sbin/init"]

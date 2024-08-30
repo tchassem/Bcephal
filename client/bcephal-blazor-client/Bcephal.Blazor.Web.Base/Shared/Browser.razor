@@ -1,0 +1,15 @@
+﻿<CardComponent CanDisplayHeader="true" CanDisplayFooter="false" HeaderCssClass="card-header m-0 p-0 bc-header-1 bc-header-height bc-text-align">
+    <Header>
+        <span class="text-left ml-1">
+            <i class="mr-1 ml-1 mt-auto mb-auto @(TitleIcon)"></i>
+            @Title
+        </span>
+    </Header>
+    <ChildContent>
+        @_BodyContent_
+    </ChildContent>
+</CardComponent>
+
+@code{
+    protected virtual  RenderFragment _BodyContent_ => __builder => { };
+    }

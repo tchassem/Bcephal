@@ -1,0 +1,9 @@
+pluginManagement {
+  plugins {
+    id 'org.springframework.boot' version '2.4.5'
+	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+	id 'org.sonarqube' version '3.0'
+  }
+}
+includeFlat 'bcephal-multitenant-jpa', 'bcephal-utils', 'bcephal-sso', 'bcephal-grid', 'bcephal-base', 'bcephal-security-base'
+rootProject.name = 'bcephal-accounting-service'

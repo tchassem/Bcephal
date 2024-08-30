@@ -1,0 +1,12 @@
+﻿<div class="ml-2 p-2 h-100 overflow-auto">
+    @foreach (var routine in AutoRecoEditorData.Item.RoutineListChangeHandler.GetItems())
+    {
+        <AutoRecoRoutineItem Editable=Editable @bind-EditorData=AutoRecoEditorData RoutineExecutor_=routine />
+    }
+    <div class="mt-2 p-0">
+        <div class="filter-elt d-flex flex-column py-1" style="width: 365px;">
+            <DxComboBox Enabled=Editable Data="@AutoRecoEditorData.Routines" TData="Nameable" Value="SelectedRoutine" TValue="Nameable" NullText="@AppState["select.routine"]"
+                        ValueChanged="@((val) => AddRoutine(val))" />
+        </div>
+    </div>
+</div>

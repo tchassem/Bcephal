@@ -1,0 +1,46 @@
+﻿
+@inherits AbstractGridComponent<Posting, PostingEntry>
+
+@{base.BuildRenderTree(__builder);}
+
+@code{
+    protected override RenderFragment EditFormTemplate => DefaultEditFormTemplate;
+
+    protected RenderFragment GetEditData_(PostingEntry DataItem, AbstractGridDataItem GridDataItem)
+    {
+        if (GridDataItem.Position == 0)
+        {
+            return __builder =>
+            {
+                <DxComboBox Data="Accounts" TData="Account" TValue="string" @bind-Value="@DataItem.AccountId" TextFieldName="@nameof(Account.number)"
+                        ValueFieldName="@nameof(Account.number)" SelectedItemChanged="((Account selectedItem) => { DataItem.AccountName = selectedItem.name; })" />
+            };
+        }
+        else if (GridDataItem.Position == 1)
+        {
+            return __builder =>
+            {
+                <DxTextBox CssClass="w-100" InputCssClass="w-100" InputId="param-account-name" @bind-Text=@DataItem.AccountName BindValueMode="BindValueMode.OnInput" NullText="" ReadOnly="true" />
+            };
+        }
+        else if (GridDataItem.Position == 2)
+        {
+            return __builder =>
+            {
+                <DxSpinEdit T="decimal?" @bind-Value="DataItem.Amount" BindValueMode="BindValueMode.OnInput" @onkeyup="(async (e) => { await EnterHandleValidSubmit(e, DataItem); })"/>
+            };
+        }
+        else if (GridDataItem.Position == 3)
+        {
+            return __builder =>
+            {
+                <DxComboBox Data="PostingSign.GetAll()" TData="PostingSign" TValue="PostingSign" Value="@DataItem.Sign" 
+                    SelectedItemChanged="(async(selectedItem) => { DataItem.Sign = selectedItem; await HandleValidSubmit(DataItem); DataItem.IsInEditMode = false; })"/>
+            };
+        }
+
+        return null;
+    }
+
+
+}

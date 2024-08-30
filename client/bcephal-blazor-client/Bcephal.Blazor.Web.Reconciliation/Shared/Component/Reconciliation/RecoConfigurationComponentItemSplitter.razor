@@ -1,0 +1,13 @@
+﻿
+
+<DxLayoutBreakpoint DeviceSize="DeviceSize.XSmall | DeviceSize.Small" @bind-IsActive="@IsXSmallScreen" />
+@if ((IsXSmallScreen && SimplePanel != null && SimplePanel.Count > 0)
+  || (!IsXSmallScreen && Panel != null && Panel.Count > 0))
+{
+    var pane = Panel;
+    if (IsXSmallScreen)
+    {
+        pane = SimplePanel;
+    }
+    <SplitterPanel Panes=pane vertical="false" LeftSize="1" heightCall=@heightCall />
+}

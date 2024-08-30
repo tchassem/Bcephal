@@ -1,0 +1,77 @@
+﻿
+
+<div class=" d-flex flex-row  ">
+    <div class="@CssClass">
+        <DxTextBox NullText="@AppState["Enter.serie.name"]" @bind-Text="@Serie.Name" CssClass="w-100">
+        </DxTextBox>
+    </div>
+
+    <div class="@CssClass">
+        <DxComboBox Data="@ChartSeriesTypes"
+                    NullText="@AppState["Select.serie.type"]" CssClass="w-100"
+                    @bind-Value="@Serie.Type"
+                    SelectedItemChanged="@((i) => AppState.Update = true )">
+        </DxComboBox>
+    </div>
+
+    <div class="@CssClass">
+        <DxComboBox Data="@ArgumentAxisFields" NullText="@AppState["Select.arg"]"
+                    TData="DashboardReportField" TValue="DashboardReportField" CssClass="w-100"
+                    TextFieldName="@nameof(DashboardReportField.Name)"
+                    @bind-Value="@Serie.ArgumentAxis">
+        </DxComboBox>
+    </div>
+
+    <div class="@CssClass">
+        <DxComboBox Data="@ValueAxisFields" NullText="@AppState["Select.value"]"
+                    TData="DashboardReportField" TValue="DashboardReportField" CssClass="w-100"
+                    TextFieldName="@nameof(DashboardReportField.Name)"
+                    @bind-Value="@Serie.ValueAxis">
+        </DxComboBox>
+    </div>
+
+    <div class="@ColorClass">
+        <input type="color" @bind-value="@Serie.Color" />
+    </div>
+
+    <div class="@VisibleClass">
+        <DxCheckBox CssClass="d-flex align-items-center h-100" @bind-Checked="@Serie.IsVisible">@AppState["Visible"] </DxCheckBox>
+    </div>
+
+    <div class="@CssClass">
+        <DxCheckBox CssClass="d-flex align-items-center h-100" @bind-Checked="@Serie.ShowLabel">@AppState["Show.label"] </DxCheckBox>
+    </div>
+
+    <div class="p-1 d-flex">
+        <DxButton RenderStyle="ButtonRenderStyle.Link"
+                  Text="@AppState["advanced"]"
+                  Title="@AppState["advanced.serie.config"]"
+                  IconCssClass="fa fa-gear"
+                  Click="@(() => showConfigModal = true )"
+                  IconPosition="ButtonIconPosition.BeforeText" />
+
+        <DxButton IconCssClass="fa fa-remove"
+                  CssClass="mt-auto mb-auto"
+                  RenderStyleMode="ButtonRenderStyleMode.Text"
+                  RenderStyle="ButtonRenderStyle.Danger"
+                  Click="@(() => SerieDeleted.InvokeAsync(Serie))">
+        </DxButton>
+    </div>
+</div>
+
+
+@if (showConfigModal)
+{
+    <DxLayoutBreakpoint DeviceSize="DeviceSize.XSmall | DeviceSize.Small | DeviceSize.Medium " @bind-IsActive="@IsXSmallScreen" />
+    @* Modale de configuration avancée de la série concernée *@
+    <BaseModalComponent @key="@(Guid.NewGuid().ToString("d"))" Title=@(Serie.Name + " Serie advanced config" ) @bind-ShowModal=@showConfigModal
+                        ApplyBackgroundShading="true" BodyClass="p-1" OkHandler=@(() => AppState.Update = true)>
+        @*<div class="h-100" style=" width: 100%; border: 1px solid red;">*@
+        <SerieAdvancedConfig Serie=@Serie Fields=@DashboardReportFields></SerieAdvancedConfig>
+    </BaseModalComponent>
+}
+
+
+@code {
+
+}

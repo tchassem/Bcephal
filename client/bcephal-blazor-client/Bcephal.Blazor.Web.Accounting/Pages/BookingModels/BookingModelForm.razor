@@ -1,0 +1,323 @@
+﻿@page "/booking-model-form"
+@page "/booking-model-form/{Id:long}"
+
+@using Bcephal.Models.Base.Accounting
+@using Bcephal.Models.Billing.Model
+@using Bcephal.Blazor.Web.Sourcing.Shared.Grille
+
+@inherits Form<Bcephal.Models.Base.Accounting.BookingModel, BrowserData>
+
+@{
+    base.BuildRenderTree(__builder);
+}
+
+@code {
+    bool IsXSmallScreen;
+
+    public string FilterStyle = "h-100 w-100";
+    string AttributeHeaderStyle = "d-flex flex-row bc-header-3 p-0 bc-header-height bc-text-align pl-1";
+    string PeriodHeaderStyle = "d-flex flex-row bc-header-3 p-0 bc-header-height bc-text-align pl-1";
+    string MeasureHeaderStyle = "d-flex flex-row bc-header-3 p-0 bc-header-height bc-text-align pl-1";
+    string labelSm = "mt-auto mb-auto ml-auto mr-1";
+    string labelLg = "mt-auto mb-auto ml-auto mr-1";
+    public string LengthItem1Lg = "0.2fr";
+    public string LengthItem2Lg = "0.8fr ";
+
+    public override RenderFragment LeftContent => __builder =>
+    {
+<div class="@FilterStyle">
+    @if (EditorData != null)
+        {
+        <DxTabs ScrollMode="TabsScrollMode.Auto">
+            <DxTabPage Text="@AppState["scheduler.booking"]">
+                @RenderSplitterPane
+            </DxTabPage>
+            <DxTabPage Text="@AppState["Scheduling"]">
+                @RenderShedulerContent
+            </DxTabPage>
+        </DxTabs>
+        }
+</div>
+    };
+
+    public RenderFragment RenderSplitterPane => __builder =>
+    {
+    <SplitterPanel Panes="new List<RenderFragment>() {PeriodContent, BookingPivotContent  }" LeftSize="1" />
+    };
+
+    public RenderFragment PeriodContent => __builder =>
+    {
+    <div class="card p-0 m-0 mt-1 h-100 border-bottom-0">
+        <div class="card-header bc-header-height bc-header-2 bc-text-align pl-2">
+            <span class="text-left">
+                @AppState["PERIOD"]
+            </span>
+        </div>
+        <div class="card-body p-0" style="height:calc(100% - var(--bc-header-height));">
+            @PeriodBodyContent
+        </div>
+    </div>
+    };
+
+    public RenderFragment PeriodBodyContent => __builder =>
+    {
+    <DxLayoutBreakpoint DeviceSize="DeviceSize.Medium | DeviceSize.Small | DeviceSize.XSmall" @bind-IsActive="@IsXSmallScreen" />
+    @*<RenderFormContent @ref="RenderFormContentRef">
+    </RenderFormContent>*@
+    <DxStackLayout CssClass="@FilterStyle" Orientation="Orientation.Vertical" ItemSpacing="15px">
+        <Items>
+            <DxStackLayoutItem CssClass="ml-2" Length="1fr">
+                <Template>
+                    <DxStackLayout CssClass="w-100 mt-2" Orientation="Orientation.Vertical" ItemSpacing="10px">
+                        <Items>
+                            <DxStackLayoutItem CssClass="w-100" Length="auto">
+                                <Template>
+                                    <DxStackLayout CssClass="w-100" Orientation="Orientation.Horizontal">
+                                        <Items>
+                                            <DxStackLayoutItem Length="@LengthItem1Lg">
+                                                <Template>
+                                                    <div class="d-flex flex-column h-100">
+                                                        <span class="@(IsXSmallScreen ? labelSm : labelLg)">@AppState["billing.event.period"]</span>
+                                                    </div>
+                                                </Template>
+                                            </DxStackLayoutItem>
+                                            <DxStackLayoutItem Length="0.4fr">
+                                                <Template>
+                                                    <DxComboBox DropDownWidthMode="DropDownWidthMode.EditorWidth" CssClass="d-flex flex-column h-100 justify-content-center pr-2"
+                                                                Data="BillingModelPeriodSide.GetSides()" TData="BillingModelPeriodSide" TValue="BillingModelPeriodSide"
+                                                                SelectedItemChanged="((periodSide) => changedPeriodSideOption(periodSide))" @bind-Value=PeriodSide />
+                                                </Template>
+                                            </DxStackLayoutItem>
+                                            <DxStackLayoutItem Length="0.6fr" Visible="@VperiodGranularity">
+                                                <Template>
+                                                    <DxComboBox DropDownWidthMode="DropDownWidthMode.EditorWidth" CssClass="d-flex flex-column h-100 justify-content-center pr-2" @bind-Value=PeriodGranularity
+                                                                TData="BillingModelPeriodGranularity" TValue="BillingModelPeriodGranularity" Data="BillingModelPeriodGranularity.GetGranularities()" />
+                                                </Template>
+                                            </DxStackLayoutItem>
+                                        </Items>
+                                    </DxStackLayout>
+                                </Template>
+                            </DxStackLayoutItem>
+                            <DxStackLayoutItem CssClass="w-100" Length="auto" Visible="@VIntervalDisplay">
+                                <Template>
+                                    <DxStackLayout CssClass="w-100" Orientation="Orientation.Horizontal">
+                                        <Items>
+                                            <DxStackLayoutItem Length="@LengthItem1Lg">
+                                                <Template>
+                                                    <div class="d-flex flex-column h-100">
+                                                        <span class="@(IsXSmallScreen ? labelSm : labelLg)">@AppState["From"]</span>
+                                                    </div>
+                                                </Template>
+                                            </DxStackLayoutItem>
+                                            <DxStackLayoutItem>
+                                                <Template>
+                                                    <div class="w-100 h-100 ">
+                                                        <PeriodFilterItemComponent periodFilterItem="from"
+                                                                                   ExpandField="true"
+                                                                                   Periods_=PeriodsItems_
+                                                                                   ItemCallback="TargetFilter"
+                                                                                   ShouldRender_="ShouldRender_"
+                                                                                   DisplayFirstItem="false"
+                                                                                   DisplaySecondItem="false">
+                                                        </PeriodFilterItemComponent>
+                                                    </div>
+                                                </Template>
+                                            </DxStackLayoutItem>
+                                        </Items>
+                                    </DxStackLayout>
+                                </Template>
+                            </DxStackLayoutItem>
+                            <DxStackLayoutItem CssClass="w-100" Length="auto" Visible="@VIntervalDisplay">
+                                <Template>
+                                    <DxStackLayout CssClass="w-100" Orientation="Orientation.Horizontal">
+                                        <Items>
+                                            <DxStackLayoutItem Length="@LengthItem1Lg">
+                                                <Template>
+                                                    <div class="d-flex flex-column h-100">
+                                                        <span class="@(IsXSmallScreen ? labelSm : labelLg)">@AppState["To"]</span>
+                                                    </div>
+                                                </Template>
+                                            </DxStackLayoutItem>
+                                            <DxStackLayoutItem>
+                                                <Template>
+                                                    <div class="w-100 ">
+                                                        <PeriodFilterItemComponent periodFilterItem="to"
+                                                                                   ExpandField="true"
+                                                                                   Periods_=PeriodsItems_
+                                                                                   ItemCallback="TargetFilter"
+                                                                                   ShouldRender_="ShouldRender_"
+                                                                                   DisplayFirstItem="false"
+                                                                                   DisplaySecondItem="false">
+                                                        </PeriodFilterItemComponent>
+                                                    </div>
+                                                </Template>
+                                            </DxStackLayoutItem>
+                                        </Items>
+                                    </DxStackLayout>
+                                </Template>
+                            </DxStackLayoutItem>
+                            <DxStackLayoutItem CssClass="w-100" Length="auto">
+                                <Template>
+                                    <DxStackLayout CssClass="w-100" Orientation="Orientation.Horizontal">
+                                        <Items>
+                                            <DxStackLayoutItem Length="@LengthItem1Lg">
+                                            </DxStackLayoutItem>
+                                            <DxStackLayoutItem>
+                                                <Template>
+                                                    <DxCheckBox CssClass="py-1" @bind-Checked=selectPeriodAtRuntime Alignment="CheckBoxContentAlignment.Left">
+                                                        @AppState["Booking.Model.selectPeriodAtRuntime"]
+                                                    </DxCheckBox>
+                                                </Template>
+                                            </DxStackLayoutItem>
+                                        </Items>
+                                    </DxStackLayout>
+                                </Template>
+                            </DxStackLayoutItem>
+                            <DxStackLayoutItem CssClass="w-100" Length="auto">
+                                <Template>
+                                    <DxStackLayout CssClass="w-100" Orientation="Orientation.Horizontal">
+                                        <Items>
+                                            <DxStackLayoutItem Length="@LengthItem1Lg">
+                                            </DxStackLayoutItem>
+                                            <DxStackLayoutItem>
+                                                <Template>
+                                                    <DxCheckBox CssClass="py-0" @bind-Checked=includeZeroAmountEntries Alignment="CheckBoxContentAlignment.Left">
+                                                        @AppState["Booking.Model.includeZeroAmountEntries"]
+                                                    </DxCheckBox>
+                                                </Template>
+                                            </DxStackLayoutItem>
+                                        </Items>
+                                    </DxStackLayout>
+                                </Template>
+                            </DxStackLayoutItem>
+                        </Items>
+                    </DxStackLayout>
+                </Template>
+            </DxStackLayoutItem>
+        </Items>
+    </DxStackLayout>
+    };
+
+    public RenderFragment BookingPivotContent => __builder =>
+    {
+    <div class="card p-0 m-0 mt-1 h-100 border-bottom-0 border-left-0 border-right-0">
+        <div class="card-header bc-header-height bc-header-2 bc-text-align pl-2">
+            <span class="text-left">
+                @AppState["Select.Booking.Pivot"]
+            </span>
+        </div>
+        <div class="card-body p-0" style="height:calc(100% - var(--bc-header-height));">
+            @BookingPivotBodyContent
+        </div>
+    </div>
+    };
+
+    public RenderFragment BookingPivotBodyContent => __builder =>
+    {
+    <BookingModelPivotComponent EntityItems=Entities @bind-BookingModel=EditorData.Item />
+    };
+
+    public override RenderFragment RightContent => __builder =>
+    {
+    @RendeRight
+    };
+
+    private RenderFragment RendeRight => __builder =>
+    {
+    @if (EditorDataBinding != null)
+        {
+        <DxTabs CssClass="m-0 p-0 w-100" @bind-ActiveTabIndex="ActiveTabIndex">
+            <DxTabPage Text="@AppState["Properties"]" CssClass="m-0 p-0 h-100">
+                @RendeGroup
+            </DxTabPage>
+            <DxTabPage Text="@AppState["Grid.admin.filter"]" CssClass="h-100">
+                @RendeFilter
+            </DxTabPage>
+        </DxTabs>
+        }
+    };
+
+    private RenderFragment RendeFilter => __builder =>
+    {
+    @if (EditorDataBinding != null)
+        {
+        <div style="height: calc(100% - var(--bc-tab-header-height));">
+            <FilterComponent Filterstyle="@FilterStyle"
+                             UniverseFilter="EditorDataBinding.Item.filter"
+                             Attributes=Entities
+                             Measures=EditorDataBinding.Measures
+                             Periods=EditorDataBinding.Periods>
+            </FilterComponent>
+        </div>
+        }
+
+    };
+
+    private RenderFragment RendeGroup => __builder =>
+    {
+    @if (EditorDataBinding != null)
+        {
+        @*<SplitterPanel Panes="new() { RendeGroupInfos,RenderShedulerContent }" vertical="false" LeftSize="1" RightSize="3" />*@
+        @RendeGroupInfos
+        }
+    };
+
+    private RenderFragment RendeGroupInfos => __builder =>
+    {
+    @if (EditorDataBinding != null)
+        {
+        <div style="height: calc(100% - var(--bc-tab-header-height));">
+            <GridItemInfos @bind-EditorData=@EditorDataBinding T="Bcephal.Models.Base.Accounting.BookingModel"
+                           DisplayGroup="true" DisplayVisibleInShortcut="true" BGroups="BGroups">
+            </GridItemInfos>
+        </div>
+        }
+    };
+
+    public RenderFragment RenderShedulerContent => __builder =>
+    {
+    <div class="w-100">
+        <div class="card p-0 m-0 h-100 border-bottom-0 border-left-0 border-right-0">
+            <div class="card-header bc-header-height bc-header-2 bc-text-align pl-2">
+                <span class="text-left">
+                    @AppState["Scheduling"]
+                </span>
+            </div>
+            <div class="card-body p-0">
+                <DxStackLayout CssClass="w-100 h-100" Orientation="Orientation.Vertical" ItemSpacing="15px">
+                    <Items>
+                        <DxStackLayoutItem CssClass="w-100" Length="auto">
+                            <Template>
+                                <DxStackLayout CssClass="w-100 pt-2 px-2" Orientation="Orientation.Horizontal">
+                                    <Items>
+                                        <DxStackLayoutItem Length="0.5fr">
+                                            <Template>
+                                                <div class="d-flex flex-column h-100">
+                                                    <span>@AppState["scheduling.option"]</span>
+                                                </div>
+                                            </Template>
+                                        </DxStackLayoutItem>
+                                        <DxStackLayoutItem CssClass="w-100">
+                                            <Template>
+                                                <DxComboBox Data="@schedulerOption"
+                                                            SelectedItemChanged="( (string val) => changedSchedulerOption(val) )"
+                                                            @bind-Value="@currentOption">
+                                                </DxComboBox>
+                                            </Template>
+                                        </DxStackLayoutItem>
+                                    </Items>
+                                </DxStackLayout>
+                            </Template>
+                        </DxStackLayoutItem>
+                        <DxStackLayoutItem CssClass="w-100" Length="auto" Visible="@Vactive">
+                            <Template>
+                                <SchedulerItemsInfos P="BookingModel" @bind-EditorData=EditorDataBinding />
+                            </Template>
+                        </DxStackLayoutItem>
+                    </Items>
+                </DxStackLayout>
+            </div>
+        </div>
+    </div>
+    };
+}

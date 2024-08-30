@@ -1,0 +1,11 @@
+﻿@if (Field != null)
+{
+    <DxGridLayoutItem Area="@filedName">
+        <Template>
+            <FormModelFieldComponent formModelField="Field"  
+                                     AddOrUpdateHandler=AddOrUpdateFromData
+                                     ValueHandler=GetData
+                                     />
+        </Template>
+    </DxGridLayoutItem>
+}

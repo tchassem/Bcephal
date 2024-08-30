@@ -1,0 +1,36 @@
+﻿
+<div class="h-100 w-100" 
+     style="position: absolute !important; top: 0 !important; z-index: 999999; background-color: rgba(0,0,0,.0001) !important; @Display">
+    <div class="d-flex flex-column align-items-center justify-content-center" style="background-color: white;width: 200px; height: 150px;">
+        <div >@AppState_["loading"]</div>
+        <div class="d-flex flex-column align-items-center justify-content-center" style="width: 150px; height: 100px; ">
+            <div class="loading spinner-border text-info collapse @AppState_.LoadingStatus">
+            </div>
+        </div>
+    </div>
+</div>
+@code {
+    [Inject]
+    AppState AppState_ { get; set; }
+
+    string Display => "display:" + (!"show".Equals(AppState_.LoadingStatus) ? "none !important;" : "flex !important;align-items:center;justify-content:center;");
+   
+    protected override Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            AppState_.LoadingHander -= StateHasChanged;
+            AppState_.LoadingHander += StateHasChanged;
+        }
+        return base.OnAfterRenderAsync(firstRender);
+    }
+
+    protected override Task OnInitializedAsync()
+    {
+        if (string.IsNullOrWhiteSpace(AppState_.LoadingStatus))
+        {
+            AppState_.HideLoadingStatus();
+        }
+        return base.OnInitializedAsync();
+    }
+}

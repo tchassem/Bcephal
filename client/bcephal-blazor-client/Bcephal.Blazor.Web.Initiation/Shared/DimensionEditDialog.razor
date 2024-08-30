@@ -1,0 +1,33 @@
+﻿<BaseModalComponent @ref="ModalItem" Title="@Title" Width="350px" ApplyBackgroundShading="true" @bind-ShowModal=ShowDialog OkHandler="HandleValidSubmit" CancelHandler="Close">
+    <div class="w-100 px-2">
+        <EditForm EditContext="editContext" OnValidSubmit="@HandleValidSubmit">
+            <DataAnnotationsValidator />
+            @if (!ActionType.Equals("AddVal"))
+            {
+                <div class="form-group">
+                    <label for="itemName">@AppState["Name"] </label>
+                    <InputText id="itemName" class="form-control" @bind-Value="@ItemName" placeholder="@AppState["Name"]" />
+                    <ValidationMessage For="@(() => ItemName)" />
+                </div>
+            }
+            @if (Item is Bcephal.Blazor.Web.Initiation.Domain.Attribute)
+            {
+                if (((Bcephal.Blazor.Web.Initiation.Domain.Attribute)Item).Declared && ActionType.Equals("AddVal"))
+                {
+                    <div class="form-group">
+                        <label for="attrVal">@AppState["AttributeValue"] </label>
+                        <DxTextBox id="attrVal" CssClass="w-100" InputCssClass="w-100" @bind-Text=AttributeValue
+                                   BindValueMode="BindValueMode.OnLostFocus" NullText="@AppState["AttributeValue"]" />
+                        <ValidationMessage For="@(() => AttributeValue)" />
+                    </div>
+                }
+                else
+                {
+                <div class="form-group">
+                    <DxCheckBox id="isDeclared" CssClass="w-100 mt-3" @bind-Checked="@IsDeclare">@AppState["Declare"]</DxCheckBox>
+                </div>
+                }
+            }
+        </EditForm>
+    </div>
+</BaseModalComponent>

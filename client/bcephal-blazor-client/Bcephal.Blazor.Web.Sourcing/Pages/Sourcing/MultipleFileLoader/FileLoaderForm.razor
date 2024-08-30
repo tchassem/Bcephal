@@ -1,0 +1,120 @@
+﻿@page "/new-load-file/"
+@page "/new-load-file/{Id:long}"
+
+@inherits Form<FileLoader, FileLoaderBrowserData>
+
+@if (EditorData == null)
+{
+    AppState.ShowLoadingStatus();
+}
+@{
+    base.BuildRenderTree(__builder);
+}
+
+@code {
+
+    string labelLg = Constant.LABELLG;
+    string labelSm = Constant.LABELSM;
+    public string LabelWidth { get; set; } = Constant.GROUP_INFOS_LABEL_WIDTH;
+
+    public string TextWidth { get; set; } = Constant.GROUP_INFOS_TEXT_WIDTH;
+    bool IsSmallScreen;
+
+    public RenderFragment LeftContent2_ => __builder =>
+    {
+    <FileLoaderFormItem Editable=Editable @bind-EditorData="EditorDataBinding"
+                        @bind-ActiveIndex="ActiveIndex_"
+                        Entities="Entities"
+                        Columns_="Columns_"
+                        Page="Page"
+                        LoadTargetHandler="LoadTarget"
+                        HeaderIsReadOnly="HeaderIsReadOnly"
+                        @bind-Config=Config />
+    };
+
+    public override RenderFragment LeftContent => __builder =>
+    {
+    @if (EditorData != null)
+        {
+            AppState.HideLoadingStatus();
+        @LeftContent2_
+        }
+    };
+
+    public override RenderFragment RightContent => __builder =>
+    {
+    @if (EditorData != null)
+        {
+
+        <GridItemInfos Editable=Editable  @bind-EditorData=EditorDataBinding T="FileLoader" @bind-BGroups="BGroups">
+            <ChildContent>
+                <DxLayoutBreakpoint DeviceSize="DeviceSize.Medium | DeviceSize.Small | DeviceSize.XSmall" @bind-IsActive="IsSmallScreen" />
+                <DxGridLayout CssClass="ml-2">
+                    <Rows>
+                        @if (IsSmallScreen)
+                            {
+                            <DxGridLayoutRow Areas="activecheck" />
+                            }
+                            else
+                            {
+                            <DxGridLayoutRow Areas="activelabel activecheck" />
+                            }
+                    </Rows>
+                    <Columns>
+                        @if (IsSmallScreen)
+                            {
+                            <DxGridLayoutColumn />
+                            }
+                            else
+                            {
+                            <DxGridLayoutColumn Width=@LabelWidth />
+                            <DxGridLayoutColumn Width=@TextWidth />
+                            }
+                    </Columns>
+                    <Items>
+                        <DxGridLayoutItem Visible="!IsSmallScreen" Area="activelabel" />
+                        <DxGridLayoutItem Area="activecheck">
+                            <Template>
+                                <DxCheckBox Enabled=Editable @bind-Checked=Active LabelPosition="LabelPosition.Right" Alignment="CheckBoxContentAlignment.Left">
+                                    @AppState["PageLoader.Active"]
+                                </DxCheckBox>
+                            </Template>
+                        </DxGridLayoutItem>
+                    </Items>
+                </DxGridLayout>
+            </ChildContent>
+        </GridItemInfos>
+        @if (Config_ != null)
+            {
+            @Config
+            }
+
+        }
+    };
+
+    public RenderFragment ConfigEmpty => __builder =>
+   {
+
+   };
+    public RenderFragment Config_ { get; set; }
+
+    public RenderFragment Config
+    {
+        get
+        {
+            if (Config_ == null)
+            {
+                return ConfigEmpty;
+            }
+            else
+            {
+                return Config_;
+            }
+        }
+        set
+        {
+            Config_ = value;
+        }
+    }
+
+}

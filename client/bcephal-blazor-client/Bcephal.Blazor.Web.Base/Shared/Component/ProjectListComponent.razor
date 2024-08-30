@@ -1,0 +1,150 @@
+﻿
+@inject IToastService toastService;
+@inject ProjectService ProjectService;
+@inject AppState _AppState;
+@inject NavigationManager _NavigationManager
+
+
+<DxPopup @ref="DxPopupRef"
+         CloseOnEscape="false"
+         CloseOnOutsideClick="false"
+         ShowFooter="true"
+         ShowCloseButton="false"
+         FooterCssClass="project-select-item"
+         HeaderCssClass="project-select-item"
+         BodyCssClass="project-select-item"
+         CssClass="project-select-border"
+         ApplyBackgroundShading="false"
+         @bind-Visible="@PopupVisible">
+    <HeaderTemplate>
+        <div class="pl-3 pt-3 pr-3 project-select-item">
+            @if (Open)
+            {
+                <label class="ml-auto mr-auto" style="font-size:1.2rem;">@AppState["project.select"]</label>
+            }
+            else
+            {
+                <label class="ml-auto mr-auto" style="font-size:1.2rem;">@AppState["SureToCloseProjectOrDoYouWantToOpenAnotherProject"]</label>
+            }
+
+        </div>
+    </HeaderTemplate>
+    <BodyTemplate Context="PopupContext">
+        <div class="w-100 m-0 p-3 project-select-item">
+            @if (Projects == null)
+            {
+                <img alt="loader" src="assets/loader.gif" height="1" class="media-object"> 
+            }
+            else
+            {
+                <div class="d-flex flex-row w-100">
+                    <div class="d-flex flex-row" style="width:15% !important;">
+                        <div class="ml-auto mr-1 d-flex flex-column">
+                            <i class="bi-bag-check d-flex flex-column mt-auto mb-auto" style="font-size: 1.5rem;"></i>
+                        </div>
+
+                    </div>
+                    <div class="d-flex flex-column" style="width:75% !important;">
+
+                        <DxComboBox Data=Projects
+                                    TValue="ProjectBrowserData"
+                                    TData="ProjectBrowserData"
+                                    TextFieldName="Name"
+                                    CssClass="mt-auto mb-auto w-100"
+                                    InputCssClass="bi-bag"
+                                    SelectedItemChanged="(async(project) => await OpenProject(project))">
+                        </DxComboBox>
+                    </div>
+                </div>
+            }
+        </div>
+    </BodyTemplate>
+    <FooterContentTemplate>
+        <div class="d-flex flex-row w-100">
+            <div class=" d-flex flex-row ml-auto mr-auto w-100 p-1">
+                <div class="d-flex  flex-fill ml-auto mr-auto " style="width:31%;">
+                    <NavLink style="cursor:pointer;font-size:1rem;color:white;margin-left:auto !important;margin-right:auto !important;margin-top:auto;margin-bottom:auto; text-decoration:underline;"
+                             href="@Route.PROJECT_BROWSER"
+                             @onclick="@(async() =>  await NavigateTo(Route.PROJECT_BROWSER) )">
+                        @AppState["open.project.list"]
+                    </NavLink>
+                </div>
+                @if (!Open)
+                {
+                    <div class="d-flex  flex-fill ml-auto mr-auto " style="width:31%;">
+                        <DxButton Text="@AppState["Close"]" CssClass="w-75" style="background-color: white;" RenderStyle="ButtonRenderStyle.None" RenderStyleMode="ButtonRenderStyleMode.Contained" Click="CloseOpenEvent" />
+                    </div>
+                    <div class="d-flex  flex-fill ml-auto mr-auto " style="width:31%;">
+                        <DxButton Text="@AppState["Cancel"]" CssClass="w-75" style="background-color: white;" RenderStyle="ButtonRenderStyle.None" RenderStyleMode="ButtonRenderStyleMode.Contained" Click="ClosePopup" />
+                    </div>
+                }
+            </div>
+
+        </div>
+    </FooterContentTemplate>
+</DxPopup>
+
+@code {
+
+    DxPopup DxPopupRef;
+    [Inject] AppState AppState { get; set; }
+    [Parameter] public List<ProjectBrowserData> Projects { get; set; } = new();
+    [Parameter] public EventCallback<List<ProjectBrowserData>> ProjectsChanged { get; set; }
+    [Parameter] public Func<bool, ProjectBrowserData, Func<ProjectBrowserData, Task>, Task> CloseProjectHandler { get; set; }
+    [Parameter] public bool PopupVisible { get; set; }
+    [Parameter] public EventCallback<bool> PopupVisibleChanged { get; set; }
+    [Parameter] public bool Open { get; set; } = true;
+    [Parameter] public EventCallback<bool> OpenChanged { get; set; }
+    public ProjectBrowserData SelectedProjectData_ { get; set; }
+
+
+    public async Task OpenProject(ProjectBrowserData SelectedProjectData)
+    {
+        SelectedProjectData_ = SelectedProjectData;
+        if (Open)
+        {
+            await open(SelectedProjectData_);
+        }
+    }
+
+    private async Task open(ProjectBrowserData SelectedProject)
+    {
+        if (SelectedProject != null)
+        {
+            PopupVisible = false;
+            await PopupVisibleChanged.InvokeAsync(PopupVisible);
+            await AppState.OpenProject(SelectedProject.Name, SelectedProject.Id, SelectedProject.Code);
+        }
+    }
+
+    public async Task CloseOpenEvent()
+    {
+        bool canRedirect = SelectedProjectData_ == null;
+        if (SelectedProjectData_ != null)
+        {
+            await CloseProjectHandler?.Invoke(canRedirect, SelectedProjectData_, open);
+        }
+        else
+        {
+            await CloseProjectHandler?.Invoke(canRedirect, null, null);
+        }
+        PopupVisible = false;
+        await PopupVisibleChanged.InvokeAsync(PopupVisible);
+        SelectedProjectData_ = null;
+    }
+
+    private async Task ClosePopup()
+    {
+        SelectedProjectData_ = null;
+        PopupVisible = false;
+        await PopupVisibleChanged.InvokeAsync(PopupVisible);
+    }
+
+    private async Task NavigateTo(string uri)
+    {
+        AppState.ShowLoadingStatus();
+        await ClosePopup();
+        await AppState.NavigateTo(uri);
+        AppState.HideLoadingStatus();
+    }
+}

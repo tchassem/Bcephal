@@ -1,0 +1,55 @@
+
+<DxStackLayout Orientation=Orientation.Vertical CssClass="bc-box-sizing" ItemSpacing="10px">
+    <Items>
+        <DxStackLayoutItem Length="1fr">
+            <Template>
+                <div class="d-flex flex-column mt-auto mb-auto" style="margin-right:0.125rem !important; margin-left:0!important;">
+                    <p class="mt-auto mb-auto">
+                        <label class="mt-auto mb-auto">
+                            @if (IsFile)
+                            {
+                                @if (IsSingle)
+                                {
+                                    <InputFile OnChange="@LoadFiles" accept="@AllExtensions()" @attributes="attrib" pattern="@Parttern" />
+                                }
+                                else
+                                {
+                                    <InputFile OnChange="@LoadFiles" accept="@AllExtensions()" multiple @attributes="attrib" pattern="@Parttern" />
+                                }
+
+
+
+                            }
+                            else
+                            {
+                                @if (IsSingle)
+                                {
+                                    <InputFile OnChange="@LoadFiles" accept="@AllExtensions()" @attributes="attrib" webkitdirectory pattern="@Parttern" />
+                                }
+                                else
+                                {
+                                    @if (IsTemplate)
+                                    {
+                                        <input type="file" id="selectedFiles" @onchange="((ChangeEventArgs e) => LoadFiles_(e))" accept="@AllExtensions()" multiple directory @attributes="attrib" webkitdirectory pattern="@Parttern" />
+                                    }
+                                    else
+                                    {
+                                        <InputFile OnChange="@LoadFiles" accept="@AllExtensions()" multiple @attributes="attrib" webkitdirectory pattern="@Parttern" />
+                                    }
+                                }
+                            }
+
+                        </label>
+                    </p>
+                </div>
+            </Template>
+        </DxStackLayoutItem>
+            <DxStackLayoutItem Length="0.5fr" Visible="HowProgressbar">
+                <Template>
+                    <div class="bc-box-sizing w-100 h-100 m-0 p-0 pr-1">
+                        <FullyProgressbar @ref="FullyProgressbarRef_" displayStopButton="false" />
+                    </div>
+                </Template>
+            </DxStackLayoutItem>
+    </Items>
+</DxStackLayout>

@@ -1,0 +1,2 @@
+rootProject.name = 'bcephal-scheduler-service'
+includeFlat 'bcephal-dashboard', 'bcephal-planification', 'bcephal-billing', 'bcephal-alarm', 'bcephal-reco', 'bcephal-loader', 'bcephal-task', 'bcephal-grid', 'bcephal-sheet', 'bcephal-join', 'bcephal-base', 'bcephal-multitenant-jpa', 'bcephal-utils', 'bcephal-sso', 'bcephal-security-base','bcephal-integration'

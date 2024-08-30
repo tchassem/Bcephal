@@ -1,0 +1,195 @@
+﻿
+@if (Item != null)
+{
+    <div class="h-100">
+            @RenderParameterGroup(Item)
+    </div>
+
+}
+
+@code {
+
+    string cssclass1 = "h-100 overflow-auto";
+    string cssclass3 = "bc-h-45";
+    string cssclass4 = "bc-h-95 overflow-auto";
+    string cssclass5 = "h-100";
+    string cssclass6 = "bc-h-5";
+    string cssclass7 = "d-none";
+
+
+    protected RenderFragment RenderParameterGroup(ParameterGroup Item_) => __builder =>
+    {
+        bool HashSubGroups = Item_.SubGroups.Any();
+        var taille = Item_.ParameterGroupItems.Count;
+        bool CanBeCreateAutomatically = Item_.CanBeCreateAutomatically;
+        bool HasItems = Item_.ParameterGroupItems.Any();
+        string _key_ = Guid.NewGuid().ToString("d");
+    <div @key=_key_ class="d-flex flex-column h-100 p-1">
+        <div class="@(CanBeCreateAutomatically ? cssclass6 : cssclass7)">
+            @RenderAutoCreate_(Item_)
+        </div>
+        <div class="@(HasItems ? (HashSubGroups ? cssclass1 : cssclass5) : cssclass7 )">
+                @if (taille > 10)
+                    {
+                    @RenderCase2(Item_, HashSubGroups, CanBeCreateAutomatically)
+                    }
+                    else if (taille <= 10)
+                    {
+                    @RenderCaseOne(Item_)
+                    }
+        </div>
+        @{
+            @if (HashSubGroups)
+                {
+                <div class="@(HasItems? cssclass3 : cssclass5) common-tab">
+                    @{
+                        <DxTabs CssClass="ml-2"  @bind-ActiveTabIndex=ActiveTabIndex_>
+                            @{
+                                    int offset_ = 0;
+                                    int count = Item_.SubGroups.Count;
+                                @while (offset_ < count)
+                                    {
+                                        var item2 = Item_.SubGroups[offset_];
+                                    @if (item2 != null)
+                                        {
+                                        @RenderSubGroup(item2)
+                                        }
+                                        offset_++;
+                                    }
+                            }
+                        </DxTabs>
+                    }
+                </div>
+                };
+        }
+
+    </div>
+    };
+
+    public RenderFragment RenderSubGroup(ParameterGroup item) => __builder =>
+    {
+         string title = AppState[item.Code];
+        <DxTabPage CssClass="pl-3" Text=@title>
+            <GroupParameter  Entities=Entities  @bind-EditorData=EditorData Item=item  AutoCreateHandler=CreateAutomatically />
+        </DxTabPage>
+    };
+
+    public RenderFragment RenderItem(ParameterGroupItem item1) => __builder =>
+    {
+@if (item1 != null)
+        {
+    <DxStackLayoutItem Length="30px">
+        <Template>
+            <div class="w-100 h-100 d-flex flex-column align-items-center justify-content-center">
+                <ParameterGroupItemComponent  Entities=Entities  Parameter=GetParameterByCode(item1)
+                                              @bind-EditorData_=EditorData />
+            </div>
+        </Template>
+    </DxStackLayoutItem>
+        }
+    };
+
+    private RenderFragment RenderAutoCreate(ParameterGroup item) => __builder =>
+    {
+<div class="w-10 mb-3 h-100 d-flex align-items-center justify-content-start">
+    <DxLayoutBreakpoint DeviceSize="DeviceSize.Medium | DeviceSize.Large | DeviceSize.Small | DeviceSize.XSmall" @bind-IsActive=IsXsmallScreen />
+    <DxStackLayout CssClass="w-100 h-100" Orientation="Orientation.Horizontal">
+        <Items>
+            <DxStackLayoutItem Length="0.3fr" />
+            <DxStackLayoutItem CssClass="w-100 h-100 d-flex align-items-center justify-content-center" Length="0.3fr">
+                <Template>
+                    <div class="w-100 d-flex align-items-center justify-content-start">
+                        <NavLink ActiveClass="create-auto-active" @onclick="() => CreateAutomatically(item)"
+                                 class="nav-link pl-0"
+                                 href="settings/configuration">
+                            <span aria-hidden="true"> @AppState["CreateAutomatically"]</span>
+                        </NavLink>
+                    </div>
+                </Template>
+            </DxStackLayoutItem>
+            <DxStackLayoutItem Length="0.2fr" />
+            <DxStackLayoutItem Length="0.2fr" />
+        </Items>
+    </DxStackLayout>
+</div>
+   };
+
+   private RenderFragment RenderAutoCreate_(ParameterGroup item) => __builder =>
+   {
+<div class="ml-4 pl-3 w-100 h-100 d-flex align-items-center justify-content-start">
+    <NavLink ActiveClass="create-auto-active" @onclick="() => CreateAutomatically(item)"
+             class="nav-link pl-0"
+             href="settings/configuration">
+        <span aria-hidden="true"> @AppState["CreateAutomatically"]</span>
+    </NavLink>
+</div>
+};
+
+private RenderFragment RenderCaseOne(ParameterGroup item) => __builder =>
+{
+    int tail_ = item.ParameterGroupItems.Count;
+    int offset1 = 0;
+@if (tail_ > 0)
+    {
+    <DxStackLayout CssClass="w-50 overflow-auto bc-box-sizing p-2" Orientation="Orientation.Vertical" ItemSpacing="10px">
+        <Items>
+            @while (offset1 < tail_)
+                {
+                @RenderItem(item.ParameterGroupItems[offset1])
+                    offset1++;
+                }
+        </Items>
+    </DxStackLayout>
+    }
+};
+
+private RenderFragment RenderCase2(ParameterGroup item_, bool HashSubGroups, bool CanAutoCreate) => __builder =>
+ {
+     string cssclas_ = "h-100 w-100 overflow-auto bc-box-sizing p-2";
+<div class=@cssclas_>
+    @{
+             int modulo = item_.ParameterGroupItems.Count % 2;
+             int quotient = item_.ParameterGroupItems.Count / 2;
+             int limit = quotient + modulo;
+    }
+    <DxStackLayout CssClass="h-100 w-100" Orientation=Orientation.Horizontal ItemSpacing="5px">
+        <Items>
+            <DxStackLayoutItem Length="4fr">
+                <Template>
+                    <DxStackLayout Orientation="Orientation.Vertical" ItemSpacing="10px">
+                        <Items>
+                            @{
+                                     int offset1 = 0;
+                                @while (offset1 < limit)
+                                     {
+                                    @RenderItem(item_.ParameterGroupItems[offset1])
+                                         offset1++;
+                                     }
+                            }
+                        </Items>
+                    </DxStackLayout>
+                </Template>
+            </DxStackLayoutItem>
+            <DxStackLayoutItem Length="4fr">
+                <Template>
+                    <DxStackLayout Orientation="Orientation.Vertical" ItemSpacing="10px">
+                        <Items>
+                            @{
+                                     int offset4 = limit;
+                                @while (offset4 < item_.ParameterGroupItems.Count)
+                                     {
+                                    @RenderItem(item_.ParameterGroupItems[offset4])
+                                         offset4++;
+                                     }
+                            }
+                        </Items>
+                    </DxStackLayout>
+                </Template>
+            </DxStackLayoutItem>
+            <DxStackLayoutItem Length="2fr" />
+        </Items>
+    </DxStackLayout>
+</div>
+ };
+
+}

@@ -1,0 +1,2 @@
+includeFlat 'bcephal-base', 'bcephal-grid', 'bcephal-multitenant-jpa', 'bcephal-utils', 'bcephal-sso', 'bcephal-security-base'
+rootProject.name = 'bcephal-archive-service'

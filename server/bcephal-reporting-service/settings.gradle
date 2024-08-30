@@ -1,0 +1,2 @@
+rootProject.name = 'bcephal-reporting-service'
+includeFlat 'bcephal-planification', 'bcephal-join', 'bcephal-base', 'bcephal-sheet', 'bcephal-grid', 'bcephal-multitenant-jpa', 'bcephal-utils', 'bcephal-sso', 'bcephal-security-base'

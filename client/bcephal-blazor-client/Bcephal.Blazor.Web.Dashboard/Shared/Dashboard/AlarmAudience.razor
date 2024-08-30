@@ -1,0 +1,115 @@
+﻿
+<DxLayoutBreakpoint DeviceSize="DeviceSize.XSmall" @bind-IsActive="@isXSmallScreen" />
+<DxGridLayout CssClass="h-100" ColumnSpacing="4px" RowSpacing="1px">
+    <Rows>
+        @if (isXSmallScreen)
+        {
+            <DxGridLayoutRow Height="50%" />
+            <DxGridLayoutRow Height="50%" />
+        }
+        else
+        {
+            <DxGridLayoutRow Height="100%" />
+        }
+        <DxGridLayoutRow />
+    </Rows>
+    <Columns>
+        @if (isXSmallScreen)
+        {
+            <DxGridLayoutColumn />
+        }
+        else
+        {
+            <DxGridLayoutColumn Width="50%" />
+            <DxGridLayoutColumn />
+        }
+    </Columns>
+    <Items>
+        <DxGridLayoutItem Row="0" Column="0">
+            <Template>
+                <div class="d-flex flex-column h-100 p-1">
+                    <div class="card mb-1" style="height:50%; box-sizing:border-box !important;">
+                        <div class="card-header p-0 d-inline-flex" style="height:22px;">
+                            <span class="mr-auto ml-1"><i class="bi bi-person-fill mr-1"></i>@AppState["Users"]</span>
+                        </div>
+                        <div class="card-body p-0 d-block h-auto overflowy-bc">
+                            <DxListBox SelectionMode="ListBoxSelectionMode.Multiple" CssClass="border-0 h-100 w-100" ShowCheckboxes="true" Data="@Users" @bind-Values="@User"></DxListBox>
+                        </div>
+                    </div>
+                    <div class="card" style="height:50%; box-sizing:border-box !important;">
+                        <div class="card-header p-0 d-inline-flex" style="height:22px;">
+                            <span class="mr-auto ml-1"><i class="bi bi-people-fill mr-1"></i>@AppState["Profils"]</span>
+                        </div>
+                        <div class="card-body p-0 d-block h-auto overflowy-bc">
+                            <DxListBox SelectionMode="ListBoxSelectionMode.Multiple" CssClass="border-0 h-100 w-100" ShowCheckboxes="true" Data="@Profils" @bind-Values="@Profil"></DxListBox>
+                        </div>
+                    </div>
+                </div>
+            </Template>
+        </DxGridLayoutItem>
+        @if (!isXSmallScreen)
+        {
+            <DxGridLayoutItem Row="0" Column="1">
+                <Template>
+                    <div class="d-flex flex-column h-100 p-1">
+                        <div class="card h-100">
+                            <div class="card-header p-0 d-inline-flex" style="height:22px;">
+                                <span class="mr-auto ml-1"><i class="bi bi-envelope-fill mr-1"></i>@AppState["Audiences"]</span>
+                            </div>
+                            <div class="card-body">
+
+                            </div>
+                        </div>
+                    </div>
+                </Template>
+            </DxGridLayoutItem>
+        }
+        else
+        {
+            <DxGridLayoutItem Row="1" Column="0">
+                <Template>
+
+                </Template>
+            </DxGridLayoutItem>
+        }
+    </Items>
+</DxGridLayout>
+
+@code {
+
+    [Inject]
+    private AppState AppState { get; set; }
+
+    bool isXSmallScreen;
+
+
+
+    IEnumerable<string> Users = new List<string>() {
+        "admin",
+        "alina",
+        "bad",
+        "Landry", 
+        "cajo",
+        "Charles Awono",
+        "Roland",
+        "Brice",
+        "Alex"
+    };
+
+    IEnumerable<string> Profils = new List<string>() {
+        "admin",
+        "profil1",
+        "profil2",
+        "profil3",
+        "profil4",
+        "profil5",
+        "profil6",
+        "profil7",
+        "profil8"
+    };
+
+    IEnumerable<string> Profil { get; set; }
+
+    IEnumerable<string> User { get; set; }
+
+}

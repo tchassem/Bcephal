@@ -1,0 +1,137 @@
+﻿<DxLayoutBreakpoint DeviceSize="DeviceSize.Medium | DeviceSize.Small | DeviceSize.XSmall" @bind-IsActive="IsSmallScreen" />
+<div class="h-100 overflow-auto">
+    @if (Model != null)
+    {
+        var itemsFields = Fields();
+        int count = itemsFields.Count();
+        int modulo = count % ColumnSize;
+        int size = count / ColumnSize;
+        int Part1 = size + modulo;
+        int Part2 = size;
+        int Part3 = size;
+        int Part4 = size;
+        if (count <= ColumnSize)
+        {
+            Part1 = count;
+        }
+        if (size == 2)
+        {
+            Part1 = ColumnSize;
+            Part2 = ColumnSize;
+            Part3 = 0;
+            Part4 = 0;
+        }
+        if (size == 3)
+        {
+            Part1 = ColumnSize;
+            Part2 = ColumnSize;
+            Part3 = ColumnSize;
+            Part4 = 0;
+        }
+        //Console.WriteLine("Part1 : " + Part1);
+        //Console.WriteLine("size : " + size);
+        //Console.WriteLine("modulo : " + modulo);
+        <DxGridLayout CssClass="w-100 m-0 p-0 pt-4" ColumnSpacing="10px" RowSpacing="10px">
+            <Rows>
+                @if (IsSmallScreen)
+                {
+                    <DxGridLayoutRow Areas="R1 R2" Height="auto" />
+                    <DxGridLayoutRow Areas="R3 R4" Height="auto" />
+                }
+                else
+                {
+                    <DxGridLayoutRow Areas="R1 R2 R3 R4" Height="auto" />
+                }
+            </Rows>
+            <Columns>
+                @if (IsSmallScreen)
+                {
+                    <DxGridLayoutColumn Width="1fr" />
+                    <DxGridLayoutColumn Width="1fr" />
+                }
+                else
+                {
+                    <DxGridLayoutColumn Width="1fr" />
+                    <DxGridLayoutColumn Width="1fr" />
+                    <DxGridLayoutColumn Width="1fr" />
+                    <DxGridLayoutColumn Width="1fr" />
+                }
+            </Columns>
+            <Items>
+                <DxGridLayoutItem Area="R1">
+                    <Template>
+                        @{ 
+                            var datas = itemsFields.Take(Part1);
+                        }
+                        <FormModelFieldEditContent 
+                                                   filedName="R1"
+                                                   Fields=datas
+                                                   AddOrUpdateHandler=AddOrUpdateFromData
+                                                   ValueHandler=GetData/>
+                    </Template>
+                </DxGridLayoutItem>
+                @if (Part1 < count)
+                {
+                    <DxGridLayoutItem Area="R2">
+                        <Template>
+                            @{
+                                var datas1 = itemsFields.Skip(Part1).Take(Part2);
+                            }
+                            <FormModelFieldEditContent 
+                                                       filedName="R2"
+                                                       Fields=datas1
+                                                       AddOrUpdateHandler=AddOrUpdateFromData
+                                                       ValueHandler=GetData/>
+                        </Template>
+                    </DxGridLayoutItem>
+                }
+                else
+                {
+                    <DxGridLayoutItem Area="R2" />
+                }
+                @if ((Part1 + Part2) < count)
+                {
+                    <DxGridLayoutItem Area="R3">
+                        <Template>
+                            @{
+                                var datas2 = itemsFields.Skip(Part1 + Part2).Take(Part3);
+                            }
+                            <FormModelFieldEditContent 
+                                                       filedName="R3"
+                                                       Fields=datas2
+                                                       AddOrUpdateHandler=AddOrUpdateFromData
+                                                       ValueHandler=GetData/>
+                        </Template>
+                    </DxGridLayoutItem>
+                }
+                else
+                {
+                    <DxGridLayoutItem Area="R3" />
+                }
+                @if ((Part1 + Part2 + Part3) < count)
+                {
+                    <DxGridLayoutItem Area="R4">
+                        <Template>
+                            @{
+                                var datas3 = itemsFields.Skip(Part1 + Part2 + Part3).Take(Part4);
+                            }
+                            <FormModelFieldEditContent 
+                                                       filedName="R4"
+                                                       Fields=datas3
+                                                       AddOrUpdateHandler=AddOrUpdateFromData
+                                                       ValueHandler=GetData/>
+                        </Template>
+                    </DxGridLayoutItem>
+                }
+                else
+                {
+                    <DxGridLayoutItem Area="R4" />
+                }
+            </Items>
+        </DxGridLayout>
+    }
+</div>
+
+@code {
+
+}

@@ -1,0 +1,71 @@
+﻿
+<div class="card h-100 w-100 m-0 p-0 ">
+    <div class="card-header bc-header-3 w-100">
+        @Title
+    </div>
+    <div class="card-body  w-100 overflow-y-auto">
+        @foreach (var item in LinkedAttributes)
+        {
+            @ItemRender(item, false)
+        }
+        @ItemRender(new() { Iskey = Iskey }, true)
+    </div>
+</div>
+
+@code{
+    private RenderFragment ItemRender(Models.Links.LinkedAttribute item, bool IsNew) => __builder =>
+    {
+    @if (!item.IsPersistent && !item.AttributeId.HasValue)
+        {
+            if ((item.Iskey && SelectedValue.Equals("1")) || (!item.Iskey && SelectedValue.Equals("2")))
+            {
+                SelectedTextBox(item);
+            }
+        }
+    <DxGridLayout RowSpacing="10px" CssClass="m-0 p-0 pt-1 w-100 h-auto">
+        <Rows>
+            @if (Iskey)
+                {
+                <DxGridLayoutRow Areas="a1 a3" Height="auto" />
+                }
+                else
+                {
+                <DxGridLayoutRow Areas="a1 a2 a3" Height="auto" />
+                }
+
+        </Rows>
+        <Columns>
+            <DxGridLayoutColumn Width="5fr" />
+            <DxGridLayoutColumn Width="1fr" />
+            <DxGridLayoutColumn Width="1fr" />
+        </Columns>
+        <Items>
+            <DxGridLayoutItem Area="a1">
+                <Template>
+                    <DxTextBox Text="@item.AttributeName" TextChanged="((value) => AttributeNameChanged(item, value))" @onclick="((e)=> SelectedTextBox(item,true))" />
+                </Template>
+            </DxGridLayoutItem>
+            <DxGridLayoutItem Area="a2" Visible="@(!Iskey)" CssClass="w-100">
+                <Template>
+                    <div class="h-100 d-flex flex-row ml-1 justify-content-center">
+                        <DxCheckBox CssClass="mt-auto mb-auto" T="bool" @bind-Checked="@item.IsOneToOne" />
+                    </div>
+                </Template>
+            </DxGridLayoutItem>
+            <DxGridLayoutItem Area="a3" CssClass="w-50">
+                <Template>
+                    <div class="h-100 w-25 d-flex flex-row ml-1 ">
+                        <DxButton IconCssClass="fa fa-remove" Visible="!IsNew"
+                                  CssClass="mt-auto mb-auto w-25"
+                                  RenderStyleMode="ButtonRenderStyleMode.Text"
+                                  RenderStyle="ButtonRenderStyle.Danger"
+                                  Click="(() => RemoveLinkedAttribute?.Invoke(item))">
+                        </DxButton>
+                    </div>
+                </Template>
+            </DxGridLayoutItem>
+        </Items>
+    </DxGridLayout>
+
+    };
+}

@@ -1,0 +1,472 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.3.1'
+	id 'io.spring.dependency-management' version '1.1.5'
+	id "org.sonarqube" version "5.0.0.4638"
+}
+
+import org.apache.tools.ant.taskdefs.condition.Os
+
+group = 'com.moriset'
+version = '0.0.1'
+
+java {
+	sourceCompatibility = '21'
+}
+
+apply from: "$rootDir/gradle/integration-test.gradle"
+apply from: "$rootDir/gradle/code-analysis.gradle"
+
+repositories {
+	mavenCentral()
+	maven { url 'https://repo.spring.io/milestone' }
+}
+
+ext {
+	set('springCloudVersion', "2023.0.1")
+	set('swagger.version', "3.0.0")
+}
+
+dependencies {
+
+	implementation project(':bcephal-etl')
+	implementation project(':bcephal-base')
+	implementation project(':bcephal-utils')
+	implementation project(':bcephal-sso')
+	implementation project(':bcephal-multitenant-jpa')
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
+	
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-websocket'
+	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'	
+	implementation 'org.springframework.cloud:spring-cloud-starter-config'
+	implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap'
+	implementation 'org.springframework.boot:spring-boot-starter-batch'
+	implementation 'org.springframework.security:spring-security-oauth2-resource-server'
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	implementation 'org.postgresql:postgresql'
+	implementation 'org.flywaydb:flyway-database-postgresql'
+	
+	implementation 'org.springframework.security:spring-security-config'
+	implementation 'org.springframework.security:spring-security-oauth2-client'
+	implementation 'org.springframework.security:spring-security-oauth2-jose'
+		    	
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+	implementation 'jakarta.jms:jakarta.jms-api'
+	
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'com.h2database:h2:1.4.200'
+}
+
+configurations { 
+    all {
+        //exclude group: 'org.slf4j', module: 'slf4j-log4j12'
+        resolutionStrategy {
+        	force 'com.lowagie:itext:2.1.7'
+    	}
+    } 
+    compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+dependencyManagement {
+	imports {
+		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+	}
+}
+
+
+test {
+    useJUnitPlatform()
+    dependsOn 'cleanTest'
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
+}
+
+
+
+task createdScript() {
+	def runfile = file("./resources/")
+    outputs.dir runfile
+    doLast {  
+    	
+    	new File(runfile, 'pre-install-update.sh').withWriter('utf-8') { writer -> 
+				   	 writer.write '#!/bin/sh'
+				   	 writer.write '\nBCEPHAL_PATH="/opt/bcephal/v8/etl-service"'
+				   	 writer.write '\nTMP_PATH="/home/bcephal/.Bcp-config/8/etl"'
+				   	 writer.write '\nsudo su <<EOFF'
+				   	 writer.write '\n mkdir -p "$TMP_PATH" || true '
+				   	 writer.write '\nif [ -f "$BCEPHAL_PATH/application.properties" ] && [ -d "$TMP_PATH" ];then '
+				   	 writer.write '\n cp "$BCEPHAL_PATH/application.properties" "$TMP_PATH"'
+				   	 writer.write '\nfi '
+				   	 writer.write '\nif [ -f "$BCEPHAL_PATH/bootstrap.properties" ] && [ -d "$TMP_PATH" ];then '
+				   	 writer.write '\n cp "$BCEPHAL_PATH/bootstrap.properties" "$TMP_PATH"'
+				   	 writer.write '\nfi '
+				   	 writer.write '\nEOFF'
+			}
+		  new File(runfile, 'pre-remove.sh').withWriter('utf-8') { writer -> 
+				   	 writer.write '#!/bin/sh'
+				   	 writer.write '\nBCEPHAL_PATH="/opt/bcephal/v8/etl-service"'
+				   	 writer.write '\nTMP_PATH="/home/bcephal/.Bcp-config/8/etl"'
+				   	 writer.write '\nsudo su <<EOFF'
+				   	 writer.write '\n mkdir -p "$TMP_PATH" || true '
+				   	 writer.write '\nif [ -f "$BCEPHAL_PATH/application.properties" ] && [ -d "$TMP_PATH" ];then '
+				   	 writer.write '\n cp "$BCEPHAL_PATH/application.properties" "$TMP_PATH"'
+				   	 writer.write '\nfi '
+				   	 writer.write '\nif [ -f "$BCEPHAL_PATH/bootstrap.properties" ] && [ -d "$TMP_PATH" ];then '
+				   	 writer.write '\n cp "$BCEPHAL_PATH/bootstrap.properties" "$TMP_PATH"'
+				   	 writer.write '\nfi '
+				   	 writer.write '\nEOFF'
+			}
+			
+    	 new File(runfile, 'post-install-update.sh').withWriter('utf-8') { writer -> 
+			   	 writer.write '#!/bin/sh'
+			   	 writer.write '\nBCEPHAL_PATH="/opt/bcephal/v8/etl-service"'
+			   	 writer.write '\nSCRIPT_PATH="$BCEPHAL_PATH/installService.sh"'
+			   	 
+			   	 writer.write '\nTMP_PATH="/home/bcephal/.Bcp-config/8/etl"'
+			   	 writer.write '\nsudo su <<EOFF'
+			   	 
+			   	 //writer.write '\nif [ -f "$TMP_PATH/application.properties" ] && [ -d "$BCEPHAL_PATH" ];then '
+			   	 //writer.write '\n cp  "$TMP_PATH/application.properties" "$BCEPHAL_PATH"'
+			   	 //writer.write '\nfi '
+			   	 //writer.write '\nif [ -f "$TMP_PATH/bootstrap.properties" ] && [ -d "$BCEPHAL_PATH" ];then '
+			   	 //writer.write '\n cp "$TMP_PATH/bootstrap.properties" "$BCEPHAL_PATH"'
+			   	 //writer.write '\nfi '		   	 
+			   	 
+			   	 writer.write '\nif [ $(getent passwd "bcephal") ];then '
+				 writer.write '\n echo "exist bcephal" '
+				 //writer.write '\n userdel "bcephal" '
+				 writer.write '\nelse '
+				 writer.write '\n echo "Try to created "bcephal" user" '
+				 writer.write '\n useradd -g root -G sudo -rm -s /bin/bash -d /home/"bcephal" -ou 1001  "bcephal" '
+				 writer.write '\n usermod -aG sudo "bcephal" '
+				 writer.write '\n echo "bcephal:c80dda0b5" | chpasswd '
+				 writer.write '\n echo "Sucssefuly to created bcephal user .." '
+				 writer.write '\nfi '
+				 writer.write '\nmkdir -p \"/var/run/Bcephal/8\" || true'
+				 writer.write '\nmkdir -p \"/var/Bcephal/8\" || true'
+				 writer.write '\ntouch \"/var/run/Bcephal/8/Bcephal-Etl-Service.pid\" || true'
+     			 writer.write '\ntouch \"/var/Bcephal/8/Bcephal-Etl-Service.log\" || true'
+     			 writer.write '\nchown -R bcephal:root \"/var/run/Bcephal/8\"'  
+				 writer.write '\nchown -R bcephal:root \"/var/Bcephal/8\"'  
+				 writer.write '\n#chmod  ugo+rwx -R  \"/tmp/\"' 
+				 writer.write '\nchown -R bcephal:root \"/home/bcephal\" || true' 
+				 writer.write '\nchmod ugo+rwxs -R "$BCEPHAL_PATH"'
+			   	 writer.write '\n"$SCRIPT_PATH"'
+			   	// writer.write '\nrm -f "$SCRIPT_PATH"'
+			   	 writer.write '\nEOFF'
+	   	 }
+	   	 new File(runfile, 'post-remove-update.sh').withWriter('utf-8') { writer -> 
+			   	 writer.write '#!/bin/sh'
+			   	 writer.write '\nBCEPHAL_PATH="/opt/bcephal/v8/etl-service"'
+			   	 writer.write '\nRUN_PATH="$BCEPHAL_PATH/runManager.sh"'
+			   	 writer.write '\nsudo su <<EOFF'
+			   	 writer.write '\nrm -f "RUN_PATH"'
+			   	 writer.write '\nrm -rf "$BCEPHAL_PATH/"'
+			   	 writer.write '\nEOFF'
+	   	 }  
+	   	 
+	   	   
+		new File(runfile, 'installService.sh').withWriter('utf-8') { writer -> 
+			   	 writer.write '#!/bin/sh'
+			   	 writer.write '\nDIR=$(readlink -f "$0")'
+				 writer.write '\nBCEPHAL_PATH=$(dirname "$DIR")'
+				 writer.write '\nexport serviceName=Bcephal-Etl-Service.service'
+				 writer.write '\nexport service="$BCEPHAL_PATH/$serviceName"'
+				 writer.write '\nexport runService="$BCEPHAL_PATH/runManager.sh"'	 
+				 writer.write '\nexport start="$runService"'
+				 writer.write '\nexport stop="$runService"'
+				 writer.write '\necho \'#!/bin/sh\'  > "$runService"'
+				 writer.write '\necho \'set -e\'  >> "$runService"'
+				 writer.write '\necho \'DIR=$(readlink -f "$0")\' >> "$runService"'
+				 writer.write '\necho \'PATHDIR=$(dirname "$DIR")\' >> "$runService"'
+				 writer.write '\necho \'export DEBUG="-agentlib:jdwp=transport=dt_socket,server=y,address=4013,suspend=n"\' >> "$runService"'
+				 writer.write '\necho \'export UV="$PATHDIR/jdk14"\' >> "$runService"'
+				 writer.write '\necho \'export opts="-Xms64m -Xmx512m -Dfile.encoding=UTF-8  -Dserver.port=8003"\' >> "$runService"'
+				 writer.write '\necho \'export JarPH="*.jar"\' >> "$runService"'
+				 writer.write '\necho \'export class=\' >> "$runService"'				 
+				 writer.write '\necho \'export BCEPHAL_JAVA_JRE="$BCEPHAL_JRE_HOME"\' >> "$runService"'				 
+				 writer.write '\necho \'export BCEPHAL_JAVA_OPT=$BCEPHAL_JAVA_OPT\' >> "$runService"'
+				 writer.write '\necho \'export BCEPHAL_JAVA_OPT_=\' >> "$runService"'
+				 writer.write '\nPIDFILE_="/var/run/Bcephal/8/Bcephal-Etl-Service.pid"'
+				 writer.write '\nLOGFILE_="/var/Bcephal/8/Bcephal-Etl-Service.log"'
+    			 
+				 writer.write '\necho \'if [ -z "$BCEPHAL_JAVA_JRE" ] && [ -n "$BCEPHAL_JAVA_HOME" ] && [ -d "$BCEPHAL_JAVA_HOME/jre" ];then\'   >> "$runService"'
+				 writer.write '\necho \'	BCEPHAL_JAVA_JRE="$BCEPHAL_JAVA_HOME/jre"\'  >> "$runService"'
+				 writer.write '\necho \' else\' >> "$runService"'
+				 writer.write '\necho \'	if [ ! -d "$BCEPHAL_JAVA_JRE" ] && [ -n "$JRE_HOME" ] && [ -d "$JRE_HOME" ];then\'   >> "$runService"'
+				 writer.write '\necho \'    	BCEPHAL_JAVA_JRE="$JRE_HOME"\'  >> "$runService"'
+				 writer.write '\necho \'	elif [ ! -d "$BCEPHAL_JAVA_JRE" ] && [ -n "$JAVA_HOME" ];then\' >> "$runService"'
+				 writer.write '\necho \'		if [ -d "$JAVA_HOME/jre" ];then\' >> "$runService"'
+				 writer.write '\necho \'			BCEPHAL_JAVA_JRE="$JAVA_HOME/jre"\'  >> "$runService"'
+				 writer.write '\necho \'		else\'  >> "$runService"'
+				 writer.write '\necho \'			BCEPHAL_JAVA_JRE="$JAVA_HOME"\'  >> "$runService"'
+				 writer.write '\necho \'		fi\'  >> "$runService"'
+				 writer.write '\necho \'	fi\' >> "$runService"'
+				 writer.write '\necho \'fi\' >> "$runService"'
+				 writer.write '\necho \'if [ -z "$BCEPHAL_JAVA_JRE" ] || [ -n "$BCEPHAL_JAVA_JRE" ] && [ ! -d "$BCEPHAL_JAVA_JRE" ];then\'   >> "$runService"'
+				 writer.write '\necho \'  	BCEPHAL_JAVA_JRE="$UV"\'  >> "$runService"'
+				 writer.write '\necho \'fi\'  >> "$runService"'
+				 
+				 writer.write '\necho \'if [ -z "$BCEPHAL_JAVA_OPT" ];then\'   >> "$runService"'
+				 writer.write '\necho \'	BCEPHAL_JAVA_OPT="$JAVA_OPT"\'  >> "$runService"'
+				 writer.write '\necho \'fi\' >> "$runService"'
+				 writer.write '\necho \'if [ -z "$BCEPHAL_JAVA_OPT" ];then\'   >> "$runService"'
+				 writer.write '\necho \' 	BCEPHAL_JAVA_OPT="$opts"\'  >> "$runService"'
+				 writer.write '\necho \'fi\'  >> "$runService"'
+	 
+				 writer.write '\necho \'if test "$2" = "DEBUG";then\' >> "$runService"'
+				 writer.write '\necho \'BCEPHAL_JAVA_OPT_="$DEBUG $BCEPHAL_JAVA_OPT  -jar "$JarPH" $class"\' >> "$runService"'
+				 writer.write '\necho \'else\' >> "$runService"'	
+				 writer.write '\necho \'BCEPHAL_JAVA_OPT_="$BCEPHAL_JAVA_OPT  -jar "$JarPH" $class"\' >> "$runService"'	
+				 writer.write '\necho \'fi\' >> "$runService"'	
+				 writer.write '\necho \'\' >> "$runService"'
+				 writer.write '\nDAEMONUSER=bcephal'
+				 writer.write '\necho \' DAEMONUSER=bcephal\'		>> "$runService"'
+				 
+				 				 
+				 writer.write '\necho  \'JAVA_WORKDIR="$BCEPHAL_JAVA_JRE/bin"\'  >> "$runService"'
+				 writer.write '\necho  \'WORKDIR="$PATHDIR"\'  >> "$runService"'
+    			 writer.write '\necho  \'daemon_NAME="java"\'  >> "$runService"'
+    			 writer.write '\necho   "PIDFILE_=\\"$PIDFILE_\\""  >> "$runService"'
+				 writer.write '\necho   "LOGFILE_=\\"$LOGFILE_\\""  >> "$runService"'
+    			 writer.write '\necho  \'export PATH="/sbin:/bin:/usr/sbin:/usr/bin"\'  >> "$runService"'
+     			 writer.write '\necho  \'#test -x "$JAVA_WORKDIR/$daemon_NAME" || exit 0\'  >> "$runService"'
+                 writer.write '\necho  ". /lib/lsb/init-functions"  >> "$runService"'
+                 
+                 writer.write '\necho  \'do_start_prepare()\'  >> "$runService"'
+     			 writer.write '\necho  \'{\'  >> "$runService"'
+     			 //writer.write '\necho  \'mkdir -p "/var/run/Bcephal/8" || true\'  >> "$runService"'
+     			 //writer.write '\necho  \'chown -R bcephal:root "/home/bcephal" || true\'  >> "$runService"'
+     			 writer.write '\necho  \'return\'  >> "$runService"'
+     			 writer.write '\necho  \'}\'  >> "$runService"'
+     			  
+                 writer.write '\necho  "d_start () {"  >> "$runService"'
+                 writer.write '\necho  "	do_start_prepare"  >> "$runService"'
+                 writer.write '\necho  \'	log_daemon_msg "Starting system Bcephal Etl Service Daemon"\'  >> "$runService"'
+                 writer.write '\necho  \'	log_daemon_msg "BCEPHAL_JAVA_JRE: $BCEPHAL_JAVA_JRE"\'  >> "$runService"'
+                 writer.write '\necho  \'	log_daemon_msg "BCEPHAL_JAVA_OPT: $BCEPHAL_JAVA_OPT"\'  >> "$runService"'
+//                 writer.write '\necho  \'	start-stop-daemon --start --quiet --chuid "$DAEMONUSER" --name "$daemon_NAME" --make-pidfile --pidfile $PIDFILE_  --no-close --background  --chdir "$WORKDIR" --exec "$JAVA_WORKDIR/$daemon_NAME" -- $BCEPHAL_JAVA_OPT_ >> $LOGFILE_ 2>&1\'  >> "$runService"'
+                 writer.write '\necho  \'	start-stop-daemon --start --quiet --chuid "$DAEMONUSER" --name "$daemon_NAME" --make-pidfile --pidfile $PIDFILE_  --no-close --background  --chdir "$WORKDIR" --exec "$JAVA_WORKDIR/$daemon_NAME" -- $BCEPHAL_JAVA_OPT_ \'  >> "$runService"'
+                 writer.write '\necho  \'	RETVAL=$?\'  >> "$runService"'
+                 writer.write '\necho  \'	log_daemon_msg "Started status : $RETVAL"\'  >> "$runService"'
+                 writer.write '\necho  \'	log_end_msg $RETVAL\'  >> "$runService"'
+                 writer.write '\necho  \'	return $RETVAL\'  >> "$runService"'
+                 writer.write '\necho  "  }"  >> "$runService"'
+                 writer.write '\necho  ""  >> "$runService"'
+				 writer.write '\necho  "d_stop () {"  >> "$runService"'
+				 writer.write '\necho  \'	log_daemon_msg "Stopping system Bcephal Etl Service Daemon"\'  >> "$runService"'
+				 writer.write '\necho  \'	start-stop-daemon --stop --quiet --pidfile $PIDFILE_  \'  >> "$runService"'
+				 writer.write '\necho  \'	start-stop-daemon --stop --quiet --oknodo --pidfile $PIDFILE_  --retry=0/30/TERM/5/KILL/5\'  >> "$runService"'
+                 writer.write '\necho  \'	RETVAL=$?\'  >> "$runService"'
+                 writer.write '\necho  \'	[ "$RETVAL" = 2 ] && return 2\'  >> "$runService"'
+                 writer.write '\necho  \'	rm -f $PIDFILE_\'  >> "$runService"'
+                 writer.write '\necho  \'	log_daemon_msg "Daemon Stoped with status : $RETVAL"\'  >> "$runService"'
+                 writer.write '\necho  \'	log_end_msg $RETVAL\'  >> "$runService"'
+                 writer.write '\necho  \'	return $RETVAL\'  >> "$runService"'
+				 writer.write '\necho  "   }"  >> "$runService"'
+     			 writer.write '\necho  ""  >> "$runService"'
+				 writer.write '\necho  \'case \"$1\" in\'  >> "$runService"'
+				 writer.write '\necho  ""  >> "$runService"'
+				 writer.write '\necho  "start|stop)"  >> "$runService"'
+				 writer.write '\necho  \'	d_${1}\'  >> "$runService"'
+				 writer.write '\necho  "	;;"  >> "$runService"'
+     			 writer.write '\necho  ""  >> "$runService"'     
+				 writer.write '\necho  "restart|reload|force-reload)"  >> "$runService"'
+				 writer.write '\necho  \'	d_stop\'  >> "$runService"'
+				 writer.write '\necho  "	sleep 1"  >> "$runService"'
+				 writer.write '\necho  \'	d_start\'  >> "$runService"'
+				 writer.write '\necho  "	;;"  >> "$runService"'
+     			 writer.write '\necho  ""  >> "$runService"'     
+				 writer.write '\necho  "force-stop)"  >> "$runService"'
+				 writer.write '\necho  \'	d_stop\'  >> "$runService"'
+				 writer.write '\necho  \'	killall -q $daemon_NAME || true\'  >> "$runService"'
+				 writer.write '\necho  "	sleep 1"  >> "$runService"'
+				 writer.write '\necho  \'	killall -q -9 $daemon_NAME || true\'  >> "$runService"'
+				 writer.write '\necho  "	;;"  >> "$runService"'
+      			 writer.write '\necho  ""  >> "$runService"'    
+				 writer.write '\necho  "status)"  >> "$runService"'
+				 writer.write '\necho  \'	status_of_proc "$daemon_NAME" "$JAVA_WORKDIR/$daemon_NAME" "system-wide $daemon_NAME" && exit 0 || exit $?\'  >> "$runService"'
+				 writer.write '\necho  "	;;"  >> "$runService"'
+				 writer.write '\necho  "*)"  >> "$runService"'
+				 writer.write '\necho  \'	echo "Usage:  $0 {start|stop|force-stop|restart|reload|force-reload|status}"\'  >> "$runService"'
+				 writer.write '\necho  "	exit 1"  >> "$runService"'
+				 writer.write '\necho  "	;;"  >> "$runService"'
+				 writer.write '\necho  "esac"  >> "$runService"'
+				 writer.write '\necho  "exit 0"  >> "$runService"'
+
+				 
+				 
+				 writer.write '\n'
+				 writer.write '\necho "[Unit]" > "$service"'
+				 writer.write '\necho "Description=B-cephal Etl Service" >> "$service"'
+				 writer.write '\necho "Requires=network.target" >> "$service"'
+				 writer.write '\necho "After=network.target nss-lookup.target nss-user-lookup.target" >> "$service"'
+				 writer.write '\necho "" >> "$service"'
+				 writer.write '\necho "[Service]" >> "$service"'
+				 writer.write '\necho "User=$DAEMONUSER" >> "$service"'
+				 writer.write '\necho "Type=forking" >> "$service"'
+				 writer.write '\necho "EnvironmentFile=/etc/environment" >> "$service"'
+				 writer.write '\necho "EnvironmentFile=/etc/profile" >> "$service"'
+				 writer.write '\necho "WorkingDirectory=$BCEPHAL_PATH" >> "$service"'
+				 writer.write '\necho "RuntimeDirectory=Bcephal/8" >> "$service"'
+				 writer.write '\necho "ExecStart=/bin/bash "$start"  start" >> "$service"'	
+				 writer.write '\necho "ExecStop=/bin/bash "$stop" stop" >> "$service"'
+				 writer.write '\necho "ExecReload=/bin/bash "$start" reload" >> "$service"'	
+				 writer.write '\necho "KillMode=mixed" >> "$service"'	
+				 writer.write '\necho "KillSignal=SIGINT" >> "$service"'
+				 writer.write '\necho "Restart=on-failure" >> "$service"'
+				 writer.write '\necho "" >> "$service"'
+				 writer.write '\necho "[Install]" >> "$service"'
+				 writer.write '\necho "WantedBy=multi-user.target" >> "$service"'
+				 writer.write '\n'
+				 writer.write '\n'
+				 writer.write '\nif [ -n "$start" ] && [ -f "$start" ];then'
+ 			 	 writer.write '\n chown $DAEMONUSER "$start"'
+ 			 	 writer.write '\nfi'
+ 			 	 writer.write '\nif [ -n "$stop" ] && [ -f "$stop" ];then'
+ 			 	 writer.write '\n chown $DAEMONUSER "$stop"'
+ 			 	 writer.write '\nfi'
+ 			 	 writer.write '\nif [ -n "$runService" ] && [ -f "$runService" ];then'
+ 			 	 writer.write '\n chown $DAEMONUSER "$runService"'
+ 			 	 writer.write '\nfi'
+ 			 	 writer.write '\nif [ -n "$service" ] && [ -f "$service" ];then'
+ 			 	 writer.write '\n chown $DAEMONUSER "$service"'
+ 			 	 writer.write '\nfi'
+				 writer.write '\nif [ -n "$start" ] && [ -f "$start" ];then'
+				 writer.write '\n chmod ugo+rwxs "$start"'
+				 writer.write '\nfi'
+				 writer.write '\nif [ -n "$stop" ] && [ -f "$stop" ];then'
+				 writer.write '\n chmod ugo+rwxs "$stop"'
+				 writer.write '\nfi'
+				 writer.write '\nif [ -n "$runService" ] && [ -f "$runService" ];then'
+				 writer.write '\n chmod ugo+rwxs "$runService"'
+				 writer.write '\nfi'
+				 writer.write '\nif [ -n "$service" ] && [ -f "$service" ];then'
+				 writer.write '\n chmod ugo+rwxs "$service"'
+				 writer.write '\n systemctl stop "$serviceName"'
+				 writer.write '\n systemctl disable "$serviceName"'
+				 writer.write '\n rm -f /etc/systemd/system/$serviceName'
+				 writer.write '\n cp "$service" /etc/systemd/system/'
+				 writer.write '\n# systemctl daemon-reload'
+				 writer.write '\n systemctl enable $serviceName'
+				 writer.write '\n# systemctl start $serviceName'
+				 writer.write '\n# systemctl status $serviceName'	
+				 writer.write '\nfi'	
+				 writer.write '\nchmod ugo+rwxs -R "$BCEPHAL_PATH"'
+				 writer.write '\nrm -f $service'
+				 writer.write '\nrm -f $0'		 		 
+	     }
+	     
+	      new File(runfile, 'installService.bat').withWriter('utf-8') { writer -> 
+			    writer.writeLine '@echo off'			     
+			    writer.writeLine 'set serviceName=Bcephal-etl-service-8'
+				writer.writeLine 'set serviceNamexml=bcephal-etl-service.xml'
+				writer.writeLine 'REM testing at cmd : sc query "%serviceName%" | findstr RUNNING'
+				writer.writeLine 'REM "%serviceName%" is the name of Service for sample'
+				writer.writeLine 'sc query "%serviceName%" | findstr RUNNING'
+				writer.writeLine 'if %ERRORLEVEL% == 2 goto trouble'
+				writer.writeLine 'if %ERRORLEVEL% == 1 goto install'
+				writer.writeLine 'if %ERRORLEVEL% == 0 goto started'
+				writer.writeLine 'echo unknown status'
+				writer.writeLine 'goto install'
+				writer.writeLine ':trouble'
+				writer.writeLine 'echo Oh noooo.. trouble mas bro'
+				writer.writeLine 'goto install'
+				writer.writeLine ':started'
+				writer.writeLine 'echo "Bcephal Etl Service (%serviceName%)" is started'
+				writer.writeLine 'net stop "%serviceName%"'
+				writer.writeLine 'echo "Bcephal Etl Service (%serviceName%)" is stopped'
+				writer.writeLine 'goto install'
+				writer.writeLine ':install'
+				writer.writeLine 'sc query | findstr /C:"SERVICE_NAME: %serviceName%"'
+				writer.writeLine 'if %ERRORLEVEL% == 0 do ('
+				writer.writeLine '	WinSW\\WinSW.exe uninstall %serviceNamexml%'
+				writer.writeLine ')'
+				writer.writeLine 'WinSW\\WinSW.exe install %serviceNamexml%'
+				writer.writeLine 'echo Starting Bcephal Etl Service'
+				writer.writeLine 'net start "%serviceName%"'
+				writer.writeLine 'goto end'
+				writer.writeLine ':erro'
+				writer.writeLine 'echo Error please check your command.. mas bro '
+				writer.writeLine 'goto end'
+				writer.writeLine ''
+				writer.writeLine ':end'
+	     }
+	     
+     }
+}
+
+ 
+ task buildZip(type: Zip) {
+   from("$buildDir/libs"){
+   		exclude ('jre','*.exe','*.bat','run.sh')
+   }
+   from("$buildDir/resources/main/"){
+   	//	exclude ('WinSW','*.xml','*.bat')
+   	include ('bootstrap.properties')
+   	include ('application.properties')
+   }
+   from("./resources/"){
+   		exclude ('WinSW','*.xml','*.bat')
+   }
+   from("./"){
+   		include ('templates/**')
+   }
+   //from zipTree("../../../cots/linux-jdk.zip")
+   
+   setArchiveFileName('B-Cephal Etl 8.0.0-alpha-fully-setup.zip')
+   setDestinationDirectory(file('./'))
+}
+
+task buildZipDocker(type: Zip) {
+   from("$buildDir/libs"){
+   		exclude ('jre','*.exe','*.bat','run.sh')
+   }
+   from("$buildDir/resources/main/"){
+   	 include ('bootstrap.properties')
+   	 include ('application.properties')
+   }
+   from("./resources/"){
+   		exclude ('WinSW','*.xml','*.bat')
+   }
+   from("./"){
+   		include ('templates/**')
+   }
+   
+   setArchiveFileName('B-Cephal Etl 8.0.0-alpha-setup.zip')
+   setDestinationDirectory(file('./'))
+}
+
+task buildSetup() {	
+	println 'build setup ...'
+	doLast {
+		if (Os.isFamily(Os.FAMILY_WINDOWS)) {
+	        println "*** Windows System"
+	        def runfile = file("./../../../cots/InnoSetup6/Compil32.exe")
+			def issfile = file("./buildSetup.iss")
+			exec{
+							workingDir './'
+							commandLine('cmd', '/c', runfile, '/cc', issfile)
+						}
+	    }
+	    if (Os.isFamily(Os.FAMILY_UNIX)) {
+	     println "*** Unix System"
+	        exec{
+					workingDir './'
+					//commandLine('sh', '-c', runfile, '/cc', issfile)
+				}
+	    }
+			 		
+	}				
+}
+compileJava.dependsOn clean
+buildSetup.dependsOn createdScript,bootJar
+buildZip.dependsOn buildSetup//createdScript,bootJar
+buildZipDocker.dependsOn createdScript,bootJar
+//buildZipDocker.dependsOn buildZip

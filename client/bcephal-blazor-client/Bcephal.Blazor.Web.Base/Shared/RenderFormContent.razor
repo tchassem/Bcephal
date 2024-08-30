@@ -1,0 +1,21 @@
+﻿@if (ChildContent != null)
+{
+    @ChildContent
+}
+
+@code {
+
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    public Task Refresh(RenderFragment Content = null){
+        ChildContent = Content;
+        return StateHasChanged_();
+    }
+
+    public Task StateHasChanged_()
+    {
+        return InvokeAsync(StateHasChanged);
+    }
+
+}

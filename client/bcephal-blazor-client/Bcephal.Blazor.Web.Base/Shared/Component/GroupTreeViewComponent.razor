@@ -1,0 +1,13 @@
+﻿@typeparam C
+
+<div class="card treeview body-collapse" style="display:@(IsOpen ? "block" : "none");overflow:auto;">
+    <DxTreeView @bind-Visible="IsOpen"
+                Data="@Items"
+                AllowSelectNodes="true"
+                TextExpression="((item) => ((C)item).Name )"
+                SelectionChanged="OnSelectItemChanged"
+                ChildrenExpression="((item) => TreeViewChildrenExpression(item))"
+                ShowExpandButtons="true">
+    </DxTreeView>
+</div>
+

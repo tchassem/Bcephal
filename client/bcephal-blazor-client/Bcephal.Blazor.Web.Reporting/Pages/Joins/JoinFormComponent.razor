@@ -1,0 +1,70 @@
+﻿@if (EditorData != null)
+{
+    @BodyRender
+}
+
+
+@code {
+
+    public RenderFragment BodyRender => __builder =>
+    {
+    <DxTabs CssClass="m-0 p-0  bc-tab-h-100" @bind-ActiveTabIndex=ActiveTabIndex ScrollMode="TabsScrollMode.Auto">
+        <DxTabPage Text="@AppState["grid_"]" CssClass="m-0 p-0 h-100">
+            <div style="height: calc(100% - var(--bc-tab-header-height));">
+                @if (EditorData != null)
+                    {
+                    @GrilleRender
+                    }
+            </div>
+        </DxTabPage>
+        <DxTabPage Text="@AppState["Configuration"]" CssClass="m-0 p-0 h-100">
+            <div style="height: calc(100% - var(--bc-tab-header-height));">
+                @if (EditorData != null)
+                    {
+                    @ConfigRender
+                    }
+            </div>
+        </DxTabPage>
+        <DxTabPage Text=@AppState["ROUTINE"] CssClass="m-0 p-0 h-100">
+            <div style="height: calc(100% - var(--bc-tab-header-height));">
+                @if (EditorData != null)
+                    {
+                    @RoutineRender
+                    }
+            </div>
+        </DxTabPage>
+        <DxTabPage Text=@AppState["Scheduling"] CssClass="m-0 p-0 h-100">
+            <div style="height: calc(100% - var(--bc-tab-header-height));">
+                @if (EditorData != null)
+                    {
+                    @SchedulingRender
+                    }
+            </div>
+        </DxTabPage>
+    </DxTabs>
+    };
+
+    public RenderFragment GrilleRender => __builder =>
+    {
+        <GridJoinBrowserComponent @bind-EditorData=EditorData />
+    };
+
+    public RenderFragment ConfigRender => __builder =>
+    {
+    <JoinGlobalComponent @bind-EditorData=EditorData Editable=Editable Entities=Entities />
+    };
+
+    public RenderFragment RoutineRender => __builder =>
+    {
+    <JoinRoutineComponent @bind-EditorData=EditorData Editable=Editable />
+    };
+
+    public RenderFragment SchedulingRender => __builder =>
+    {
+    <SchedulerItemsInfos Editable=Editable P="Join" @bind-EditorData=EditorData>
+        <ChildR6Content>
+            <JoinSchedulerInfosComponent Entities=@Entities Editable=Editable @bind-EditorData=EditorData />
+        </ChildR6Content>
+    </SchedulerItemsInfos>
+    };
+}

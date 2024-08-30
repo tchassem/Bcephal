@@ -1,0 +1,36 @@
+﻿
+
+@RenderSplitterPane()
+
+
+@code {
+
+    string height = "100%";
+    public RenderFragment RenderSplitterPane() => __builder =>
+    {
+
+    <SplitterPanel Panes=new(){RenderElements(),RenderDesignLayout()} heightCall=@height vertical=true LeftSize=1 RightSize=2 />
+    };
+
+    public RenderFragment RenderElements() => __builder =>
+        {
+    <div class="card h-100 ">
+        <div class="card-header bc-header-height bc-header-2 d-flex flex-column  p-0 m-0">
+            <span class="ml-1 mt-auto mb-auto"><i class="bi-table ml-1 mr-1 mb-auto mt-auto"></i>@AppState["elements"]</span>
+        </div>
+        <div class="card-body p-1 m-0 overflowy-bc" style="height: calc(100% - var(--bc-header-height)); ">
+            <DraggableComponent Editable=Editable P="NodeElement" SelectItemHandler=GetSelectedItem Children="Children" Data="@Data" />
+        </div>
+    </div>
+        };
+
+
+    public RenderFragment RenderDesignLayout() => __builder =>
+    {
+        <div class="w-100 m-0 p-0 h-100">
+           <DashboardConfigDesignItemContent Editable=Editable  @key="@(Guid.NewGuid().ToString())" @bind-SelectItemNode=SelectedItem @bind-EditorData=EditorDataBinding  />
+        </div>
+   };
+
+
+}

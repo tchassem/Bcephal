@@ -1,0 +1,405 @@
+
+
+@RenderDialogConfirmation
+
+@code {
+
+    #region config
+
+    string CssClass { get; set; } = "w-100";
+    string HeightSm { get; set; } = "auto";
+    string HeightLg { get; set; } = "auto";
+    string RowSpacing { get; set; } = "10px";
+    string labelCssSm { get; set; } = "d-flex flex-row h-100 mb-auto mt-auto";
+    string labelCssLg { get; set; } = "d-flex flex-column ";
+    string widthinput { get; set; } = "w-50";
+
+    #endregion
+
+    public RenderFragment RenderSelectFilesContent => __builder =>
+    {
+
+    <DxGridLayout CssClass=@CssClass>
+        <Rows>
+            <DxGridLayoutRow Areas="R1Name" Height=@HeightSm />
+            <DxGridLayoutRow Areas="R1NameValue" Height=@HeightSm />
+        </Rows>
+        <Columns>
+            <DxGridLayoutColumn />
+        </Columns>
+        <Items>
+            <DxGridLayoutItem Area="R1Name">
+                <Template>
+                    <div class="d-flex flex-row w-100">
+                        <div class=" d-flex flex-column mt-auto mb-auto h-100">
+                            <label class="mt-auto mb-auto">@AppState["SelectFiles"]</label>
+                        </div>
+                    </div>
+                </Template>
+            </DxGridLayoutItem>
+            <DxGridLayoutItem Area="R1NameValue">
+                <Template>
+                    <div class="d-flex flex-column h-100 mr-auto " style="margin-left: @(IsSmallScreen ? "0.25rem" : "0px");margin-top:@(IsSmallScreen ? "0.5rem" : "0px");">
+                        <CustomInputFile LoadedFilesChanged=UpdateFileNames ToZip="false" Editable=Editable
+                                         filters=FileNameConditionSelectedInputFile
+                                         Extension=InputfileExtension />
+                    </div>
+                </Template>
+            </DxGridLayoutItem>
+        </Items>
+    </DxGridLayout>
+
+    };
+
+    public RenderFragment FileLoaderConfigInfo => __builder =>
+    {
+    <CardComponent ShouldRender_="true" CardCssClass="p-0 m-0 w-100 border-0 mt-1" CanDisplayHeader="true" HeaderCssClass="bc-header-height bc-header-2 d-flex flex-column p-0 m-0">
+        <Header>
+            <span class="ml-1 mt-auto mb-auto"></span>
+        </Header>
+        <ChildContent>
+            <DxGridLayout RowSpacing=@RowSpacing CssClass="w-100 h-100 ml-2 overflow-y-auto">
+                <Rows>
+                    <DxGridLayoutRow Areas="R1" Height="@HeightSm" />
+                    <DxGridLayoutRow Areas="R6" Height="@HeightSm" />
+                    <DxGridLayoutRow Areas="R8" Height="@HeightSm" />
+                    <DxGridLayoutRow Visible="CanDisplayItem" Areas="R3" Height="@HeightSm" />
+                    <DxGridLayoutRow Visible="IsExcelFile(FileExtension) && CanDisplayItem" Areas="R2" Height="@HeightSm" />
+                    <DxGridLayoutRow Visible="CanDisplayItem" Areas="HasHeader" Height="@HeightSm" />
+                    <DxGridLayoutRow Visible="HasHeader && CanDisplayItem" Areas="HeaderRowCount" Height="@HeightSm" />
+                    <DxGridLayoutRow Visible="IsCsvFile(FileExtension) && CanDisplayItem" Areas="R5" Height="@HeightSm" />
+                    <DxGridLayoutRow Visible="IsExcelFile(FileExtension) && CanDisplayItem" Areas="IndentifySheetByPosition" Height=@HeightSm />
+                    <DxGridLayoutRow Visible="IsExcelFile(FileExtension) && CanDisplayItem" Areas="IndentifySheetByPosition2" Height=@HeightSm />
+                </Rows>
+                <Columns></Columns>
+                <Items>
+                    <DxGridLayoutItem Area="R1" CssClass=@CssClass>
+                        <Template>
+                            <DxGridLayout CssClass=@CssClass>
+                                <Rows>
+                                    <DxGridLayoutRow Areas="files" Height=@HeightSm />
+                                </Rows>
+                                <Columns>
+
+                                    <DxGridLayoutColumn />
+                                </Columns>
+                                <Items>
+                                    <DxGridLayoutItem Area="files">
+                                        <Template>
+                                            @RenderSelectFilesContent
+                                        </Template>
+                                    </DxGridLayoutItem>
+
+                                </Items>
+                            </DxGridLayout>
+                        </Template>
+                    </DxGridLayoutItem>
+                    @if (CanUploadMethod)
+                        {
+                        <DxGridLayoutItem Visible="CanDisplayItem" Area="R3" CssClass=@CssClass>
+                            <Template>
+                                <DxGridLayout CssClass=@CssClass>
+                                    <Rows>
+                                        <DxGridLayoutRow Areas="blanc" Height=@HeightSm />
+                                        <DxGridLayoutRow Areas="fileExtensionHeaderZone" Height=@HeightSm />
+
+                                    </Rows>
+                                    <Columns>
+
+                                        <DxGridLayoutColumn />
+                                    </Columns>
+                                    <Items>
+                                        <DxGridLayoutItem Area="blanc">
+                                            <Template>
+                                                <div class="d-flex flex-row w-100">
+                                                    <div class=" d-flex flex-column mt-auto mb-auto h-100">
+                                                        <label class="mt-auto mb-auto">@AppState["PageLoader.FileExtension"]</label>
+                                                    </div>
+                                                </div>
+                                            </Template>
+                                        </DxGridLayoutItem>
+                                        <DxGridLayoutItem Area="fileExtensionHeaderZone">
+                                            <Template>
+                                                <DxTextBox InputCssClass="@widthinput" ReadOnly="true" @bind-Text="FileExtension"></DxTextBox>
+                                            </Template>
+                                        </DxGridLayoutItem>
+                                    </Items>
+                                </DxGridLayout>
+                            </Template>
+                        </DxGridLayoutItem>
+                        }
+                    <DxGridLayoutItem Visible="IsExcelFile(FileExtension) && CanDisplayItem" Area="R2" CssClass=@CssClass>
+                        <Template>
+                            <DxGridLayout CssClass=@CssClass>
+                                <Rows>
+                                    <DxGridLayoutRow Areas="blanc" Height=@HeightSm />
+                                    <DxGridLayoutRow Areas="paramsZone" Height=@HeightSm />
+                                </Rows>
+                                <Columns>
+                                    <DxGridLayoutColumn />
+                                </Columns>
+                                <Items>
+                                    <DxGridLayoutItem Visible="@(!IsSmallScreen)" Area="blanc">
+                                        <Template>
+                                            @if (!HeaderIsReadOnly)
+                                                {
+                                                <div class="d-flex flex-row w-100 h-100 ">
+                                                    <div class="@(IsSmallScreen ? labelCssSm : labelCssLg) ">
+                                                        <label class="mt-auto mb-auto">@AppState["Sheet"]</label>
+                                                    </div>
+                                                </div>
+                                                }
+                                        </Template>
+                                    </DxGridLayoutItem>
+
+                                    <DxGridLayoutItem Visible="!HeaderIsReadOnly" CssClass="w-100" Area="paramsZone">
+                                        <Template>
+                                            <DxComboBox Enabled=Editable CssClass="@widthinput" Data="@SheetFiles_" TData="SheetData"
+                                                        TValue="SheetData"
+                                                        TextFieldName="Name"
+                                                        @bind-Value="SelectedExcelFile"></DxComboBox>
+                                        </Template>
+                                    </DxGridLayoutItem>
+                                </Items>
+                            </DxGridLayout>
+                        </Template>
+                    </DxGridLayoutItem>
+                    <DxGridLayoutItem Visible="@(IsExcelFile(FileExtension) && !HeaderIsReadOnly  && CanDisplayItem)" Area="IndentifySheetByPosition">
+                        <Template>
+                            <DxGridLayout CssClass=@CssClass>
+                                <Rows>
+                                    <DxGridLayoutRow Areas="paramsZone" Height=@HeightLg />
+                                </Rows>
+                                <Columns>
+                                    <DxGridLayoutColumn />
+                                </Columns>
+                                <Items>
+                                    <DxGridLayoutItem CssClass="w-100" Area="paramsZone">
+                                        <Template>
+                                            <DxCheckBox Enabled=Editable CssClass=" mt-auto mb-auto" @bind-Checked="IndentifySheetByPosition" T="bool" Alignment="CheckBoxContentAlignment.Left" LabelPosition="LabelPosition.Right">
+                                                <span class="ml-auto mr-auto">@AppState["IndentifySheetByPosition"]</span>
+                                            </DxCheckBox>
+                                        </Template>
+                                    </DxGridLayoutItem>
+                                </Items>
+                            </DxGridLayout>
+                        </Template>
+                    </DxGridLayoutItem>
+                    <DxGridLayoutItem Visible="@(IsExcelFile(FileExtension) && !HeaderIsReadOnly  && CanDisplayItem)" Area="IndentifySheetByPosition2">
+                        <Template>
+                            <DxGridLayout CssClass=@CssClass>
+                                <Rows>
+                                    <DxGridLayoutRow Areas="LoadAllSheets2" Height=@HeightLg />
+                                </Rows>
+                                <Columns>
+                                    <DxGridLayoutColumn />
+                                </Columns>
+                                <Items>
+                                    <DxGridLayoutItem CssClass="h-auto" Area="LoadAllSheets2">
+                                        <Template>
+                                            <DxCheckBox Enabled=Editable CssClass=" mt-auto mb-auto" @bind-Checked="LoadAllSheets" T="bool" Alignment="CheckBoxContentAlignment.Left" LabelPosition="LabelPosition.Right">
+                                                <span class="">@AppState["LoadAllSheets"]</span>
+                                            </DxCheckBox>
+                                        </Template>
+                                    </DxGridLayoutItem>
+                                </Items>
+                            </DxGridLayout>
+                        </Template>
+                    </DxGridLayoutItem>
+                    @if (CanUploadMethod)
+                        {
+                        <DxGridLayoutItem Visible="CanDisplayItem" Area="HasHeader" CssClass=@CssClass>
+                            <Template>
+                                <DxGridLayout CssClass=@CssClass>
+                                    <Rows>
+                                        <DxGridLayoutRow Areas="area2" Height=@HeightLg />
+                                    </Rows>
+                                    <Columns>
+                                        <DxGridLayoutColumn />
+                                    </Columns>
+                                    <Items>
+                                        <DxGridLayoutItem Area="area2">
+                                            <Template>
+                                                <div class="d-flex flex-row w-100">
+                                                    <div class="d-flex flex-column">
+                                                        <DxCheckBox Enabled=Editable CssClass=" mt-auto mb-auto" @bind-Checked=HasHeader Alignment="CheckBoxContentAlignment.Left">
+                                                            <span class="">@AppState["PageLoader.HasHeader"]</span>
+                                                        </DxCheckBox>
+                                                    </div>
+                                                </div>
+                                            </Template>
+                                        </DxGridLayoutItem>
+                                    </Items>
+                                </DxGridLayout>
+                            </Template>
+                        </DxGridLayoutItem>
+                        <DxGridLayoutItem Visible="HasHeader && CanDisplayItem" Area="HeaderRowCount" CssClass=@CssClass>
+                            <Template>
+                                <DxGridLayout CssClass=@CssClass>
+                                    <Rows>
+                                        <DxGridLayoutRow Areas="area1" Height=@HeightSm />
+                                        <DxGridLayoutRow Areas="area2" Height=@HeightSm />
+                                    </Rows>
+                                    <Columns>
+                                        <DxGridLayoutColumn />
+                                    </Columns>
+                                    <Items>
+                                        <DxGridLayoutItem Area="area1">
+                                            <Template>
+                                                <div class="d-flex flex-row w-100">
+                                                    <div class="d-flex flex-column h-100">
+                                                        <label class="mt-auto mb-auto">@AppState["HeaderRowCount"]</label>
+                                                    </div>
+                                                </div>
+                                            </Template>
+                                        </DxGridLayoutItem>
+                                        <DxGridLayoutItem Area="area2" CssClass="@widthinput">
+                                            <Template>
+                                                <DxSpinEdit T="int" @bind-Value="HeaderRowCount"></DxSpinEdit>
+                                            </Template>
+                                        </DxGridLayoutItem>
+                                    </Items>
+                                </DxGridLayout>
+                            </Template>
+                        </DxGridLayoutItem>
+                        }
+                    <DxGridLayoutItem Visible="IsCsvFile(FileExtension) && CanDisplayItem" Area="R5" CssClass=@CssClass>
+                        <Template>
+                            <DxGridLayout CssClass=@CssClass>
+                                <Rows>
+                                    <DxGridLayoutRow Areas="blanc" Height=@HeightSm />
+                                    <DxGridLayoutRow Areas="fileSeparator" Height=@HeightSm />
+                                </Rows>
+                                <Columns>
+                                    <DxGridLayoutColumn />
+                                </Columns>
+                                <Items>
+                                    <DxGridLayoutItem Area="blanc">
+                                        <Template>
+                                            <div class="d-flex flex-row w-100">
+                                                <div class="d-flex flex-column h-100 ">
+                                                    <label class="mt-auto mb-auto">@AppState["PageLoader.FileSeparator"]</label>
+                                                </div>
+                                            </div>
+                                        </Template>
+                                    </DxGridLayoutItem>
+                                    <DxGridLayoutItem CssClass="w-100" Area="fileSeparator">
+                                        <Template>
+                                            <div>
+                                                <DxTextBox Enabled=Editable InputCssClass="@widthinput" @bind-Text=FileSeparator></DxTextBox>
+                                            </div>
+                                        </Template>
+                                    </DxGridLayoutItem>
+                                </Items>
+                            </DxGridLayout>
+                        </Template>
+                    </DxGridLayoutItem>
+                    @if (CanUploadMethod)
+                        {
+                        <DxGridLayoutItem Area="R6" CssClass=@CssClass>
+                            <Template>
+                                <DxGridLayout CssClass=@CssClass>
+                                    <Rows>
+                                        <DxGridLayoutRow Areas="blanc" Height=@HeightSm />
+                                        <DxGridLayoutRow Areas="uploadMethod" Height=@HeightSm />
+                                    </Rows>
+                                    <Columns>
+                                        <DxGridLayoutColumn />
+                                    </Columns>
+                                    <Items>
+                                        <DxGridLayoutItem Area="blanc">
+                                            <Template>
+                                                <div class="d-flex flex-row w-100">
+                                                    <div class="d-flex flex-column h-100">
+                                                        <label class="mt-auto mb-auto">@AppState["PageLoader.UploadMethod"]</label>
+                                                    </div>
+                                                </div>
+                                            </Template>
+                                        </DxGridLayoutItem>
+                                        <DxGridLayoutItem Area="uploadMethod">
+                                            <Template>
+                                                <DxComboBox Enabled=Editable DropDownWidthMode="DropDownWidthMode.EditorWidth" CssClass="@widthinput" Data="@Methods"
+                                                            @bind-Value=UploadMethod>
+                                                </DxComboBox>
+                                            </Template>
+                                        </DxGridLayoutItem>
+
+                                    </Items>
+                                </DxGridLayout>
+                            </Template>
+                        </DxGridLayoutItem>
+                        <DxGridLayoutItem Area="R8" CssClass=@CssClass>
+                            <Template>
+                                <DxGridLayout CssClass=@CssClass>
+                                    <Rows>
+                                        <DxGridLayoutRow Areas="nextarea1" Height=@HeightSm />
+                                        <DxGridLayoutRow Areas="nextarea2" Height=@HeightSm />
+
+                                    </Rows>
+                                    <Columns>
+                                        <DxGridLayoutColumn />
+                                    </Columns>
+                                    <Items>
+                                        <DxGridLayoutItem Area="nextarea1">
+                                            <Template>
+                                                <div class="d-flex flex-row w-100">
+                                                    <div class="d-flex flex-column h-100">
+                                                        @if (Bcephal.Models.Loaders.FileLoaderMethod.NEW_GRID.GetText(x => AppState[x]).Equals(UploadMethod))
+                                                            {
+                                                            <label class="mt-auto mb-auto">@AppState["EditNewGridName"]</label>
+                                                            }
+                                                            else if (Bcephal.Models.Loaders.FileLoaderMethod.DIRECT_TO_GRID.GetText(x => AppState[x]).Equals(UploadMethod))
+                                                            {
+                                                            <label class="mt-auto mb-auto">@AppState["SelectGrid"]</label>
+                                                            }
+
+                                                    </div>
+                                                </div>
+                                            </Template>
+                                        </DxGridLayoutItem>
+                                        <DxGridLayoutItem Area="nextarea2">
+                                            <Template>
+                                                @if (Bcephal.Models.Loaders.FileLoaderMethod.NEW_GRID.GetText(x => AppState[x]).Equals(UploadMethod))
+                                                    {
+                                                    <DxTextBox Enabled=Editable InputCssClass="@widthinput" @bind-Text=EditorData.Item.TargetName />
+                                                    }
+                                                    else if (Bcephal.Models.Loaders.FileLoaderMethod.DIRECT_TO_GRID.GetText(x => AppState[x]).Equals(UploadMethod))
+                                                    {
+                                                    <DxComboBox Enabled=Editable CssClass="@widthinput" Data="PageItems"
+                                                                NullText=""
+                                                                @bind-Value="currentUploadMethod">
+                                                    </DxComboBox>
+                                                    }
+
+                                            </Template>
+                                        </DxGridLayoutItem>
+                                    </Items>
+                                </DxGridLayout>
+                            </Template>
+                        </DxGridLayoutItem>
+                        }
+                </Items>
+            </DxGridLayout>
+        </ChildContent>
+    </CardComponent>
+    };
+
+    public RenderFragment RenderDialogConfirmation => __builder =>
+    {
+    <BaseModalComponent Title="@AppState["load"]"
+                        @bind-ShowModal=DisplayDialogConfirmation
+                        OkHandler="LoadTemplateAfterConfirmation"
+                        CancelHandler="DisposeDisplayDialogConfirmation" 
+                        IsConfirmation=@IsConfirmation>
+        <div class="d-flex">
+            <i class="bi-question-circle text-primary align-self-start mr-4" style="font-size: 1.5rem;"></i>
+
+            <div class="align-self-center">
+                <p class="p-0 m-0">@AppState["load.template.confirmation.dialog"]</p>
+            </div>
+        </div>
+    </BaseModalComponent>
+    };
+
+
+}

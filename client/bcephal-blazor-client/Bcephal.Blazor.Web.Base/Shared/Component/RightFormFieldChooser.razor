@@ -1,0 +1,63 @@
+
+<div class="row no-gutters pt-1 h-100">
+    <div class="col-1 d-flex flex-column mr-2">
+        <div class="mb-1 mt-0 mr-0 ml-auto">
+            <DxButton IconCssClass="fa fa-caret-left" RenderStyle="ButtonRenderStyle.Primary"
+                      Click="@(() => GetSelectedValue())">
+
+            </DxButton>
+        </div>
+        <div class="mt-0 mb-0 ml-0 mr-auto">
+            <DxButton IconCssClass="fa fa-backward"
+                      Click="@(() => GetSelectedValues())"
+                      RenderStyle="ButtonRenderStyle.Primary">
+            </DxButton>
+        </div>
+    </div>
+    <div class="col-8 ml-1 h-100">
+        <DxListBox Data="@FormFieldsChooser"
+                   SelectionMode="ListBoxSelectionMode.Single"
+                   CssClass="h-100"
+                   TextFieldName="@nameof(GrilleColumn.Name)"
+                   @bind-Values="Values">
+
+        </DxListBox>
+    </div>
+    <div class="col-1 d-flex flex-column mt-auto mb-auto ml-auto mr-auto" id="icon-group-dynamic">
+        <i class="fa fa-arrow-up fa-lg" aria-hidden="true"></i>
+        <i class="fa fa-arrow-down fa-lg" aria-hidden="true"></i>
+        <i class="fa fa-plus fa-lg" aria-hidden="true"></i>
+        <i class="fa fa-window-close fa-lg" aria-hidden="true"></i>
+    </div>
+</div>
+
+
+@code {
+
+    [Parameter]
+    public IEnumerable<GrilleColumn> FormFieldsChooser { get; set; }
+
+    [Parameter]
+    public EventCallback<IEnumerable<GrilleColumn>> FormFieldsChooserChanged { get; set; }
+
+    [Parameter]
+    public EventCallback<IEnumerable<GrilleColumn>> NotifyParentSingleSelection { get; set; }
+    [Parameter]
+    public EventCallback<IEnumerable<GrilleColumn>> NotifyParentAllSelection { get; set; }
+
+    IEnumerable<GrilleColumn> Values { get; set; }
+
+
+    public void GetSelectedValue()
+    {
+        NotifyParentSingleSelection.InvokeAsync(Values);
+        Values = Enumerable.Empty<GrilleColumn>();
+    }
+
+    public void GetSelectedValues()
+    {
+        NotifyParentAllSelection.InvokeAsync(Values);
+        Values = Enumerable.Empty<GrilleColumn>();
+    }
+
+}

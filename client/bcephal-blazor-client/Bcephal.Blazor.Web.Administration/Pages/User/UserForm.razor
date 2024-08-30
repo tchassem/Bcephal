@@ -1,0 +1,117 @@
+﻿
+@page "/user-form"
+@page "/user-form/{Id:long}"
+@using Bcephal.Models.Users
+@using Bcephal.Blazor.Web.Base.Shared
+
+
+@inherits Form<Bcephal.Models.Users.User, Bcephal.Models.Users.User>
+@{base.BuildRenderTree(__builder);}
+<DxLayoutBreakpoint DeviceSize=DeviceSize_ @bind-IsActive="@IsXSmallScreen" />
+@code   {
+
+
+    bool IsXSmallScreen;
+
+
+    public override RenderFragment LeftContent => __builder =>
+
+
+    {
+   
+@if (EditorData != null && EditorData.Item != null)
+{
+    
+                    <DxFormLayout  CssClass="mt-3">
+
+                        <DxLayoutBreakpoint DeviceSize="DeviceSize.Medium | DeviceSize.Small | DeviceSize.XSmall" @bind-IsActive="@IsXSmallScreen" />
+
+                        <DxFormLayoutGroup Decoration="FormLayoutGroupDecoration.None" CaptionPosition="CaptionPosition.Horizontal" CaptionCssClass="" ColSpanLg="6" ColSpanXl="6" ColSpanMd="6" ColSpanSm="6" ColSpanXs="6">
+                            <DxFormLayoutItem BeginRow="true" ColSpanLg="10" ColSpanXl="10" ColSpanMd="10" ColSpanSm="10" ColSpanXs="10" CssClass="text-right mb-3" CaptionCssClass="" Caption="@AppState["FirstName"]">
+                                <Template>
+                                    <DxTextBox ReadOnly=!Editable @bind-Text=FirstName BindValueMode="BindValueMode.OnInput"
+                                               ClearButtonDisplayMode="DataEditorClearButtonDisplayMode.Auto"></DxTextBox>
+                                </Template>
+                            </DxFormLayoutItem>
+                            <DxFormLayoutItem BeginRow="true" ColSpanLg="10" ColSpanXl="10" ColSpanMd="10" ColSpanSm="10" ColSpanXs="10" CssClass="text-right mb-3" CaptionCssClass="" Caption="@AppState["LastName"]">
+                                <Template>
+                                    <DxTextBox  ReadOnly=!Editable @bind-Text=lastName BindValueMode="BindValueMode.OnInput"
+                                               ClearButtonDisplayMode="DataEditorClearButtonDisplayMode.Auto">
+                                    </DxTextBox>
+                                </Template>
+                            </DxFormLayoutItem>
+                           
+                            <DxFormLayoutItem BeginRow="true" ColSpanLg="10" ColSpanXl="10" ColSpanMd="10" ColSpanSm="10" ColSpanXs="10" CssClass="text-right mb-3 " CaptionCssClass="" Caption="@AppState["DefaultLanguage"]">
+                                <Template>
+                                    <DxComboBox  ReadOnly=!Editable CssClass="mt-auto mb-auto" Data="LanguageTypes" @bind-Value="DefaultLanguage" TData="string" TValue="string"></DxComboBox>
+                                </Template>
+                             </DxFormLayoutItem>
+                            <DxFormLayoutItem BeginRow="true" ColSpanLg="10" ColSpanXl="10" ColSpanMd="10" ColSpanSm="10" ColSpanXs="10" CssClass="text-right mb-3" CaptionCssClass="" Caption="@AppState["Email"]">
+                                <Template>
+                                    <DxTextBox  ReadOnly=!Editable @bind-Text=email type="email" BindValueMode="BindValueMode.OnInput"
+                                               ClearButtonDisplayMode="DataEditorClearButtonDisplayMode.Auto">
+                                    </DxTextBox>
+                                </Template>
+                            </DxFormLayoutItem>
+                            <DxFormLayoutItem  BeginRow="true" ColSpanLg="10" ColSpanXl="10" ColSpanMd="10" ColSpanSm="10" ColSpanXs="10" CssClass="text-right mb-3" CaptionCssClass="" Caption="@AppState["Enabled"]">
+                                <Template>
+                                    <DxCheckBox  Enabled=Editable CssClass=" mt-auto mb-auto" @bind-Checked=Enabled Alignment="CheckBoxContentAlignment.Left">
+
+                                    </DxCheckBox>
+                                </Template>
+                            </DxFormLayoutItem>
+                            @*<DxFormLayoutItem BeginRow="false" ColSpanLg="10" ColSpanXl="10" ColSpanMd="10" ColSpanSm="10" ColSpanXs="10" CssClass="text-right mb-3" CaptionCssClass="" Caption="">
+            <Template>
+                <DxCheckBox CssClass=" mt-auto mb-auto" @bind-Checked=emailVerified Alignment="CheckBoxContentAlignment.Left">
+                    <span>@AppState["EmailVerified"]</span>
+                </DxCheckBox>
+            </Template>
+        </DxFormLayoutItem>*@
+
+
+                        </DxFormLayoutGroup>
+
+                        <DxFormLayoutGroup Decoration="FormLayoutGroupDecoration.None" CaptionPosition="CaptionPosition.Horizontal" CaptionCssClass="" ColSpanLg="6" ColSpanXl="6" ColSpanMd="6" ColSpanSm="6" ColSpanXs="6">
+                            
+                            <DxFormLayoutItem BeginRow="true" ColSpanLg="10" ColSpanXl="10" ColSpanMd="10" ColSpanSm="10" ColSpanXs="10" CssClass="text-right mb-3" CaptionCssClass="" Caption="@AppState["User.name"]">
+                                <Template>
+                                    <DxTextBox  ReadOnly=!Editable @bind-Text=username BindValueMode="BindValueMode.OnInput"
+                                               ClearButtonDisplayMode="DataEditorClearButtonDisplayMode.Auto"></DxTextBox>
+                                </Template>
+                            </DxFormLayoutItem>
+
+                            <DxFormLayoutItem BeginRow="true" ColSpanLg="10" ColSpanXl="10" ColSpanMd="10" ColSpanSm="10" ColSpanXs="10" CssClass="text-right mb-3" CaptionCssClass="" Caption="@AppState["Password"]">
+                                <Template>
+                                    <DxTextBox  ReadOnly=!Editable @bind-Text=password type="password" BindValueMode="BindValueMode.OnInput">
+                                    </DxTextBox>
+                                </Template>
+                            </DxFormLayoutItem>
+                         
+                            <DxFormLayoutItem BeginRow="true" ColSpanLg="10" ColSpanXl="10" ColSpanMd="10" ColSpanSm="10" ColSpanXs="10" CssClass="text-right mb-3" CaptionCssClass="" Caption="@AppState["Confirmation.Password"]">
+                                <Template>
+                                    <DxTextBox  ReadOnly=!Editable BindValueMode="BindValueMode.OnInput" type="password">
+                                    </DxTextBox>
+                                </Template>
+                            </DxFormLayoutItem>
+
+                            <DxFormLayoutItem BeginRow="true" ColSpanLg="10" ColSpanXl="10" ColSpanMd="10" ColSpanSm="10" ColSpanXs="10" CssClass="text-right mb-3" CaptionCssClass="" Caption="@AppState["Type"]">
+                                <Template>
+                                    <DxComboBox  ReadOnly=!Editable CssClass="mt-auto mb-auto" TData="UserType" TValue="UserType" TextFieldName="label" Data="@UserType.GetAll()" @bind-Value="UserType"></DxComboBox>
+                                </Template>
+                            </DxFormLayoutItem>
+
+                        </DxFormLayoutGroup>
+
+                    </DxFormLayout>
+
+        }
+            };
+
+
+            public override RenderFragment RightContent => __builder =>
+            {
+
+
+            };
+
+            }

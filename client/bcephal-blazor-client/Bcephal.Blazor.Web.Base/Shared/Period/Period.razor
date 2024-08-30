@@ -1,0 +1,111 @@
+﻿
+@inject AppState _AppState
+@implements IDisposable
+
+<div id="center" class="d-flex flex-column">
+    <i class="fa fa-chevron-right" id="chevron" aria-hidden="true"></i>
+    <div style="background-color:blue; height:20px; width:100%;" @oncontextmenu="((e) => ContextMenu.ShowAsync(e))" @oncontextmenu:preventDefault>
+
+    </div>
+    <div class="mt-3 d-flex flex-column" style="background-color: white; width: 100%; height: 400px;">
+        <div class="row no-gutters" style="height:auto; width :100%; display:inline-block; color: #000000;">
+            @{
+                var i = 0;
+                @while (i < @Periods.Count)
+                {
+                    <div class="ml-1">
+                        <span class="mb-1">@Periods[i]</span>
+                        @child
+                    </div>
+                    i++;
+                }
+            }
+
+        </div>
+        <div>
+            <DxTextBox @bind-Enabled="@Enabled"
+                       CssClass="textbox-period"
+                       @bind-Text="NewPeriod"
+                       NullText="@EmptyText"
+                       @onkeyup="@(() => SavePeriode())"
+                       @onchange="@(() => ActivateSaveButton())" />
+        </div>
+    </div>
+
+</div>
+
+<DxContextMenu @ref="@ContextMenu">
+    <Items>
+        <DxContextMenuItem IconCssClass="ml-1 bi-plus" CssClass="menuitem" Text="@AppState["New"]" Click=@(() => AddNewPeriod()) @onclick:preventDefault />
+        <DxContextMenuItem IconCssClass="ml-1 fa fa-files-o" CssClass="menuitem" Text="@AppState["COPY"]" @onclick:preventDefault />
+        <DxContextMenuItem IconCssClass="ml-1 fa fa-clipboard" CssClass="menuitem" Text="@AppState["Paste"]" @onclick:preventDefault />
+        <DxContextMenuItem IconCssClass="ml-1 fa fa-minus" CssClass="menuitem" Text="@AppState["Delete"]" @onclick:preventDefault />
+        <DxContextMenuItem IconCssClass="ml-1 fa fa-arrow-up" CssClass="menuitem" Text="@AppState["MoveUp"]" @onclick:preventDefault />
+        <DxContextMenuItem IconCssClass="ml-1 fa fa-arrow-down" CssClass="menuitem" Text="@AppState["MoveDown"]" @onclick:preventDefault />
+        <DxContextMenuItem IconCssClass="ml-1 fa fa-cog" CssClass="menuitem" Text="@AppState["Properties"]" @onclick:preventDefault />
+    </Items>
+</DxContextMenu>
+
+@code {
+
+    [Inject]
+    private AppState AppState { get; set; }
+
+    private List<string> Periods { get; set; } = new List<string>();
+
+    public bool Enabled { get; set; } = false;
+
+    private string NewPeriod { get; set; } = "";
+
+    private string EmptyText = "Add new period";
+
+    public RenderFragment child { get; set; }
+
+
+    DxContextMenu ContextMenu { get; set; }
+
+    public void AddNewPeriod()
+    {
+        NewPeriod = "";
+        Enabled = true;
+        StateHasChanged();
+    }
+
+
+    void ActivateSaveButton()
+    {
+
+        _AppState.Update = true;
+        StateHasChanged();
+    }
+
+    public void SavePeriode()
+    {
+        if (NewPeriod.Length > 3)
+        {
+            Periods.Add(NewPeriod);
+            NewPeriod = "";
+            _AppState.Update = false;
+
+            Enabled = false;
+        }
+    }
+
+
+    protected override void OnInitialized()
+    {
+        _AppState.StateChanged += StateChanged;
+    }
+
+    public void Dispose()
+    {
+
+        _AppState.StateChanged -= StateChanged;
+    }
+
+    public async Task StateChanged()
+    {
+      await InvokeAsync(StateHasChanged);
+    }
+
+}

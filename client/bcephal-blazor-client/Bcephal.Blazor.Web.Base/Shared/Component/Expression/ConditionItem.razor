@@ -1,0 +1,63 @@
+﻿
+<DxLayoutBreakpoint DeviceSize="DeviceSize.Medium | DeviceSize.Small | DeviceSize.XSmall" @bind-IsActive="IsSmallScreen" />
+<DxStackLayout CssClass="w-100 mt-1" ItemSpacing="8px" Orientation=Orientation.Horizontal>
+    <Items>
+        @if (@CondExpItem.SpotId1 != null)
+        {
+            <DxStackLayoutItem Length="0.5fr">
+                <Template>
+                    <DxComboBox Enabled="Editable" Data="FilterVerbOperatorCollection_" @bind-Value="@CurrentVerb" />
+                </Template>
+            </DxStackLayoutItem>
+            <DxStackLayoutItem Length="0.3fr">
+                <Template>
+                    <DxComboBox Enabled="Editable" Data="ConditionalOpLeft.GetAll()" TData="ConditionalOpLeft" TValue="ConditionalOpLeft" TextFieldName="@nameof(ConditionalOpLeft.label)" @bind-Value="@OpenBrackets" />
+                </Template>
+            </DxStackLayoutItem>
+        }
+        @if (@SpotData != null)
+        {
+            <DxStackLayoutItem Length="@(@SpotId1 != null ? "1fr" : "0.2fr")">
+                <Template>
+                    <DxComboBox Enabled="Editable" Data="@SpotData" TData="Nameable" TValue="Nameable" NullText="@AppState["select.spot"]" TextFieldName="@nameof(Nameable.Name)" @bind-Value="@SpotId1" />
+                </Template>
+            </DxStackLayoutItem>
+        }
+        @if (@CondExpItem.SpotId1 != null)
+        {
+            <DxStackLayoutItem Length="0.3fr">
+                <Template>
+                    <DxComboBox Enabled="Editable" Data="MeasureOperator.GetAll()" @bind-Value="@Operator" />
+                </Template>
+            </DxStackLayoutItem>
+            <DxStackLayoutItem Length="1fr">
+                <Template>
+                    <DxComboBox Enabled="Editable" Data="@Dimensions" TData="DimensionType" TValue="DimensionType" @bind-Value="@Value2Type" />
+                </Template>
+            </DxStackLayoutItem>
+            <DxStackLayoutItem Length="1fr">
+                <Template>
+                    @if (@CondExpItem.Value2Type.Equals(DimensionType.FREE))
+                    {
+                        <DxSpinEdit Enabled="Editable" T="decimal?" @bind-Value="@CurrentValue" BindValueMode="BindValueMode.OnInput" />
+                    }
+                    else
+                    {
+                        <DxComboBox Enabled="Editable" Data="@SpotData" TData="Nameable" TValue="Nameable" TextFieldName="@nameof(Nameable.Name)" @bind-Value="@SpotId2" />
+                    }
+                </Template>
+            </DxStackLayoutItem>
+            <DxStackLayoutItem Length="0.3fr">
+                <Template>
+                    <DxComboBox Enabled="Editable" Data="ConditionalOpRight.GetAll()" TData="ConditionalOpRight" TValue="ConditionalOpRight" @bind-Value="@CloseBrackets" />
+                </Template>
+            </DxStackLayoutItem>
+            <DxStackLayoutItem Length="0.125fr">
+                <Template>
+                    <DxButton IconCssClass="fa fa-remove" CssClass="mt-auto mb-auto pull-right" RenderStyleMode="ButtonRenderStyleMode.Text"
+                                RenderStyle="ButtonRenderStyle.Danger" Click="()=>RemoveItem(CondExpItem)" />
+                </Template>
+            </DxStackLayoutItem>
+        }
+    </Items>
+</DxStackLayout>

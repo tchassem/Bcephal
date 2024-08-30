@@ -1,0 +1,18 @@
+﻿@page "/billing/list-credit-note"
+
+@inherits Base.Shared.Browser
+@{
+    base.BuildRenderTree(__builder);
+}
+
+@code {
+
+    public override string Title { get { return AppState["billing.run.credit.note"]; } }
+
+    public override string TitleIcon { get { return "bi bi-journal-minus"; } }
+
+    protected override RenderFragment _BodyContent_ => __builder =>
+    {
+        <CreditNoteBrowser_ />
+    };
+}

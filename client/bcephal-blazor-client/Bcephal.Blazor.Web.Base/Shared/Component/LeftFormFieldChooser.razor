@@ -1,0 +1,63 @@
+﻿
+<div class="row no-gutters pt-1 h-100">
+    <div class="col-10">
+        <DxListBox Data="@FormFieldsChooser"
+                   @bind-Values="@Values"
+                   TextFieldName="@nameof(GrilleColumn.Name)"
+                   CssClass="h-100"
+                   SelectionMode="ListBoxSelectionMode.Single">
+
+        </DxListBox>
+    </div>
+    <div class="col-1 d-flex flex-column">
+        <div class="mb-1 mt-0 mr-1 ml-1">
+            <DxButton IconCssClass="fa fa-caret-right"
+                      RenderStyle="ButtonRenderStyle.Primary"
+                      Click="@(() => GetSelectedValue())">
+
+            </DxButton>
+        </div>
+        <div class="mt-0 mb-0 mr-1 ml-1">
+            <DxButton IconCssClass="fa fa-forward"
+                      RenderStyle="ButtonRenderStyle.Primary"
+                      Click="@(() => GetSelectedValues())">
+            </DxButton>
+        </div>
+    </div>
+
+</div>
+
+
+
+@code {
+
+
+
+    [Parameter]
+    public IEnumerable<GrilleColumn> FormFieldsChooser { get; set; }
+
+    [Parameter]
+    public EventCallback<IEnumerable<GrilleColumn>> FormFieldsChooserChanged { get; set; }
+
+    [Parameter]
+    public EventCallback<IEnumerable<GrilleColumn>> NotifyParentSingleSelection { get; set; }
+    [Parameter]
+    public EventCallback<IEnumerable<GrilleColumn>> NotifyParentAllSelection { get; set; }
+
+    IEnumerable<GrilleColumn> Values { get; set; } = new List<GrilleColumn>();
+
+    public bool Enable { get; set; }
+
+    public void GetSelectedValue()
+    {
+        NotifyParentSingleSelection.InvokeAsync(Values);
+        Values = Enumerable.Empty<GrilleColumn>();
+    }
+
+    public void GetSelectedValues()
+    {
+        NotifyParentAllSelection.InvokeAsync(Values);
+        Values = Enumerable.Empty<GrilleColumn>();
+    }
+
+}

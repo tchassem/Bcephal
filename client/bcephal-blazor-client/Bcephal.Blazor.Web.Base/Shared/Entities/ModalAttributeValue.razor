@@ -1,0 +1,46 @@
+﻿
+<DxPopup @ref=DxPopupRef
+         CloseOnOutsideClick="false"
+         CloseOnEscape="false"
+         ShowFooter="true"
+         ShowCloseButton="false"
+         HeaderText=""
+         CssClass="custom-popup"
+         HeaderCssClass="font-weight-light"
+         @bind-Visible=Show>
+    <Content>
+        @RenderAttributeValueComponent()
+    </Content>
+    <FooterContentTemplate>
+        <div class="d-flex flex-row">
+            <div class="ml-auto mr-auto d-flex flex-row">
+                <div class="mr-1 ">
+                    <DxButton Enabled="@(SelectedItem != null)" IconCssClass="fa fa-check mr-1" CssClass="wid-100" IconPosition=ButtonIconPosition.BeforeText Text="@AppState["Ok"]" Click="ButtonClick"></DxButton>
+                </div>
+                <div class="ml-1">
+                    <DxButton CssClass="wid-100" Text="@AppState["Cancel"]" IconCssClass="fa fa-ban mr-1" IconPosition=ButtonIconPosition.BeforeText Click="ClosePopup"></DxButton>
+                </div>
+            </div>
+        </div>
+    </FooterContentTemplate>
+</DxPopup>
+
+
+@code {
+
+    RenderFragment RenderAttributeValueComponent()
+    {
+        RenderFragment RenderWidgetB = __builder =>
+        {
+        @if (Show == true)
+            {
+            <div class="d-flex flex-column" style="height: 300px; overflow-y: auto;">
+                <AttributeValueBrowser OndbClickRow="async args => await ButtonClick_(args)" @bind-SelectedItemList=SelectedItemList @bind-SelectedItem_="SelectedItem" @key="Key" AttributeId=AttributeId />
+            </div>
+            }
+        };
+        return RenderWidgetB;
+    }
+
+
+}

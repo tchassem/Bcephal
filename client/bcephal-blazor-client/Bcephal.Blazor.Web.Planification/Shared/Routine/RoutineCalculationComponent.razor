@@ -1,0 +1,176 @@
+﻿@using Bcephal.Blazor.Web.Base.Services;
+
+<DxButton RenderStyle="ButtonRenderStyle.Link"
+          Text=@(" " + AppState["Edit.calc"])
+          Title="@AppState["Edit.calc"]"
+          IconCssClass="fa fa-pencil mr-1"
+          Click=@(() => ShowConcatenateModal = true )
+          IconPosition="ButtonIconPosition.BeforeText" />
+
+<DxLayoutBreakpoint DeviceSize="DeviceSize.XSmall | DeviceSize.Small | DeviceSize.Medium " @bind-IsActive="@isXSmallScreen" />
+<BaseModalComponent Title=@AppState["Edit.calc"] @bind-ShowModal=@ShowConcatenateModal
+                    ApplyBackgroundShading="true"
+                    BodyClass="p-0 h-50" OkHandler=@ModalOkHandler Height="68% !important" Width="48% !important">
+    @*<div class="h-100" style=" width: 100%; border: 1px solid red;">*@
+    <div class="h-100 w-100 p-3 overflow-auto">
+        <DxStackLayout CssClass="h-100 w-100" ItemSpacing="12px" Orientation=Orientation.Vertical>
+            <Items>
+                @foreach (var item in ItemsHandler.GetItems())
+                {
+                    <DxStackLayoutItem Length="auto">
+                        <Template>
+                            @CalculationItem(item, false)
+                        </Template>
+                    </DxStackLayoutItem>
+                }
+                <DxStackLayoutItem @key="@(Guid.NewGuid().ToString("d"))" Length="auto">
+                    <Template>
+                        @CalculationItem(new(), true)
+                    </Template>
+                </DxStackLayoutItem>
+            </Items>
+        </DxStackLayout>
+    </div>
+</BaseModalComponent>
+
+@code {
+
+    [Inject] public AppState AppState { get; set; }
+
+    [Parameter] public ListChangeHandler<TransformationRoutineCalculateItem> ItemsHandler { get; set; }
+    [Parameter] public EventCallback<ListChangeHandler<TransformationRoutineCalculateItem>> ItemsHandlerChanged { get; set; }
+    [Parameter] public ObservableCollection<HierarchicalData> Dimensions { get; set; }
+    [Parameter] public DimensionType Type { get; set; }
+    [Parameter] public bool ShowConcatenateModal { get; set; } = false;
+    [Parameter] public string TextLength { get; set; } = "0.8fr";
+
+
+    public bool isXSmallScreen;
+    List<string> signs = new() { "", "+","-" ,"*", "/" };
+    List<TransformationRoutineSourceType> SourceTypes = new() { TransformationRoutineSourceType.DIMENSION, TransformationRoutineSourceType.FREE };
+
+    public async void ModalOkHandler()
+    {
+        await ItemsHandlerChanged.InvokeAsync(ItemsHandler);
+    }
+
+    public void OnSourceFieldChanged(TransformationRoutineCalculateItem item)
+    {
+        if (!ItemsHandler.GetItems().Contains(item))
+        {
+            if (ItemsHandler.GetItems().Count > 0)
+            {
+                item.Sign = "+";
+            }
+            AddItem(item);
+        }
+        else
+        {
+            UpdateItem(item);
+        }
+        //await ItemsHandlerChanged.InvokeAsync(ItemsHandler);
+    }
+
+    public void AddItem(TransformationRoutineCalculateItem item, bool sort = true)
+    {
+        ItemsHandler.AddNew(item, sort);
+    }
+
+    public void UpdateItem(TransformationRoutineCalculateItem item, bool sort = true)
+    {
+        ItemsHandler.AddUpdated(item, sort);
+    }
+
+    public void DeleteOrForgetItem(TransformationRoutineCalculateItem item)
+    {
+        if (item.IsPersistent)
+        {
+            DeleteItem(item);
+        }
+        else
+        {
+            ForgetItem(item);
+        }
+    }
+
+    public void DeleteItem(TransformationRoutineCalculateItem item)
+    {
+        ItemsHandler.AddDeleted(item);
+    }
+
+    public void ForgetItem(TransformationRoutineCalculateItem item)
+    {
+        ItemsHandler.forget(item);
+    }
+
+    private RenderFragment CalculationItem(TransformationRoutineCalculateItem item, bool isNew)
+    {
+        if (item.Field == null)
+        {
+            item.Field = new();
+        }
+        RenderFragment renderFragment = __builder =>
+        {
+        <DxStackLayout Orientation=Orientation.Horizontal ItemSpacing="4px" >
+            <Items>
+                @if (!isNew)
+                {
+                    <DxStackLayoutItem Length="10%">
+                        <Template>
+                            <DxComboBox Data=signs
+                                        TData="string"
+                                        TValue="string"
+                                        @bind-Value=(item.Sign)>
+                            </DxComboBox>
+                        </Template>
+                    </DxStackLayoutItem>
+                    <DxStackLayoutItem Length="12%">
+                        <Template>
+                            <DxComboBox Data=FilterUtils.OpenBrackets
+                                        TData="string"
+                                        TValue="string"
+                                        @bind-Value=(item.OpeningBracket)>
+                            </DxComboBox>
+                        </Template>
+                    </DxStackLayoutItem>
+                }
+                <DxStackLayoutItem Length="*">
+                    <Template>
+                        <TransformationRoutineFieldComponent SourceField=@(item.Field)
+                                                             SourceFieldChanged="((i) => OnSourceFieldChanged(item))"
+                                                             Dimensions=@Dimensions
+                                                             SourceTypes="SourceTypes"
+                                                             ShowItemLabels="false"
+                                                             SourceTypeSize=@( isNew ? "22.636%" : "40%" )
+                                                             Type=Type
+                                                             ItemSpacing="4px"
+                                                             TextLength=@TextLength>
+                        </TransformationRoutineFieldComponent>
+                    </Template>
+                </DxStackLayoutItem>
+                @if (!isNew)
+                {
+                    <DxStackLayoutItem Length="12%">
+                        <Template>
+                            <DxComboBox Data="@FilterUtils.CloseBrackets"
+                                        TData="string"
+                                        TValue="string"
+                                        @bind-Value=(item.ClosingBracket)>
+                            </DxComboBox>
+                        </Template>
+                    </DxStackLayoutItem>
+                    <DxStackLayoutItem Length="auto">
+                        <Template>
+                            <DxButton IconCssClass="fa fa-remove" RenderStyleMode="ButtonRenderStyleMode.Text"
+                                      RenderStyle="ButtonRenderStyle.Danger"
+                                      Click="(() => DeleteOrForgetItem(item) )">
+                            </DxButton>
+                        </Template>
+                    </DxStackLayoutItem>
+                }
+                </Items>
+        </DxStackLayout>
+        };
+        return renderFragment;
+    }
+}

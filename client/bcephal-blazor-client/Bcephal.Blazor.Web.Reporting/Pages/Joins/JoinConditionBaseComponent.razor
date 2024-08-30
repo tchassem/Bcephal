@@ -1,0 +1,21 @@
+﻿@if (JoinEditorData != null)
+{
+    <DxStackLayout Orientation="Orientation.Horizontal" ItemSpacing="2px" CssClass="w-100">
+        <Items>
+
+            <DxStackLayoutItem Length="49.5%">
+                <Template>
+                    <DxComboBox Data="@JoinEditorData.Item.GridListChangeHandler.Items" TData="JoinGrid" TValue="JoinGrid" NullText="@AppState["SelectGrid"]" TextFieldName="@nameof(JoinGrid.Name)" @bind-Value="@JoinGrid" />
+                </Template>
+            </DxStackLayoutItem>
+            @if (Item != null && Item.GridId != null)
+            {
+                <DxStackLayoutItem Length="49%">
+                    <Template>
+                        <DxComboBox Enabled="Editable" Data="@Columns" TData="SmallGrilleColumn" TValue="SmallGrilleColumn" NullText="@AppState["select.column"]" TextFieldName="@nameof(SmallGrilleColumn.Name)" @bind-Value="@Column" />
+                    </Template>
+                </DxStackLayoutItem>
+            }
+        </Items>
+    </DxStackLayout>
+}

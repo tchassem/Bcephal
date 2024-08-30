@@ -1,0 +1,17 @@
+﻿@page "/reconciliation/auto-reco-browser"
+
+@inherits Base.Shared.Browser
+@{
+    base.BuildRenderTree(__builder);
+}
+
+@code{
+    public override string Title { get { return AppState["List.Automatic.Reconciliations"]; } }
+
+    public override string TitleIcon { get { return "bi bi-file-text"; } }
+
+    protected override RenderFragment _BodyContent_ => __builder =>
+    {
+    <AutoRecoBrowser />
+    };
+}

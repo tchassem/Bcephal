@@ -1,0 +1,12 @@
+﻿
+<CardComponent CardCssClass="w-100 h-100 m-0 p-0" CanDisplayFooter="false" CanDisplayHeader="false">
+    <div class="w-100 h-100 d-flex align-items-center justify-content-center"
+         style="background: no-repeat center/100% 100% url(assets/bcephal_loading_init_bakground.PNG); color: white;">
+        <span style="font-size: 38px !important;">@AppState["accessDenied"]</span>
+    </div>
+</CardComponent>
+@code {
+
+    [Inject]
+    public AppState AppState { get; set; }
+}

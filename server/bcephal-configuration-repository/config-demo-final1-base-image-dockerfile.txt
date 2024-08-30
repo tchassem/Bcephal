@@ -1,0 +1,98 @@
+##################################################################################
+##################################################################################
+##############                                       #############################
+##############  Configuration of UBUNTU 20.04        #############################
+##############                                       #############################
+##################################################################################
+##################################################################################
+
+FROM ubuntu:20.04 
+
+	
+ARG DEBIAN_FRONTEND=noninteractive
+	
+RUN set -eux;\
+	apt-get update; \
+	apt-get install -y --no-install-recommends apt-utils;\
+	rm -rf /var/lib/apt/lists/*;	
+
+
+RUN set -eux;\
+	apt-get update; \
+	apt-get install -y --no-install-recommends locales locales-all; \
+	rm -rf /var/lib/apt/lists/*;
+	
+ENV LANG=en_US.UTF-8
+ENV LANGUAGE=en_US:en
+ENV LC_ALL=en_US.UTF-8
+ENV PG=/etc/postgresql/13/main/
+
+ARG BCEPHAL_USER_PWD
+ARG BCEPHAL_USER_NAME=bcephal
+
+ENV BCEPHAL_USER_PWD $BCEPHAL_USER_PWD
+ENV BCEPHAL_USER_NAME $BCEPHAL_USER_NAME
+
+
+RUN set -eux;\
+	apt-get update; \
+	apt-get install -y --no-install-recommends apt-utils tzdata net-tools wget \
+	curl unzip ca-certificates fontconfig apt-transport-https software-properties-common \
+    openssh-server sudo nano gpg-agent clang cmake bash build-essential zlib1g-dev libreadline-dev systemd libpam-systemd \
+	&& apt-get install --assume-yes git \
+	&& echo "LC_ALL=en_US.UTF-8" >> /etc/environment \
+	&& echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen \
+	&& echo "LANG=en_US.UTF-8" > /etc/locale.conf \
+	&& locale-gen en_US.UTF-8; \
+	rm -rf /var/lib/apt/lists/*;
+	
+RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list &&\
+	wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - &&\
+	apt-get update &&\
+	apt-get -y install postgresql-client-13;\
+	apt-get clean && rm -rf /var/lib/apt/lists/*;
+SHELL ["/bin/bash", "-c"]
+
+RUN useradd -g root -G sudo -rm -s /bin/bash -d /home/bcephal -u 1000 $BCEPHAL_USER_NAME
+
+RUN usermod -aG sudo $BCEPHAL_USER_NAME
+
+RUN sed -Ei 's/#(PermitRootLogin).+/\1 yes/' /etc/ssh/sshd_config
+
+RUN systemctl enable ssh
+
+RUN  echo "$BCEPHAL_USER_NAME:$BCEPHAL_USER_PWD" | chpasswd
+
+
+STOPSIGNAL SIGINT
+
+EXPOSE 22
+
+# Install OpenJDK-14
+RUN apt-get update && \
+    apt-get install -y ant ; \
+	apt-get install -y curl ; \
+    apt-get clean && rm -rf /var/lib/apt/lists/*;
+	
+RUN curl -O https://download.java.net/java/GA/jdk14/076bab302c7b4508975440c56f6cc26a/36/GPL/openjdk-14_linux-x64_bin.tar.gz && \
+			tar xvf openjdk-14_linux-x64_bin.tar.gz && \
+			rm -f openjdk-14_linux-x64_bin.tar.gz && \
+			mv jdk-14 /opt/;
+
+# Setup JAVA_HOME -- useful for docker commandline
+ENV JAVA_HOME /opt/jdk-14
+RUN export JAVA_HOME
+
+RUN echo "JAVA_HOME=/opt/jdk-14" >> /etc/environment \
+	&& echo "BCEPHAL_JAVA_HOME=$JAVA_HOME" >> /etc/environment;
+	
+
+#RUN mkdir -p /run/Bcephal/8
+#RUN chown -R bcephal:root /run/Bcephal/8
+
+
+#VOLUME ["/run/Bcephal","/home/bcephal"]
+#VOLUME ["/home/bcephal"]	
+
+#CMD ["/usr/sbin/init"]
+

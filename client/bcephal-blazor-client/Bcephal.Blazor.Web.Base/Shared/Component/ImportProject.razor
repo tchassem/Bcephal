@@ -1,0 +1,72 @@
+﻿
+<DxPopup @bind-Visible="@ModalAction"
+         ShowFooter="true"
+         @ref="Popup"
+         ShowCloseButton="false"
+         MaxWidth="500px"
+         CloseOnEscape="false"
+         CloseOnOutsideClick="false"
+         CssClass="custom-popup"
+         HeaderCssClass="font-weight-light"
+         HeaderText="@AppState["select.file.to.Import"]">
+    <Content>
+
+        <div class="d-flex flex-column h-100 mt-2 mb-1 " style="justify-content:center; box-sizing:border-box;">
+
+            <DxFormLayout CssClass="w-100">
+                <DxFormLayoutItem Visible="false" CssClass="p-0 m-0" CaptionCssClass="font-weight-normal" Caption="@AppState["Max.file.size"]" ColSpanMd="12" ColSpanLg="12" ColSpanSm="12">
+                    <Template>
+                        <DxSpinEdit @bind-Value="maxFileSizeMo" BindValueMode="BindValueMode.OnInput" CssClass="w-100" MaxValue="DefautmaxFileSizeMo" MinValue="DefautminFileSizeMo"></DxSpinEdit>
+                    </Template>
+                </DxFormLayoutItem>
+                <DxFormLayoutItem CssClass="p-0 m-0" CaptionCssClass="font-weight-normal" Caption="@AppState["Upload.file.loader.message",@maxFileSizeMo]" ColSpanMd="12" ColSpanLg="12" ColSpanSm="12">
+                    <Template>
+                        <InputFile OnChange="@LoadFiles" accept=".bcp" />
+                    </Template>
+                </DxFormLayoutItem>
+                @if (isLoading)
+                {
+                    <p>@loadingMessage</p>
+                }
+                else
+                {
+
+                    <DxFormLayoutItem CssClass="p-0 m-0 w-100" CaptionCssClass="font-weight-normal" Caption="" ColSpanMd="12" ColSpanLg="12" ColSpanSm="12">
+                        <Template>
+
+                            @if (LoadedFile != null)
+                            {
+                                <div class="d-flex flex-column w-100 " style="border: dashed; border-width: 1px; border-color: darkgray;">
+                                    <div class="d-flex flex-row">
+                                        <div class="flex-grow-1"> @AppState["Upload.file.name"]: </div>
+                                        <div class="flex-grow-1"> @LoadedFile.Name </div>
+                                    </div>
+                                    <div class="d-flex flex-row">
+                                        <div class="flex-grow-1"> @AppState["Upload.file.last.modified"]: </div>
+                                        <div class="flex-grow-1"> @LoadedFile.LastModified.ToString() </div>
+                                    </div>
+                                    <div class="d-flex flex-row">
+                                        <div class="flex-grow-1"> @AppState["Upload.file.size"]: </div>
+                                        <div class="flex-grow-1"> @LoadedFile.Size octets</div>
+                                    </div>
+                                    <div class="d-flex flex-row">
+                                        <div class="flex-grow-1"> @AppState["Upload.file.type"]: </div>
+                                        <div class="flex-grow-1"> @LoadedFile.ContentType </div>
+                                    </div>
+                                </div>
+                            }
+                        </Template>
+                    </DxFormLayoutItem>
+                }
+            </DxFormLayout>
+        </div>
+    </Content>
+    <FooterTemplate>
+        <div class="d-flex flex-row mt-auto mb-2">
+            <DxButton CssClass="ml-auto mr-1 wid-100" IconCssClass="oi oi-cloud-upload mr-1" Enabled="@(LoadedFile == null ? false  : true && !isUploading )" RenderStyle="ButtonRenderStyle.Primary" Text="@AppState["Import"]" @onclick="((e) => ShowFeedBack())" />
+            <DxButton CssClass="mr-auto ml-1 wid-100" IconCssClass="oi oi-delete mr-1" RenderStyle="ButtonRenderStyle.Danger" Text="@AppState["Close"]" @onclick="@(() => Dispose())" />
+        </div>
+    </FooterTemplate>
+</DxPopup>
+
+<FeedBackImport @bind-IsLoadedFile=IsLoadedFile @bind-BytesloadedFile_=BytesloadedFile @bind-ImportProjectData="ImportProjectData" @bind-LoadedFile="LoadedFile" />

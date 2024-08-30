@@ -1,0 +1,43 @@
+﻿
+<SplitterPanel Panes="(new() { LogContent, LogItemContent})" LeftSize="1" RightSize="1" vertical="false" />
+
+
+@code {
+
+    public long? SchedulerPlannerLogId { get; set; }
+
+
+    public long? SchedulerPlannerLogId_
+    {
+        get
+        {
+            return SchedulerPlannerLogId;
+        }
+        set
+        {
+            SchedulerPlannerLogId = value;
+            StateHasChanged();
+        }
+    }
+
+    [Parameter]
+    public EditorData<SchedulerPlanner> EditorData { get; set; }
+
+    public RenderFragment LogContent => __builder =>
+    {
+        if (EditorData != null)
+        {
+            <SchedulerPlannerLogsBrowser SchedulerPlannerId_=EditorData.Item.Id @bind-SchedulerPlannerLogId_=SchedulerPlannerLogId_ />
+        }
+        else
+        {
+            <SchedulerPlannerLogsBrowser @bind-SchedulerPlannerLogId_=SchedulerPlannerLogId_ />
+        }
+    };
+
+    public RenderFragment LogItemContent => __builder =>
+    {
+        <SchedulerPlannerLogItemBrowser @bind-SchedulerPlannerLogId=SchedulerPlannerLogId_ />
+    };
+
+}

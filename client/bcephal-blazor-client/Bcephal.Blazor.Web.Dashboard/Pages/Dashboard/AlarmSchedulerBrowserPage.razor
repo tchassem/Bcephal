@@ -1,0 +1,15 @@
+﻿@page "/browser-report-scheduled-alarm/"
+
+@inherits Base.Shared.Browser
+@{
+    base.BuildRenderTree(__builder);
+}
+
+@code{
+    public override string Title { get { return AppState["Scheduled.Alarms"]; } }
+
+    protected override RenderFragment _BodyContent_ => __builder =>
+    {
+        <AlarmSchedulerBrowser_ />
+    };
+}

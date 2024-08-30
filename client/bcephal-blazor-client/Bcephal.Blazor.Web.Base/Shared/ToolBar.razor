@@ -1,0 +1,144 @@
+﻿@inject NavigationManager _NavigationManager
+
+<DxToolbar DropDownDisplayMode="DropDownDisplayMode.Auto"
+           AdaptivityMinRootItemCount="1" AdaptivityAutoHideRootItems="true" AdaptivityAutoCollapseItemsToIcons="true"
+           ItemRenderStyleMode="ToolbarRenderStyleMode.Contained" CssClass="toolbar mb-3 pr-3">
+    <Items>
+        <DxToolbarItem @bind-Visible="_AppState.ActivateSchedulingFileLoaderVisible" Tooltip="@(!ActivateSchedulingFileLoader ? _AppState["ActivateFileLoaderScheduling"] : _AppState["DesactivateFileLoaderScheduling"])" Alignment="ToolbarItemAlignment.Right">
+            <Template Context="Context_group">
+                <DxCheckBox CssClass="m-0 pr-1" @bind-Checked="ActivateSchedulingFileLoader" LabelPosition="LabelPosition.Right" Alignment="CheckBoxContentAlignment.Left" />
+                @*<div class="d-flex flex-row wid-200">
+                    <div class="p-0 m-0">
+                        @Localize["ActivateFileLoaderScheduling"]
+                    </div>
+                    <div class="pf-1 m-0">
+                        <DxCheckBox CssClass="m-0 p-0" @bind-Checked="ActivateSchedulingFileLoader" LabelPosition="LabelPosition.Right" Alignment="CheckBoxContentAlignment.Left" />
+                    </div>
+                </div>*@
+            </Template>
+        </DxToolbarItem>
+
+        <DxToolbarItem @bind-Visible="_AppState.ActivateSchedulingAutoRecoVisible" Tooltip="@(!ActivateSchedulingAutoReco ? _AppState["ActivateAutoRecoScheduling"] : _AppState["DesactivateAutoRecoScheduling"])" Alignment="ToolbarItemAlignment.Right">
+            <Template Context="Context_group">
+                <DxCheckBox CssClass="m-0 pr-1" @bind-Checked="ActivateSchedulingAutoReco" LabelPosition="LabelPosition.Right" Alignment="CheckBoxContentAlignment.Left" />
+            </Template>
+        </DxToolbarItem>
+
+        <DxToolbarItem @bind-Visible="_AppState.ActivateSchedulingLogAutoRecoVisible" Tooltip="@(!ActivateSchedulingAutoRecoLog ? _AppState["ActivateLogAutoRecoScheduling"] : _AppState["DesactivateLogAutoRecoScheduling"])" Alignment="ToolbarItemAlignment.Right">
+            <Template Context="Context_group">
+                <DxCheckBox CssClass="m-0 pr-1" @bind-Checked="ActivateSchedulingAutoRecoLog" LabelPosition="LabelPosition.Right" Alignment="CheckBoxContentAlignment.Left" />
+            </Template>
+        </DxToolbarItem>
+
+        <DxToolbarItem @bind-Visible="_AppState.CanExport" IconCssClass="bi bi-box-arrow-right" Tooltip="@_AppState["Export.To"]" Alignment="ToolbarItemAlignment.Right" BeginGroup="true" DropDownCssClass="min-w-40">
+            <Items>
+                <DxToolbarItem IconCssClass="bi bi-filetype-csv" Text="@_AppState["CSV"]" CssClass="fs-6" Click="ExportCsvEvent" />
+                <DxToolbarItem IconCssClass="bi bi-filetype-json" Text="@_AppState["JSON"]" CssClass="fs-6" Click="ExportJsonEvent" />
+                <DxToolbarItem IconCssClass="bi bi-filetype-xls" Text="@_AppState["XLS"]" Click="ExportExcelEvent" />
+            </Items>
+        </DxToolbarItem>
+        @if (_NavigationManager != null)
+        {
+            <DxToolbarItem @bind-Visible="_AppState.CanCreate" Name=""
+                           IconCssClass="bi bi-plus-lg"
+                           Tooltip="@(_NavigationManager.Uri.Contains(Route.MEASURE_TREEVIEW) ? _AppState["MeasureData.New"] : (_NavigationManager.Uri.Contains(Route.PERIOD_TREEVIEW) ? _AppState["PeriodData.New"] : (_NavigationManager.Uri.Contains(Route.MODEL_TREEVIEW) ? _AppState["New.model"] : _AppState["New"])))"
+                           Alignment="ToolbarItemAlignment.Right" Click="CreateEvent" />
+        }
+
+        <DxToolbarItem @bind-Visible="_AppState.CanRestart" Name=""
+                       IconCssClass="bi bi-play-circle"
+                       Tooltip="@_AppState["restart"]" Alignment="ToolbarItemAlignment.Right" Click="RestartEvent" />
+        <DxToolbarItem @bind-Visible="_AppState.CanStop" Name=""
+                       IconCssClass="bi bi-stop-circle"
+                       Tooltip="@_AppState["stop"]" Alignment="ToolbarItemAlignment.Right" Click="StopEvent" />
+        <DxToolbarItem @bind-Visible="_AppState.CanRefresh" Name=""
+                       IconCssClass="bi bi-arrow-repeat"
+                       Tooltip="@_AppState["Refresh"]" Alignment="ToolbarItemAlignment.Right" Click="RefreshEvent" />
+        <DxToolbarItem @bind-Visible="_AppState.CanRefreshReconciliation" Name=""
+                       IconCssClass="bi bi-life-preserver"
+                       Tooltip="@_AppState["RefreshReconciliation"]" Alignment="ToolbarItemAlignment.Right" Click="RefreshEventReconciliation" />
+        <DxToolbarItem @bind-Visible="_AppState.CanRefreshPublication" Name=""
+                       IconCssClass="bi bi-bootstrap-reboot"
+                       Tooltip="@_AppState["Refresh.pub"]" Alignment="ToolbarItemAlignment.Right" Click="RefreshPublicationEvent" />
+        <DxToolbarItem @bind-Visible="_AppState.CanPaste" Name=""
+                       IconCssClass="bi bi-clipboard"
+                       Tooltip="@_AppState["Paste"]" Alignment="ToolbarItemAlignment.Right" Click="@PasteEvent" />
+
+        <DxToolbarItem @bind-Visible="_AppState.CanLoad" Name=""
+                       IconCssClass="bi bi-upload"
+                       Tooltip="@_AppState["Load"]" Alignment="ToolbarItemAlignment.Right" Click="LoadEvent" />
+
+        <DxToolbarItem @bind-Visible="_AppState.CanRun" Name=""
+                       IconCssClass="bi bi-caret-right"
+                       Tooltip="@_AppState["Run"]" Alignment="ToolbarItemAlignment.Right" Click="RunEvent" />
+
+        <DxToolbarItem @bind-Visible="_AppState.CanValidateRunOutcome" Name=""
+                       IconCssClass="bi bi-check2-circle"
+                       Tooltip="@_AppState["Validate"]" Alignment="ToolbarItemAlignment.Right" Click="ValidateRunOutcomeEvent" />
+
+        <DxToolbarItem @bind-Visible="_AppState.CanRunJoin" Name=""
+                       IconCssClass="bi bi-cloud"
+                       Tooltip="@_AppState["Run.join"]" Alignment="ToolbarItemAlignment.Right" Click="RunJoinEvent" />
+
+        <DxToolbarItem @bind-Visible="_AppState.CanRunAutoReconciliation" Name=""
+                       IconCssClass="bi bi-chevron-double-right"
+                       Tooltip="@_AppState["AutoRun"]" Alignment="ToolbarItemAlignment.Right" Click="AutoRecoRunEvent" />
+
+        <DxToolbarItem @bind-Visible="_AppState.CanPublished" Name=""
+                       IconCssClass="bi bi-cloud"
+                       Tooltip="@_AppState["Published"]" Alignment="ToolbarItemAlignment.Right" Click="PublishedEvent" />
+        <DxToolbarItem @bind-Visible="_AppState.CanUnPublished" Name=""
+                       IconCssClass="bi bi-cloud-slash"
+                       Tooltip="@_AppState["UnPublished"]" Alignment="ToolbarItemAlignment.Right" Click="UnPublishedEvent" />
+
+        <DxToolbarItem @bind-Visible="_AppState.CanResetPublication" Name=""
+                       IconCssClass="bi bi-cloud-slash"
+                       Tooltip="@_AppState["Reset.pub"]" Alignment="ToolbarItemAlignment.Right" Click="@ResetPublicationEvent" />
+
+        <DxToolbarItem @bind-Visible="_AppState.Update" Name="" IconCssClass="bi bi-hdd"
+                       Tooltip="@_AppState["Save"]" Alignment="ToolbarItemAlignment.Right"
+                       Click="@SaveEvent" />
+
+        <DxToolbarItem @bind-Visible="_AppState.CanSaveAll" Name="" IconCssClass="bi bi-hdd-stack"
+                       Tooltip="@_AppState["Save.All"]" Alignment="ToolbarItemAlignment.Right"
+                       Click="@SaveAllEvent" />
+
+        <DxToolbarItem @bind-Visible="_AppState.CanValidate" Name=""
+                       IconCssClass="bi bi-check2-circle"
+                       Tooltip="@_AppState["Validate"]" Alignment="ToolbarItemAlignment.Right" Click="@ValidateEvent" />
+
+        <DxToolbarItem @bind-Visible="_AppState.CanReset" Name=""
+                       IconCssClass="bi bi-bootstrap-reboot"
+                       Tooltip="@_AppState[_AppState.ResetMessage]" Alignment="ToolbarItemAlignment.Right" Click="@ResetEvent" />
+
+        <DxToolbarItem @bind-Visible="_AppState.CanResetValidation" Name=""
+                       IconCssClass="bi bi-x-lg"
+                       Tooltip="@_AppState["reset.validation"]" Alignment="ToolbarItemAlignment.Right" Click="@ResetValidationEvent" />
+
+        <DxToolbarItem @bind-Visible="_AppState.CanCreateCreditNote" Name="" IconCssClass="bi bi-file-earmark-text"
+                       Tooltip="@_AppState["create.credit.note"]" Alignment="ToolbarItemAlignment.Right"
+                       Click="@CreateCreditNoteEvent" />
+
+        <DxToolbarItem @bind-Visible="_AppState.CanCancel" Name=""
+                       IconCssClass="bi bi-x-square"
+                       Tooltip="@_AppState["cancel.messages"]" Alignment="ToolbarItemAlignment.Right" Click="@CancelEvent" />
+
+        <DxToolbarItem @bind-Visible="_AppState.CanSend" Name=""
+                       IconCssClass="bi bi-send"
+                       Tooltip="@_AppState[_AppState.SendMessage]" Alignment="ToolbarItemAlignment.Right" Click="@SendEvent" />
+
+        <DxToolbarItem @bind-Visible="_AppState.CanDelete" Name="" IconCssClass="bi bi-trash3"
+                       Tooltip="@_AppState["Delete"]" Alignment="ToolbarItemAlignment.Right"
+                       Click="@DeleteEvent" />
+
+        <DxToolbarItem @bind-Visible="_AppState.CanImportBackup" Name="" IconCssClass="bi bi-caret-up-square"
+                       Tooltip="@_AppState["import.sel.backup"]" Alignment="ToolbarItemAlignment.Right"
+                       Click="@ImportBackupEvent" />
+
+        <DxToolbarItem @bind-Visible="_AppState.CanShowCustomized" Text="@_AppState["Customized"]" Name="" IconCssClass="bi bi-gear-wide" Alignment="ToolbarItemAlignment.Right" />
+        <DxToolbarItem @bind-Visible="_AppState.CanShowStandard" Text="@_AppState["Standard"]" Name="" IconCssClass="bi bi-clipboard-check" Click="StandartEvent" Alignment="ToolbarItemAlignment.Right" />
+        <DxToolbarItem Visible="_AppState.IsOpenProject" Click=_AppState.CloseEventHandler Name="" IconCssClass="bi bi-x-circle" Tooltip="@_AppState["Close"]"
+                       Alignment="ToolbarItemAlignment.Right" />
+
+    </Items>
+</DxToolbar>

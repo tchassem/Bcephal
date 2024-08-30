@@ -1,0 +1,162 @@
+﻿@page "/client-form"
+@page "/client-form/{Id:long}"
+
+@using Bcephal.Models.Clients
+@using Bcephal.Blazor.Web.Base.Shared
+@using Bcephal.Blazor.Web.Base.Services;
+
+
+@inherits Form<Client, Client>
+
+@{base.BuildRenderTree(__builder);}
+
+
+@code {
+           
+
+            public override RenderFragment LeftContent => __builder =>
+            {
+
+    @if (EditorData != null && EditorData.Item != null)
+    {
+
+      
+        <div class="common-tab">
+            <DxTabs @bind-ActiveTabIndex="ActiveTabIndex" ScrollMode="TabsScrollMode.Auto">
+                <DxTabPage Text="@AppState["Client"]" CssClass="m-0 p-0 " Click="ChangeTab">
+                    <DxFormLayout CssClass="p-1">
+                        <DxLayoutBreakpoint DeviceSize="DeviceSize.Medium | DeviceSize.Small | DeviceSize.XSmall" @bind-IsActive="@IsXSmallScreen" />
+                        <DxFormLayoutGroup Decoration="FormLayoutGroupDecoration.None" CaptionPosition="CaptionPosition.Horizontal" CssClass="" ColSpanLg="6" ColSpanXl="6" ColSpanMd="6" ColSpanSm="6" ColSpanXs="6">
+                            <DxFormLayoutItem BeginRow="true" CaptionPosition="CaptionPosition.Horizontal" ColSpanLg="10" ColSpanXl="10" ColSpanMd="10" ColSpanSm="10" ColSpanXs="10" CssClass="text-right mb-2" CaptionCssClass="" Caption="@AppState["ClientName"]">
+                                <Template>
+                                    <DxTextBox ReadOnly=!Editable @bind-Text=Name BindValueMode="BindValueMode.OnInput" ClearButtonDisplayMode="DataEditorClearButtonDisplayMode.Auto"></DxTextBox>
+                                </Template>
+                            </DxFormLayoutItem>
+                            <DxFormLayoutItem BeginRow="true" CaptionPosition="CaptionPosition.Horizontal" ColSpanLg="6" ColSpanXl="10" ColSpanMd="10" ColSpanSm="10" ColSpanXs="10" CssClass="text-right mb-2" CaptionCssClass="" Caption="@AppState["Nature"]">
+                                <Template>
+                                    <DxComboBox ReadOnly=!Editable CssClass="mt-auto mb-auto" TData="ClientNature" TValue="ClientNature" Data="@ClientNature.GetAll()" @bind-Value="ClientNature"></DxComboBox>
+                                </Template>
+                            </DxFormLayoutItem>
+                            <DxFormLayoutItem BeginRow="true" CaptionPosition="CaptionPosition.Horizontal" ColSpanLg="10" ColSpanXl="10" ColSpanMd="10" ColSpanSm="10" ColSpanXs="10" CssClass="text-right mb-2" CaptionCssClass="" Caption="@AppState["Type"]">
+                                <Template>
+                                    <DxComboBox ReadOnly=!Editable CssClass="mt-auto mb-auto" TData="ClientType" TValue="ClientType" TextFieldName="label" Data="@ClientType.GetAll()" @bind-Value="ClientType"></DxComboBox>
+                                </Template>
+                            </DxFormLayoutItem>
+                            <DxFormLayoutItem BeginRow="true" CaptionPosition="CaptionPosition.Horizontal" ColSpanLg="10" ColSpanXl="10" ColSpanMd="10" ColSpanSm="10" ColSpanXs="10" CssClass=" text-right mb-2" CaptionCssClass="" Caption="@AppState["Status"]">
+                                <Template>
+                                    <DxComboBox ReadOnly=!Editable CssClass="mt-auto mb-auto" TData="string" TValue="string" Data="@ClientStatus.ACTIVE.GetAll(label_code => AppState[label_code])" @bind-Value="ClientStatus_"></DxComboBox>
+                                </Template>
+                            </DxFormLayoutItem>
+                            <DxFormLayoutItem BeginRow="true" CaptionPosition="CaptionPosition.Horizontal" ColSpanLg="10" ColSpanXl="10" ColSpanMd="10" ColSpanSm="10" ColSpanXs="10" CssClass="text-right mb-2" CaptionCssClass="" Caption="@AppState["Owner.User"]">
+                                <Template>
+                                    <DxTextBox ReadOnly=!Editable CssClass="mt-auto mb-auto" BindValueMode="BindValueMode.OnInput" @bind-Text=OwnerUser ClearButtonDisplayMode="DataEditorClearButtonDisplayMode.Auto"></DxTextBox>
+                                </Template>
+                            </DxFormLayoutItem>
+                            <DxFormLayoutItem BeginRow="true" CaptionPosition="CaptionPosition.Horizontal" ColSpanLg="10" ColSpanXl="10" ColSpanMd="10" ColSpanSm="10" ColSpanXs="10" CssClass="text-right mb-2" CaptionCssClass="" Caption="@AppState["Max.User"]">
+                                <Template>
+                                    <DxSpinEdit ReadOnly=!Editable @bind-Value="@MaxUser" BindValueMode="BindValueMode.OnInput" ClearButtonDisplayMode="DataEditorClearButtonDisplayMode.Auto"></DxSpinEdit>
+                                </Template>
+                            </DxFormLayoutItem>
+
+                            <DxFormLayoutItem BeginRow="true" CaptionPosition="CaptionPosition.Horizontal" ColSpanLg="10" ColSpanXl="10" ColSpanMd="10" ColSpanSm="10" ColSpanXs="10" CssClass="text-right mb-2" CaptionCssClass="" Caption="@AppState["DefaultLanguage"]">
+                                <Template>
+                                    <DxComboBox ReadOnly="!Editable" CssClass="mt-auto mb-auto" Data="LanguageTypes" @bind-Value="DefaultLanguage" TData="string" TValue="string"></DxComboBox>
+                                </Template>
+                            </DxFormLayoutItem>
+                            <DxFormLayoutItem BeginRow="true" CaptionPosition="CaptionPosition.Horizontal" ColSpanLg="10" ColSpanXl="10" ColSpanMd="10" ColSpanSm="10" ColSpanXs="10" CssClass=" text-right mb-2" Caption="@AppState["Description"]">
+                                <Template>
+                                    <textarea readonly=@(!Editable) class="form-control" @bind=Description BindValueMode="BindValueMode.OnInput" rows="3">@Description</textarea>
+                                    @*<DxMemo ReadOnly="@(!Editable)" CssClass="form-control" @bind-Text=Description BindValueMode="BindValueMode.OnInput" ResizeMode="MemoResizeMode.VerticalAndHorizontal" Rows="3" />*@
+                                </Template>
+                            </DxFormLayoutItem>
+                            <DxFormLayoutItem BeginRow="true" CaptionPosition="CaptionPosition.Horizontal" ColSpanLg="5" ColSpanXl="5" ColSpanMd="5" ColSpanSm="5" ColSpanXs="5" CssClass=" text-right mb-2" Caption="@AppState["Default.Client"]">
+                                <Template>
+                                    <DxCheckBox Enabled=Editable @bind-Checked="@DefaultClient"> </DxCheckBox>
+                                </Template>
+                            </DxFormLayoutItem>
+                        </DxFormLayoutGroup>
+                        <DxFormLayoutGroup Decoration="FormLayoutGroupDecoration.None" CaptionPosition="CaptionPosition.Horizontal" CaptionCssClass="" ColSpanLg="6" ColSpanXl="6" ColSpanMd="6" ColSpanSm="6" ColSpanXs="6">
+                            <DxFormLayoutItem BeginRow="true" CaptionPosition="CaptionPosition.Horizontal" ColSpanLg="10" ColSpanXl="10" ColSpanMd="10" ColSpanSm="10" ColSpanXs="10" CssClass="text-right mb-2" CaptionCssClass="" Caption="@AppState["Email"]">
+                                <Template>
+                                    <DxTextBox ReadOnly=!Editable CssClass="mt-auto mb-auto" BindValueMode="BindValueMode.OnInput" @bind-Text=Address.Email ClearButtonDisplayMode="DataEditorClearButtonDisplayMode.Auto"></DxTextBox>
+                                </Template>
+                            </DxFormLayoutItem>
+                            <DxFormLayoutItem BeginRow="true" CaptionPosition="CaptionPosition.Horizontal" ColSpanLg="10" ColSpanXl="10" ColSpanMd="10" ColSpanSm="10" ColSpanXs="10" CssClass="text-right mb-2" CaptionCssClass="" Caption="@AppState["Phone"]">
+                                <Template>
+                                    <DxTextBox ReadOnly=!Editable CssClass="mt-auto mb-auto" BindValueMode="BindValueMode.OnInput" @bind-Text=Address.Phone ClearButtonDisplayMode="DataEditorClearButtonDisplayMode.Auto"></DxTextBox>
+                                </Template>
+                            </DxFormLayoutItem>
+                            <DxFormLayoutItem BeginRow="true" CaptionPosition="CaptionPosition.Horizontal" ColSpanLg="10" ColSpanXl="10" ColSpanMd="10" ColSpanSm="10" ColSpanXs="10" CssClass="text-right mb-2" CaptionCssClass="" Caption="@AppState["country"]">
+                                <Template>
+                                    <DxTextBox ReadOnly=!Editable CssClass="mt-auto mb-auto" BindValueMode="BindValueMode.OnInput" @bind-Text=Address.Country ClearButtonDisplayMode="DataEditorClearButtonDisplayMode.Auto"></DxTextBox>
+                                </Template>
+                            </DxFormLayoutItem>
+                            <DxFormLayoutItem BeginRow="true" CaptionPosition="CaptionPosition.Horizontal" ColSpanLg="10" ColSpanXl="10" ColSpanMd="10" ColSpanSm="10" ColSpanXs="10" CssClass="text-right mb-2" CaptionCssClass="" Caption="@AppState["street"]">
+                                <Template>
+                                    <DxTextBox ReadOnly=!Editable CssClass="mt-auto mb-auto" BindValueMode="BindValueMode.OnInput" @bind-Text=Address.Street ClearButtonDisplayMode="DataEditorClearButtonDisplayMode.Auto"></DxTextBox>
+                                </Template>
+                            </DxFormLayoutItem>
+                            <DxFormLayoutItem BeginRow="true" CaptionPosition="CaptionPosition.Horizontal" ColSpanLg="10" ColSpanXl="10" ColSpanMd="10" ColSpanSm="10" ColSpanXs="10" CssClass="text-right mb-2" CaptionCssClass="" Caption="@AppState["PostalCode"]">
+                                <Template>
+                                    <DxTextBox ReadOnly=!Editable CssClass="mt-auto mb-auto" BindValueMode="BindValueMode.OnInput" @bind-Text=Address.PostalCode ClearButtonDisplayMode="DataEditorClearButtonDisplayMode.Auto"></DxTextBox>
+                                </Template>
+                            </DxFormLayoutItem>
+                        </DxFormLayoutGroup>
+                        
+                    </DxFormLayout>
+                </DxTabPage>
+                <DxTabPage Text="@AppState["functionalities"]" CssClass="m-0 p-0" Click="ChangeTab">
+                        <div class="d-flex  flex-column h-100">
+                            <div class="row m-2" >
+                                <DxButton Enabled=Editable RenderStyle="ButtonRenderStyle.Primary" Text="@AppState["Select.All"]" CssClass="mr-1" title="@AppState["Select.All"]"
+                                          SizeMode="SizeMode.Small" IconPosition="ButtonIconPosition.AfterText" Click="OnSelectedFunctionalities" />
+
+                                <DxButton Enabled=Editable RenderStyle="ButtonRenderStyle.Primary" Text="@AppState["Deselect.All"]" CssClass="mr-1" title="@AppState["Deselect.All"]"
+                                          SizeMode="SizeMode.Small" IconPosition="ButtonIconPosition.AfterText" Click="OnDeselectedFunctionalities" />
+                            </div>
+                            <DxStackLayout CssClass="bc-h-90 mx-2" Orientation="Orientation.Vertical">
+                                <Items>
+                                    <DxStackLayoutItem CssClass="p-1 bc-box-sizing">
+                                        <Template>
+                                            <Bcephal.Blazor.Web.Administration.Pages.Client.CustomListBox CssClass="h-100 overflow-auto" @bind-Values="FunctionalityList"
+                                                                                                          Functionalities="FunctionalityListChangeHandler" />
+                                        </Template>
+                                    </DxStackLayoutItem>
+                                </Items>
+                            </DxStackLayout>
+                        </div>
+                </DxTabPage>
+                <!--<DxTabPage Text="@AppState["Profils"]" CssClass="m-0 p-0" Click="ChangeTab">
+                    <div class="d-flex flex-column h-100 px-2">
+                        <div class="row m-2">-->
+                            @*<DxButton RenderStyle="ButtonRenderStyle.Primary" Text="@AppState["Add"]" CssClass="mr-1 " title="@AppState["Add"]"
+                      SizeMode="SizeMode.Small" IconPosition="ButtonIconPosition.AfterText" Click=AddProfile />
+            <DxButton RenderStyle="ButtonRenderStyle.Primary" Text="@AppState["Edit"]" CssClass="mr-1" title="@AppState["Edit"]"
+                      SizeMode="SizeMode.Small" IconPosition="ButtonIconPosition.AfterText" Click=AddProfile />*@
+                            <!--<DxButton RenderStyle="ButtonRenderStyle.Primary" Text="@AppState["Delete"]" CssClass="mr-1" title="@AppState["Delete"]"
+                                      SizeMode="SizeMode.Small" IconPosition="ButtonIconPosition.AfterText" Click=DeleteProfile />
+
+                        </div>
+                        <DxListBox Id="Profiles" Data="@ProfileListChangeHandler"
+                                   TData="Nameable"
+                                   TValue="Nameable"
+                                   TextFieldName="Name"
+                                   @bind-Value=selectProfile
+                                   SelectionMode="ListBoxSelectionMode.Single"
+                                   CssClass="bc-h-90">
+                        </DxListBox>
+                    </div>
+                </DxTabPage>-->
+            </DxTabs>
+        </div>
+        }
+    };
+
+    public override RenderFragment RightContent => __builder =>
+    {
+
+
+    };
+
+}
+

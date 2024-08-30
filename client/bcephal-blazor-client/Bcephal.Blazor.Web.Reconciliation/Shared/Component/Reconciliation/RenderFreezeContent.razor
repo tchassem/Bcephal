@@ -1,0 +1,59 @@
+﻿<DxLayoutBreakpoint DeviceSize="DeviceSize.XSmall | DeviceSize.Small" @bind-IsActive="@IsXSmallScreen" />
+<DxStackLayout Orientation="Orientation.Vertical" CssClass="w-100 h-100 m-0 p-1" ItemSpacing=@ItemSpacing>
+    <Items>
+        <DxStackLayoutItem Length="auto">
+            <Template>
+                <RecoConfigurationRow  Item1Length="50%" Item2Length="50%">
+                    <Item1>
+                        <RecoConfigurationRow  Item1Length=@Item1Length Item2Length=@Item2Length>
+                            <Item1>
+                                <label class="@(IsXSmallScreen ? labelSm : labelLg)"></label>
+                            </Item1>
+                            <Item2>
+                                <DxCheckBox Enabled=Editable CssClass="m-0 p-0 w-100  mr-auto" @bind-Checked=AllowFreeze
+                                            Alignment="CheckBoxContentAlignment.Left"> @AppState["Allow"]</DxCheckBox>
+                            </Item2>
+                        </RecoConfigurationRow>
+                    </Item1>
+                    <Item2>
+                        <RecoConfigurationRow  Item1Length=@Item1Length Item2Length=@Item2Length>
+                            <Item1>
+                            </Item1>
+                            <Item2>
+                            </Item2>
+                        </RecoConfigurationRow>
+                    </Item2>
+                </RecoConfigurationRow>
+            </Template>
+        </DxStackLayoutItem>
+        <DxStackLayoutItem Length="auto">
+            <Template>
+                <RecoConfigurationRow  Item1Length="50%" Item2Length="50%">
+                    <Item1>
+                        <RecoConfigurationRow  Item1Length=@Item1Length Item2Length=@Item2Length>
+                            <Item1>
+                                <label class="@(IsXSmallScreen ? labelSm : labelLg)">@AppState["Reconciliation.FreezeType"]</label>
+                            </Item1>
+                            <Item2>
+                                <div class="h-100 d-flex flex-column justify-content-center">
+                                    @FreezeAttributeRender_()
+                                </div>
+                            </Item2>
+                        </RecoConfigurationRow>
+                    </Item1>
+                    <Item2>
+                        <RecoConfigurationRow Item1Length=@Item1Length Item2Length=@Item2Length>
+                            <Item1>
+                                <label class="@(IsXSmallScreen ? labelSm : labelLg)">@AppState["Sequence_"]</label>
+                            </Item1>
+                            <Item2>
+                                <DxComboBox Enabled=Editable Data="GetEditorData.Sequences" CssClass="h-100 d-flex flex-column justify-content-center"
+                                            TData="Nameable" TValue="Nameable" @bind-Value=FreezeSequenceId />
+                            </Item2>
+                        </RecoConfigurationRow>
+                    </Item2>
+                </RecoConfigurationRow>
+            </Template>
+        </DxStackLayoutItem>
+    </Items>
+</DxStackLayout>

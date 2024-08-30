@@ -1,0 +1,44 @@
+﻿
+@inherits SplitterPanel
+
+@{ base.BuildRenderTree(__builder); }
+
+
+@code {
+    protected override RenderFragment RenderSplitterNItems =>
+        __builder =>
+        {
+        @if (Panes != null && Panes.Count >= 2)
+            {
+            //RenderFragment render;
+
+            if (vertical)
+                {
+                //render = RenderSplitter2Items(new List<RenderFragment>() { Panes[0], Panes[1] });
+                //List<RenderFragment> panes_ = new() { render };
+                //List<DimensionPanel> items_ = new() { Items[0], Items[1] };
+                //panes_.AddRange(Panes.GetRange(2, Panes.Count - 2));
+                //items_.AddRange(Items.GetRange(2, Items.Count - 2));
+                //var LeftSize_ = LeftSize + 1;
+                //var LeftSize_ = LeftSize + 1;
+                <SplitterPanelStore Layout=Layout Panes=Panes Items=Items Positions=Positions LeftSize=1 vertical=vertical />
+                @*<SplitterPanelStore Panes=Panes Items=Items Positions=Positions LeftSize=@(Panes.Count - 1) vertical=vertical />*@
+                }
+                else
+                {
+                    var LeftSize_ = LeftSize + 1;
+                    int restSize = Panes.Count - 2;
+                    var h = GetHeightCall(LeftSize_, restSize, 1);
+
+                <SplitterPanelStore Layout=Layout  Panes=Panes Items=Items heightCall=@heightCall Positions=Positions LeftSize=1 vertical=vertical />
+                }
+            }
+        };
+
+
+
+    protected RenderFragment renderFragmentItem_(List<RenderFragment> panes_, Dictionary<int, DimensionPanel> items, string size) => __builder =>
+    {
+    <SplitterPanelStore Layout=Layout  heightCall="@size" IsMinheight="true" Panes=panes_ LeftSize=1 vertical=vertical Items=items />
+    };
+}

@@ -1,0 +1,108 @@
+﻿
+<DxLayoutBreakpoint DeviceSize=DeviceSize_ @bind-IsActive="@IsXSmallScreen" />
+
+@BodyContent___
+
+@code{
+
+    private RenderFragment LeftContent___ => __builder => {
+        <DxListBox Id="users" Data="@Users" ReadOnly=!Editable TextFieldName="Name" SelectionMode="ListBoxSelectionMode.Multiple"
+                ShowCheckboxes="@ShowCheckboxes" CssClass="w-auto mt-1 mr-1 ml-1 h-100" @bind-Values="@AddingUsers" />
+    };
+
+    private RenderFragment RightContent___ => __builder => {
+        <DxListBox Id="roles" Data="@EditorData.Item.UserListChangeHandler.Items" TextFieldName="Name" ReadOnly=!Editable SelectionMode="ListBoxSelectionMode.Multiple"
+               ShowCheckboxes="@ShowCheckboxes" CssClass="w-auto mt-1 mr-1 ml-1 h-100" @bind-Values="@DeletingUsers" />
+    };
+
+    private RenderFragment LeftHeaderContent___ => __builder => {
+        <DxStackLayout Orientation=@(IsXSmallScreen ? Orientation.Vertical : Orientation.Horizontal) CssClass="d-flex m-0 p-0 w-100 h-50 align-items-center bc-box-sizing" ItemSpacing=@ItemSpacing>
+            <Items>
+                <DxStackLayoutItem Length="1fr" CssClass="d-flex flex-column align-items-center justify-content-center p-1">
+                    <Template><div class="d-flex pl-1 pr-1 align-items-center h5"><span>@AppState["Profil.User.TitleAvailable"]</span></div></Template>
+                </DxStackLayoutItem>
+            </Items>
+        </DxStackLayout>
+        <DxStackLayout Orientation=@(IsXSmallScreen ? Orientation.Vertical : Orientation.Horizontal) CssClass="d-flex m-0 p-0 pb-1 w-100 h-50 align-items-center bc-box-sizing" ItemSpacing=@ItemSpacing>
+            <Items>
+                <DxStackLayoutItem Length="1fr" CssClass="d-flex flex-column align-items-start justify-content-center p-1">
+                    <Template>
+                        <div class="d-flex pl-1 pr-1 align-items-start">
+                            <DxButton Enabled=Editable RenderStyle="ButtonRenderStyle.Primary" Text="@AppState["Select.All"]"
+                                      IconPosition="ButtonIconPosition.AfterText" CssClass="m-0 mt-auto mb-auto ml-auto" Click="SelectAllAdding" />
+                        </div>
+                    </Template>
+                </DxStackLayoutItem>
+                <DxStackLayoutItem Length="1fr" CssClass="d-flex flex-column align-items-end justify-content-center p-1">
+                    <Template>
+                        <div class="d-flex pl-1 pr-1 align-items-end">
+                            <DxButton Enabled=Editable RenderStyle="ButtonRenderStyle.Dark" Text="@AppState["Add.Selected"]"
+                                      IconPosition="ButtonIconPosition.AfterText" IconCssClass="arrow-right" CssClass="m-0 mt-auto mb-auto mr-auto" Click="HandlerAddingProfiles" />
+                        </div>
+                    </Template>
+                </DxStackLayoutItem>
+            </Items>
+        </DxStackLayout>
+    };
+
+    private RenderFragment RightHeaderContent___ => __builder => {
+        <DxStackLayout Orientation=@(IsXSmallScreen ? Orientation.Vertical : Orientation.Horizontal) CssClass="d-flex m-0 p-0 w-100 h-50 align-items-center bc-box-sizing" ItemSpacing=@ItemSpacing>
+            <Items>
+                <DxStackLayoutItem Length="1fr" CssClass="d-flex flex-column align-items-center justify-content-center p-1">
+                    <Template><div class="d-flex pl-1 pr-1 align-items-center h5"><span>@AppState["Profil.User.TitleSelected"]</span></div></Template>
+                </DxStackLayoutItem>
+            </Items>
+        </DxStackLayout>
+        <DxStackLayout Orientation=@(IsXSmallScreen ? Orientation.Vertical : Orientation.Horizontal) CssClass="d-flex m-0 p-0 pb-1 w-100 h-50 align-items-center bc-box-sizing" ItemSpacing=@ItemSpacing>
+            <Items>
+                <DxStackLayoutItem Length="1fr" CssClass="d-flex flex-column align-items-start justify-content-center p-1">
+                    <Template>
+                        <div class="d-flex pl-1 pr-1 align-items-start">
+                            <DxButton Enabled=Editable RenderStyle="ButtonRenderStyle.Primary" Text="@AppState["Select.All"]" 
+                                      IconPosition="ButtonIconPosition.AfterText" CssClass="m-0 mt-auto mb-auto mr-auto" Click="SelectAllDeleting" />
+                        </div>
+                    </Template>
+                </DxStackLayoutItem>
+                <DxStackLayoutItem Length="1fr" CssClass="d-flex flex-column align-items-end justify-content-center p-1">
+                    <Template>
+                        <div class="d-flex pl-1 pr-1 align-items-end">
+                            <DxButton Enabled=Editable RenderStyle="ButtonRenderStyle.Danger" Text="@AppState["remove"]"
+                                      IconPosition="ButtonIconPosition.AfterText" IconCssClass="arrow-right" CssClass="m-0 mt-auto mb-auto ml-auto" Click="HandlerRemovingProfiles" />
+                        </div>
+                    </Template>
+                </DxStackLayoutItem>
+            </Items>
+        </DxStackLayout>
+    };
+
+    private RenderFragment LeftBodyContent___ => __builder => {
+
+        <DxStackLayout Orientation=Orientation.Vertical CssClass="@(!string.IsNullOrWhiteSpace(CssClass) ? CssClass + " h-100 bc-box-sizing" : " h-100 bc-box-sizing")" ItemSpacing=@ItemSpacing>
+            <Items>
+                <DxStackLayoutItem Length="1fr" CssClass="mb-1"> <Template> @LeftHeaderContent___ </Template> </DxStackLayoutItem>
+                <DxStackLayoutItem Length="10fr" CssClass="p-1"> <Template> @LeftContent___ </Template> </DxStackLayoutItem>
+            </Items>
+        </DxStackLayout>
+    };
+
+    private RenderFragment RightBodyContent___ => __builder =>
+    {
+        <DxStackLayout Orientation=Orientation.Vertical CssClass="@(!string.IsNullOrWhiteSpace(CssClass) ? CssClass + " h-100 bc-box-sizing" : " h-100 bc-box-sizing")" ItemSpacing=@ItemSpacing>
+            <Items>
+                <DxStackLayoutItem Length="1fr" CssClass="mb-1"> <Template> @RightHeaderContent___ </Template> </DxStackLayoutItem>
+                <DxStackLayoutItem Length="10fr" CssClass="p-1"> <Template> @RightContent___ </Template> </DxStackLayoutItem>
+            </Items>
+        </DxStackLayout>
+    };
+
+    private RenderFragment BodyContent___ => __builder =>
+    {
+        var panel = new List<RenderFragment>()
+        {
+            LeftBodyContent___, RightBodyContent___
+        };
+        <SplitterPanel LeftSize="1" Panes=panel />
+    };
+
+}
+

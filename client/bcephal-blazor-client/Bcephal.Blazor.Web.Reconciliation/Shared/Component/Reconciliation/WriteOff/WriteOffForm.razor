@@ -1,0 +1,138 @@
+
+
+@if (WriteOffEditorData != null)
+{
+    <DxLayoutBreakpoint DeviceSize="DeviceSize.Medium | DeviceSize.Small | DeviceSize.XSmall" @bind-IsActive="IsSmallScreen" />
+    <DxStackLayout CssClass="mt-4 ml-3 h-100" Orientation="Orientation.Vertical" ItemSpacing="15px">
+        <Items>
+            <DxStackLayoutItem Length="1fr">
+                <Template>
+                    <DxStackLayout Orientation="Orientation.Horizontal">
+                        <Items>
+                            <DxStackLayoutItem Length="@first">
+                                <Template>
+                                    <DxCheckBox Enabled=Editable LabelPosition="LabelPosition.Right" Checked=@AllowWriteOff CheckedChanged="@((bool val) => AllowWriteOffChanged(val))">
+                                        @AppState["AllowReconciliationDelta"]
+                                    </DxCheckBox>
+                                </Template>
+                            </DxStackLayoutItem>
+                            <DxStackLayoutItem CssClass="ml-5" Visible="@AllowWriteOff" Length="@second">
+                                <Template>
+                                    <div class="d-flex flex-row w-50">
+                                        <div class="mr-1">
+                                            <span> @AppState["DeltaMeasure"]</span>
+                                        </div>
+                                        <div class="mr-1">
+                                            <DxComboBox Enabled=Editable CssClass="wid-150" Data=@ReconciliationModelSideTypes
+                                                        TData="Bcephal.Models.Reconciliation.ReconciliationModelSide"
+                                                        TValue="Bcephal.Models.Reconciliation.ReconciliationModelSide"
+                                                        Value="@WriteOffMeasureSide"
+                                                        TextFieldName="label"
+                                                        ValueChanged="WriteOffMeasureSideOnChange">
+                                            </DxComboBox>
+                                        </div>
+                                        <div class="ml-1" style="display:@((WriteOffMeasureSide != null && WriteOffMeasureSide.Equals(Bcephal.Models.Reconciliation.ReconciliationModelSide.CUSTOM)) ? "block":"none")">
+                                            <DxComboBox Enabled=Editable CssClass="wid-150" Data=@WriteOffEditorData.Measures @bind-Value="WriteOffMeasure">
+                                            </DxComboBox>
+                                        </div>
+                                    </div>
+                                </Template>
+                            </DxStackLayoutItem>
+                        </Items>
+                    </DxStackLayout>
+                </Template>
+            </DxStackLayoutItem>
+            <DxStackLayoutItem CssClass="mt-3 mb-3" Visible="@AllowWriteOff" Length="@(IsSmallScreen ? heightSm : heightLg)">
+                <Template>
+                    <DxGridLayout>
+                        <Rows>
+                            <DxGridLayoutRow Visible="@AllowWriteOff" />
+                        </Rows>
+                        <Columns>
+                            <DxGridLayoutColumn />
+                            <DxGridLayoutColumn />
+                            <DxGridLayoutColumn />
+                            <DxGridLayoutColumn />
+                        </Columns>
+                        <Items>
+                            <DxGridLayoutItem Visible="@AllowWriteOff" Row="0" Column="0">
+                                <Template>
+                                    <div class="d-flex flex-row pr-1">
+                                        <span class="flex-fill" style="font-size: 1rem !important; font-weight: 400 !important;">@AppState["FieldToShowForAReconciliationDelta"]</span>
+                                    </div>
+                                </Template>
+                            </DxGridLayoutItem>
+                            <DxGridLayoutItem Visible="@AllowWriteOff" Row="0" Column="1">
+                                <Template>
+                                    <div class="d-flex flex-row pr-1 pl-1">
+                                        <span class="flex-fill text-center" style="font-size: 1rem !important; font-weight: 400 !important;"> @AppState["Mandatory"]</span>
+                                    </div>
+                                </Template>
+                            </DxGridLayoutItem>
+                            <DxGridLayoutItem Visible="@AllowWriteOff" Row="0" Column="2">
+                                <Template>
+                                    <div class="d-flex flex-row pr-1 pl-1">
+                                        <span class="flex-fill text-center" style="font-size: 1rem !important; font-weight: 400 !important;"> @AppState["Value"]</span>
+                                    </div>
+                                </Template>
+                            </DxGridLayoutItem>
+                            <DxGridLayoutItem Visible="@AllowWriteOff" Row="0" Column="3" />
+
+                        </Items>
+                    </DxGridLayout>
+                </Template>
+            </DxStackLayoutItem>
+            <DxStackLayoutItem CssClass="h-100 mt-3" Visible="@AllowWriteOff" Length="6fr">
+                <Template>
+                    <div class="d-block h-100" style="overflow-x:hidden; overflow-y:auto;">
+                        @{
+
+                            int offset = 0;
+
+                            @while (offset < RendersWriteOff.Count)
+                            {
+                                @RendersWriteOff[offset]
+                                offset++;
+                            }
+                        }
+                    </div>
+                </Template>
+            </DxStackLayoutItem>
+        </Items>
+    </DxStackLayout>
+}
+
+
+
+
+@code {
+
+    bool IsSmallScreen;
+    string heightSm = "0.8fr";
+    string heightLg = "0.5fr";
+    string first = "1.5fr";
+    string second = "6fr";
+
+
+    public RenderFragment RenderWidget(Bcephal.Models.Reconciliation.WriteOffField item_, bool addButton) =>
+    __builder =>
+    {
+    <WriteOffFormItem Item=item_
+                      Periods="@Periods"
+                      Attributes="@Attributes"
+                      Models="Models"
+                      Editable=Editable
+                      WriteOffEditorDataBinding="WriteOffEditorData"
+                      CallBackAddorUpdate="AddFilterWriteOffField"
+                      CallBackRemove="RemoveFilterWriteOffField"
+                      RemoveButton="addButton"
+                      AddRenderNext="AddRenderNextWriteOffField"
+                      WriteOffValueTypesPeriods="WriteOffValueTypesPeriods"
+                      WriteOffValueTypesAttributes="WriteOffValueTypesAttributes"
+                      @key="item_.Key">
+
+    </WriteOffFormItem>
+    };
+
+
+}

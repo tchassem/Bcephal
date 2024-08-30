@@ -1,0 +1,190 @@
+﻿
+@SchedulerChildR6Content;
+
+@code {
+
+    string HeightSm = "auto";
+    string HeightLg = "7%";
+
+    string JCol1 = "200px";
+    string JCol2 = "300px";
+    string JCol3 = "300px";
+
+    public RenderFragment SchedulerChildR6Content => __builder =>
+    {
+        <DxLayoutBreakpoint DeviceSize="DeviceSize.Medium | DeviceSize.Small | DeviceSize.XSmall" @bind-IsActive="IsSmallScreen" />
+        <DxGridLayout CssClass="w-100 h-auto" RowSpacing="10px" ColumnSpacing="10px">
+            <Rows>
+                <DxGridLayoutRow Areas="J1" Height="auto" />
+                <DxGridLayoutRow Areas="J2" Height="auto" />
+                <DxGridLayoutRow Areas="J3" Height="auto" />
+            </Rows>
+            <Columns>
+                <DxGridLayoutColumn Width="100%" />
+            </Columns>
+            <Items>
+                <DxGridLayoutItem Area="J1" CssClass="@(IsSmallScreen ? "h-100" : "bc-mh-50")">
+                    <Template>
+                        <DxGridLayout CssClass="@(IsSmallScreen ? "h-100" : "bc-mh-50")" ColumnSpacing="10px">
+                            <Rows>
+                                @if (IsSmallScreen)
+                                {
+                                    <DxGridLayoutRow Areas="J1Label" Height="@HeightSm" />
+                                    <DxGridLayoutRow Areas="J1Comp1" Height="@HeightSm" />
+                                    <DxGridLayoutRow Areas="J1Comp2" Height="@HeightSm" />
+                                }
+                                else
+                                {
+                                    <DxGridLayoutRow Areas="J1Label J1Comp1 J1Comp2" Height="@HeightLg" />
+                                }
+                            </Rows>
+                            <Columns>
+                                @if (IsSmallScreen)
+                                {
+                                    <DxGridLayoutColumn Width="0.5fr" />
+                                }
+                                else
+                                {
+                                    <DxGridLayoutColumn Width="@JCol1" />
+                                    <DxGridLayoutColumn Width="@JCol2" />
+                                    <DxGridLayoutColumn Width="@JCol3" />
+                                }
+                            </Columns>
+                            <Items>
+                                <DxGridLayoutItem Area="J1Label">
+                                    <Template>
+                                        <div class="d-flex flex-column h-100">
+                                            <label class="@(IsSmallScreen ? "mr-1 ml-1 mt-4 mb-auto text-right" : "mr-1 ml-1 mt-auto mb-auto text-right")">@AppState["run.method"]</label>
+                                        </div>
+                                    </Template>
+                                </DxGridLayoutItem>
+                                <DxGridLayoutItem Area="J1Comp1">
+                                    <Template>
+                                        <div class="d-flex flex-column h-100" style="margin-left:@(IsSmallScreen ? "0.25rem" : "0px");margin-top:@(IsSmallScreen ? "1rem" : "0px");">
+                                            <DxComboBox Data="@PublicationMethodCollection_" @bind-Value="@JoinMethod" />
+                                        </div>
+                                    </Template>
+                                </DxGridLayoutItem>
+                                <DxGridLayoutItem CssClass="d-flex flex-row" Area="J1Comp2">
+                                    <Template>
+                                        <div class="d-flex flex-column h-100 w-100 mr-1" style="margin-left:@(IsSmallScreen ? "0.25rem" : "0px");margin-top:@(IsSmallScreen ? "1rem" : "0px");">
+                                            @if (EditorData.Item.JoinPublicationMethod.Equals(JoinPublicationMethod.APPEND))
+                                            {
+                                                <DxComboBox Data="@GetEditorData().Grids" NullText="@AppState["SelectGrid"]" TextFieldName="@nameof(SmartGrille.Name)" @bind-Value="@JoinSmartGrille" />
+                                            }
+                                            else
+                                            {
+                                                <DxTextBox ReadOnly=!Editable CssClass="mt-auto mb-auto" NullText="@AppState["EditNewGridName"]" BindValueMode="BindValueMode.OnInput" @bind-Text="@JoinGrilleName" />
+                                            }
+                                        </div>
+                                    </Template>
+                                </DxGridLayoutItem>
+
+                            </Items>
+                        </DxGridLayout>
+                    </Template>
+                </DxGridLayoutItem>
+                <DxGridLayoutItem Area="J2" CssClass="@(IsSmallScreen ? "h-100" : "bc-mh-50")">
+                    <Template>
+                        <DxGridLayout CssClass="@(IsSmallScreen ? "h-100" : "bc-mh-50")" ColumnSpacing="10px">
+                            <Rows>
+                                @if (IsSmallScreen)
+                                {
+                                    <DxGridLayoutRow Areas="J1Label" Height="@HeightSm" />
+                                    <DxGridLayoutRow Areas="J1Comp1" Height="@HeightSm" />
+                                    <DxGridLayoutRow Areas="J1Comp2" Height="@HeightSm" />
+                                }
+                                else
+                                {
+                                    <DxGridLayoutRow Areas="J1Label J1Comp1 J1Comp2" Height="@HeightLg" />
+                                }
+                            </Rows>
+                            <Columns>
+                                @if (IsSmallScreen)
+                                {
+                                    <DxGridLayoutColumn Width="0.5fr" />
+                                }
+                                else
+                                {
+                                    <DxGridLayoutColumn Width="@JCol1" />
+                                    <DxGridLayoutColumn Width="@JCol2" />
+                                    <DxGridLayoutColumn Width="@JCol3" />
+                                }
+                            </Columns>
+                            <Items>
+                                <DxGridLayoutItem Area="J1Label">
+                                    <Template>
+                                        <div class="d-flex flex-column h-100">
+                                            <label class="@(IsSmallScreen ? "mr-1 ml-1 mt-4 mb-auto text-right" : "mr-1 ml-1 mt-auto mb-auto text-right")">@AppState["add.run.nbr"]</label>
+                                        </div>
+                                    </Template>
+                                </DxGridLayoutItem>
+                                <DxGridLayoutItem Area="J1Comp1">
+                                    <Template>
+                                        <div class="d-flex flex-column h-100" style="margin-left:@(IsSmallScreen ? "0.25rem" : "0px");margin-top:@(IsSmallScreen ? "1rem" : "0px");">
+                                            <DxCheckBox Enabled=Editable CssClass="w-auto mt-auto mb-auto" @bind-Checked="@AddRunNbr" Alignment="CheckBoxContentAlignment.Left" />
+                                        </div>
+                                    </Template>
+                                </DxGridLayoutItem>
+                                <DxGridLayoutItem CssClass="d-flex flex-row" Area="J1Comp2">
+                                    <Template>
+                                        <div class="d-flex flex-column h-100 w-100 mr-1" style="margin-left:@(IsSmallScreen ? "0.25rem" : "0px");margin-top:@(IsSmallScreen ? "1rem" : "0px");">
+                                            <TreeViewFilter Editable=Editable C="Bcephal.Models.Base.HierarchicalData"
+                                                            ItemsFilter="Entities"
+                                                            SelectFilterItemCallback=AttributeChanged
+                                                            SelectedItem=@FreezeAttributeName>
+                                            </TreeViewFilter>
+                                        </div>
+                                    </Template>
+                                </DxGridLayoutItem>
+                            </Items>
+                        </DxGridLayout>
+                    </Template>
+                </DxGridLayoutItem>
+                <DxGridLayoutItem Area="J3" CssClass="@(IsSmallScreen ? "h-100" : "bc-mh-50")">
+                    <Template>
+                        <DxGridLayout CssClass="@(IsSmallScreen ? "h-100" : "bc-mh-50")" ColumnSpacing="10px">
+                            <Rows>
+                                @if (IsSmallScreen)
+                                {
+                                    <DxGridLayoutRow Areas="J1Label" Height="@HeightSm" />
+                                    <DxGridLayoutRow Areas="J1Comp1" Height="@HeightSm" />
+                                    <DxGridLayoutRow Areas="J1Comp2" Height="@HeightSm" />
+                                }
+                                else
+                                {
+                                    <DxGridLayoutRow Areas="J1Label J1Comp1 J1Comp2" Height="@HeightLg" />
+                                }
+                            </Rows>
+                            <Columns>
+                                @if (IsSmallScreen)
+                                {
+                                    <DxGridLayoutColumn Width="0.5fr" />
+                                }
+                                else
+                                {
+                                    <DxGridLayoutColumn Width="@JCol1" />
+                                    <DxGridLayoutColumn Width="@JCol2" />
+                                    <DxGridLayoutColumn Width="@JCol3" />
+                                }
+                            </Columns>
+                            <Items>
+                                <DxGridLayoutItem Visible="@(!IsSmallScreen)" Area="J1Label" />
+                                <DxGridLayoutItem Area="J1Comp1">
+                                    <Template>
+                                        <div class="d-flex flex-column h-100" style="margin-left:@(IsSmallScreen ? "0.25rem" : "0px");margin-top:@(IsSmallScreen ? "1rem" : "0px");">
+                                            <DxCheckBox Enabled=Editable CssClass="w-auto mt-auto mb-auto" @bind-Checked="@JoinRefresh" Alignment="CheckBoxContentAlignment.Left">
+                                                <span class="ml-auto">@AppState["refresh.grid"]</span>
+                                            </DxCheckBox>
+                                        </div>
+                                    </Template>
+                                </DxGridLayoutItem>
+                                <DxGridLayoutItem Visible="@(!IsSmallScreen)" Area="J1Comp2" />
+                            </Items>
+                        </DxGridLayout>
+                    </Template>
+                </DxGridLayoutItem>
+            </Items>
+        </DxGridLayout>
+    };
+}

@@ -1,0 +1,368 @@
+﻿<div class="h-100 overflow-auto">
+    <DxFormLayout Data="@EditorData.Item" CssClass="h-100 w-100">
+        <DxFormLayoutItem Caption="@AppState["reco.auto.recoFilter"]" CssClass="mt-3" CaptionCssClass="text-right" BeginRow="true" ColSpanMd="5">
+            <Template>
+                @*<DxComboBox CssClass="filter-combo wid-300" Data="@( RecoFilters.Items )"
+                    NullText="@(Localize["reco.auto.recoFilterSelect"] + ":" )" ValueChanged="@( (ReconciliationModel rm) => EditorData.Item.filter = rm )">
+                </DxComboBox>*@
+                <DxComboBox Enabled=Editable CssClass="filter-combo wid-300" Data="@( RecoFilters )" TextFieldName="@nameof(Nameable.Name)"
+                            Value="RecoFilter" NullText="@AppState["reco.auto.recoFilterSelect"]"
+                            SelectedItemChanged="@RecoFiltersListValueChanged">
+                </DxComboBox>
+            </Template>
+        </DxFormLayoutItem>
+        @if (showItems)
+        {
+            <DxFormLayoutItem Caption="@AppState["reco.auto.recoFilter.recoMethod"]" CaptionCssClass="text-right" BeginRow="true" ColSpanMd="12" ColSpanLg="12">
+                <Template>
+                    <DxGridLayout>
+                        <Rows>
+                            <DxGridLayoutRow />
+                        </Rows>
+                        <Columns>
+                            <DxGridLayoutColumn Width="auto" />
+                            <DxGridLayoutColumn />
+                        </Columns>
+                        <Items>
+                            <DxGridLayoutItem Row="0" Column="0">
+                                <Template>
+                                    <DxComboBox Enabled=Editable  CssClass="filter-combo d-inline-block wid-300" Data="@(AutoRecoMethod.GetMethods())"
+                                                NullText="@AppState["selectElement"]" @bind-Value="@AutoRecoMethod">
+                                    </DxComboBox>
+                                </Template>
+                            </DxGridLayoutItem>
+                            <DxGridLayoutItem Row="0" Column="1">
+                                <Template>
+                                    @if (AutoRecoMethod != null && (AutoRecoMethod == AutoRecoMethod.CUMULATED_LEFT || AutoRecoMethod == AutoRecoMethod.CUMULATED_RIGHT))
+                                    {
+                                        <div class="d-flex flex-row ml-4 h-90">
+                                            <DxCheckBox Enabled=Editable  CssClass="mt-auto mb-auto" @bind-Checked="@(UseCombinations)" Alignment="CheckBoxContentAlignment.Left" LabelPosition="LabelPosition.Right">@AppState["reco.auto.recoFilter.useCombi"]</DxCheckBox>
+                                            @if (UseCombinations)
+                                            {
+                                                <DxTextBox ReadOnly=!Editable  CssClass="wid-200 ml-2" @bind-Text="@MaxDurationPerLine"></DxTextBox>
+                                            }
+                                        </div>
+                                    }
+                                </Template>
+                            </DxGridLayoutItem>
+                        </Items>
+                    </DxGridLayout>
+                </Template>
+            </DxFormLayoutItem>
+            <DxFormLayoutItem Caption="@AppState["reco.auto.recoFilter.recoCond"]" ColSpanMd="12" ColSpanLg="12" CaptionCssClass="text-right" BeginRow="true">
+                <Template>
+                    <DxGridLayout>
+                        <Rows>
+                            <DxGridLayoutRow />
+                        </Rows>
+                        <Columns>
+                            <DxGridLayoutColumn Width="auto" />
+                            <DxGridLayoutColumn />
+                        </Columns>
+                        <Items>
+                            <DxGridLayoutItem Row="0" Column="0">
+                                <Template>
+                                    <DxComboBox Enabled=Editable  CssClass="filter-combo wid-300" Data="@(AutoRecoCondition.GetConditions())"
+                                                NullText="@AppState["selectElement"]" @bind-Value="@AutoRecoCondition">
+                                    </DxComboBox>
+                                </Template>
+                            </DxGridLayoutItem>
+                            <DxGridLayoutItem Row="0" Column="1">
+                                <Template>
+                                    @if (EditorData.Item.AutoRecoCondition != null && EditorData.Item.AutoRecoCondition != AutoRecoCondition.BALANCE_IS_ZERO)
+                                    {
+                                        <div class="d-flex flex-row ml-4">
+                                            <h4>[ </h4> &nbsp;
+                                            <DxTextBox ReadOnly=!Editable  CssClass="d-inline-block wid-100" NullText="@AppState["minValue"]" @bind-Text="@MinValue"></DxTextBox>
+                                            &nbsp;<h4>,</h4>&nbsp;
+                                            <DxTextBox ReadOnly=!Editable  CssClass="d-inline-block wid-100" NullText="@AppState["maxValue"]" @bind-Text="@MaxValue"></DxTextBox>
+                                            &nbsp; <h4>]</h4>
+                                        </div>
+                                    }
+                                </Template>
+                            </DxGridLayoutItem>
+                        </Items>
+                    </DxGridLayout>
+                </Template>
+            </DxFormLayoutItem>
+            @if(AutoRecoMethod != null && AutoRecoMethod != AutoRecoMethod.ZERO_AMOUNT)
+            {
+                <DxFormLayoutItem CssClass="mb-4 mt-4 h-100" BeginRow="true" ColSpanMd="12">
+                <Template>
+                    <h5 style="color: gray;">@AppState["reco.auto.recoFilterText"]</h5>
+                    <div class="w-100 h-100 overflow-auto pt-1 pb-1">
+                        @{
+                            @foreach (var condition in EditorData.Item.ConditionListChangeHandler.Items)
+                            {
+                                <ReconciliationConditionComponent Editable=Editable  Condition="condition" OnClickBtnRemove="@OnConditionDeleted" IsNew="false"
+                                                                  ReconciliationModelColumns="@ReconciliationModelColumns" ConditionChanged="@OnConditionChanged">
+                                </ReconciliationConditionComponent>
+                            }
+                            @if (!EditorData.Item.ConditionListChangeHandler.GetItems().Any(c => c.ColumnId1 == null || c.ColumnId2 == null))
+                            {
+                                <ReconciliationConditionComponent Editable=Editable Condition="@tempReco" IsNew="true"
+                                                                  ReconciliationModelColumns="@ReconciliationModelColumns" ConditionChanged="@OnConditionChanged">
+                                </ReconciliationConditionComponent>
+                            }
+                        }
+                    </div>
+                </Template>
+            </DxFormLayoutItem>
+            }
+        }
+    </DxFormLayout>
+</div>
+
+@code {
+    #region Injected properties
+
+    [Inject]
+    public AppState AppState { get; set; }
+    [Inject]
+    public IToastService ToastService { get; set; }
+    [Inject]
+    public AutoRecoService AutoReconciliationService { get; set; }
+    [Inject]
+    public ReconciliationModelService ReconciliationFilterService { get; set; }
+    [Inject]
+    public IJSRuntime JSRuntime { get; set; }
+
+    [Parameter]
+    public EditorData<AutoReco> EditorData { get; set; }
+
+    [Parameter]
+    public bool Editable { get; set; }
+
+    #endregion
+
+
+    #region Internal properties and attributes
+
+    private IEnumerable<Nameable> RecoFilters { get; set; }
+    // It's activated when the recoModel is selected
+    private bool showItems => EditorData.Item.RecoId.HasValue;
+    ReconciliationModelColumns ReconciliationModelColumns { get; set; } = new ReconciliationModelColumns()
+    {
+        LeftColumns = new ObservableCollection<GrilleColumn>(),
+        RightColumns = new ObservableCollection<GrilleColumn>()
+    };
+
+    ReconciliationCondition tempReco = new ReconciliationCondition();
+
+    #endregion
+
+
+    #region Properties binded to the form items
+    // La plupart des éléments ici est liée à une propriété dans EditorData.Item ( AutoReco )
+
+    //private string RecoFilter
+    //{
+    //    get { return EditorData.Item.; }
+    //    set
+    //    {
+    //        EditorData.Item.PeriodSide = value;
+    //        StateHasChanged_();
+    //    }
+    //}
+    private AutoRecoMethod AutoRecoMethod
+    {
+        get { return EditorData.Item.AutoRecoMethod; }
+        set
+        {
+            EditorData.Item.AutoRecoMethod = value;
+            StateHasChanged_();
+        }
+    }
+    private AutoRecoCondition AutoRecoCondition
+    {
+        get { return EditorData.Item.AutoRecoCondition; }
+        set
+        {
+            EditorData.Item.AutoRecoCondition = value;
+            StateHasChanged_();
+        }
+    }
+    private string MinValue
+    {
+        get { return EditorData.Item.ConditionMinValue.ToString(); }
+        set
+        {
+            EditorData.Item.ConditionMinValue = decimal.Parse(value);
+            StateHasChanged_();
+        }
+    }
+    private string MaxValue
+    {
+        get { return EditorData.Item.ConditionMaxValue.ToString(); }
+        set
+        {
+            EditorData.Item.ConditionMaxValue = decimal.Parse(value);
+            StateHasChanged_();
+        }
+    }
+    private string MaxDurationPerLine
+    {
+        get { return EditorData.Item.MaxDurationPerLine.ToString(); }
+        set
+        {
+            EditorData.Item.MaxDurationPerLine = int.Parse(value);
+            StateHasChanged_();
+        }
+    }
+    private bool UseCombinations
+    {
+        get { return EditorData.Item.UseCombinations; }
+        set
+        {
+            EditorData.Item.UseCombinations = value;
+            StateHasChanged_();
+        }
+    }
+    private Nameable RecoFilter
+    {
+        get
+        {
+            return RecoFilters.Where(r => r.Id == EditorData.Item.RecoId).FirstOrDefault();
+        }
+
+        set
+        {
+            EditorData.Item.RecoId = value.Id;
+        }
+    }
+
+    #endregion
+
+
+    #region Region reserved for Methods
+
+    protected async override Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        try
+        {
+            RecoFilters = ((AutoRecoEditorData)EditorData).ReconciliationModels;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.StackTrace);
+            ToastService.ShowError(AppState["reco.auto.recoFilterException"].ToString());
+        }
+
+        if (EditorData.Item.RecoId.HasValue)
+        {
+            ReconciliationModelColumns = await AutoReconciliationService.GetModelColumns(EditorData.Item.RecoId.Value);
+        }
+        //StateHasChanged();
+    }
+
+    public void StateHasChanged_()
+    {
+        StateHasChanged();
+        AppState.Update = true;
+    }
+
+    #endregion
+
+    #region Form items change or selection handlers
+    // Ici on trouve tous les handlers qui écoutent sur la modification de l'état d'un élément du formulaire
+
+    protected async void RecoFiltersListValueChanged(Nameable recoModel)
+    {
+        AppState.ShowLoadingStatus();
+        ReconciliationModelColumns = await AutoReconciliationService.GetModelColumns(recoModel.Id.Value);
+        AppState.HideLoadingStatus();
+
+        EditorData.Item.RecoId = recoModel.Id;
+        if (recoModel != null)
+        {
+            AppState.CanRun = true;
+            // AppState.RunHander += RunReco;
+        }
+
+        // Lorsqu'on change de Reco filter, il faut vider la liste des conditions associées
+        if (EditorData.Item.ConditionListChangeHandler.GetItems().Count > 0)
+        {
+            foreach (var cond in EditorData.Item.ConditionListChangeHandler.GetItems())
+            {
+                EditorData.Item.DeleteOrForgetCondition(cond);
+            }
+        }
+        StateHasChanged_();
+    }
+
+    // Ceci est le handler du ListBox Widget de selection des attributs de classes pour grouping
+    protected void OnConditionDeleted(ReconciliationCondition condition)
+    {
+        EditorData.Item.DeleteOrForgetCondition(condition);
+
+        StateHasChanged_();
+    }
+
+    protected void OnConditionChanged(ReconciliationCondition condition)
+    {
+        if (!EditorData.Item.ConditionListChangeHandler.GetItems().Contains(condition))
+        {
+            if (condition != null && condition.ColumnId1.HasValue && condition.ColumnId2.HasValue)
+            {
+                EditorData.Item.AddCondition(condition);
+                tempReco = new ReconciliationCondition();
+            }
+
+        }
+        else
+        {
+            EditorData.Item.UpdateCondition(condition);
+        }
+
+        StateHasChanged_();
+    }
+
+    #endregion
+
+    #region RenderFragments widgets
+
+    RenderFragment renderAttributesList(bool isAttributesList)
+    {
+        RenderFragment renderFragment = __builder =>
+        {
+        <div class="row pt-1 no-gutters">
+            @if (!isAttributesList)
+                {
+                <div class="col-1 justify-content-center align-items-center d-flex flex-column">
+                    <div class="">
+                        <DxButton IconCssClass="fa fa-caret-right fa-3x" Enabled="true"
+                                  RenderStyle="ButtonRenderStyle.Primary" RenderStyleMode="ButtonRenderStyleMode.Text">
+                        </DxButton>
+                    </div>
+                </div>
+                }
+            <div class="col-11">
+                <h6>@(isAttributesList ? AppState["reco.auto.recoFilter.availableText"] : AppState["reco.auto.recoFilter.commonText"]):</h6>
+                @*<DxListBox TextFieldName="@nameof(AutoRecoCommonDimension.DimensionName)"
+                               @bind-Values="@AvailableItems"
+                               CssClass="overflow-y-auto bc-h-36"
+                               SelectionMode="ListBoxSelectionMode.Single"
+                               SelectedItemsChanged=CommonDimensionListSelectionChanged>
+                    </DxListBox>*@
+            </div>
+            @if (isAttributesList)
+                {
+                <div class="col-1 justify-content-center align-items-center d-flex flex-column">
+                    <div class="">
+                        <DxButton IconCssClass="fa fa-caret-left fa-3x" Enabled="true"
+                                  RenderStyle="ButtonRenderStyle.Primary" RenderStyleMode="ButtonRenderStyleMode.Text">
+                        </DxButton>
+                    </div>
+                </div>
+                }
+        </div>
+
+        };
+
+        return renderFragment;
+    }
+
+    #endregion
+
+}

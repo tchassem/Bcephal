@@ -1,0 +1,38 @@
+﻿@using Bcephal.Models.Dashboards
+@using Bcephal.Blazor.Web.Reporting.Services
+
+@if(Chart != null)
+{
+    <div class="w-100 h-100">
+        <div class="w-100 overflow-auto" style="height:100%;">
+            @if (!Chart.Published)
+            {
+                <div class="text-right pr-4 " style="position: fixed; width: 100%; z-index: 8;">
+                    <button class="btn btn-sm btn-light" @onclick=@OpenConfigModal><i style="color: darkgray;" class="fa fa-cog"></i></button>
+                </div>
+            }
+
+            <ChartComponent @ref=@ChartComponent Chart=@Chart>
+            </ChartComponent>
+        </div>
+    </div>
+
+    <BaseModalComponent @ref=@ConfigModalComponent Title=@AppState["Chart.config"] @bind-ShowModal=@ShowConfigModal
+                        CssClass="bc-h-75 bc-mw-60" ApplyBackgroundShading="true" 
+                        BodyClass="p-0" OkHandler=@ConfigModalOkHandler Height="nan" Width="60% !important">
+        @*<div class="h-100" style=" width: 100%; border: 1px solid red;">*@
+        <div class="" style=" height: calc(75vh - 41.2px - 33.2px - 10px); ">
+            <ChartConfigurationModal Chart="@Chart"/>
+        </div>
+    </BaseModalComponent>
+}
+
+
+@code {
+
+    #region RenderFragments widgets
+
+
+    #endregion
+
+}

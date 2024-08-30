@@ -1,0 +1,53 @@
+﻿@inherits AbstractNewGridComponent<Invoice, InvoiceBrowserData>
+@{
+    base.BuildRenderTree(__builder);
+}
+<BaseModalComponent Title="@AppState["credit.note.validation"]" Width="450px"
+                    @bind-ShowModal=ValidationConfirmation
+                    OkHandler="Validate_"
+                    CancelHandler="CancelValidation"
+                    IsConfirmation=@IsConfirmation>
+    <div class="d-flex">
+        <i class="bi-question-circle text-primary align-self-start mr-4" style="font-size: 1.5rem;"></i>
+        <div>
+            <p class="mb-1 p-0">@CreditNoteValidationMessage1</p>
+            <p class="mb-1 p-0">@CreditNoteValidationMessage2</p>
+            <p>@AppState["confirmation.continue"]</p>
+        </div>
+    </div>
+</BaseModalComponent>
+
+<BaseModalComponent Title="@AppState["credit.note.reset"]" Width="450px"
+                        @bind-ShowModal=ResetConfirmation
+                        OkHandler="Reset_"
+                        CancelHandler="CancelReset"
+                    IsConfirmation=@IsConfirmation>
+        <div class="d-flex">
+            <i class="bi-question-circle text-primary align-self-start mr-4" style="font-size: 1.5rem;"></i>
+            <div>
+                <p class="mb-1 p-0">@CreditNoteResetMessage1</p>
+                <p class="mb-1 p-0">@CreditNoteResetMessage2</p>
+                <p class="mb-1 p-0">@CreditNoteResetMessage3</p>
+                <p>@AppState["confirmation.continue"]</p>
+            </div>
+        </div>
+</BaseModalComponent>
+
+<BaseModalComponent Title="@AppState["credit.note.reset.validation"]" Width="450px"
+                        @bind-ShowModal=ResetValidationConfirmation
+                        OkHandler="ResetValidation_"
+                        CancelHandler="CancelResetValidation"
+                    IsConfirmation=@IsConfirmation>
+        <div class="d-flex">
+            <i class="bi-question-circle text-primary align-self-start mr-4" style="font-size: 1.5rem;"></i>
+            <div>
+                <p class="mb-1 p-0">@CreditNoteResetValidationMessage1</p>
+                <p class="mb-1 p-0">@CreditNoteResetValidationMessage2</p>
+                <p>@AppState["confirmation.continue"]</p>
+            </div>
+        </div>
+</BaseModalComponent>
+
+@code {
+
+}

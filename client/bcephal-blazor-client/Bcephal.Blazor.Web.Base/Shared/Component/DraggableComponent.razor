@@ -1,0 +1,53 @@
+﻿@typeparam P
+
+
+@if (Data != null)
+{
+    DataTems = new();
+    canDataTems = true;
+    <DxTreeView Data="@Data" AllowSelectNodes="false">
+        <DataMappings>
+            <DxTreeViewDataMapping  Children=@Children />
+        </DataMappings>
+        <NodeTextTemplate>
+            @{
+                var dataItem = (P)context.DataItem;
+            }
+            @if (!context.IsLeaf)
+            {
+                DragClass = "";
+                Draggable = "false";
+            }
+            else
+            {
+                DragClass = @Editable ? "draggable" : "";
+                Draggable = @Editable ? "true" : "false";
+            }
+            @{
+                var id = dataItem.Id + "_" + dataItem.Name;
+                //DataTems.Add(new () { id, SerializeObject(dataItem) });
+
+
+                @*@if (AppState.PrivilegeObserver.DashboardingDashboardViewAllowed)
+                {
+                    <div class="d-flex flex-row">
+                        <span>
+                            @dataItem.Name
+                        </span>
+                    </div>
+                }
+                else
+                {*@
+                    <div class="d-flex flex-row  w-100 @DragClass" id="@dataItem.Id">
+                        @*<span class="@DragClass" id="@id" draggable=@Draggable @ondragstart="@((e) => HandleDragStart(e,dataItem))" >*@
+                        <span class="w-100 @DragClass" id="@id" draggable=@Draggable ondragstart="dragstart_handler(event,@(SerializeObject(dataItem)));">
+                            @*<span class="@DragClass" id="@id" draggable=@Draggable bcephal-drag=@id >*@
+                            @dataItem.Name
+                        </span>
+                    </div>
+                @*}*@
+
+            }
+        </NodeTextTemplate>
+    </DxTreeView>
+}

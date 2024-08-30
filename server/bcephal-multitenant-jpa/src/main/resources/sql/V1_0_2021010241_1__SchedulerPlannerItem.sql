@@ -1,0 +1,2 @@
+ALTER TABLE BCP_SCHEDULER_PLANNER_ITEM ALTER schedulerId DROP not null;
+UPDATE BCP_SCHEDULER_PLANNER_ITEM set schedulerId = null WHERE schedulerId = 0;

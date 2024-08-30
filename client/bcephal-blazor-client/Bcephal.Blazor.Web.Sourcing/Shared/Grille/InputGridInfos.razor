@@ -1,0 +1,187 @@
+﻿
+<DxLayoutBreakpoint DeviceSize="DeviceSize.Medium | DeviceSize.Small | DeviceSize.XSmall" @bind-IsActive="IsSmallScreen" />
+<DxGridLayout CssClass="w-100 ml-2" ColumnSpacing="10px" RowSpacing="10px">
+    <Rows>
+        <DxGridLayoutRow Areas="R1" Height="auto" />
+        <DxGridLayoutRow Areas="R2" Height="auto" />
+        @if (IsReportGrid || IsArchiveReplacementGrid)
+        {<DxGridLayoutRow Areas="R3" Height="auto" />
+            <DxGridLayoutRow Areas="R4" Height="auto" />
+        }
+    </Rows>
+    <Columns>
+        <DxGridLayoutColumn Width="100%" />
+    </Columns>
+    <Items>
+        <DxGridLayoutItem Area="R1">
+            <Template>
+                <DxGridLayout ColumnSpacing="0px">
+                    <Rows>
+                        @if (IsSmallScreen)
+                        {
+                            <DxGridLayoutRow Areas="R1NameValue" Height="auto" />
+                        }
+                        else
+                        {
+                            <DxGridLayoutRow Areas="R1Name R1NameValue " Height="auto" />
+                        }
+                    </Rows>
+                    <Columns>
+                        @if (IsSmallScreen)
+                        {
+                            <DxGridLayoutColumn Width="1fr" />
+                        }
+                        else
+                        {
+                            <DxGridLayoutColumn Width=@LabelWidth />
+                            <DxGridLayoutColumn Width=@TextWidth />
+                        }
+                    </Columns>
+                    <Items>
+                        @if (!IsSmallScreen)
+                        {
+                            <DxGridLayoutItem Area="R1Name" />
+                        }
+                        <DxGridLayoutItem Area="R1NameValue">
+                            <Template>
+                                <DxCheckBox Enabled=Editable @bind-Checked=ShowAllRowsByDefault
+                                            Alignment="CheckBoxContentAlignment.Left" LabelPosition="LabelPosition.Right">
+                                    @AppState["show.all.row.by.default"]
+                                </DxCheckBox>
+                            </Template>
+                        </DxGridLayoutItem>
+                    </Items>
+                </DxGridLayout>
+            </Template>
+        </DxGridLayoutItem>
+        <DxGridLayoutItem Area="R2">
+            <Template>
+                <DxGridLayout ColumnSpacing="0px">
+                    <Rows>
+                        @if (IsSmallScreen)
+                        {
+                            <DxGridLayoutRow Areas="R2NameValue" Height="auto" />
+                        }
+                        else
+                        {
+                            <DxGridLayoutRow Areas="R2Name R2NameValue " Height="auto" />
+                        }
+                    </Rows>
+                    <Columns>
+                        @if (IsSmallScreen)
+                        {
+                            <DxGridLayoutColumn Width="1fr" />
+                        }
+                        else
+                        {
+                            <DxGridLayoutColumn Width=@LabelWidth />
+                            <DxGridLayoutColumn Width=@TextWidth />
+                        }
+                    </Columns>
+                    <Items>
+                        @if (!IsSmallScreen)
+                        {
+                            <DxGridLayoutItem Area="R2Name" />
+                        }
+                        <DxGridLayoutItem Area="R2NameValue">
+                            <Template>
+                                <div class="pl-0">
+                                    <DxCheckBox Enabled=Editable @bind-Checked=AllowAccounting
+                                                Alignment="CheckBoxContentAlignment.Left" LabelPosition="LabelPosition.Right">
+                                        @AppState["allow.row.counting"]
+                                    </DxCheckBox>
+                                </div>
+                            </Template>
+                        </DxGridLayoutItem>
+                    </Items>
+                </DxGridLayout>
+            </Template>
+        </DxGridLayoutItem>
+        @if (IsReportGrid || IsArchiveReplacementGrid)
+        {
+            <DxGridLayoutItem Area="R3">
+                <Template>
+                    <DxGridLayout ColumnSpacing="0px">
+                        <Rows>
+                            @if (IsSmallScreen)
+                            {
+                                <DxGridLayoutRow Areas="R3NameValue" Height="auto" />
+                            }
+                            else
+                            {
+                                <DxGridLayoutRow Areas="R3Name R3NameValue " Height="auto" />
+                            }
+                        </Rows>
+                        <Columns>
+                            @if (IsSmallScreen)
+                            {
+                                <DxGridLayoutColumn Width="1fr" />
+                            }
+                            else
+                            {
+                                <DxGridLayoutColumn Width=@LabelWidth />
+                                <DxGridLayoutColumn Width=@TextWidth />
+                            }
+                        </Columns>
+                        <Items>
+                            @if (!IsSmallScreen)
+                            {
+                                <DxGridLayoutItem Area="R3Name" />
+                            }
+                            <DxGridLayoutItem Area="R3NameValue">
+                                <Template>
+                                    <DxCheckBox Enabled=Editable @bind-Checked=Consolidated
+                                                Alignment="CheckBoxContentAlignment.Left" LabelPosition="LabelPosition.Right">
+                                        @AppState["using.Consolidated"]
+                                    </DxCheckBox>
+                                </Template>
+                            </DxGridLayoutItem>
+                        </Items>
+                    </DxGridLayout>
+                </Template>
+            </DxGridLayoutItem>
+            <DxGridLayoutItem Area="R4">
+                <Template>
+                    <DxGridLayout ColumnSpacing="0px">
+                        <Rows>
+                            @if (IsSmallScreen)
+                            {
+                                <DxGridLayoutRow Areas="R4NameValue" Height="auto" />
+                            }
+                            else
+                            {
+                                <DxGridLayoutRow Areas="R4Name R4NameValue " Height="auto" />
+                            }
+                        </Rows>
+                        <Columns>
+                            @if (IsSmallScreen)
+                            {
+                                <DxGridLayoutColumn Width="1fr" />
+                            }
+                            else
+                            {
+                                <DxGridLayoutColumn Width=@LabelWidth />
+                                <DxGridLayoutColumn Width=@TextWidth />
+                            }
+                        </Columns>
+                        <Items>
+                            @if (!IsSmallScreen)
+                            {
+                                <DxGridLayoutItem Area="R4Name" />
+                            }
+                            <DxGridLayoutItem Area="R4NameValue">
+                                <Template>
+                                    <DxCheckBox Enabled=Editable @bind-Checked=UseLink
+                                                Alignment="CheckBoxContentAlignment.Left" LabelPosition="LabelPosition.Right">
+                                        @AppState["using.link"]
+                                    </DxCheckBox>
+                                </Template>
+                            </DxGridLayoutItem>
+                        </Items>
+                    </DxGridLayout>
+                </Template>
+            </DxGridLayoutItem>
+        }
+    </Items>
+</DxGridLayout>
+

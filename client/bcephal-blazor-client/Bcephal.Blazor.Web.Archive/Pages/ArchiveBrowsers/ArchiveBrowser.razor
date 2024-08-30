@@ -1,0 +1,13 @@
+﻿
+@inherits AbstractNewGridComponent<Bcephal.Models.Archives.Archive, ArchiveBrowserData>
+
+@{
+    base.BuildRenderTree(__builder);
+}
+
+@code{
+    protected override RenderFragment CustomContextMenuRender => __builder =>
+    {
+     <DxContextMenuItem Enabled="@DeleteAllButtonVisible" Text="@AppState["Restore"]" />
+    };
+}

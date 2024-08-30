@@ -1,0 +1,127 @@
+﻿
+@if (Panes != null && Panes.Count == 2)
+{
+    @RenderSplitter2Items(Panes)
+}
+else
+@if (Panes != null && Panes.Count > 2)
+{
+    @RenderSplitterNItems
+}
+
+
+@code{
+
+    protected virtual RenderFragment RenderItem(RenderFragment render, int index, string key) =>
+    __builder =>
+    {
+    <div class="p-0 m-0 bc-box-sizing" style="@cmdGetStyleDivContent(index)">
+        @render
+    </div>
+    };
+
+    protected virtual RenderFragment RenderSplitter(int index, string key) =>
+__builder =>
+{
+    <Splitter OnPositionChange=OnPositionChange
+              SplitterSettings=SplitterSettingsFormPanel[index]
+              EnableRender=EnableRender
+              VerticalAline=vertical
+              @ref="SplitterForm[index]" />
+    };
+
+
+    protected virtual RenderFragment RenderSplitter2Items(List<RenderFragment> panes) =>
+    __builder =>
+    {
+    @if (panes != null && panes.Count > 1)
+        {
+            if (vertical)
+            {
+            @RenderSplitter2VerticalItems(panes);
+            }
+            else
+            {
+            @RenderSplitter2HorizontalItems(panes);
+            }
+        }
+    };
+
+    protected virtual RenderFragment RenderSplitter2VerticalItems(List<RenderFragment> panes) =>
+    __builder =>
+    {
+        @if (panes != null && panes.Count > 1 && vertical)
+            {
+            <div class="d-flex flex-row m-0 p-0 bc-box-sizing" style="@GetStyleSplitterBlockVartical()">
+                @{ int offset = 0; }
+                @while (offset < panes.Count)
+                    {
+                    @if (offset != 0)
+                        {
+                        @RenderSplitter(offset, Guid.NewGuid().ToString("d"))
+                        }
+                    @RenderItem(panes[offset], offset, Guid.NewGuid().ToString("d"))
+                        offset++;
+                    }
+            </div>
+            }
+        };
+
+    protected virtual RenderFragment RenderSplitter2HorizontalItems(List<RenderFragment> panes) =>
+        __builder =>
+        {
+        @if (panes != null && panes.Count > 1 && !vertical)
+            {
+            <div class="d-flex flex-column m-0 p-0 bc-box-sizing" style="@GetStyleSplitterBlockHorizontal()">
+                @{ int offset = 0;}
+                @while (offset < panes.Count)
+                    {
+                    @if (offset != 0)
+                        {
+                        @RenderSplitter(offset, Guid.NewGuid().ToString("d"))
+                        }
+                    @RenderItem(panes[offset], offset, Guid.NewGuid().ToString("d"))
+                        offset++;
+                    }
+            </div>
+            }
+        };
+
+
+    protected virtual RenderFragment RenderSplitterNItems =>
+    __builder =>
+    {
+    @if (Panes != null && Panes.Count > 2)
+        {
+            RenderFragment render;
+            if (vertical)
+            {
+                render = RenderSplitter2Items(new List<RenderFragment>() { Panes[0], Panes[1] });
+                List<RenderFragment> panes_ = new() { render };
+                panes_.AddRange(Panes.GetRange(2, Panes.Count - 2));
+                var LeftSize_ = LeftSize + 1;
+            <SplitterPanel   Panes=panes_ LeftSize=LeftSize_ RightSize=1 vertical=vertical />
+            }
+            else
+            {
+                var LeftSize_ = LeftSize + 1;
+                int restSize = Panes.Count - 2;
+                var h = GetHeightCall(LeftSize_, restSize, 1);
+                render = renderFragmentItem(Panes[0], Panes[1], h);
+                List<RenderFragment> panes_ = new() { render };
+                panes_.AddRange(Panes.GetRange(2, Panes.Count - 2));
+            <SplitterPanel   Panes=panes_ heightCall=@heightCall LeftSize=@(Panes.Count - 1) vertical=vertical />
+            }
+        }
+    };
+
+
+
+    protected virtual RenderFragment renderFragmentItem(RenderFragment pane1, RenderFragment pane2, string size) => __builder =>
+    {
+        var pen = new List<RenderFragment>() { pane1, pane2 };
+    <SplitterPanel   heightCall="@size" IsMinheight="true" Panes=pen LeftSize=1 vertical=vertical />
+    };
+
+}
+

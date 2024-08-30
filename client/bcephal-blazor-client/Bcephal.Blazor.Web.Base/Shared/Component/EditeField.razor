@@ -1,0 +1,28 @@
+﻿@typeparam T
+    <DxGridLayout ColumnSpacing="8px" CssClass="zindexposition">
+               <Rows>
+                   <DxGridLayoutRow Areas="ItemHeader" Height="25px"  />
+                   <DxGridLayoutRow Areas="ItemContent" />
+               </Rows>
+               <Columns>
+                   <DxGridLayoutColumn Width="100%" />
+               </Columns>
+               <Items>
+                   <DxGridLayoutItem Area="ItemHeader" CssClass="zindexposition mb-1">
+                       <Template>
+                           <div class="center gridlayout-header gridlayout-item bc-header-3 bc-header-height bc-text-align">
+                               <span class="ml-1 w-100" ><i class="@IconCssClass ml-1 mr-1"></i>@headerTitle</span>
+                           </div>
+                       </Template>
+                   </DxGridLayoutItem>
+                   <DxGridLayoutItem Area="ItemContent" CssClass="editfield-content pb-2" >
+                       <Template>
+                           <div class="filter-elt" style=" padding-top: 1rem !important;">
+                               <TreeViewFilter Editable=Editable C=T SelectFilterItemCallback="SelectItemCallback" ItemsFilter="items">
+
+                               </TreeViewFilter>
+                           </div>
+                       </Template>
+                   </DxGridLayoutItem>
+               </Items>
+           </DxGridLayout>

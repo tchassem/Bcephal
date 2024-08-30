@@ -1,0 +1,166 @@
+﻿
+<DxLayoutBreakpoint DeviceSize="DeviceSize.XSmall" @bind-IsActive="@isXSmallScreen" />
+<DxGridLayout CssClass="h-100" ColumnSpacing="4px" RowSpacing="8px">
+    <Rows>
+        @if (isXSmallScreen)
+        {
+            <DxGridLayoutRow Height="100%" />
+            <DxGridLayoutRow Height="100%" />
+        }
+        else
+        {
+            <DxGridLayoutRow Height="100%" />
+        }
+        <DxGridLayoutRow />
+    </Rows>
+    <Columns>
+        <DxGridLayoutColumn />
+    </Columns>
+    <Items>
+        <DxGridLayoutItem Row="0" Column="0">
+            <Template>
+                <div class="d-flex flex-row content-bc-two h-100">
+                    <div class="p-0 ml-1 mr-1 content-bc-two flex-grow-1" style="box-sizing:border-box; background-color:#fff;border:1px solid #dfdfdf;">
+                        @if (EditorData != null)
+                        {
+                            InitRender();
+                            <DxTabs CssClass="custom-tab" RenderMode="TabsRenderMode.OnDemand" ActiveTabIndexChanged="ActiveTabIndex_">
+                                @{ int offset = 0;}
+                                @while (offset <= TabPageItemCount)
+                                {
+                                    @renderFragments[offset]
+                                    offset++;
+                                }
+                            </DxTabs>
+                        }
+                    </div>
+
+                    <div class="card h-100 w-25 ">
+                        <div class="card-header d-flex flex-row p-0 " style="height:22px;">
+                            <span class="text-center">
+                                <i class="bi-speedometer ml-1 mb-auto mt-auto"></i>
+                                @AppState["Properties"]
+                            </span>
+                        </div>
+                        <div class="card-body p-0 w-100 d-flex flex-column">
+                            <div class="card m-1 " style="height:40%;box-sizing:border-box;">
+                                <div class="card-header d-flex flex-row p-0 " style="height:22px;">
+                                    <span class="text-center">
+                                        <i class="bi bi-clock ml-1 mb-auto mt-auto"></i>
+                                        @AppState["AlarmProperties"]
+                                    </span>
+                                </div>
+                                <div class="card-body p-0 d-block" style="height:60%;box-sizing:border-box; overflow-y:auto;">
+
+                                    <GridItemInfos @bind-EditorData=EditorData T="Bcephal.Models.Alarms.Alarm">
+
+                                    </GridItemInfos>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </Template>
+        </DxGridLayoutItem>
+    </Items>
+</DxGridLayout>
+
+@code {
+
+    bool isXSmallScreen;
+
+    int ActiveSecondTabIndex { get; set; }
+
+    public string DashboardName { get; set; }
+
+    public string Bgroup { get; set; }
+
+    public bool VisibleInShortCut { get; set; }
+
+    string OptionSelected { get; set; }
+
+    private List<string> SchedulingOptions = new List<string>() { "On request", "Scheduler" };
+
+    private void InitRender()
+    {
+        renderFragments.Clear();
+
+        for (int offset = 0; offset < TabPageItemCount; offset++)
+        {
+            renderFragments.Add(RenderWidgetTabPage(EditorData));
+        }
+        renderFragments.Add(RenderWidgetTabPagePlus());
+    }
+
+    private void ActiveTabIndex_(int index)
+    {
+        if (index == TabPageItemCount)
+        {
+            TabPageItemCount++;
+            InitRender();
+            StateHasChanged();
+        }
+    }
+
+
+    public RenderFragment RenderWidgetTabPage(EditorData<Models.Alarms.Alarm> EditorData_)
+    {
+        RenderFragment RenderWidgetB = __builder =>
+        {
+        <DxTabPage Text="@(EditorData_ != null && EditorData_.Item != null ? EditorData_.Item.Name : "")" TabIconCssClass="bi bi-x">
+           
+                <DxTabs CssClass="custom-tab" RenderMode="TabsRenderMode.OnDemand" @bind-ActiveTabIndex="@ActiveSecondTabIndex">
+                    <DxTab Text="@AppState["Filter"]"></DxTab>
+                    <DxTab Text="@AppState["Messages"]"></DxTab>
+                    <DxTab Text="@AppState["Audience"]"></DxTab>
+                    <DxTab Text="@AppState["Scheduling"]"></DxTab>
+                    <DxTab Text="Logs"></DxTab>
+                </DxTabs>
+                
+                    @switch (ActiveSecondTabIndex)
+                        {
+                            case 0:
+
+                                break;
+                            case 1:
+                            <AlarmMessage></AlarmMessage>
+                                break;
+                            case 2:
+                            <AlarmAudience></AlarmAudience>
+                                break;
+                            case 3:
+                            <DxFormLayout>
+                                <DxFormLayoutItem CssClass="mr-auto ml-2" Caption="@AppState["scheduling.option"]" ColSpanLg="6" ColSpanMd="8" ColSpanSm="6" ColSpanXl="6" ColSpanXs="6">
+                                    <Template>
+                                        <DxComboBox CssClass="custom-combo" Data="@SchedulingOptions" @bind-Value="OptionSelected"></DxComboBox>
+                                    </Template>
+                                </DxFormLayoutItem>
+                            </DxFormLayout>
+                                break;
+                            case 4:
+
+                                break;
+                        }
+                
+            
+        </DxTabPage>
+        };
+        return RenderWidgetB;
+    }
+
+
+    public RenderFragment RenderWidgetTabPagePlus()
+    {
+        RenderFragment RenderWidgetB = __builder =>
+        {
+        <DxTabPage Text="" TabIconCssClass="bi bi-plus">
+        </DxTabPage>
+        };
+        return RenderWidgetB;
+    }
+
+
+
+}

@@ -1,0 +1,101 @@
+﻿@typeparam P
+@inherits Form<P, BrowserData>
+
+
+@{ base.BuildRenderTree(__builder); }
+
+@code {
+    public override RenderFragment LeftContent => __builder =>
+    { 
+        @if (EditorDataBinding != null)
+            {
+                @if (typeof(P).Equals(typeof(Measure)) || typeof(P).Equals(typeof(PeriodName)))
+                    {
+                    <DimensionCustomTree T="P" DimensionDataSource=DimensionDataSource ItemHandler="OnContextMenu" SelectHandler="SelectItem" ClipboardHandler="HandlePaste" />
+                    }
+                    else
+                    {
+                    <DimensionCustomTree T="Nameable" DimensionDataSource=DimensionDataSource_ ItemHandler="OnContextMenu" SelectHandler="SelectItem" ClipboardHandler="HandlePaste" />
+                    }
+
+            <DxContextMenu @ref="@ContextMenu" ItemClick="OnItemClick">
+                <Items>
+                    @if (SelectedItem is Measure)
+                        {
+                        <DxContextMenuItem Visible="AppState.PrivilegeObserver.CanCreatedInitiationMeasure"
+                                           Name="Add" Text="@AppState["add.child.measure"]" />
+                        <DxContextMenuItem Visible="EditableMeasure" Name="Edit" Text="@AppState["Edit.Measure"]" />
+                        <DxContextMenuItem Visible="AppState.PrivilegeObserver.CanCreatedInitiationMeasure"
+                                           Name="Delete" Text="@AppState["delete.measure"]" />
+                        }
+                    @if (SelectedItem is PeriodName)
+                        {
+                        <DxContextMenuItem Visible="AppState.PrivilegeObserver.CanCreatedInitiationPeriod"
+                                           Name="Add" Text="@AppState["add.child.period"]" />
+                        <DxContextMenuItem Visible="EditablePeriod" Name="Edit" Text="@AppState["Edit.Period"]" />
+                        <DxContextMenuItem Visible="AppState.PrivilegeObserver.CanCreatedInitiationPeriod"
+                                           Name="Delete" Text="@AppState["delete.period"]" />
+                        }
+                    @if (SelectedItem is Model)
+                        {
+                        <DxContextMenuItem Visible="AppState.PrivilegeObserver.CanCreatedInitiationModel"
+                                           Name="Add" Text="@AppState["ModelData.Tree.Add"]" />
+                        <DxContextMenuItem Visible="Editable" Name="Edit" Text="@AppState["Edit.Model"]" />
+                        <DxContextMenuItem Visible="AppState.PrivilegeObserver.CanCreatedInitiationModel"
+                                           Name="Delete" Text="@AppState["delete.model"]" />
+                        }
+                    @if (SelectedItem is Entity)
+                        {
+                        <DxContextMenuItem Visible="AppState.PrivilegeObserver.CanCreatedInitiationModel"
+                                           Name="Add" Text="@AppState["ModelData.Attribute.Add"]" />
+                        <DxContextMenuItem Visible="Editable" Name="Edit" Text="@AppState["ModelData.Entity"]" />
+                        <DxContextMenuItem Visible="AppState.PrivilegeObserver.CanCreatedInitiationModel"
+                                           Name="Delete" Text="@AppState["delete.entity"]" />
+                        }
+                    @if (SelectedItem is Bcephal.Blazor.Web.Initiation.Domain.Attribute)
+                        {
+                        <DxContextMenuItem Visible="AppState.PrivilegeObserver.CanCreatedInitiationModel"
+                                           Name="Add" Text="@AppState["add.child.attribute"]" />
+                        <DxContextMenuItem Visible="Editable" Name="Edit" Text="@AppState["ModelData.Attribute"]" />
+                        <DxContextMenuItem Visible="AppState.PrivilegeObserver.CanCreatedInitiationModel"
+                                           Name="Delete" Text="@AppState["delete.attribute"]" />
+                        }
+                    @if (SelectedItem is Bcephal.Blazor.Web.Initiation.Domain.Attribute && (SelectedItem as Bcephal.Blazor.Web.Initiation.Domain.Attribute).Declared)
+                        {
+                        <DxContextMenuItem Visible="AppState.PrivilegeObserver.CanCreatedInitiationModel"
+                                           Name="AddVal" Text="@AppState["AddVal"]" />
+                        }
+                    <DxContextMenuItem Visible="AppState.PrivilegeObserver.CanCreatedInitiationModel"
+                                       Name="Paste" Text="@AppState["Paste"]" />
+                </Items>
+            </DxContextMenu>
+        }
+    };
+
+    public override RenderFragment RightContent => __builder =>
+    {
+
+    };
+}
+<RenderFormContent @ref="RenderFormContentRef">
+    <DimensionEditDialog Item="SelectedItem" ShowDialog="showModalItem" ItemsListNames="@NamesOfItems" ActionType="@ActionType"
+                         CloseEventCallback="CloseDimensionDialog" Title="@FuncItemTitle" SaveEventCallback="SaveDimension" />
+</RenderFormContent>
+
+<BaseModalComponent  Width="auto" @key="CanDisplayOK ? CanDeleleKey : UnableToDeleleKey" ApplyBackgroundShading="true" 
+                    Title="@DeletionTitle"  @bind-ShowModal=DeleteConfirmationPopup CanDisplayOK="CanDisplayOK" 
+                    OkHandler="async() => await DeleteAction()" CancelHandler="CancelDeletion" IsConfirmation=@CanDisplayOK>
+    <div class="d-flex">
+        @if (CanDisplayOK)
+        {
+            <i class="bi-question-circle text-primary align-self-start mr-4" style="font-size: 1.5rem;"></i>
+        }
+        else
+        {
+            <i class="bi-exclamation-circle text-danger align-self-start mr-4" style="font-size: 1.5rem;"></i>
+        }
+        <div class="align-self-center">
+            <p class="p-0 m-0">@DeleteMessage</p>
+        </div>
+    </div>
+</BaseModalComponent>

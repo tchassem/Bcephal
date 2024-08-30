@@ -1,0 +1,161 @@
+﻿@page "/edit-alarm"
+@page "/edit-alarm/{Id:long}"
+
+
+@inherits Form<Bcephal.Models.Alarms.Alarm, BrowserData>
+
+@{ base.BuildRenderTree(__builder); }
+
+
+@code{
+
+public override RenderFragment LeftContent => __builder =>
+{
+@if (EditorDataBinding != null)
+{
+    <DxTabs ScrollMode="TabsScrollMode.Auto" @bind-ActiveTabIndex="ActiveTabIndex" style="height: 100%; max-height: calc(100% - 42px); overflow-y: auto">
+        <DxTabPage Text="@AppState["scheduler.alarm"]" Click="ChangeTab">
+            @RenderLeftTabAlarmFormContent
+        </DxTabPage>
+        <DxTabPage Text="@AppState["Scheduling"]" Click="ChangeTab">
+            <div class="mt-3">
+                <SchedulerItemsInfos Editable=Editable P="Bcephal.Models.Alarms.Alarm" @bind-EditorData=EditorDataBinding />
+            </div>
+        </DxTabPage>
+    </DxTabs>
+}
+};
+
+public RenderFragment RenderLeftTabAlarmFormContent => __builder =>
+{
+
+<div class="d-flex flex-column">
+    <div>
+        <DxFormLayout CssClass="w-100">
+            <DxFormLayoutGroup Decoration="FormLayoutGroupDecoration.None" CssClass="mt-2" ColSpanXl="4" ColSpanLg="4" ColSpanMd="4" ColSpanSm="4" ColSpanXs="4">
+                <DxFormLayoutItem BeginRow="true" ColSpanLg="12" ColSpanXl="12" ColSpanMd="12" ColSpanSm="12" ColSpanXs="12" CssClass="p-0">
+                    <Template>
+                        <div class="d-flex flex-row align-items-center h-100 px-1 mt-2">
+                            <div class="d-block">
+                                <DxCheckBox CssClass="ml-1" Enabled=Editable Checked="@EditorData.Item.SendEmail" CheckedChanged="((bool value) => OnSendMailChanged (value))" />
+                            </div>
+                            <div class="d-block"><span class="ml-1">@AppState["SendMail"]</span></div>
+                        </div>
+                    </Template>
+                </DxFormLayoutItem>
+                <DxFormLayoutItem BeginRow="true" ColSpanLg="12" ColSpanXl="12" ColSpanMd="12" ColSpanSm="12" ColSpanXs="12" CssClass="w-100 p-0">
+                    <Template>
+                        <div class="d-flex flex-column px-1">
+                            <div class="d-flex">
+                                <label class="mr-auto ml-1">@AppState["MailTitle"]</label>
+                                <DxButton Enabled=@(EditorData.Item.SendEmail && Editable) RenderStyle="ButtonRenderStyle.Link" CssClass="text-truncate" IconCssClass="bi bi-paperclip"
+                                          Text="@AppState["Attachments"]" @onclick="() => { showAttachmentsModal = true; }" />
+                            </div>
+                            <DxTextBox @bind-Enabled=@EditorData.Item.SendEmail BindValueMode="BindValueMode.OnInput" ReadOnly=!Editable
+                                       Text=@EditorData.Item.EmailTitle ClearButtonDisplayMode="DataEditorClearButtonDisplayMode.Auto" Id="titleId"
+                                       TextChanged="((string newValue) => OnEmailTitleChanged(newValue))" @onfocusin='()=>SettingWidgetIden("titleId")'></DxTextBox>
+                        </div>
+                    </Template>
+                </DxFormLayoutItem>
+                <DxFormLayoutItem BeginRow="true" ColSpanLg="12" ColSpanXl="12" ColSpanMd="12" ColSpanSm="12" ColSpanXs="12" CssClass="w-100 p-0">
+                    <Template>
+                        <div class="d-flex flex-column px-1">
+                            <label class="flex-shrink-0 mt-50 mb-auto ml-1">@AppState["MailMessage"]</label>
+                            <DxMemo ReadOnly=!Editable @bind-Enabled=@EditorData.Item.SendEmail Text=@EditorData.Item.Email TextChanged="((string newValue) => OnEmailChanged(newValue))" Rows="18"
+                                    @onfocusin='()=>SettingWidgetIden("EmailId")' BindValueMode="BindValueMode.OnInput" name="EmailId" id="EmailId" />
+                        </div>
+                    </Template>
+                </DxFormLayoutItem>
+            </DxFormLayoutGroup>
+            <DxFormLayoutGroup Decoration="FormLayoutGroupDecoration.None" CssClass="mt-2" ColSpanXl="4" ColSpanLg="4" ColSpanMd="4" ColSpanSm="4" ColSpanXs="4">
+                <DxFormLayoutItem BeginRow="true" ColSpanLg="12" ColSpanXl="12" ColSpanMd="12" ColSpanSm="12" ColSpanXs="12" CssClass="p-0">
+                    <Template>
+                        <div class="d-flex flex-row align-items-center h-100 px-1 mt-2">
+                            <div class="d-block">
+                                <DxCheckBox Enabled=Editable CssClass="ml-1" Checked="@EditorData.Item.SendSms" CheckedChanged="((bool value) => OnSendSmsChanged (value))" />
+                            </div>
+                            <div class="d-block"><span class="ml-1">@AppState["SendSms"]</span></div>
+                        </div>
+                    </Template>
+                </DxFormLayoutItem>
+                <DxFormLayoutItem BeginRow="true" ColSpanLg="12" ColSpanXl="12" ColSpanMd="12" ColSpanSm="12" ColSpanXs="12" CssClass="w-100 p-0">
+                    <Template>
+                        <div class="d-flex flex-column px-1">
+                            <label class="flex-shrink-0 mt-2 mb-auto ml-1">@AppState["SmsMessage"]</label>
+                            <DxMemo ReadOnly=!Editable @bind-Enabled=@EditorData.Item.SendSms Text=@EditorData.Item.Sms TextChanged="((string newValue) => OnSmsChanged(newValue))" Rows="21"
+                                    @onfocusin='()=>SettingWidgetIden("SmsId")' BindValueMode="BindValueMode.OnInput" Name="SmsId" id="SmsId" />
+                        </div>
+                    </Template>
+                </DxFormLayoutItem>
+            </DxFormLayoutGroup>
+            <DxFormLayoutGroup Decoration="FormLayoutGroupDecoration.None" CssClass="mt-2" ColSpanXl="4" ColSpanLg="4" ColSpanMd="4" ColSpanSm="4" ColSpanXs="4">
+                <DxFormLayoutItem BeginRow="true" ColSpanLg="12" ColSpanXl="12" ColSpanMd="12" ColSpanSm="12" ColSpanXs="12" CssClass="p-0">
+                    <Template>
+                        <div class="d-flex flex-row align-items-center h-100 px-1 mt-2">
+                            <div class="d-block">
+                                <DxCheckBox Enabled=Editable CssClass="ml-1" Checked="@EditorData.Item.SendChat" CheckedChanged="((bool value) => OnSendChatChanged (value))" />
+                            </div>
+                            <div class="d-block"><span class="ml-1">@AppState["SendChat"]</span></div>
+                        </div>
+                    </Template>
+                </DxFormLayoutItem>
+                <DxFormLayoutItem BeginRow="true" ColSpanLg="12" ColSpanXl="12" ColSpanMd="12" ColSpanSm="12" ColSpanXs="12" CssClass="w-100 p-0">
+                    <Template>
+                        <div class="d-flex flex-column px-1">
+                            <label class="flex-shrink-0 mt-2 mb-auto ml-1">@AppState["ChatMessage"]</label>
+                            <DxMemo ReadOnly=!Editable @bind-Enabled=@EditorData.Item.SendChat Text=@EditorData.Item.Chat TextChanged="((string newValue) => OnChatChanged(newValue))" Rows="21"
+                                    @onfocusin='()=>SettingWidgetIden("ChatId")' name="ChatId" id="ChatId" />
+                        </div>
+                    </Template>
+                </DxFormLayoutItem>
+            </DxFormLayoutGroup>
+        </DxFormLayout>
+    </div>
+    @FooterContent___
+</div>
+};
+
+private RenderFragment FooterContent___ => __builder =>
+{
+<div class="row w-100 mx-0">
+    <div class="col-12 mt-2">
+        <div class="buttons-group">
+            <div class="buttons-group-title mt-1 mb-2">
+                @AppState["InsertVariables"]
+            </div>
+            <div class="d-flex flex-row flex-wrap">
+                @foreach (var item in ((AlarmModelEditorData)EditorData).Variables)
+                    {
+                    <div class="mr-2 mb-2">
+                        <DxButton RenderStyle="ButtonRenderStyle.Secondary" Text="@item" @onclick="() => UpdateEmailMessage(item)" title="@AppState["add.to.description"]" CssClass="w-100" />
+                    </div>
+                    }
+            </div>
+        </div>
+    </div>
+</div>
+
+<ConditionalsExpressions Title="@AppState["Conditions"]" @bind-MustSaved="@mustSaved" @bind-ShowDialog="@showConditionsModal" @bind-EditorData=@EditorData />
+<AlarmAudienceComponent Title="@AppState["Audiences"]" @bind-MustSaved="@mustSaved" @bind-ShowModal="@showRecipientsModal" @bind-EditorData=@EditorData />
+<AttachmentComponent Title="@AppState["Attachments"]" @bind-MustSaved="@mustSaved" @bind-ShowModal="@showAttachmentsModal" @bind-AlarmModelEditorData="@AlarmModelEditorData" />
+
+};
+
+public override RenderFragment RightContent => __builder =>
+{
+@if (EditorDataBinding != null)
+    {
+    <div class="d-flex flex-column grid-bc-two" style="display:block;box-sizing:border-box;">
+        <div style="height:auto;padding-bottom:0;margin-bottom:10px;">
+
+            <DxLayoutBreakpoint DeviceSize="DeviceSize.Medium | DeviceSize.Small | DeviceSize.XSmall | DeviceSize.Large" @bind-IsActive="IsSmallScreen" />
+            <GridItemInfos Editable=Editable @bind-EditorData=@EditorDataBinding T="Bcephal.Models.Alarms.Alarm" DisplayGroup="true" DisplayVisibleInShortcut="true" />
+            <div class="d-flex align-items-start flex-column ml-5">
+                <DxButton Enabled=Editable RenderStyle="ButtonRenderStyle.Link" SizeMode="SizeMode.Medium" Text="@AppState["Conditions"]" @onclick="() => { showConditionsModal = true; }" />
+                <DxButton Enabled=Editable RenderStyle="ButtonRenderStyle.Link" SizeMode="SizeMode.Medium" Text="@AppState["Audiences"]" @onclick="() => { showRecipientsModal = true; }" />
+            </div>
+        </div>
+    </div>
+    }
+};
+}

@@ -1,0 +1,99 @@
+﻿@using Bcephal.Models.Profiles
+
+<DxLayoutBreakpoint DeviceSize=DeviceSize_ @bind-IsActive="@IsXSmallScreen" />
+
+@BodyContent___
+
+@code{
+
+    private RenderFragment LeftContent___ => __builder => {
+
+       <Bcephal.Blazor.Web.Administration.Pages.Client.CustomListBox Functionalities=ClientFuncs @bind-Values="ChangeFunctionalityBing" 
+                    ListBoxSelectionMode="ListBoxSelectionMode.Single" CssClass="w-auto mt-1 mr-1 ml-1 h-100" ShowCheckboxes="@ShowCheckboxes" />
+    };
+
+    private RenderFragment RightContent___ => __builder => {
+
+        <DxListBox Id="right"  Data="@Rights" TData="RightLevel" TValue="RightLevel" TextFieldName="label" SelectionMode="ListBoxSelectionMode.Single" Value="@ItemRole.RightLevel"
+                    CssClass="w-auto mt-1 mr-1 ml-1 h-100"  SelectedItemsChanged="ChangeRole" />
+    };
+
+    private RenderFragment LeftHeaderContent___ => __builder => {
+    
+        <DxStackLayout Orientation=@(IsXSmallScreen ? Orientation.Vertical : Orientation.Horizontal) CssClass="d-flex m-0 p-0 w-100 h-50 align-items-center bc-box-sizing" ItemSpacing=@ItemSpacing>
+            <Items>
+                <DxStackLayoutItem Length="1fr" CssClass="d-flex flex-column align-items-center justify-content-center p-1">
+                    <Template> <div class="d-flex pl-1 pr-1 align-items-center h5"> <span>@AppState["Profil.Role.TitleFct"]</span> </div> </Template>
+                </DxStackLayoutItem>
+            </Items>
+        </DxStackLayout>
+        <DxStackLayout Orientation=@(IsXSmallScreen ? Orientation.Vertical : Orientation.Horizontal) CssClass="d-flex m-0 p-0 pb-1 w-100 h-100 align-items-center bc-box-sizing" ItemSpacing=@ItemSpacing>
+            <Items>
+                <DxStackLayoutItem Length="1fr" CssClass="d-flex flex-column align-items-center justify-content-center p-1">
+                    <Template> <div class="d-flex pl-1 pr-1 align-items-center"></div> </Template>
+                </DxStackLayoutItem>
+            </Items>
+        </DxStackLayout>
+    };
+
+    private RenderFragment RightHeaderContent___ => __builder => {
+   
+        <DxStackLayout Orientation=@(IsXSmallScreen ? Orientation.Vertical : Orientation.Horizontal) CssClass="d-flex m-0 p-0 w-100 h-50 align-items-center bc-box-sizing" ItemSpacing=@ItemSpacing>
+            <Items>
+                <DxStackLayoutItem Length="1fr" CssClass="d-flex flex-column align-items-center justify-content-center p-1">
+                    <Template> <div class="d-flex pl-1 pr-1 align-items-center h5"> <span>@AppState["Profil.Role.TitleRole"]</span> </div> </Template>
+                </DxStackLayoutItem>
+            </Items>
+        </DxStackLayout>
+        <DxStackLayout Orientation=@(IsXSmallScreen ? Orientation.Vertical : Orientation.Horizontal) CssClass="d-flex m-0 p-0 pb-1 w-100 h-50 align-items-center bc-box-sizing" ItemSpacing=@ItemSpacing>
+            <Items>
+                <DxStackLayoutItem Length="1fr" CssClass="d-flex flex-column align-items-center justify-content-center p-1">
+                    <Template> <div class="d-flex pl-1 pr-1 align-items-center"></div> </Template>
+                </DxStackLayoutItem>
+                <DxStackLayoutItem Length="1fr" CssClass="d-flex flex-column align-items-end justify-content-center p-1">
+                    <Template>
+                        <div class="d-flex pl-1 pr-1 align-items-end"> <DxButton  RenderStyle="ButtonRenderStyle.Danger" Text="@AppState["remove"]" Click="HandlerRemoveRole" /> </div>
+                    </Template>
+                </DxStackLayoutItem>
+            </Items>
+        </DxStackLayout>
+    };
+
+    private RenderFragment LeftBodyContent___ => __builder => {
+
+        <DxStackLayout Orientation=Orientation.Vertical CssClass="@(!string.IsNullOrWhiteSpace(CssClass) ? CssClass + " h-100 bc-box-sizing" : " h-100 bc-box-sizing")" ItemSpacing=@ItemSpacing>
+            <Items>
+                <DxStackLayoutItem Length="1fr" CssClass="mb-1">
+                    <Template> @LeftHeaderContent___ </Template>
+                </DxStackLayoutItem>
+                <DxStackLayoutItem Length="10fr" CssClass="p-1">
+                    <Template> @LeftContent___ </Template>
+                </DxStackLayoutItem>
+            </Items>
+        </DxStackLayout>
+    };
+
+    private RenderFragment RightBodyContent___ => __builder => {
+        <DxStackLayout Orientation=Orientation.Vertical CssClass="@(!string.IsNullOrWhiteSpace(CssClass) ? CssClass + " h-100 bc-box-sizing" : " h-100 bc-box-sizing")" ItemSpacing=@ItemSpacing>
+            <Items>
+                <DxStackLayoutItem Length="1fr" CssClass="mb-1">
+                    <Template> @RightHeaderContent___ </Template>
+                </DxStackLayoutItem>
+                <DxStackLayoutItem Length="10fr" CssClass="p-1">
+                    <Template> @RightContent___ </Template>
+                </DxStackLayoutItem>
+            </Items>
+        </DxStackLayout>
+    };
+
+    private RenderFragment BodyContent___ => __builder => {
+
+        var panel = new List<RenderFragment>() {
+            LeftBodyContent___,
+            RightBodyContent___
+        };
+
+        <SplitterPanel LeftSize="1" Panes=panel />
+    };
+
+}

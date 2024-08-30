@@ -1,0 +1,165 @@
+﻿@page "/reconciliation-filter-form/"
+@page "/reconciliation-filter-form/{Id:long}"
+
+@using Bcephal.Blazor.Web.Reconciliation.Pages.Reconciliation.AutomaticReco
+
+@inherits Form<ReconciliationModel, BrowserData>
+
+
+<BaseModalComponent Title=@AppState["List.Automatic.Reconciliations"] @bind-ShowModal=@ShowAutoRecoListModal Height="60%" Width="50%"
+                    ApplyBackgroundShading="true" OkHandler=@RunSelectedAutoReco >
+    <div class="w-100 h-100">
+        <AutoRecoBrowser IsOpenInModal="true" ModelId="@EditorData.Item.Id" @ref="AutoRecoBrowser"></AutoRecoBrowser>
+    </div>
+</BaseModalComponent>
+
+@{
+    base.BuildRenderTree(__builder);
+}
+
+@code{
+
+    public RenderFragment LeftContentReco => __builder =>
+    {
+<DxTabPage Text="@AppState["reconciliation.filter"]" CssClass="m-0 p-0">
+    @if (EditorDataBinding != null)
+        {
+        <div style="height: calc(100% - var(--bc-tab-header-height)); box-sizing: border-box !important;">
+            <div class="h-100">
+                
+                <ReconciliationFormNewGrid @bind-EditorData=EditorDataBinding
+                                        @bind-LeftG=EditorDataBindingLeft
+                                        @bind-RightG=EditorDataBindingRight
+                                        @bind-BottomG=EditorDataBindingBottom
+                                        ActionState="StateHasChanged"
+                                        Filter=RefreshRightContent
+                                        CheckGridColumnsConfig="BeforeSave"
+                                        Editable=Editable />
+            </div>
+        </div>
+        }
+</DxTabPage>
+<DxTabPage Text="@AppState["Reconciliation.Configuration"]" CssClass="m-0 p-0">
+    @if (EditorDataBinding != null)
+    {
+        <div style="height: calc(100% - var(--bc-tab-header-height)); box-sizing: border-box !important;">
+            <div class="h-100">
+                <RecoConfiguration @bind-EditorDataBindingLeft=EditorDataBindingLeft
+                                   @bind-EditorDataBindingRight=EditorDataBindingRight
+                                   @bind-EditorData=EditorDataBinding
+                                   Entities=Entities
+                                   Editable=Editable
+                                   Filter=RefreshRightContent
+                                   @bind-BGroups="BGroups" />
+            </div>
+        </div>
+    }
+</DxTabPage>
+    <DxTabPage Text="@AppState["Reconciliation.LeftConfiguration"]" CssClass="m-0 p-0">
+        @if (EditorDataBindingLeft != null)
+        {
+            <div style="height: calc(100% - var(--bc-tab-header-height)); box-sizing: border-box !important;">
+                <div class="h-100">
+                    <ConfigurationGrid Editable_=Editable 
+                                       @key=LeftKey
+                                       Name=@LeftKey
+                                       @bind-EditorData=EditorDataBindingLeft
+                                       Entities="@Entities"
+                                       SelectAttributeCallback="((item)=> addAttributColumn(item))"
+                                       SelectMesureCallback="((item)=> addMeasureColumn(item))"
+                                       SelectPeriodeCallback="((item)=> addPeriodColumn(item))"
+                                       DisplayEditable="false" DisplayVisibleInShortcut="false" DisplayGroup="false"
+                                       Filter=RefreshRightContent
+                                       @ref=ConfigurationGridLeft
+                                       SendTag="true"
+                                       @bind-BGroups="BGroups"
+                                       @bind-ActiveTabIndexFilter="ActiveTabIndexFilterLeft">
+                        @InfosContent(EditorDataBindingLeft)
+                    </ConfigurationGrid>
+                </div>
+            </div>
+        }
+    </DxTabPage>
+    <DxTabPage Text="@AppState["Reconciliation.RightConfiguration"]" CssClass="m-0 p-0">
+        @if (EditorDataBindingRight != null)
+        {
+            <div style="height: calc(100% - var(--bc-tab-header-height)); box-sizing: border-box !important;">
+                <div class="h-100">
+                    <ConfigurationGrid Editable_=Editable 
+                                       @key=RightKey
+                                       Name=@RightKey
+                                       @bind-EditorData=EditorDataBindingRight Entities="@Entities"
+                                       SelectAttributeCallback="((item)=> addAttributColumn(item))"
+                                       SelectMesureCallback="((item)=> addMeasureColumn(item))"
+                                       SelectPeriodeCallback="((item)=> addPeriodColumn(item))"
+                                       DisplayEditable="false" DisplayVisibleInShortcut="false" DisplayGroup="false"
+                                       Filter=RefreshRightContent
+                                       @ref=ConfigurationGridRight
+                                       SendTag="true"
+                                       @bind-BGroups="BGroups"
+                                       @bind-ActiveTabIndexFilter="ActiveTabIndexFilterRight">
+                        @InfosContent(EditorDataBindingRight)
+                    </ConfigurationGrid>
+                </div>
+            </div>
+        }
+    </DxTabPage>
+
+    <DxTabPage Text="@AppState["Reconciliation.BottomConfiguration"]" CssClass="m-0 p-0">
+        @if (EditorDataBindingBottom != null)
+        {
+            <div style="height: calc(100% - var(--bc-tab-header-height)); box-sizing: border-box !important;">
+                <div class="h-100">
+                    <ConfigurationGrid Editable_=Editable
+                                       @key=BottomKey
+                                       Name=@BottomKey
+                                       @bind-EditorData=EditorDataBindingBottom
+                                       Entities="@Entities"
+                                       SelectAttributeCallback="((item)=> addAttributColumn(item))"
+                                       SelectMesureCallback="((item)=> addMeasureColumn(item))"
+                                       SelectPeriodeCallback="((item)=> addPeriodColumn(item))"
+                                       DisplayEditable="false" DisplayVisibleInShortcut="false" DisplayGroup="false"
+                                       Filter=RefreshRightContent
+                                       @ref=ConfigurationGridBottom
+                                       @bind-BGroups="BGroups" DisplayDimensionView="false">
+                        @InfosContent(EditorDataBindingBottom)
+                    </ConfigurationGrid>
+                </div>
+            </div>
+        }
+    </DxTabPage>
+
+    <DxTabPage Text="@AppState["Reconciliation.Logs"]" CssClass="m-0 p-0">
+        @if (EditorDataBinding != null)
+            {
+            <div style="height: calc(100% - var(--bc-tab-header-height)); box-sizing: border-box !important;">
+                <div class="h-100">
+                    <ReconciliationLogs Editable=Editable RecoId="EditorDataBinding.Item.Id" Filter=RefreshRightContent />
+                </div>
+            </div>
+            }
+    </DxTabPage>
+    };
+
+    public override RenderFragment RightContent => CurrentRightContent;
+
+
+
+    public override RenderFragment LeftContent => __builder =>
+    {
+    <DxTabs CssClass="m-0 p-0  bc-tab-h-100" style="width:100%;" @bind-ActiveTabIndex="ActiveTabIndex" ScrollMode="TabsScrollMode.Auto">
+        @LeftContentReco
+    </DxTabs>
+    };
+
+    public RenderFragment InfosContent(EditorData<Bcephal.Models.Grids.Grille>
+        EditorDataBinding_) => __builder =>
+        {
+        @if (EditorDataBinding_ != null)
+            {
+            <ReconciliationGridInfos  Editable=Editable T="Bcephal.Models.Grids.Grille" @bind-EditorData=EditorDataBinding_>
+            </ReconciliationGridInfos>
+            }
+        };
+
+}

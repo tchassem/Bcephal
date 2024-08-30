@@ -1,0 +1,21 @@
+
+<DxCheckBox CssClass="m-1" Checked="@Checked" CheckedChanged="@((bool value) => CheckedChanged(value))">
+    @projectData.Name
+</DxCheckBox>
+
+@code {
+    [Parameter]
+    public Project projectData { get; set; }
+
+    [Parameter]
+    public Project SelectedProjectData { get; set; }
+
+
+    bool Checked { get; set; } = false;
+
+    void CheckedChanged(bool value)
+    {
+        Checked = value;
+        SelectedProjectData = projectData;
+    }
+}

@@ -1,0 +1,55 @@
+
+<DxPopup @ref="DxPopupRef"
+         CloseOnOutsideClick="false"
+         CloseOnEscape="false"
+         ShowFooter="true"
+         ShowCloseButton="false"
+         HeaderText="@HeaderTitle"
+         CssClass="custom-popup"
+         HeaderCssClass="font-weight-light"
+         @bind-Visible="@ModalCreateProject">
+    <Content>
+        @if (Project != null)
+        {
+        <DxFormLayout CssClass="d-flex flex-column">
+            <DxFormLayoutItem CssClass="w-100 pl-0" CaptionCssClass="font-weight-normal" Caption="@AppState_["Name"]" ColSpanXs="12" ColSpanXl="12" ColSpanSm="12" ColSpanLg="12" ColSpanMd="12">
+                <Template>
+                    <DxTextBox CssClass="w-100" InputCssClass="w-100"
+                               @bind-Text=Name BindValueMode="BindValueMode.OnInput" InputId="new-project-id"
+                               NullText="@AppState_["Projects.EnterProjectName"]"></DxTextBox>
+                </Template>
+            </DxFormLayoutItem>
+            <DxFormLayoutItem CssClass="w-100 pl-0" CaptionCssClass="font-weight-normal" Caption="@AppState_["Description"]" ColSpanXs="12" ColSpanXl="12" ColSpanSm="12" ColSpanLg="12" ColSpanMd="12">
+                <Template>
+                    <div class="form-group">
+                        <textarea class="form-control w-100" rows="3"
+                                  placeholder="@AppState_["Description"]"
+                                  @bind-value=Description
+                                  @bind-value:event="oninput" />
+                    </div>
+                </Template>
+            </DxFormLayoutItem>
+            <DxFormLayoutItem CssClass="w-100 pl-0" CaptionCssClass="font-weight-normal" Caption="@AppState_["Projects.DefaultProject"]" ColSpanXs="12" ColSpanXl="12" ColSpanSm="12" ColSpanLg="12" ColSpanMd="12">
+                <Template>
+                    <DxCheckBox CssClass="w-100" @bind-Checked="@DefaultProject"></DxCheckBox>
+                </Template>
+            </DxFormLayoutItem>
+        </DxFormLayout>
+        }
+    </Content>
+    <FooterContentTemplate>
+        <div class="d-flex flex-column w-100 h-auto">
+            <div class="flex-fill mr-auto ml-auto mt-auto mb-auto">
+                <span class="text-center" style="color:red;">@ProjectService.ErrorMessage</span>
+            </div>
+            <div class="d-flex flex-row">
+                <DxButton CssClass="mr-1 ml-auto  wid-100" IconCssClass="oi oi-plus pr-1" RenderStyle="ButtonRenderStyle.Primary"
+                          Enabled="@(Loading ? false : string.IsNullOrWhiteSpace(Name) ? false  : Project != null && !string.IsNullOrWhiteSpace(Project.Name))"
+                          Text="@(Loading ? AppState_["Projects.CreateLoad"] : ProjectId.HasValue ?  AppState_["Update"] : AppState_["Create"])"
+                          Click=@(async() => await Create()) />
+                <DxButton CssClass="ml-1 mr-auto wid-100" IconCssClass="oi oi-delete pr-1" RenderStyle="ButtonRenderStyle.Danger"
+                          Text="@AppState_["Close"]" @onclick=CloseCreateProject />
+            </div>
+        </div>
+    </FooterContentTemplate>
+</DxPopup>

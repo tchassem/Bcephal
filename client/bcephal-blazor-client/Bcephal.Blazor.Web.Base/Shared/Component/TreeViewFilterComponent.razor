@@ -1,0 +1,149 @@
+﻿
+@inject IJSRuntime JSRuntime
+
+<DxTreeView @bind-Visible="IsOpen"
+            Data="@ItemsFilter"
+            AllowSelectNodes="false"
+            @ref="@treeView"
+            @onclick:preventDefault
+            NodeExpandCollapseAction="TreeViewNodeExpandCollapseAction.Auto"
+            ExpandButtonIconCssClass="bi-chevron-right"
+            TextExpression="((item) => ((HierarchicalData)item).Name )"
+            SelectionChanged="OnSelectFilterItemChanged"
+            ChildrenExpression="((item) => TreeViewChildrenExpression(item))"
+            ShowExpandButtons="true">
+    <NodeTemplate>
+        @{
+            var dataItem = (HierarchicalData)context.DataItem;
+            var id = dataItem.Name.Replace(" ", String.Empty);
+
+
+            @if (!context.IsLeaf)
+            {
+                isParent = true;
+                dragClass = "";
+                draggable = "false";
+            }
+            else
+            {
+                isParent = false;
+                dragClass = "draggable";
+                draggable = "true";
+            }
+
+        }
+
+        <div class="d-flex flex-row  @dragClass" id="@id" @onclick="@(() => ChangeIconDragDrop(id))">
+            @if (isParent)
+            {
+                <i class="bi-chevron-right"></i>
+            }
+            <span class="@dragClass" draggable=@draggable
+                  @ondragstart="@(() => HandleDragStart(dataItem))">
+                @dataItem.Name
+            </span>
+        </div>
+    </NodeTemplate>
+</DxTreeView>
+
+@code {
+
+    DxTreeView treeView;
+
+
+    [Parameter]
+    public bool IsOpen { get; set; } = true;
+
+    [Parameter]
+    public ObservableCollection<HierarchicalData> ItemsFilter { get; set; }
+
+    [Parameter]
+    public EventCallback<ObservableCollection<HierarchicalData>> ItemsFilterChanged { get; set; }
+
+    [Parameter]
+    public string SelectedItem { get; set; }
+
+    [Parameter]
+    public EventCallback<string> SelectedItemChanged { get; set; }
+
+    [Parameter]
+    public EventCallback<HierarchicalData> SelectFilterItemCallback { get; set; }
+
+    bool isParent { get; set; } = false;
+
+    string draggable { get; set; } = "true";
+
+    string dragClass = "draggable";
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        base.OnInitialized();
+        //await JSRuntime.InvokeVoidAsync("console.log", "-------->>>> ", ItemsFilter);
+    }
+
+    public void OnSelectFilterItemChanged(TreeViewNodeEventArgs e)
+    {
+        bool ItemEntity = (HierarchicalData)e.NodeInfo.DataItem is Entity;
+        bool ItemModel = (HierarchicalData)e.NodeInfo.DataItem is Model;
+        if (ItemEntity == false && ItemModel == false)
+        {
+            SelectFilterItemCallback.InvokeAsync((HierarchicalData)e.NodeInfo.DataItem);
+            SelectedItem = ((HierarchicalData)e.NodeInfo.DataItem).Name;
+        }
+
+        IsOpen = false;
+
+    }
+
+    public IEnumerable<HierarchicalData> TreeViewChildrenExpression(object itemsTarget)
+    {
+
+        if (itemsTarget is Entity)
+        {
+            Entity item = itemsTarget as Entity;
+            return item.Descendents as IEnumerable<Models.Dimensions.Attribute>;
+        }
+
+        if (itemsTarget is Models.Dimensions.Measure)
+        {
+            Models.Dimensions.Measure item = itemsTarget as Models.Dimensions.Measure;
+            return item.Descendents as IEnumerable<Models.Dimensions.Measure>;
+        }
+
+        if (itemsTarget is Models.Dimensions.Period)
+        {
+            Models.Dimensions.Period item = itemsTarget as Models.Dimensions.Period;
+            return item.Descendents as IEnumerable<Models.Dimensions.Period>;
+        }
+
+        if (itemsTarget is Models.Dimensions.Attribute)
+        {
+            Models.Dimensions.Attribute item = itemsTarget as Models.Dimensions.Attribute;
+            return item.Descendents as IEnumerable<Models.Dimensions.Attribute>;
+        }
+
+        return new List<HierarchicalData>() as IEnumerable<HierarchicalData>;
+    }
+
+
+    public async void ChangeIconDragDrop(string id)
+    {
+        await JSRuntime.InvokeVoidAsync("ChangeIconDragDrop", id);
+
+    }
+
+    private void HandleDragStart(HierarchicalData e)
+    {
+        SelectedItem = e.Name;
+
+        SelectFilterItemCallback.InvokeAsync(e);
+        SelectedItemChanged.InvokeAsync(SelectedItem);
+        dragClass = "dragging";
+        StateHasChanged();
+
+    }
+
+
+
+}

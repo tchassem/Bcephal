@@ -1,0 +1,19 @@
+﻿@page "/browser-join-grid-log"
+
+@inherits Base.Shared.Browser
+@{
+    base.BuildRenderTree(__builder);
+}
+
+@code {
+
+    public override string Title { get { return AppState["List.Join.Log"]; } }
+
+    public override string TitleIcon { get { return "bi bi-journals"; } }
+
+    protected override RenderFragment _BodyContent_ => __builder =>
+    {
+    <JoinGridLogBrowser />
+    };
+
+}

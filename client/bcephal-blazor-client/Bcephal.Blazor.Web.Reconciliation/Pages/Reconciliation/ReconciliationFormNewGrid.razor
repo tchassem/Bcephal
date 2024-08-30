@@ -1,0 +1,541 @@
+﻿@using Bcephal.Models.Reconciliation
+
+
+@bodyContent
+<RenderFormContent @ref=RenderFormContentModalAction>
+    @if (modalAction && BottomGridRef != null && BottomGridRef.InputGridComponentRef != null)
+    {
+        @RunDialogContent(DxPopupRef, modalAction, @AppState["Reconciliation"], Run, () => modalAction = false, @AppState["Reconciliate"])
+    }
+</RenderFormContent>
+<RenderFormContent @ref=RenderFormContentModalActionFreeze>
+    @if (modalActionFreeze && BottomGridRef != null && BottomGridRef.InputGridComponentRef != null)
+    {
+        @RunDialogContent(DxPopupRefFreeze, modalActionFreeze, @AppState["Freeze"], RunFreeze, () => modalActionFreeze = false, @AppState["Freeze"])
+    }
+</RenderFormContent>
+<RenderFormContent @ref=RenderFormContentModalActionNeutralization>
+    @if (modalActionNeutralization && BottomGridRef != null && BottomGridRef.InputGridComponentRef != null)
+    {
+        @RunDialogContent(DxPopupRefNeutralization, modalActionNeutralization, @AppState["Neutralization"], RunNeutralization, () => modalActionNeutralization = false, @AppState["Neutralizer"])
+    }
+</RenderFormContent>
+<RenderFormContent @ref=RenderFormContentConfirmSelection>
+    @ChoiseDialog(ConfirmSelection)
+</RenderFormContent>
+
+@code{
+
+    public RenderFragment LeftContent => __builder =>
+    {
+        <CardComponent CanDisplayHeader="true" CardCssClass="w-100 h-100 p-0"
+                       HeaderCssClass="p-0 bc-header-2 bc-header-height bc-text-align">
+            <Header>
+                @ShowInfosHeaderContent(LeftGridName, LeftGridRef, RightGridRef)
+            </Header>
+            <ChildContent>
+                <LeftNewGrid @bind-EditorData=EditorDataBindingLeft
+                             SelectedHandler_=LeftSelectionCanged
+                             DoHandlerAfterRefresh_=AfterRefreshLeft
+                             FilterHandler=buildFilter
+                             @ref="LeftGridRef"
+                             HeaderRenderHandler="(()=>DebitCreditContent(EditorDataBindingLeft, LeftGChanged, GrilleRowTypeChangedGrid, LeftGridRef))" />
+            </ChildContent>
+        </CardComponent>
+
+    };
+
+public RenderFragment RightContent => __builder =>
+{
+<CardComponent CanDisplayHeader="true" CardCssClass="w-100 h-100 p-0" HeaderCssClass="p-0 bc-header-2 bc-header">
+    <Header>
+        @ShowInfosHeaderContent(RigthGridName, RightGridRef, LeftGridRef, true)
+    </Header>
+    <ChildContent>
+        <RightNewGrid @bind-EditorData=EditorDataBindingRight
+                      SelectedHandler_=RightSelectionCanged
+                      DoHandlerAfterRefresh_=AfterRefreshRight
+                      FilterHandler=buildFilter
+                      @ref=RightGridRef
+                      HeaderRenderHandler="(()=>DebitCreditContent(EditorDataBindingRight, RightGChanged, GrilleRowTypeChangedGrid, RightGridRef))" />
+    </ChildContent>
+</CardComponent>
+};
+
+
+public RenderFragment DebitCreditContent(EditorData<Bcephal.Models.Grids.Grille>
+EditorDataBinding_, EventCallback<EditorData<Bcephal.Models.Grids.Grille>> callBack, Func<RecoNewGrid, Task> action, RecoNewGrid RecoGrid) => __builder =>
+{
+<div class="d-flex flex-row p-0 w-100 ">
+    @if (DataFilter != null)
+{
+@DataFilterRender(EditorDataBinding_, callBack, action, RecoGrid)
+}
+    @if (EditorData.Item.UseDebitCredit)
+{
+<div class="d-flex flex-row mr-2 mt-1 ml-auto font-weight-light">
+    <DxCheckBox Checked="CreditPart(RecoGrid is LeftNewGrid)"
+                Alignment="CheckBoxContentAlignment.Left"
+                LabelPosition="LabelPosition.Right"
+                T="bool?"
+                CheckedChanged="((value) => BindingCreditPart(RecoGrid is LeftNewGrid, value))">
+        @AppState["Credit"]
+    </DxCheckBox>
+    <DxCheckBox Checked="DebitPart(RecoGrid is LeftNewGrid)"
+                Alignment="CheckBoxContentAlignment.Left"
+                LabelPosition="LabelPosition.Right"
+                CssClass="ml-2 "
+                T="bool?"
+                CheckedChanged="((value) => BindingDebitPart(RecoGrid is LeftNewGrid, value))">
+        @AppState["Debit"]
+    </DxCheckBox>
+</div>
+}
+</div>
+};
+
+
+public RenderFragment DataFilterRender(EditorData<Bcephal.Models.Grids.Grille> EditorDataBinding_, EventCallback<EditorData<Bcephal.Models.Grids.Grille>> callBack, Func<RecoNewGrid, Task> action, RecoNewGrid RecoGrid) => __builder =>
+{
+<div class=" mr-auto pl-0 ml-2">
+    <DxComboBox Data=DataFilter Value=getGrilleRowType(EditorDataBinding_)
+                CssClass="mt-auto mb-auto" NullText="..."
+                TData="string" TValue="string"
+                SelectedItemChanged="((value) => setGrilleRowType(value, EditorDataBinding_, callBack, action, RecoGrid))">
+    </DxComboBox>
+</div>
+};
+
+public RenderFragment ShowInfosHeaderContent(string title, RecoNewGrid RecoGrid, RecoNewGrid RecoGrid2, bool position = false) => __builder =>
+{
+<DxToolbar ItemRenderStyleMode="ToolbarRenderStyleMode.Plain"
+           Title="DevExpress Logo">
+    <TitleTemplate>
+        <div class="text-white font-weight-normal">@title</div>
+    </TitleTemplate>
+    <Items>
+        <DxToolbarItem IconCssClass="bi bi-clipboard-data"
+                       Tooltip="@LabelMessageHeader(RecoGrid is LeftNewGrid)" Alignment="ToolbarItemAlignment.Right"
+                       Click="((e) =>  ShowConterPart(RecoGrid, RecoGrid2))" />
+        <DxToolbarItem IconCssClass="bi bi-box-arrow-right" Tooltip="@AppState["Export.To"]" Alignment="ToolbarItemAlignment.Right" DropDownCssClass="min-w-40">
+            <Items>
+                <DxToolbarItem IconCssClass="bi bi-filetype-csv" Text="@AppState["CSV"]" Click="() => ExportData(RecoGrid, GrilleExportDataType.CSV)" />
+                <DxToolbarItem IconCssClass="bi bi-filetype-json" Text="@AppState["JSON"]" Click="() => ExportData(RecoGrid, GrilleExportDataType.JSON)" />
+                <DxToolbarItem IconCssClass="bi bi-filetype-xls" Text="@AppState["XLS"]" Click="() => ExportData(RecoGrid, GrilleExportDataType.EXCEL)" />
+            </Items>
+        </DxToolbarItem>
+        @if (position)
+    {
+    <DxToolbarItem RenderStyle="ButtonRenderStyle.Link" CssClass="text-white" Text="@AppState["change.position"]" Alignment="ToolbarItemAlignment.Right" Click=ChangePosition BeginGroup="true" />
+}
+    </Items>
+</DxToolbar>
+};
+
+//string keyBottomBody { get; set; } = "BottomNewGridRef";
+//string keyBottomPopup { get; set; } = "BottomNewGridRefDxPopupRef";
+
+public RenderFragment BottomContent => __builder =>
+{
+<div class="w-100 h-100 p-0">
+    <RenderFormContent @ref="RenderFormDxButtonRef">
+        <BottomNewGrid @bind-EditorData=EditorDataBindingBottom
+                       SelectedHandler_=BottomSelectionCanged
+                       AddColumns=BottomNewColumns
+                       UsingManualyData="true"
+                       @ref=BottomGridRef
+                       IsBottom="true"
+                       RunHander=ConfirmChoiseDialogRun
+                       ResetHander=ResetReconciliation
+                       ClearGridHander_=ClearGrid
+                       @bind-CanFreeze=CanFreeze
+                       @bind-CanUnFreeze=CanUnFreeze
+                       @bind-CanNeutralization=CanNeutralization
+                       @bind-CanUnNeutralization=CanUnNeutralization
+                       CanRun="CanRun"
+                       CanReset="CanReset"
+                       CanDelete="CanDelete"
+                       RunFreezeHander=ConfirmDialogRunFreeze
+                       RunUnFreezeHander=RunUnFreeze
+                       NeutralizationHanderHander=ConfirmDialogNeutralization
+                       UnNeutralizationHanderHander=RunUnNeutralization />
+    </RenderFormContent>
+</div>
+};
+
+public RenderFragment BottomContentPopup => __builder =>
+{
+        <BottomNewGrid @bind-EditorData=EditorDataBindingBottom
+                       UsingManualyData="true"
+                       @ref=BottomGridRefDxPopupRef
+                       IsBottom="true"
+                       CanDisplayToolBar="true"
+                       DisplayCommandToobar="false"
+                       RecoShowSelectionColumnVisible="false"
+                       SelectedHandler_=BottomSelectionCangedPopupRef
+                       ManualyData="BottomGridRef.InputGridComponentRef.GetManualyDatas()"
+                       SelectionManualyDatas="BottomGridRef.InputGridComponentRef.SelectedItems_"
+                       AddColumns=BottomNewColumns />
+    };
+
+
+    public RenderFragment TopContentVertical => __builder =>
+    {
+    List<RenderFragment>
+        panes = new() { LeftContent, RightContent };
+        <SplitterPanel Panes=panes LeftSize=1 />
+        };
+
+
+        public RenderFragment bodyContentMixte => __builder =>
+        {
+        List<RenderFragment>
+            panes = new() { TopContentVertical, BottomContent };
+            <SplitterPanel Panes=panes LeftSize=1 vertical="false" />
+            };
+            public RenderFragment bodyContentHorizontal => __builder =>
+            {
+            List<RenderFragment>
+                panes = new() { LeftContent, RightContent, BottomContent };
+                <SplitterPanel Panes=panes LeftSize=1 vertical="false" heightCall="var(--bc-dx-tabs-content-panel-height)" />
+                };
+
+
+                public RenderFragment bodyContent => __builder =>
+                {
+                if (IsColumnPosition())
+                {
+                @bodyContentMixte
+                }
+                else
+                {
+                @bodyContentHorizontal
+                }
+                };
+
+
+                public RenderFragment RunDialogContent(DxPopup PopupRef, bool actionVisible, string title, Func<Task>
+                    RunAction, Action closeEvent, string freezeLabel) => __builder =>
+                    {
+                    <DxPopup @ref=PopupRef
+                             HeaderText=@title MaxWidth="90% !important" MinWidth="50%" MaxHeight="100%" MinHeight="50%"
+                             CloseOnEscape="true"
+                             CloseOnOutsideClick="true"
+                             ShowFooter="true"
+                             ShowCloseButton="false"
+                             CssClass="custom-popup"
+                             HeaderCssClass="font-weight-bold"
+                             FooterCssClass="bg-white w-100"
+                             Scrollable="true"
+                             ApplyBackgroundShading="true"
+                             EnableAdaptivity="false"
+                             @bind-Visible=actionVisible>
+                        <BodyTemplate Context="PopupContext">
+                            <div class="p-2 m-0 w-100 overflow-auto" style="height:90%;">
+                                @BottomContentPopup
+                            </div>
+                        </BodyTemplate>
+                        <FooterContentTemplate>
+                            @subformPopup(RunAction, closeEvent, freezeLabel)
+                        </FooterContentTemplate>
+                    </DxPopup>
+                    };
+
+
+                    public RenderFragment RenderFieldForReconciliationDelta(Models.Reconciliation.WriteOffField WriteOffField_) => __builder =>
+                    {
+
+                    <DxStackLayout CssClass="mt-1 mb-1" Orientation="Orientation.Horizontal">
+                        <Items>
+                            <DxStackLayoutItem Length="1fr" />
+                            <DxStackLayoutItem Length="5fr">
+                                <Template>
+                                    <DxStackLayout CssClass="w-75" Orientation="Orientation.Horizontal">
+                                        <Items>
+                                            <DxStackLayoutItem Length="4fr">
+                                                <Template>
+                                                    <div class="d-flex flex-row">
+                                                        <span class="ml-auto mr-1">@GetDimension(WriteOffField_)</span>
+                                                    </div>
+                                                </Template>
+                                            </DxStackLayoutItem>
+                                            <DxStackLayoutItem Length="4fr">
+                                                <Template>
+                                                    @if (!String.IsNullOrEmpty(WriteOffField_.DefaultValueType) && WriteOffField_.DefaultValueType.Equals(WriteOffFieldValueType.FREE.code))
+                                                {
+                                                @if (WriteOffField_.AllowNewValue)
+                                            {
+                                            <DxTextBox Text=""></DxTextBox>
+                                    }
+                                    else if (!WriteOffField_.AllowNewValue)
+                                    {
+                                    <DxTextBox ReadOnly="true" Text=""></DxTextBox>
+                            }
+                                        }
+                                                    @if (WriteOffField_.ValueListChangeHandler.GetItems().Any())
+                                                {
+                                                    ObservableCollection<WriteOffFieldValue> WriOffValues = WriteOffField_.ValueListChangeHandler.GetItems();
+                                                        <DxComboBox Data="@WriOffValues"
+                                                                    TData="WriteOffFieldValue"
+                                                                    TValue="WriteOffFieldValue"
+                                                                    TextFieldName="StringValue"
+                                                                    Value="@WriOffValues.ElementAt(0)">
+                                                        </DxComboBox>
+                                                }
+
+                                                </Template>
+                                            </DxStackLayoutItem>
+                                        </Items>
+                                    </DxStackLayout>
+                                </Template>
+                            </DxStackLayoutItem>
+                        </Items>
+                    </DxStackLayout>
+
+                    };
+
+
+                    public RenderFragment subformPopup(Func<Task>
+                        RunAction, Action closeEvent, string freezeLabel) => __builder =>
+                        {
+                        <DxGridLayout RowSpacing="5px" CssClass="m-0">
+                            <Rows>
+                                <DxGridLayoutRow Height="30px" Visible="EditorData.Item.AddNote" Areas="Row1" />
+                                <DxGridLayoutRow Height="30px" Visible=VisibleRow2 Areas="Row2" />
+                                <DxGridLayoutRow Areas="Row00" />
+                                <DxGridLayoutRow Height="auto" Visible=VisibleRow3 Areas="Row3" />
+                                <DxGridLayoutRow Height="auto" Areas="Row4" />
+                                <DxGridLayoutRow Height="auto" Areas="Row5" />
+                            </Rows>
+                            <Columns>
+                                <DxGridLayoutColumn />
+                            </Columns>
+                            <Items>
+                                <DxGridLayoutItem Area="Row00" />
+                                <DxGridLayoutItem Visible="EditorData.Item.AddNote" Area="Row1">
+                                    <Template>
+                                        <DxStackLayout Orientation="Orientation.Horizontal">
+                                            <Items>
+                                                <DxStackLayoutItem Length="0.5fr">
+                                                    <Template>
+                                                        <div class="d-flex flex-row">
+                                                            <span class="ml-auto mr-3">@AppState["Note"]</span>
+                                                        </div>
+                                                    </Template>
+                                                </DxStackLayoutItem>
+                                                <DxStackLayoutItem Length="5fr">
+                                                    <Template>
+                                                        <DxTextBox Text="@Note"></DxTextBox>
+                                                    </Template>
+                                                </DxStackLayoutItem>
+                                            </Items>
+                                        </DxStackLayout>
+                                    </Template>
+                                </DxGridLayoutItem>
+                                <DxGridLayoutItem Visible=VisibleRow2 Area="Row2">
+                                    <Template>
+                                        <div class="d-flex flex-row">
+                                            <span>@AppState["ThisReconciliationWillProduceDelta"]</span>
+                                        </div>
+                                    </Template>
+                                </DxGridLayoutItem>
+                                <DxGridLayoutItem Visible=VisibleRow3 Area="Row3">
+                                    <Template>
+                                        <div class="d-block overflow-y-auto">
+                                            @if (EditorData != null && EditorData.Item != null && EditorData.Item.WriteOffModel != null && EditorData.Item.WriteOffModel.FieldListChangeHandler.GetItems().Any())
+                                        {
+                                            List<WriteOffField> WriteOffFields = EditorData.Item.WriteOffModel.FieldListChangeHandler.GetItems().ToList();
+                                            int offset = 0;
+                                            int tail = WriteOffFields.Count;
+                                            while (offset < tail)
+                                            {
+                                            @RenderFieldForReconciliationDelta(WriteOffFields[offset]);
+                                        offset++;
+                                    }
+                                }
+                                        </div>
+                                    </Template>
+                                </DxGridLayoutItem>
+                                <DxGridLayoutItem Area="Row4">
+                                    <Template>
+                                        <div class="d-flex flex-row">
+                                            <span>@AppState["DoYouConfirmOperation"]</span>
+                                        </div>
+                                    </Template>
+                                </DxGridLayoutItem>
+                                <DxGridLayoutItem Area="Row5" CssClass="mt-1 mb-2">
+                                    <Template>
+                                        <div class="d-flex flex-column w-100 ">
+                                            <div class="flex-fill mr-auto ml-auto mt-auto mb-auto">
+                                                <span class="text-center" style="color:red;"></span>
+                                            </div>
+                                            <div class="d-flex flex-row">
+                                                <RenderFormContent @ref="RenderFormContentDxButtonRef">
+                                                    <DxButton IconCssClass="oi oi-hard-drive pr-1"
+                                                              CssClass="mr-1 ml-auto  wid-100"
+                                                              RenderStyle="ButtonRenderStyle.Primary"
+                                                              Enabled="BottomGridRef.InputGridComponentRef.GetSelectionDataItemsIds().Count > 0"
+                                                              Text=@freezeLabel
+                                                              @onclick=RunAction />
+                                                    <DxButton CssClass="ml-1 mr-auto wid-100"
+                                                              IconCssClass="oi oi-delete pr-1"
+                                                              RenderStyle="ButtonRenderStyle.Danger" Text="@AppState["No"]"
+                                                              @onclick="(() => closeEvent?.Invoke())" />
+                                                </RenderFormContent>
+                                            </div>
+                                        </div>
+                                    </Template>
+                                </DxGridLayoutItem>
+                            </Items>
+                        </DxGridLayout>
+                        };
+
+                        public RenderFragment ChoiseDialog(bool actionVisible) => __builder =>
+                        {
+                        <DxPopup Width="auto" Height="20%"
+                                 CloseOnEscape="true"
+                                 CloseOnOutsideClick="true"
+                                 ShowFooter="false"
+                                 ShowCloseButton="false"
+                                 ShowHeader="false"
+                                 Scrollable="true"
+                                 ApplyBackgroundShading="true"
+                                 EnableAdaptivity="false"
+                                 HorizontalAlignment="HorizontalAlignment.Center"
+                                 VerticalAlignment="VerticalAlignment.Center"
+                                 @bind-Visible=actionVisible>
+                            <BodyTemplate Context="PopupContext2">
+                                <div class="m-0 p- 0 h-100 w-100" style="box-sizing:border-box;">
+                                    <DxGridLayout CssClass="m-0 h-100 w-100">
+                                        <Rows>
+                                            @if (EditorData.Item.AllowPartialReco || EditorData.Item.AllowWriteOff)
+                                        {
+                                        <DxGridLayoutRow Height="2fr" Areas="column0 column0 column0 column0" />
+                                }
+                                else
+                                {
+                                <DxGridLayoutRow Height="2fr" Areas="column0 column0 column0" />
+                        }
+                                            @if (EditorData.Item.AllowPartialReco && EditorData.Item.AllowWriteOff)
+                                        {
+                                        <DxGridLayoutRow Height="1fr" Areas="column1 column2 column3 column4" />
+                                }
+                                else
+                                    @if (EditorData.Item.AllowPartialReco)
+                                {
+                                <DxGridLayoutRow Height="1fr" Areas="column3 column1 column4 column30" />
+                        }
+                        else
+                            @if (EditorData.Item.AllowWriteOff)
+                        {
+                        <DxGridLayoutRow Height="1fr" Areas="column3 column2 column4 column30" />
+                }
+                else
+                {
+                <DxGridLayoutRow Height="1fr" Areas="column3 column4 column30" />
+        }
+                                </Rows>
+                                <Columns>
+                                    <DxGridLayoutColumn Width="1fr" />
+                                    <DxGridLayoutColumn Width="1fr" />
+                                    @if (EditorData.Item.AllowPartialReco && EditorData.Item.AllowWriteOff)
+                                {
+                                <DxGridLayoutColumn Width="0.25fr" />
+                        }
+                        else
+                        {
+                        <DxGridLayoutColumn Width="1fr" />
+                }
+                                    @if (EditorData.Item.AllowPartialReco || EditorData.Item.AllowWriteOff)
+                                {
+                                <DxGridLayoutColumn Width="1fr" />
+                        }
+                                </Columns>
+                                <Items>
+                                    <DxGridLayoutItem Area="column0">
+                                        <Template>
+                                            @if (EditorData.Item.AllowPartialReco || EditorData.Item.AllowWriteOff)
+                                        {
+                                        <DxStackLayout Orientation="Orientation.Vertical" CssClass="d-flex pt-3 mt-auto w-100 align-items-center">
+                                            <Items>
+
+                                                <DxStackLayoutItem>
+                                                    <Template>
+                                                        <div class="d-flex pl-1 align-items-center">
+                                                            <span class="ml-auto mt-auto mr-auto">@AppState["confirme.reco.type.message1"]</span>
+                                                        </div>
+                                                    </Template>
+                                                </DxStackLayoutItem>
+                                                <DxStackLayoutItem>
+                                                    <Template>
+                                                        <div class="d-flex pl-1 align-items-center">
+                                                            <span class="ml-auto mt-auto mr-auto">@AppState["confirme.reco.type.message2"]</span>
+                                                        </div>
+                                                    </Template>
+                                                </DxStackLayoutItem>
+                                            </Items>
+                                        </DxStackLayout>
+                                }
+                                else
+                                {
+                                <DxStackLayout Orientation="Orientation.Vertical" CssClass="d-flex pt-auto mt-auto w-100 h-100 align-items-center">
+                                    <Items>
+                                        <DxStackLayoutItem CssClass="d-flex flex-column align-items-center justify-content-center p-1">
+                                            <Template>
+                                                <div class="d-flex pl-1 pr-1 align-items-center">
+                                                    <span class="ml-auto mt-auto mr-auto">@AppState["confirme.reco.type.message3"]</span>
+                                                </div>
+                                            </Template>
+                                        </DxStackLayoutItem>
+                                    </Items>
+                                </DxStackLayout>
+                        }
+                                        </Template>
+                                    </DxGridLayoutItem>
+                                    <DxGridLayoutItem Visible=EditorData.Item.AllowPartialReco CssClass="d-flex flex-column align-items-center justify-content-end p-1" Area="column1">
+                                        <Template>
+                                            <DxButton IconCssClass="oi oi-hard-drive pr-1"
+                                                      RenderStyle="ButtonRenderStyle.Primary"
+                                                      Text=@AppState["confirme.reco.type.partial"]
+                                                      @onclick="((e) => ConfirmSelectionBeforePerformAction(false))" />
+                                        </Template>
+                                    </DxGridLayoutItem>
+                                    <DxGridLayoutItem Visible=EditorData.Item.AllowWriteOff CssClass="d-flex flex-column align-items-center justify-content-end p-1" Area="column2">
+                                        <Template>
+                                            <DxButton IconCssClass="oi oi-hard-drive pr-1"
+                                                      RenderStyle="ButtonRenderStyle.Primary"
+                                                      Text=@AppState["confirme.reco.type.write.offt"]
+                                                      @onclick="((e) => ConfirmSelectionBeforePerformAction())" />
+                                        </Template>
+                                    </DxGridLayoutItem>
+                                    <DxGridLayoutItem Area="column3" />
+                                    <DxGridLayoutItem Area="column30" />
+                                    @if (EditorData.Item.AllowPartialReco || EditorData.Item.AllowWriteOff)
+                                {
+                                <DxGridLayoutItem CssClass="d-flex flex-column align-items-end justify-content-end p-1" Area="column4">
+                                    <Template>
+                                        <DxButton IconCssClass="oi oi-hard-drive pr-1"
+                                                  RenderStyle="ButtonRenderStyle.Danger"
+                                                  Text=@AppState["cancel"]
+                                                  @onclick="((e) => CancelConfirmSelectionBeforePerformAction())" />
+                                    </Template>
+                                </DxGridLayoutItem>
+                        }
+                        else
+                        {
+                        <DxGridLayoutItem CssClass="d-flex flex-column align-items-center justify-content-center p-1" Area="column4">
+                            <Template>
+                                <DxButton IconCssClass="oi oi-hard-drive pr-1"
+                                          RenderStyle="ButtonRenderStyle.Danger"
+                                          Text=@AppState["cancel"]
+                                          @onclick="((e) => CancelConfirmSelectionBeforePerformAction())" />
+                            </Template>
+                        </DxGridLayoutItem>
+                }
+                                </Items>
+                            </DxGridLayout>
+                        </div>
+                    </BodyTemplate>
+                </DxPopup>
+                };
+                }

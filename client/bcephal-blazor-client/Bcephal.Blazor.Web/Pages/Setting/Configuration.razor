@@ -1,0 +1,236 @@
+﻿@*@page "/settings/configuration"
+
+<DxGridLayout CssClass="content-bc-gridlayout ">
+    <Rows>
+        <DxGridLayoutRow />
+    </Rows>
+    <Columns>
+        <DxGridLayoutColumn />
+    </Columns>
+    <Items>
+        <DxGridLayoutItem CssClass="h-100">
+            <Template >
+                <div style="height:100%; border:1px solid #dfdfdf; display:block;">
+                    <DxTabs CssClass="custom-tab">
+                        <DxTab Text="Configuration"></DxTab>
+                    </DxTabs>
+                    <div class="card ml-2 mr-2" style="height:calc(100% - 51.2px);margin-top:5px;">
+                        <DxTabs CssClass="custom-tab" @bind-ActiveTabIndex="ActiveSubTabIndex">
+                            <DxTab CssClass="h-100" Text=@Localize["initiation"]></DxTab>
+                            <DxTab CssClass="h-100" Text=@Localize["reconciliation"]></DxTab>
+                            <DxTab CssClass="h-100" Text=@Localize["Billing"]></DxTab>
+                        </DxTabs>
+                            <div class="border-0" style="height:calc(100% - 92.4px);" >
+                                @switch (ActiveSubTabIndex)
+                                {
+                                    case 0:
+                                        <ConfigInitiationForm @bind-Modeles="Modeles" @bind-Attributes="Attributes" @bind-Parameters="InitiationParameters"></ConfigInitiationForm>
+                                        break;
+                                    case 1:
+                                        <ConfigReconciliationForm @bind-Entities="Entities" @bind-Attributes="Attributes" @bind-Parameters="ReconciliationParameters"></ConfigReconciliationForm>
+                                        break;
+                                    case 2:
+                                        <ConfigBillingGlobalForm @bind-EventParameters="EventParameters"
+                                                                 @bind-InvoiceParameters="InvoiceParameters"
+                                                                 @bind-RolesParameters="RolesParameters"
+                                                                 @bind-Measures="Measures"
+                                                                 @bind-Attributes="Attributes"
+                                                                 @bind-Periods="Periods">
+                                        </ConfigBillingGlobalForm>
+                                        break;
+                                }
+                            </div>
+                    </div>
+                </div>
+               
+            </Template>
+        </DxGridLayoutItem>
+    </Items>
+</DxGridLayout>
+
+@code {
+
+    int ActiveTabIndex { get; set; } = 0;
+
+    int ActiveSubTabIndex { get; set; } = 0;
+
+    [Inject]
+    private IStringLocalizer<App> Localize { get; set; }
+
+    [Inject]
+    public AppState AppState { get; set; }
+
+    [CascadingParameter]
+    public Error Error { get; set; }
+
+    [Parameter]
+    public long? ConfigId { get; set; } = 1; // To change
+
+    [Inject]
+    public GrilleService GrilleService { get; set; } // To change
+
+    public EditorData<Bcephal.Models.Grids.Grille> EditorData { get; set; }
+
+    public ObservableCollection<HierarchicalData> Models { get; set; } // To change
+
+    public ObservableCollection<string> Modeles { get; set; } // To change
+
+    public ObservableCollection<string> Entities { get; set; } // To change
+
+    public ObservableCollection<string> Attributes { get; set; } // To change
+
+    public ObservableCollection<string> Periods { get; set; } // To change
+
+    public ObservableCollection<string> Measures { get; set; } // To change
+
+    public Dictionary<string, string> InitiationParameters{ get; set; } = new Dictionary<string, string>();
+
+    public Dictionary<string, string> ReconciliationParameters { get; set; } = new Dictionary<string, string>();
+
+    public Dictionary<string, string> EventParameters { get; set; } = new Dictionary<string, string>();
+
+    public Dictionary<string, string> InvoiceParameters { get; set; } = new Dictionary<string, string>();
+
+    public Dictionary<string, string> RolesParameters { get; set; } = new Dictionary<string, string>();
+
+    private void InitEntitiesModelsAttributes()
+    {
+        int offset = 0;
+        List<HierarchicalData> items = new List<HierarchicalData>();
+        List<string> attribute = new List<string>();
+        ObservableCollection<Bcephal.Models.Dimensions.Attribute> items_;
+        while (EditorData != null && EditorData.Models != null && offset < EditorData.Models.Count)
+        {
+            Models.Dimensions.Model model = EditorData.Models[offset];
+            int offset2 = 0;
+            while (model != null && model.Entities != null && offset2 < model.Entities.Count)
+            {
+                items.Add(model.Entities[offset2]);
+                items_ = model.Entities[offset2].Attributes;
+
+                items_.ToList().ForEach(x => attribute.Add(x.Name));
+                offset2++;
+            }
+            offset++;
+        }
+
+        items.BubbleSort();
+
+        List<string> entities = new List<string>();
+        List<string> models = new List<string>();
+        items.ForEach(x => entities.Add(x.Name));
+        EditorData.Models.ToList().ForEach(x => models.Add(x.Name));
+
+        Attributes = new ObservableCollection<string>(attribute);
+        Modeles = new ObservableCollection<string>(models);
+        Entities = new ObservableCollection<string>(entities);
+
+
+    }
+
+    private void InitMeasurePeriods()
+    {
+
+
+        if (EditorData != null && EditorData.Periods != null)
+        {
+            List<string> period = new List<string>();
+            EditorData.Periods.ToList().ForEach(x => period.Add(x.Name));
+
+            Periods = new ObservableCollection<string>(period);
+        }
+        if (EditorData != null && EditorData.Measures != null )
+        {
+
+            List<string> measure = new List<string>();
+            EditorData.Measures.ToList().ForEach(x => measure.Add(x.Name));
+
+            Measures = new ObservableCollection<string>(measure);
+
+        }
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+        if (firstRender)
+        {
+            
+            AppState.Hander += save;
+            try
+            {
+                if (EditorData == null)
+                {
+                    initComponent();
+                }
+            }
+            catch (Exception ex)
+            {
+                Error.ProcessError(ex);
+                StateHasChanged();
+            }
+        }
+    }
+
+    protected virtual GrilleService GetService()
+    {
+        return GrilleService;
+    }
+
+
+    protected async void save()
+    {
+        if (EditorData != null && EditorData.Item != null)
+        {
+            try
+            {
+                EditorData.Item = await GetService().Save(EditorData.Item);
+                AppState.Update = false;
+            }
+            catch (Exception ex)
+            {
+                Error.ProcessError(ex);
+            }
+            finally
+            {
+                StateHasChanged();
+            }
+        }
+    }
+    public ValueTask DisposeAsync()
+    {
+        AppState.Hander -= save;
+        return ValueTask.CompletedTask;
+    }
+
+    private async void initComponent()
+    {
+        try
+        {
+            AppState.ShowLoadingStatus();
+            if (EditorData == null)
+            {
+                EditorDataFilter filter = new EditorDataFilter();
+                filter.NewData = true;
+                if (ConfigId.HasValue)
+                {
+                    filter.NewData = false;
+                    filter.Id = ConfigId;
+                }
+                EditorData = await GetService().GetEditorData(filter);
+                AppState.Update = false;
+                InitEntitiesModelsAttributes();
+                InitMeasurePeriods();
+            }
+            AppState.HideLoadingStatus();
+            StateHasChanged();
+        }
+        catch (Exception ex)
+        {
+            Error.ProcessError(ex);
+            StateHasChanged();
+        }
+    }
+
+
+}*@

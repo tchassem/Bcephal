@@ -1,0 +1,45 @@
+﻿@if (BookingModel != null)
+{   <DxLayoutBreakpoint DeviceSize="DeviceSize.Medium | DeviceSize.Small | DeviceSize.XSmall" @bind-IsActive="IsSmallScreen" />
+    <DxStackLayout CssClass="w-100 h-100" Orientation="@(IsSmallScreen ? Orientation.Vertical : Orientation.Horizontal)" ItemSpacing="15px">
+        <Items>
+            <DxStackLayoutItem CssClass="w-100">
+                <Template>
+                    <DxStackLayout CssClass="w-100 p-2" Orientation=Orientation.Vertical>
+                        <Items>
+                            <DxStackLayoutItem Length="auto">
+                                <Template>
+                                    @foreach (var modelPivot in BookingModel.pivotListChangeHandler.GetItems())
+                                    {
+                                    <div class="d-flex flex-row py-1 w-100" style="box-sizing:border-box;">
+                                        <div class="common-elt" style="width:100%;">
+                                            <DxTextBox @bind-Text=modelPivot.Name SizeMode="SizeMode.Small" CssClass="w-100" />
+                                        </div>
+                                        <div class="del-button-container" style="min-width:50px;">
+                                            <DxButton IconCssClass="fa fa-remove"
+                                                      CssClass="mt-auto mb-auto"
+                                                      RenderStyleMode="ButtonRenderStyleMode.Text"
+                                                      RenderStyle="ButtonRenderStyle.Danger"
+                                                      Click="@(() => ModelPivotDeleteHandler(modelPivot))">
+                                            </DxButton>
+                                        </div>
+                                    </div>
+                                    }
+                                </Template>
+                            </DxStackLayoutItem>
+                            <DxStackLayoutItem Length="auto">
+                                <Template>
+                                    <div class="filter-elt d-flex flex-column py-1 pr-2">
+                                        <TreeViewFilter @key="@(Guid.NewGuid().ToString("d"))" C="Bcephal.Models.Base.HierarchicalData" 
+                                                        ItemsFilter="EntityItems"
+                                                        SelectFilterItemCallback=@((h) => ModelPivotHandler(h))>
+                                        </TreeViewFilter>
+                                    </div>
+                                </Template>
+                            </DxStackLayoutItem>
+                        </Items>
+                    </DxStackLayout>
+                </Template>
+            </DxStackLayoutItem>
+        </Items>
+    </DxStackLayout>
+}

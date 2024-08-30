@@ -1,0 +1,498 @@
+﻿@using Bcephal.Models.Dashboards
+
+@*<div class="d-block overflow-y-auto" style="border: 2px solid green; ">*@
+<DxTabs CssClass="w-100" >
+    @* Tab de config des propriétés du chart et de la légende *@
+    <DxTabPage Text="@AppState["reporting.chart"]">
+        <DxLayoutBreakpoint DeviceSize="DeviceSize.XSmall | DeviceSize.Small | DeviceSize.Medium " @bind-IsActive="@IsXSmallScreen" />
+        <div class="p-2 overflow-y-auto" style="height: inherit; height: calc(75vh - 41.2px - 33.2px - 40px); padding-top: 2px !important;">
+            <DxGridLayout RowSpacing="2.4px" ColumnSpacing="2.4px">
+                <Rows>
+                    <DxGridLayoutRow Height="1fr" />
+                    <DxGridLayoutRow Height="1fr" />
+                </Rows>
+                <Columns>
+                    <DxGridLayoutColumn Width="56%" />
+                    <DxGridLayoutColumn />
+                </Columns>
+                <Items>
+                    <DxGridLayoutItem Row="0" Column="0">
+                        <Template>
+                            <div class="card w-100 h-100" style=" margin-right: 2px;">
+                                <div class="card-header bc-header-3 border-0 d-flex flex-row p-0 bc-header-height bc-text-align ">
+                                    <span class="ml-auto mr-auto">
+                                        @AppState["Properties"]
+                                    </span>
+                                </div>
+                                <div class="card-body model-form-card-body overflow-y-auto">
+                                    <DxStackLayout ItemSpacing="8px" Orientation=Orientation.Vertical>
+                                        <Items>
+                                            <DxStackLayoutItem Length="auto">
+                                                <Template>
+                                                    <DxStackLayout Orientation=@(IsXSmallScreen ? Orientation.Vertical : Orientation.Horizontal) ItemSpacing="@GetSpacing(!IsXSmallScreen)">
+                                                        <Items>
+                                                            <DxStackLayoutItem CssClass="text-right" Length="@(IsXSmallScreen ? "1fr": formCaptionWidth )">
+                                                                <Template>
+                                                                    <span style="margin-right: 2px;">@AppState["Title"]</span>
+                                                                </Template>
+                                                            </DxStackLayoutItem>
+                                                            <DxStackLayoutItem Length="@(IsXSmallScreen ? "1fr": formInputWidth)">
+                                                                <Template>
+                                                                    <DxTextBox @bind-Text="@Title"></DxTextBox>
+                                                                </Template>
+                                                            </DxStackLayoutItem>
+                                                        </Items>
+                                                    </DxStackLayout>
+                                                </Template>
+                                            </DxStackLayoutItem>
+                                            <DxStackLayoutItem Length="auto">
+                                                <Template>
+                                                    <DxStackLayout Orientation=@(IsXSmallScreen ? Orientation.Vertical : Orientation.Horizontal) ItemSpacing="@GetSpacing(!IsXSmallScreen)">
+                                                        <Items>
+                                                            <DxStackLayoutItem CssClass="text-right" Length="@(IsXSmallScreen ? "1fr": formCaptionWidth)">
+                                                                <Template>
+                                                                    <span style="margin-right: 2px;">@AppState["Description"]</span>
+                                                                </Template>
+                                                            </DxStackLayoutItem>
+                                                            <DxStackLayoutItem Length="@(IsXSmallScreen ? "1fr": formInputWidth)">
+                                                                <Template>
+                                                                    <DxTextBox @bind-Text="@Subtitle"></DxTextBox>
+                                                                </Template>
+                                                            </DxStackLayoutItem>
+                                                        </Items>
+                                                    </DxStackLayout>
+                                                </Template>
+                                            </DxStackLayoutItem>
+                                            <DxStackLayoutItem Length="auto">
+                                                <Template>
+                                                    <DxStackLayout Orientation=@(IsXSmallScreen ? Orientation.Vertical : Orientation.Horizontal) ItemSpacing="@GetSpacing(!IsXSmallScreen)">
+                                                        <Items>
+                                                            <DxStackLayoutItem CssClass="text-right" Length="@(IsXSmallScreen ? "1fr": formCaptionWidth)">
+                                                                <Template>
+                                                                </Template>
+                                                            </DxStackLayoutItem>
+                                                            <DxStackLayoutItem Length="@(IsXSmallScreen ? "1fr": formInputWidth)">
+                                                                <Template>
+                                                                    <DxStackLayout Orientation=Orientation.Horizontal ItemSpacing="2px">
+                                                                        <Items>
+                                                                            <DxStackLayoutItem Length="1fr">
+                                                                                <Template>
+                                                                                    <DxCheckBox @bind-Checked="@ShowAxisTitles">@AppState["Show.Axis.Titles"] </DxCheckBox>
+                                                                                </Template>
+                                                                            </DxStackLayoutItem>
+                                                                            <DxStackLayoutItem Length="1fr">
+                                                                                <Template>
+                                                                                    <DxCheckBox @bind-Checked="@Rotated">@AppState["chart.rotation"] </DxCheckBox>
+                                                                                </Template>
+                                                                            </DxStackLayoutItem>
+                                                                        </Items>
+                                                                    </DxStackLayout>
+                                                                </Template>
+                                                            </DxStackLayoutItem>
+                                                        </Items>
+                                                    </DxStackLayout>
+                                                </Template>
+                                            </DxStackLayoutItem>
+                                            <DxStackLayoutItem Length="auto">
+                                                <Template>
+                                                    <DxStackLayout Orientation=@(IsXSmallScreen ? Orientation.Vertical : Orientation.Horizontal) ItemSpacing="@GetSpacing(!IsXSmallScreen)">
+                                                        <Items>
+                                                            <DxStackLayoutItem CssClass="text-right" Length="@(IsXSmallScreen ? "1fr": formCaptionWidth)">
+                                                                <Template>
+                                                                    <span style="margin-right: 2px;">@AppState["x.bar.title"] </span>
+                                                                </Template>
+                                                            </DxStackLayoutItem>
+                                                            <DxStackLayoutItem Length="@(IsXSmallScreen ? "1fr": formInputWidth)">
+                                                                <Template>
+                                                                    <DxTextBox @bind-Text="@ArgumentAxisTitle" Enabled="@ShowAxisTitles"></DxTextBox>
+                                                                </Template>
+                                                            </DxStackLayoutItem>
+                                                        </Items>
+                                                    </DxStackLayout>
+                                                </Template>
+                                            </DxStackLayoutItem>
+                                            <DxStackLayoutItem Length="auto">
+                                                <Template>
+                                                    <DxStackLayout Orientation=@(IsXSmallScreen ? Orientation.Vertical : Orientation.Horizontal) ItemSpacing="@GetSpacing(!IsXSmallScreen)">
+                                                        <Items>
+                                                            <DxStackLayoutItem CssClass="text-right" Length="@(IsXSmallScreen ? "1fr": formCaptionWidth)">
+                                                                <Template>
+                                                                    <span style="margin-right: 2px;">@AppState["y.bar.title"] </span>
+                                                                </Template>
+                                                            </DxStackLayoutItem>
+                                                            <DxStackLayoutItem Length="@(IsXSmallScreen ? "1fr": formInputWidth)">
+                                                                <Template>
+                                                                    <DxTextBox @bind-Text="@ValueAxisTitle" Enabled="@ShowAxisTitles"></DxTextBox>
+                                                                </Template>
+                                                            </DxStackLayoutItem>
+                                                        </Items>
+                                                    </DxStackLayout>
+                                                </Template>
+                                            </DxStackLayoutItem>
+                                        </Items>
+                                    </DxStackLayout>
+                                </div>
+                            </div>
+                        </Template>
+                    </DxGridLayoutItem>
+                    <DxGridLayoutItem Row="1" Column="0">
+                        <Template>
+                            <div class="card w-100 h-100" style=" margin-right: 2px;">
+                                <div class="card-header bc-header-3 border-0 d-flex flex-row p-0 bc-header-height bc-text-align ">
+                                    <span class="ml-auto mr-auto">
+                                        @AppState["Legend"]
+                                    </span>
+                                </div>
+                                <div class="card-body model-form-card-body overflow-y-auto">
+                                    <DxStackLayout ItemSpacing="8px" Orientation=Orientation.Vertical>
+                                        <Items>
+                                            <DxStackLayoutItem Length="auto" Visible="false">
+                                                <Template>
+                                                    <DxStackLayout Orientation=@(IsXSmallScreen ? Orientation.Vertical : Orientation.Horizontal) ItemSpacing="@GetSpacing(!IsXSmallScreen)">
+                                                        <Items>
+                                                            <DxStackLayoutItem CssClass="text-right" Length="@(IsXSmallScreen ? "1fr": formCaptionWidth)">
+                                                                <Template>
+                                                                </Template>
+                                                            </DxStackLayoutItem>
+                                                            <DxStackLayoutItem Length="@(IsXSmallScreen ? "1fr": formInputWidth)">
+                                                                <Template>
+                                                                    <DxCheckBox @bind-Checked="@ShowLegend">@AppState["Visible"] </DxCheckBox>
+                                                                </Template>
+                                                            </DxStackLayoutItem>
+                                                        </Items>
+                                                    </DxStackLayout>
+                                                </Template>
+                                            </DxStackLayoutItem>
+                                            @if (ShowLegend)
+                                            {
+                                                <DxStackLayoutItem Length="auto">
+                                                    <Template>
+                                                        <DxStackLayout Orientation=@(IsXSmallScreen ? Orientation.Vertical : Orientation.Horizontal) ItemSpacing="@GetSpacing(!IsXSmallScreen)">
+                                                            <Items>
+                                                                <DxStackLayoutItem CssClass="text-right" Length="@(IsXSmallScreen ? "1fr": formCaptionWidth)">
+                                                                    <Template>
+                                                                        <span style="margin-right: 2px;">@AppState["Title"] </span>
+                                                                    </Template>
+                                                                </DxStackLayoutItem>
+                                                                <DxStackLayoutItem Length="@(IsXSmallScreen ? "1fr": formInputWidth)">
+                                                                    <Template>
+                                                                        <DxTextBox @bind-Text="@LegendTitle"></DxTextBox>
+                                                                    </Template>
+                                                                </DxStackLayoutItem>
+                                                            </Items>
+                                                        </DxStackLayout>
+                                                    </Template>
+                                                </DxStackLayoutItem>
+                                                <DxStackLayoutItem Length="auto">
+                                                    <Template>
+                                                        <DxStackLayout Orientation=@(IsXSmallScreen ? Orientation.Vertical : Orientation.Horizontal) ItemSpacing="@GetSpacing(!IsXSmallScreen)">
+                                                            <Items>
+                                                                <DxStackLayoutItem CssClass="text-right" Length="@(IsXSmallScreen ? "1fr": formCaptionWidth)">
+                                                                    <Template>
+                                                                        <span style="margin-right: 2px;">@AppState["Description"] </span>
+                                                                    </Template>
+                                                                </DxStackLayoutItem>
+                                                                <DxStackLayoutItem Length="@(IsXSmallScreen ? "1fr": formInputWidth)">
+                                                                    <Template>
+                                                                        <DxTextBox @bind-Text="@LegendSubtitle"></DxTextBox>
+                                                                    </Template>
+                                                                </DxStackLayoutItem>
+                                                            </Items>
+                                                        </DxStackLayout>
+                                                    </Template>
+                                                </DxStackLayoutItem>
+                                                <DxStackLayoutItem Length="auto">
+                                                    <Template>
+                                                        <DxStackLayout Orientation=@(IsXSmallScreen ? Orientation.Vertical : Orientation.Horizontal) ItemSpacing="@GetSpacing(!IsXSmallScreen)">
+                                                            <Items>
+                                                                <DxStackLayoutItem CssClass="text-right" Length="@(IsXSmallScreen ? "1fr": formCaptionWidth)">
+                                                                    <Template>
+                                                                        <span style="margin-right: 2px;">@AppState["orientation"] </span>
+                                                                    </Template>
+                                                                </DxStackLayoutItem>
+                                                                <DxStackLayoutItem Length="@(IsXSmallScreen ? "1fr": formInputWidth)">
+                                                                    <Template>
+                                                                        <DxComboBox Data="@Orientations"
+                                                                                    TData="Orientation?"
+                                                                                    TValue="Orientation?"
+                                                                                    @bind-Value=@LegendOrientation>
+                                                                        </DxComboBox>
+                                                                    </Template>
+                                                                </DxStackLayoutItem>
+                                                            </Items>
+                                                        </DxStackLayout>
+                                                    </Template>
+                                                </DxStackLayoutItem>
+                                                <DxStackLayoutItem Length="auto">
+                                                    <Template>
+                                                        <DxStackLayout Orientation=@(IsXSmallScreen ? Orientation.Vertical : Orientation.Horizontal) ItemSpacing="@GetSpacing(!IsXSmallScreen)">
+                                                            <Items>
+                                                                <DxStackLayoutItem CssClass="text-right" Length="@(IsXSmallScreen ? "1fr": formCaptionWidth)">
+                                                                    <Template>
+                                                                        <span style="margin-right: 2px;">@AppState["POSITION"] </span>
+                                                                    </Template>
+                                                                </DxStackLayoutItem>
+                                                                <DxStackLayoutItem Length="@(IsXSmallScreen ? "1fr": formInputWidth)">
+                                                                    <Template>
+                                                                        <DxComboBox Data="@RelativePositions"
+                                                                                    TData="RelativePosition?"
+                                                                                    TValue="RelativePosition?"
+                                                                                    @bind-Value=@LegendPosition>
+                                                                        </DxComboBox>
+                                                                    </Template>
+                                                                </DxStackLayoutItem>
+                                                            </Items>
+                                                        </DxStackLayout>
+                                                    </Template>
+                                                </DxStackLayoutItem>
+                                                <DxStackLayoutItem Length="auto">
+                                                    <Template>
+                                                        <DxStackLayout Orientation=@(IsXSmallScreen ? Orientation.Vertical : Orientation.Horizontal) ItemSpacing="@GetSpacing(!IsXSmallScreen)">
+                                                            <Items>
+                                                                <DxStackLayoutItem CssClass="text-right" Length="@(IsXSmallScreen ? "1fr": formCaptionWidth)">
+                                                                    <Template>
+                                                                        <span style="margin-right: 2px;">@AppState["alignment"] </span>
+                                                                    </Template>
+                                                                </DxStackLayoutItem>
+                                                                <DxStackLayoutItem Length="@(IsXSmallScreen ? "1fr": formInputWidth)">
+                                                                    <Template>
+                                                                        <DxComboBox Data="@HorizontalAlignments"
+                                                                                    TData="HorizontalAlignment?"
+                                                                                    TValue="HorizontalAlignment?"
+                                                                                    @bind-Value="@LegendHorizontalAlignment">
+                                                                        </DxComboBox>
+                                                                    </Template>
+                                                                </DxStackLayoutItem>
+                                                            </Items>
+                                                        </DxStackLayout>
+                                                    </Template>
+                                                </DxStackLayoutItem>
+                                                <DxStackLayoutItem Length="auto">
+                                                    <Template>
+                                                        <DxStackLayout Orientation=@(IsXSmallScreen ? Orientation.Vertical : Orientation.Horizontal) ItemSpacing="@GetSpacing(!IsXSmallScreen)">
+                                                            <Items>
+                                                                <DxStackLayoutItem CssClass="text-right" Length="@(IsXSmallScreen ? "1fr": formCaptionWidth)">
+                                                                    <Template>
+                                                                    </Template>
+                                                                </DxStackLayoutItem>
+                                                                <DxStackLayoutItem Length="@(IsXSmallScreen ? "1fr": formInputWidth)">
+                                                                    <Template>
+                                                                        <DxStackLayout Orientation=Orientation.Horizontal ItemSpacing="0px">
+                                                                            <Items>
+                                                                                <DxStackLayoutItem Length="0.55fr">
+                                                                                    <Template>
+                                                                                        <DxCheckBox @bind-Checked="@LegendAllowToggleSeries">@AppState["allow.hide.series"] </DxCheckBox>
+                                                                                    </Template>
+                                                                                </DxStackLayoutItem>
+                                                                                <DxStackLayoutItem Length="0.45fr">
+                                                                                    <Template>
+                                                                                        <DxCheckBox @bind-Checked="@ShowLegendBorder">@AppState["insert.border"] </DxCheckBox>
+                                                                                    </Template>
+                                                                                </DxStackLayoutItem>
+                                                                            </Items>
+                                                                        </DxStackLayout>
+                                                                    </Template>
+                                                                </DxStackLayoutItem>
+                                                            </Items>
+                                                        </DxStackLayout>
+                                                    </Template>
+                                                </DxStackLayoutItem>
+                                            }
+                                        </Items>
+                                    </DxStackLayout>
+                                </div>
+                            </div>
+                        </Template>
+                    </DxGridLayoutItem>
+                    <DxGridLayoutItem Row="0" RowSpan="2" Column="1">
+                        <Template>
+                            <div class="card w-100 h-100" style=" margin-left: 2px;">
+                                <div class="card-header bc-header-3 border-0 d-flex flex-row p-0 bc-header-height bc-text-align ">
+                                    <span class="ml-auto mr-auto">
+                                        @AppState["Default.serie"]
+                                    </span>
+                                </div>
+                                <div class="card-body model-form-card-body overflow-y-auto">
+                                    <DxStackLayout ItemSpacing="8px" Orientation=Orientation.Vertical>
+                                        <Items>
+                                            <DxStackLayoutItem Length="auto">
+                                                <Template>
+                                                    <DxStackLayout Orientation=@(IsXSmallScreen ? Orientation.Vertical : Orientation.Horizontal) ItemSpacing="@GetSpacing(!IsXSmallScreen)">
+                                                        <Items>
+                                                            <DxStackLayoutItem CssClass="text-right" Length="@(IsXSmallScreen ? "1fr": formCaptionWidth)">
+                                                                <Template>
+                                                                    <span> @AppState["Serie"] </span>
+                                                                </Template>
+                                                            </DxStackLayoutItem>
+                                                            <DxStackLayoutItem Length="@(IsXSmallScreen ? "1fr": formInputWidth)">
+                                                                <Template>
+                                                                    <DxComboBox Data="@ArgumentAxisFields" NullText="@AppState["Select.serie"]"
+                                                                                TData="DashboardReportField" TValue="DashboardReportField" CssClass="w-100"
+                                                                                TextFieldName="@nameof(DashboardReportField.Name)"
+                                                                                @bind-Value="@DefaultSerie.SerieAxis"
+                                                                                SelectedItemChanged="@((i) => AppState.Update = true )">
+                                                                    </DxComboBox>
+                                                                </Template>
+                                                            </DxStackLayoutItem>
+                                                        </Items>
+                                                    </DxStackLayout>
+                                                </Template>
+                                            </DxStackLayoutItem>
+                                            <DxStackLayoutItem Length="auto">
+                                                <Template>
+                                                    <DxStackLayout Orientation=@(IsXSmallScreen ? Orientation.Vertical : Orientation.Horizontal) ItemSpacing="@GetSpacing(!IsXSmallScreen)">
+                                                        <Items>
+                                                            <DxStackLayoutItem CssClass="text-right" Length="@(IsXSmallScreen ? "1fr": formCaptionWidth)">
+                                                                <Template>
+                                                                    <span>@AppState["Argument"]</span>
+                                                                </Template>
+                                                            </DxStackLayoutItem>
+                                                            <DxStackLayoutItem Length="@(IsXSmallScreen ? "1fr": formInputWidth)">
+                                                                <Template>
+                                                                    <DxComboBox Data="@ArgumentAxisFields" NullText="@AppState["Select.arg"]"
+                                                                                TData="DashboardReportField" TValue="DashboardReportField" CssClass="w-100"
+                                                                                TextFieldName="@nameof(DashboardReportField.Name)"
+                                                                                @bind-Value="@DefaultSerie.ArgumentAxis"
+                                                                                SelectedItemChanged="@((i) => AppState.Update = true )">
+                                                                    </DxComboBox>
+                                                                </Template>
+                                                            </DxStackLayoutItem>
+                                                        </Items>
+                                                    </DxStackLayout>
+                                                </Template>
+                                            </DxStackLayoutItem>
+                                            <DxStackLayoutItem Length="auto">
+                                                <Template>
+                                                    <DxStackLayout Orientation=@(IsXSmallScreen ? Orientation.Vertical : Orientation.Horizontal) ItemSpacing="@GetSpacing(!IsXSmallScreen)">
+                                                        <Items>
+                                                            <DxStackLayoutItem CssClass="text-right" Length="@(IsXSmallScreen ? "1fr": formCaptionWidth)">
+                                                                <Template>
+                                                                    <span>@AppState["Value"]</span>
+                                                                </Template>
+                                                            </DxStackLayoutItem>
+                                                            <DxStackLayoutItem Length="@(IsXSmallScreen ? "1fr": formInputWidth)">
+                                                                <Template>
+                                                                    <DxComboBox Data="@ValueAxisFields" NullText="@AppState["Select.value"]"
+                                                                                TData="DashboardReportField" TValue="DashboardReportField" CssClass="w-100"
+                                                                                TextFieldName="@nameof(DashboardReportField.Name)"
+                                                                                @bind-Value="@DefaultSerie.ValueAxis"
+                                                                                SelectedItemChanged="@((i) => AppState.Update = true )">
+                                                                    </DxComboBox>
+                                                                </Template>
+                                                            </DxStackLayoutItem>
+                                                        </Items>
+                                                    </DxStackLayout>
+                                                </Template>
+                                            </DxStackLayoutItem>
+                                            <DxStackLayoutItem Length="auto">
+                                                <Template>
+                                                    <DxStackLayout Orientation=@(IsXSmallScreen ? Orientation.Vertical : Orientation.Horizontal) ItemSpacing="@GetSpacing(!IsXSmallScreen)">
+                                                        <Items>
+                                                            <DxStackLayoutItem CssClass="text-right" Length="@(IsXSmallScreen ? "1fr": formCaptionWidth)">
+                                                                <Template>
+                                                                    <span>@AppState["Type"]</span>
+                                                                </Template>
+                                                            </DxStackLayoutItem>
+                                                            <DxStackLayoutItem Length="@(IsXSmallScreen ? "1fr": formInputWidth)">
+                                                                <Template>
+                                                                    <DxComboBox Data="@ChartSeriesTypes"
+                                                                                NullText="@AppState["Select.serie.type"]" CssClass="w-100"
+                                                                                @bind-Value="@DefaultSerie.Type"
+                                                                                SelectedItemChanged="@((i) => AppState.Update = true )">
+                                                                    </DxComboBox>
+                                                                </Template>
+                                                            </DxStackLayoutItem>
+                                                        </Items>
+                                                    </DxStackLayout>
+                                                </Template>
+                                            </DxStackLayoutItem>
+                                            <DxStackLayoutItem Length="auto" >
+                                                <Template>
+                                                    <DxStackLayout Orientation=@(IsXSmallScreen ? Orientation.Vertical : Orientation.Horizontal) ItemSpacing="@GetSpacing(!IsXSmallScreen)">
+                                                        <Items>
+                                                            <DxStackLayoutItem CssClass="text-right" Length="@(IsXSmallScreen ? "1fr": formCaptionWidth)">
+                                                                <Template>
+                                                                </Template>
+                                                            </DxStackLayoutItem>
+                                                            <DxStackLayoutItem Length="@(IsXSmallScreen ? "1fr": formInputWidth)">
+                                                                <Template>
+                                                                    <DxCheckBox Checked="@DefaultSerie.ShowLabel"
+                                                                                CheckedChanged="@((bool v) => { DefaultSerie.ShowLabel = v; AppState.Update = true; } )">@AppState["Show.label"] </DxCheckBox>
+                                                                            </Template>
+                                                                        </DxStackLayoutItem>
+                                                                    </Items>
+                                                                </DxStackLayout>
+                                                            </Template>
+                                                        </DxStackLayoutItem>
+                                            <DxStackLayoutItem Length="auto" Visible="@(DefaultSerie.ShowLabel && (DefaultSerie.Type == ChartSeriesType.Pie.ToString() || DefaultSerie.Type == ChartSeriesType.Donut.ToString()))">
+                                                <Template>
+                                                    <DxStackLayout Orientation=@(IsXSmallScreen ? Orientation.Vertical : Orientation.Horizontal) ItemSpacing="@GetSpacing(!IsXSmallScreen)">
+                                                        <Items>
+                                                            <DxStackLayoutItem CssClass="text-right" Length="@(IsXSmallScreen ? "1fr": formCaptionWidth)">
+                                                                <Template>
+                                                                    <span style="margin-right: 2px;">@AppState["label.overlap"] </span>
+                                                                </Template>
+                                                            </DxStackLayoutItem>
+                                                            <DxStackLayoutItem Length="@(IsXSmallScreen ? "1fr": formInputWidth)">
+                                                                <Template>
+                                                                    <DxComboBox Data="@(Enum.GetValues(typeof(ChartLabelOverlap)).Cast<ChartLabelOverlap?>())"
+                                                                                TData="ChartLabelOverlap?"
+                                                                                TValue="ChartLabelOverlap?"
+                                                                                @bind-Value=@LabelOverlap
+                                                                                SelectedItemChanged="@((i) => AppState.Update = true )">
+                                                                    </DxComboBox>
+                                                                </Template>
+                                                            </DxStackLayoutItem>
+                                                        </Items>
+                                                    </DxStackLayout>
+                                                </Template>
+                                            </DxStackLayoutItem>
+                                        </Items>
+                                    </DxStackLayout>
+                                </div>
+                            </div>
+                        </Template>
+                    </DxGridLayoutItem>
+                </Items>
+            </DxGridLayout>
+        </div>
+    </DxTabPage> 
+    @* Tab de config des séries du chart *@
+    <DxTabPage Text="@AppState["Series"]">
+        @*<div class="d-block overflow-y-auto" style="border: 2px solid yellow;">*@
+        <div class="d-block overflow-auto p-2">
+            @foreach (var serie in ChartSerieList)
+            {
+                <ChartSerieComponent Serie=@serie SerieDeleted=@DeleteChartSerie ChartSeriesTypes="@ChartSeriesTypes"
+                                     ArgumentAxisFields="@ArgumentAxisFields" ValueAxisFields="ValueAxisFields"
+                                     CssClass="@cssClass" ColorClass="@colorClass" VisibleClass="@visibleClass"
+                                     DashboardReportFields=@DashboardReportFields >
+                </ChartSerieComponent>
+            }
+        </div>
+        <DxButton RenderStyle="ButtonRenderStyle.Link"
+                    Text=@(AppState["Add.serie"])
+                    Title="@AppState["Add.serie"]"
+                    IconCssClass="fa fa-plus-circle mr-1"
+                    @onclick="@(() => AddChartSerie())"
+                    IconPosition="ButtonIconPosition.BeforeText" />
+    </DxTabPage>
+</DxTabs>
+
+@code {
+
+    public ObservableCollection<DashboardReportField> ArgumentAxisFields => DashboardReportFields
+                                                                                .Where(f => f.Type == DimensionType.ATTRIBUTE || f.Type == DimensionType.PERIOD)
+                                                                                    .ToObservableCollection();
+
+    public ObservableCollection<DashboardReportField> ValueAxisFields => DashboardReportFields
+                                                                            .Where(f => f.Type == DimensionType.MEASURE)
+                                                                                .ToObservableCollection();
+
+    ChartSeriesType? GetType(ChartSerie serie)
+    {
+        return string.IsNullOrWhiteSpace(serie.Type) ?
+                    null
+                    : (ChartSeriesType?)Enum.Parse(typeof(ChartSeriesType), serie.Type);
+    }
+}

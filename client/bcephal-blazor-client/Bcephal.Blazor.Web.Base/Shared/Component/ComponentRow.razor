@@ -1,0 +1,28 @@
+﻿
+<DxGridLayout CssClass=@("w-100 h-100 bc-box-sizing " + CssClass)>
+    <Rows>
+        <DxGridLayoutRow Areas="Item1 Item2" />
+    </Rows>
+    <Columns>
+        <DxGridLayoutColumn Width=@Item1Width />
+        <DxGridLayoutColumn Width=@Item2Width />
+    </Columns>
+    <Items>
+        @if (Item1 != null)
+        {
+            <DxGridLayoutItem Area="Item1" CssClass=@Item1CssClass>
+                <Template>
+                    @Item1
+                </Template>
+            </DxGridLayoutItem>
+        }
+        @if (Item2 != null)
+        {
+            <DxGridLayoutItem Area="Item2" CssClass=@Item2CssClass>
+                <Template>
+                    @Item2
+                </Template>
+            </DxGridLayoutItem>
+        }        
+    </Items>
+</DxGridLayout>
